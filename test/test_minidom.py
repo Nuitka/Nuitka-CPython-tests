@@ -15,10 +15,7 @@ from xml.dom.minidom import parse, Node, Document, parseString
 from xml.dom.minidom import getDOMImplementation
 
 
-if __name__ == "__main__":
-    base = sys.argv[0]
-else:
-    base = __file__
+base = __file__
 tstfile = os.path.join(os.path.dirname(base), "test"+os.extsep+"xml")
 del base
 

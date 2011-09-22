@@ -14,10 +14,7 @@ INF = float('inf')
 NINF = float('-inf')
 
 # locate file with test values
-if __name__ == '__main__':
-    file = sys.argv[0]
-else:
-    file = __file__
+file = __file__
 test_dir = os.path.dirname(file) or os.curdir
 test_file = os.path.join(test_dir, 'cmath_testcases.txt')
 
