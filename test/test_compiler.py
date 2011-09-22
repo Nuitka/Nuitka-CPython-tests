@@ -16,7 +16,10 @@ class TrivialContext(object):
 
 class CompilerTest(unittest.TestCase):
 
-    def testCompileLibrary(self):
+	# Disabled, because it is not determistic, and generally it doesn't say much about Nuitka
+	# at all.
+
+    def notestCompileLibrary(self):
         # A simple but large test.  Compile all the code in the
         # standard library and its test suite.  This doesn't verify
         # that any of the code is correct, merely the compiler is able
