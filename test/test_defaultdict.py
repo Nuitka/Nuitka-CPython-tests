@@ -156,8 +156,17 @@ class TestDefaultDict(unittest.TestCase):
             def _factory(self):
                 return []
         d = sub()
-        self.assert_(repr(d).startswith(
-            "defaultdict(<bound method sub._factory of defaultdict(..."))
+
+        # Nuitka: Issue#20 http://bugs.nuitka.net/issue20
+        # The repr of bound methods is different for compiled code, so allow both variants
+        # to pass this test.
+        self.assert_(
+            repr(d).startswith(
+            "defaultdict(<bound method sub._factory of defaultdict(...")
+            or
+            repr(d).startswith(
+            "defaultdict(<bound compiled_method sub._factory of defaultdict(...")
+        )
 
         # NOTE: printing a subclass of a builtin type does not call its
         # tp_print slot. So this part is essentially the same test as above.
