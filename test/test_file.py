@@ -616,7 +616,10 @@ def test_main():
     # So get rid of it no matter what.
     try:
         run_unittest(AutoFileTests, OtherFileTests, FileSubclassTests,
-            FileThreadingTests, StdoutTests)
+            # Nuitka: Issue#10 http://bugs.nuitka.net/issue10
+            # Threading is not supported, never yields the execution to other threads
+            # FileThreadingTests,
+            StdoutTests)
     finally:
         if os.path.exists(TESTFN):
             os.unlink(TESTFN)
