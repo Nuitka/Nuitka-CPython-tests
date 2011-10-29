@@ -1115,6 +1115,12 @@ order (MRO) for bases """
                 return 0
             __hash__ = None # Silence Py3k warning
         g = G()
+
+        # Nuitka: The reference is not consumed unless the variable is assigned to, so
+        # add this to achieve the effect.
+        for i in xrange(10):
+            g==g
+
         orig_objects = len(gc.get_objects())
         for i in xrange(10):
             g==g
