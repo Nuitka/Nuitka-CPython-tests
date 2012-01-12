@@ -44,6 +44,9 @@ mutate = 0
 # dict, it picks one of {dict1, dict2} at random, and deletes a random
 # entry from it; or, more rarely, adds a random element.
 
+# Nuitka: Can't really be random, or else we can't compare outputs.
+random.seed( 27272 )
+
 def maybe_mutate():
     global mutate
     if not mutate:
