@@ -209,7 +209,8 @@ class UsageTests(unittest.TestCase):
         # Raising a string raises TypeError.
         self.raise_fails("spam")
 
-    def test_catch_string(self):
+    # Nuitka: No deprecating warnings are supported.
+    def notest_catch_string(self):
         # Catching a string should trigger a DeprecationWarning.
         with warnings.catch_warnings():
             warnings.resetwarnings()
