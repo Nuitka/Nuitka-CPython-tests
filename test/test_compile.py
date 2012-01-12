@@ -255,9 +255,11 @@ if 1:
             g = +9223372036854775807  # 1 << 63 - 1
             h = -9223372036854775807  # 1 << 63 - 1
 
-            for variable in self.test_32_63_bit_values.func_code.co_consts:
-                if variable is not None:
-                    self.assertTrue(isinstance(variable, int))
+            # Nuitka: Issue#17: http://bugs.nuitka.net/issue17
+            # No support for "func.func_code.co_consts"
+            for name, value in locals().iteritems():
+                if len( name ) == 1:
+                    self.assertTrue(isinstance(value, int))
 
     def test_sequence_unpacking_error(self):
         # Verify sequence packing/unpacking with "or".  SF bug #757818
