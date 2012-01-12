@@ -11,6 +11,8 @@ from test import lock_tests
 NUMTASKS = 10
 NUMTRIPS = 3
 
+# Nuitka: Disable verbose output, contains random strings
+test_support.verbose = False
 
 _print_mutex = thread.allocate_lock()
 

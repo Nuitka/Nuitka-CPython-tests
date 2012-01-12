@@ -10,6 +10,8 @@ from test import test_support
 import time
 import unittest
 
+# Nuitka: Disable verbose output, contains random strings
+test_support.verbose = False
 
 # helper functions
 def fixasctime(s):

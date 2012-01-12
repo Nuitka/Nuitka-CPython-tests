@@ -12,7 +12,9 @@ TEST_STRING_2 = "For my pet fish, Eric.\n"
 
 if verbose:
     def debug(msg):
-        print msg
+        # Nuitka: The output contains random values, disabled.
+        # print msg
+        pass
 else:
     def debug(msg):
         pass

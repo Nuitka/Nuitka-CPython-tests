@@ -7,6 +7,9 @@ import tempfile
 from test.test_support import verbose, run_unittest, forget
 from runpy import _run_code, _run_module_code, run_module
 
+# Nuitka: Do not output random paths
+verbose = False
+
 # Note: This module can't safely test _run_module_as_main as it
 # runs its tests in the current process, which would mess with the
 # real __main__ module (usually test.regrtest)

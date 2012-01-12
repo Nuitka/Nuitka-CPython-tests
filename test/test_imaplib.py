@@ -13,7 +13,9 @@ import SocketServer
 import sys
 import time
 
-from test_support import verbose
+# Nuitka: The verbose test output contains changing data, disable it.
+verbose = False
+
 import unittest
 
 try:

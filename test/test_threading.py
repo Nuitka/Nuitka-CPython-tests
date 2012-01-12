@@ -13,6 +13,9 @@ import weakref
 
 from test import lock_tests
 
+# Nuitka: Disable verbose output, contains random strings
+verbose = False
+
 # A trivial mutable counter.
 class Counter(object):
     def __init__(self):

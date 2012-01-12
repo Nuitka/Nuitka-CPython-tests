@@ -21,6 +21,9 @@ from test.test_support import TESTFN as TEST_FILE
 
 test.test_support.requires("network")
 
+# Nuitka: Disable verbose output, contains random strings
+verbose = False
+
 TEST_STR = "hello world\n"
 HOST = test.test_support.HOST
 

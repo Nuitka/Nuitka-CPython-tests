@@ -6,6 +6,9 @@ import unittest
 verbose = test_support.verbose
 nerrors = 0
 
+# Nuitka: Disable verbose output, contains random strings
+verbose = False
+
 def check(tag, expected, raw, compare=None):
     global nerrors
 
