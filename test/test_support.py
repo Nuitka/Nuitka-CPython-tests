@@ -115,6 +115,11 @@ def forget(modname):
 def is_resource_enabled(resource):
     """Test whether a resource is enabled.  Known resources are set by
     regrtest.py."""
+
+    # Nuitka: No 'audio' please, I like it silent
+    if resource == "audio":
+        return False
+
     return use_resources is not None and resource in use_resources
 
 def requires(resource, msg=None):
@@ -122,6 +127,11 @@ def requires(resource, msg=None):
 
     If the caller's module is __main__ then automatically return True.  The
     possibility of False being returned occurs when regrtest.py is executing."""
+    # Nuitka: No 'audio' please, I like it silent
+    if resource == "audio":
+        raise ResourceDenied(msg)
+
+
     # see if the caller's module is __main__ - if so, treat as if
     # the resource was set
     if sys._getframe().f_back.f_globals.get("__name__") == "__main__":
