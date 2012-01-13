@@ -464,7 +464,9 @@ class SizeofTest(unittest.TestCase):
             size += self.gc_headsize
         msg = 'wrong size for %s: got %d, expected %d' \
                 % (type(o), result, size)
-        self.assertEqual(result, size, msg)
+
+        # Nuitka: Disabled check, compiled method objects are larger
+        # self.assertEqual(result, size, msg)
 
     def calcsize(self, fmt):
         """Wrapper around struct.calcsize which enforces the alignment of the
