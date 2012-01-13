@@ -1752,13 +1752,14 @@ class LWPCookieTests(TestCase):
 
 def test_main(verbose=None):
     from test import test_sets
-    test_support.run_unittest(
+    cases = (
         DateTimeTests,
         HeaderTests,
         CookieTests,
         FileCookieJarTests,
         LWPCookieTests,
         )
+    test_support.run_unittest(*cases)
 
 if __name__ == "__main__":
     test_main(verbose=True)

@@ -266,11 +266,9 @@ class TimeoutTest(unittest.TestCase):
 
 def test_main():
     test_support.requires("network")
-    test_support.run_unittest(AuthTests,
-                              OtherNetworkTests,
-                              CloseSocketTest,
-                              TimeoutTest,
-                              )
+    # Nuitka: Issue#9 http://bugs.nuitka.net/issue9
+    # In tracebacks Nuitka uses start of call line, whereas CPython uses end of call line
+    test_support.run_unittest(AuthTests,OtherNetworkTests,CloseSocketTest,TimeoutTest)
 
 if __name__ == "__main__":
     test_main()

@@ -10,8 +10,7 @@ import traceback
 import sys, os, time, errno
 
 if sys.platform[:3] in ('win', 'os2') or sys.platform == 'riscos':
-    raise test_support.TestSkipped("Can't test signal on %s" % \
-                                   sys.platform)
+    raise test_support.TestSkipped("Can't test signal on %s" % sys.platform)
 
 
 class HandlerBCalled(Exception):
@@ -496,8 +495,9 @@ class ItimerTest(unittest.TestCase):
         # self.assertEqual(self.hndl_called, True)
 
 def test_main():
-    test_support.run_unittest(BasicSignalTests, InterProcessSignalTests,
-        WakeupSignalTests, SiginterruptTest, ItimerTest)
+    # Nuitka Issue#9 http://bugs.nuitka.net/issue9
+    # In tracebacks Nuitka uses start of call line, whereas CPython uses end of call line
+    test_support.run_unittest(BasicSignalTests, InterProcessSignalTests, WakeupSignalTests, SiginterruptTest, ItimerTest)
 
 
 if __name__ == "__main__":

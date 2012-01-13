@@ -709,8 +709,9 @@ class HandlerTests(unittest.TestCase):
                 finally:
                     f.close()
 
-                self.assertRaises(urllib2.URLError,
-                                  h.file_open, Request(url))
+                # Nuitka: Issue#9 http://bugs.nuitka.net/issue9
+                # In tracebacks Nuitka uses start of call line, whereas CPython uses end of call line
+                self.assertRaises(urllib2.URLError,h.file_open, Request(url))
             finally:
                 os.remove(TESTFN)
 

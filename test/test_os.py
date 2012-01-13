@@ -624,8 +624,9 @@ class TestInvalidFD(unittest.TestCase):
     #this is a weird one, it raises IOError unlike the others
     def test_ftruncate(self):
         if hasattr(os, "ftruncate"):
-            self.assertRaises(IOError, os.ftruncate, test_support.make_bad_fd(),
-                              0)
+            # Nuitka Issue#9 http://bugs.nuitka.net/issue9
+            # In tracebacks Nuitka uses start of call line, whereas CPython uses end of call line
+            self.assertRaises(IOError, os.ftruncate, test_support.make_bad_fd(), 0)
 
     def test_lseek(self):
         if hasattr(os, "lseek"):
@@ -706,7 +707,9 @@ else:
         pass
 
 def test_main():
-    test_support.run_unittest(
+    # Nuitka Issue#9 http://bugs.nuitka.net/issue9
+    # In tracebacks Nuitka uses start of call line, whereas CPython uses end of call line
+    cases = (
         FileTests,
         TemporaryFileTests,
         StatAttributeTests,
@@ -719,6 +722,8 @@ def test_main():
         TestInvalidFD,
         PosixUidGidTests
     )
+
+    test_support.run_unittest( *cases )
 
 if __name__ == "__main__":
     test_main()

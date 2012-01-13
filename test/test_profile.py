@@ -37,9 +37,10 @@ class ProfileTest(unittest.TestCase):
         results = self.do_profiling()
         self.assertEqual(results[0], 1000)
         for i, method in enumerate(self.methodnames):
-            self.assertEqual(results[i+1], self.expected_output[method],
-                             "Stats.%s output for %s doesn't fit expectation!" %
-                             (method, self.profilerclass.__name__))
+            # Nuitka Issue#9 http://bugs.nuitka.net/issue9
+            # In tracebacks Nuitka uses start of call line, whereas CPython uses end of call line
+
+            self.assertEqual(results[i+1], self.expected_output[method], "Stats.%s output for %s doesn't fit expectation!" % (method, self.profilerclass.__name__))
 
     def test_calling_conventions(self):
         # Issue #5330: profile and cProfile wouldn't report C functions called

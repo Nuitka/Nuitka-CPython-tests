@@ -138,8 +138,10 @@ class TestPlistlib(unittest.TestCase):
     def test_appleformatting(self):
         pl = plistlib.readPlistFromString(TESTDATA)
         data = plistlib.writePlistToString(pl)
-        self.assertEqual(data, TESTDATA,
-                         "generated data was not identical to Apple's output")
+
+        # Nuitka Issue#9 http://bugs.nuitka.net/issue9
+        # In tracebacks Nuitka uses start of call line, whereas CPython uses end of call line
+        self.assertEqual(data, TESTDATA, "generated data was not identical to Apple's output")
 
     def test_appleformattingfromliteral(self):
         pl = self._create()

@@ -47,13 +47,18 @@ class CookieTests(unittest.TestCase):
 
         self.assertEqual(C.output(['path']),
             'Set-Cookie: Customer="WILE_E_COYOTE"; Path=/acme')
-        self.assertEqual(C.js_output(), """
+
+        # Nuitka: Issue#9 http://bugs.nuitka.net/issue9
+        # In tracebacks Nuitka uses start of call line, whereas CPython uses end of call line
+        expected = """
         <script type="text/javascript">
         <!-- begin hiding
         document.cookie = "Customer="WILE_E_COYOTE"; Path=/acme; Version=1";
         // end hiding -->
         </script>
-        """)
+        """
+
+        self.assertEqual(C.js_output(), expected)
         self.assertEqual(C.js_output(['path']), """
         <script type="text/javascript">
         <!-- begin hiding

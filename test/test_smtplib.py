@@ -480,9 +480,9 @@ class SMTPSimTests(TestCase):
 
 
 def test_main(verbose=None):
-    test_support.run_unittest(GeneralTests, DebuggingServerTests,
-                              NonConnectingTests,
-                              BadHELOServerTests, SMTPSimTests)
+    # Nuitka Issue#9 http://bugs.nuitka.net/issue9
+    # In tracebacks Nuitka uses start of call line, whereas CPython uses end of call line
+    test_support.run_unittest(GeneralTests, DebuggingServerTests, NonConnectingTests, BadHELOServerTests, SMTPSimTests)
 
 if __name__ == '__main__':
     test_main()
