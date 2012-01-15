@@ -17,6 +17,8 @@ if sys.py3kwarning:
 
 _deprecations = [(msg, DeprecationWarning) for msg in DEPRECATION_WARNINGS]
 
+_deprecations.append( ( "Please use assertEqual instead.", PendingDeprecationWarning ) )
+
 # Silence Py3k and other deprecation warnings
 def ignore_deprecation_warnings(func):
     """Ignore the known DeprecationWarnings."""
