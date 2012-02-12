@@ -105,9 +105,9 @@ class C(object):
         return val
 
 def test_main():
-    from test import test_doctest2
+    import sys
     EXPECTED = 19
-    f, t = test_support.run_doctest(test_doctest2)
+    f, t = test_support.run_doctest(sys.modules["__main__"])
     if t != EXPECTED:
         raise test_support.TestFailed("expected %d tests to run, not %d" %
                                       (EXPECTED, t))
