@@ -13,6 +13,10 @@ except ImportError:
     threading = None
 import _testcapi
 
+# Nuitka: Issue#10 http://bugs.nuitka.net/issue10
+# Threading is not supported, never yields the execution to other threads
+threading = None
+
 @unittest.skipUnless(threading, 'Threading required for this test.')
 class TestPendingCalls(unittest.TestCase):
 
