@@ -136,8 +136,10 @@ class ReprTests(unittest.TestCase):
             "<closed file '%s', mode 'r' at 0x" % unittest.__file__))
 
     def test_lambda(self):
-        self.assertTrue(repr(lambda x: x).startswith(
-            "<function <lambda"))
+        # Nuitka: Issue#20 http://bugs.nuitka.net/issue20
+        # The "repr" of compiled types has a prefix "compiled_" that causes checks on "repr()" output to fail
+        # Adapted so that the "compiled_" prefix is tolerated too.
+        self.failUnless("function <lambda" in repr(lambda x: x) )
         # XXX anonymous functions?  see func_repr
 
     def test_builtin_function(self):
