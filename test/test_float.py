@@ -1387,7 +1387,9 @@ class HexFloatTestCase(unittest.TestCase):
 
 
 def test_main():
-    test_support.run_unittest(
+    # Nuitka: Issue#9 http://bugs.nuitka.net/issue9
+    # In tracebacks Nuitka uses start of call line, whereas CPython uses end of call line
+    cases = (
         GeneralFloatCases,
         FormatFunctionsTestCase,
         UnknownFormatTestCase,
@@ -1396,7 +1398,9 @@ def test_main():
         RoundTestCase,
         InfNanTest,
         HexFloatTestCase,
-        )
+    )
+
+    test_support.run_unittest( *cases )
 
 if __name__ == '__main__':
     test_main()

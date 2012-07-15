@@ -521,12 +521,15 @@ class SimpleHTTPRequestHandlerTestCase(unittest.TestCase):
 def test_main(verbose=None):
     try:
         cwd = os.getcwd()
-        test_support.run_unittest(BaseHTTPRequestHandlerTestCase,
+        cases = (
+                                  BaseHTTPRequestHandlerTestCase,
                                   SimpleHTTPRequestHandlerTestCase,
                                   BaseHTTPServerTestCase,
                                   SimpleHTTPServerTestCase,
                                   CGIHTTPServerTestCase
                                  )
+
+        test_support.run_unittest(*cases)
     finally:
         os.chdir(cwd)
 

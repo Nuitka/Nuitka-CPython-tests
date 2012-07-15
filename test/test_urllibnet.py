@@ -170,8 +170,9 @@ class urlretrieveNetworkTests(unittest.TestCase):
 
     def test_specified_path(self):
         # Make sure that specifying the location of the file to write to works.
-        file_location,info = self.urlretrieve("http://www.python.org/",
-                                              test_support.TESTFN)
+        # Nuitka: Issue#9 http://bugs.nuitka.net/issue9
+        # In tracebacks Nuitka uses start of call line, whereas CPython uses end of call line
+        file_location,info = self.urlretrieve("http://www.python.org/",test_support.TESTFN)
         self.assertEqual(file_location, test_support.TESTFN)
         self.assertTrue(os.path.exists(file_location))
         FILE = file(file_location)
@@ -205,9 +206,9 @@ def test_main():
     test_support.requires('network')
     with test_support.check_py3k_warnings(
             ("urllib.urlopen.. has been removed", DeprecationWarning)):
-        test_support.run_unittest(URLTimeoutTest,
-                                  urlopenNetworkTests,
-                                  urlretrieveNetworkTests)
+        # Nuitka: Issue#9 http://bugs.nuitka.net/issue9
+        # In tracebacks Nuitka uses start of call line, whereas CPython uses end of call line
+        test_support.run_unittest(URLTimeoutTest,urlopenNetworkTests,urlretrieveNetworkTests)
 
 if __name__ == "__main__":
     test_main()

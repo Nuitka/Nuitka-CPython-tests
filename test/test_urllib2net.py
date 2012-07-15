@@ -161,8 +161,7 @@ class OtherNetworkTests(unittest.TestCase):
         with test_support.transient_internet(urlwith_frag):
             req = urllib2.Request(urlwith_frag)
             res = urllib2.urlopen(req)
-            self.assertEqual(res.geturl(),
-                    "http://docs.python.org/glossary.html#glossary")
+            self.assertEqual(res.geturl(), "http://docs.python.org/glossary.html#glossary")
 
     def test_fileno(self):
         req = urllib2.Request("http://www.python.org")
@@ -322,11 +321,9 @@ class TimeoutTest(unittest.TestCase):
 
 def test_main():
     test_support.requires("network")
-    test_support.run_unittest(AuthTests,
-                              OtherNetworkTests,
-                              CloseSocketTest,
-                              TimeoutTest,
-                              )
+    # Nuitka: Issue#9 http://bugs.nuitka.net/issue9
+    # In tracebacks Nuitka uses start of call line, whereas CPython uses end of call line
+    test_support.run_unittest(AuthTests,OtherNetworkTests,CloseSocketTest,TimeoutTest )
 
 if __name__ == "__main__":
     test_main()

@@ -387,10 +387,7 @@ class TestHelper(unittest.TestCase):
 
 def test_main():
     try:
-        test.test_support.run_unittest(PyDocDocTest,
-                                       PydocImportTest,
-                                       TestDescriptions,
-                                       TestHelper)
+        test.test_support.run_unittest(PyDocDocTest,PydocImportTest,TestDescriptions, TestHelper)
     finally:
         reap_children()
 

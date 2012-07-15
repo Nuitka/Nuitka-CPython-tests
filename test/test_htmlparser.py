@@ -79,9 +79,7 @@ class TestCaseBase(unittest.TestCase):
         parser.close()
         events = parser.get_events()
         if events != expected_events:
-            self.fail("received events did not match expected events\n"
-                      "Expected:\n" + pprint.pformat(expected_events) +
-                      "\nReceived:\n" + pprint.pformat(events))
+            self.fail("received events did not match expected events\n" "Expected:\n" + pprint.pformat(expected_events) + "\nReceived:\n" + pprint.pformat(events))
 
     def _run_check_extra(self, source, events):
         self._run_check(source, events, EventCollectorExtra)

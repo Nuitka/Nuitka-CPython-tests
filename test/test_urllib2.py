@@ -723,8 +723,7 @@ class HandlerTests(unittest.TestCase):
                 finally:
                     f.close()
 
-                self.assertRaises(urllib2.URLError,
-                                  h.file_open, Request(url))
+                self.assertRaises(urllib2.URLError, h.file_open, Request(url))
             finally:
                 os.remove(TESTFN)
 

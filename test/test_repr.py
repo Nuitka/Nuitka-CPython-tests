@@ -129,8 +129,7 @@ class ReprTests(unittest.TestCase):
 
     def test_file(self):
         fp = open(unittest.__file__)
-        self.assertTrue(repr(fp).startswith(
-            "<open file '%s', mode 'r' at 0x" % unittest.__file__))
+        self.assertTrue(repr(fp).startswith("<open file '%s', mode 'r' at 0x" % unittest.__file__))
         fp.close()
         self.assertTrue(repr(fp).startswith(
             "<closed file '%s', mode 'r' at 0x" % unittest.__file__))

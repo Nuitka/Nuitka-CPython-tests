@@ -4684,8 +4684,9 @@ def test_main():
             (".+__(get|set|del)slice__ has been removed", DeprecationWarning)]
     with test_support.check_warnings(*deprecations):
         # Run all local test cases, with PTypesLongInitTest first.
-        test_support.run_unittest(PTypesLongInitTest, OperatorsTest,
-                                  ClassPropertiesAndMethods, DictProxyTests)
+        # Nuitka: Issue#9 http://bugs.nuitka.net/issue9
+        # In tracebacks Nuitka uses start of call line, whereas CPython uses end of call line
+        test_support.run_unittest(PTypesLongInitTest, OperatorsTest,ClassPropertiesAndMethods, DictProxyTests)
 
 if __name__ == "__main__":
     test_main()
