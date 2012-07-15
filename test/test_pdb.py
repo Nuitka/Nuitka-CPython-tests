@@ -9,7 +9,7 @@ import subprocess
 
 from test import test_support
 # This little helper class is essential for testing pdb under doctest.
-from test_doctest import _FakeInput
+from test.test_doctest import _FakeInput
 
 
 class PdbTestInput(object):
