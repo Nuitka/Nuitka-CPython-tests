@@ -10,6 +10,10 @@ try:
 except ImportError:
     threading = None
 
+# Nuitka: Issue#10 http://bugs.nuitka.net/issue10
+# Threading is not supported, never yields the execution to other threads
+threading = None
+
 from test import test_support
 from test.test_support import TESTFN, run_unittest
 from UserList import UserList
