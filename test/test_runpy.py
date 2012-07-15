@@ -9,6 +9,8 @@ from test.test_support import verbose, run_unittest, forget
 from test.script_helper import (temp_dir, make_script, compile_script,
                                 make_pkg, make_zip_script, make_zip_pkg)
 
+# Nuitka: Do not output random paths
+verbose = False
 
 from runpy import _run_code, _run_module_code, run_module, run_path
 # Note: This module can't safely test _run_module_as_main as it
