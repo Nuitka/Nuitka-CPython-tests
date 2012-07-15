@@ -10,8 +10,12 @@ import os.path
 import SocketServer
 import time
 
-from test_support import reap_threads, verbose, transient_internet
+# Nuitka: Import "test_support" from test package, it hates otherwise.
+from test.test_support import reap_threads, verbose, transient_internet
 import unittest
+
+# Nuitka: Don't output run time stuff with changing names.
+verbose = False
 
 try:
     import ssl
