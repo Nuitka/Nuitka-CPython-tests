@@ -19,6 +19,9 @@ try:
 except ImportError:
     threading = None
 
+# Nuitka: Don't output run time stuff with changing content.
+verbose = False
+
 test.test_support.requires("network")
 
 TEST_STR = "hello world\n"
