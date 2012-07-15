@@ -1476,7 +1476,15 @@ order (MRO) for bases """
         class E: # *not* subclassing from C
             foo = C.foo
         self.assertEqual(E().foo, C.foo) # i.e., unbound
-        self.assertTrue(repr(C.foo.__get__(C())).startswith("<bound method "))
+        # Nuitka: Issue#20 http://bugs.nuitka.net/issue20
+        # The repr of bound methods is different for compiled code, so allow both variants
+        # to pass this test.
+        self.assert_(
+            repr(C.foo.__get__(C())).startswith("<bound method ")
+            or
+            repr(C.foo.__get__(C())).startswith("<bound compiled_method ")
+        )
+
 
     def test_compattr(self):
         # Testing computed attributes...
@@ -1667,8 +1675,14 @@ order (MRO) for bases """
         class E(object):
             foo = C.foo
         self.assertEqual(E().foo, C.foo) # i.e., unbound
-        self.assertTrue(repr(C.foo.__get__(C(1))).startswith("<bound method "))
-
+        # Nuitka: Issue#20 http://bugs.nuitka.net/issue20
+        # The repr of bound methods is different for compiled code, so allow both variants
+        # to pass this test.
+        self.assert_(
+            repr(C.foo.__get__(C(1))).startswith("<bound method ")
+            or
+            repr(C.foo.__get__(C(1))).startswith("<bound compiled_method ")
+        )
     def test_special_method_lookup(self):
         # The lookup of special methods bypasses __getattr__ and
         # __getattribute__, but they still can be descriptors.
