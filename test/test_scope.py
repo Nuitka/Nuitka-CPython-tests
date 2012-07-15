@@ -562,7 +562,8 @@ self.assertTrue(X.passed)
 
         self.assertRaises(TypeError, sys.settrace)
 
-    def testEvalExecFreeVars(self):
+    # Nuitka: The bytecode is empty, will not work
+    def notestEvalExecFreeVars(self):
 
         def f(x):
             return lambda: x + 1
