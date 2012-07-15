@@ -180,7 +180,9 @@ class GCTests(unittest.TestCase):
             frame = sys._getframe()
         gc.collect()
         f()
-        self.assertEqual(gc.collect(), 1)
+        # Nuitka: We keep the frame around in case a function gets called again, so
+        # there is nothing to collect here.
+        # self.assertEqual(gc.collect(), 1)
 
     def test_saveall(self):
         # Verify that cyclic garbage like lists show up in gc.garbage if the
@@ -242,7 +244,8 @@ class GCTests(unittest.TestCase):
     # For example:
     # - disposed tuples are not freed, but reused
     # - the call to assertEqual somehow avoids building its args tuple
-    def test_get_count(self):
+    # Nuitka: Like it says above, highly implementation dependent.
+    def notest_get_count(self):
         # Avoid future allocation of method object
         assertEqual = self._baseAssertEqual
         gc.collect()
