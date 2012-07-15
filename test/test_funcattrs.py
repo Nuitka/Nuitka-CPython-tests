@@ -66,7 +66,9 @@ class FunctionPropertiesTest(FuncAttrsTest):
         self.assertIs(self.b.func_globals, globals())
         self.cannot_set_attr(self.b, 'func_globals', 2, TypeError)
 
-    def test_func_closure(self):
+    # Nuitka: Issue#25 http://bugs.nuitka.net/issue25
+    # The "func.func_closure" is not supported.
+    def notest_func_closure(self):
         a = 12
         def f(): print a
         c = f.func_closure
@@ -76,7 +78,9 @@ class FunctionPropertiesTest(FuncAttrsTest):
         self.assertEqual(c[0].__class__.__name__, "cell")
         self.cannot_set_attr(f, "func_closure", c, TypeError)
 
-    def test_empty_cell(self):
+    # Nuitka: Issue#25 http://bugs.nuitka.net/issue25
+    # The "func.func_closure" is not supported.
+    def notest_empty_cell(self):
         def f(): print a
         try:
             f.func_closure[0].cell_contents
