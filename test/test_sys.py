@@ -585,7 +585,8 @@ class SizeofTest(unittest.TestCase):
         # instance (old-style class)
         check(class_oldstyle(), size(h + '3P'))
         # instancemethod (old-style class)
-        check(class_oldstyle().method, size(h + '4P'))
+        # Nuitka: Our instance method is different size than CPython.
+        # check(class_oldstyle().method, size(h + '4P'))
         # complex
         check(complex(0,1), size(h + '2d'))
         # code
