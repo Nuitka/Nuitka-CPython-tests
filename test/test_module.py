@@ -55,8 +55,10 @@ class ModuleTests(unittest.TestCase):
               {"__name__": "foo", "__doc__": "foodoc", "bar": 42})
         self.assertTrue(foo.__dict__ is d)
 
+    # Nuitka: We pass this test unlike CPython at this time. Disable the test or else it
+    # is going to show an error, where none is. We won't emulate that error of course
     @unittest.expectedFailure
-    def test_dont_clear_dict(self):
+    def notest_dont_clear_dict(self):
         # See issue 7140.
         def f():
             foo = ModuleType("foo")
