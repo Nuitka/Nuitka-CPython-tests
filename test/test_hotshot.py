@@ -83,7 +83,9 @@ class HotShotTestCase(unittest.TestCase):
         list(log)
         self.assertTrue(info["test-key"] == ["test-value"])
 
-    def test_line_numbers(self):
+    # Nuitka: Removed test parts that rely on correct "co_codelines" tables, which we
+    # won't have.
+    def notest_line_numbers(self):
         def f():
             y = 2
             x = 1
