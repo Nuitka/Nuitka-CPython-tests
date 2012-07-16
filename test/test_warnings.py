@@ -8,7 +8,7 @@ import subprocess
 from test import test_support
 from test.script_helper import assert_python_ok
 
-import warning_tests
+import test.warning_tests as warning_tests
 
 import warnings as original_warnings
 
