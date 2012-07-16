@@ -19,6 +19,9 @@ from test.script_helper import (spawn_python, kill_python, run_python,
 
 verbose = test.test_support.verbose
 
+# Nuitka: Don't output run time stuff with changing content.
+verbose = False
+
 # Library modules covered by this test set
 #  pdb (Issue 4201)
 #  inspect (Issue 4223)
