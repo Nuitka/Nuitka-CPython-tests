@@ -7,6 +7,9 @@ import time
 import sys
 import weakref
 
+# Nuitka: Disable verbose output, contains random strings
+test_support.verbose = False
+
 from test import lock_tests
 
 NUMTASKS = 10
