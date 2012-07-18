@@ -1,3 +1,4 @@
+# encoding: utf-8
 import io
 import datetime
 import textwrap

@@ -1,3 +1,4 @@
+# encoding: utf-8
 from test.support import run_unittest, verbose
 import unittest
 import locale
