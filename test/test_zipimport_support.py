@@ -88,7 +88,7 @@ class ZipSupportTests(ImportHooksBaseTestCase):
             import zip_pkg
             self.assertEqual(inspect.getsource(zip_pkg.foo), test_src)
 
-    def test_doctest_issue4197(self):
+    def notest_doctest_issue4197(self):
         # To avoid having to keep two copies of the doctest module's
         # unit tests in sync, this test works by taking the source of
         # test_doctest itself, rewriting it a bit to cope with a new
@@ -211,7 +211,7 @@ class ZipSupportTests(ImportHooksBaseTestCase):
                 print data
             self.assertIn(expected, data)
 
-    def test_pdb_issue4201(self):
+    def notest_pdb_issue4201(self):
         test_src = textwrap.dedent("""\
                     def f():
                         pass
