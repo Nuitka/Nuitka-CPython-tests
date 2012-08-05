@@ -51,11 +51,6 @@ def checkPath( filename, path ):
 
     extra_flags = [ "silent", "exec_in_tmp", "remove_output", "ignore_warnings" ]
 
-    if python_version < b"2.7" and filename == "test_strop.py":
-        extra_flags.append( "ignore_stderr" )
-    elif python_version >= b"2.7" and filename in ( "test_xml_etree.py", "test_xml_etree_c.py" ):
-        extra_flags.append( "ignore_stderr" )
-
     result = subprocess.call(
         "%s %s %s %s" % (
             sys.executable,
@@ -83,6 +78,10 @@ def checkDir( directory ):
 
         if not active and start_at in ( filename, path ):
             active = True
+
+        # This goes havoc on memory consumption.
+        if filename == "test_itertools.py" and directory == "doctest_generated" and python_version < b"3":
+            continue
 
         if active:
             checkPath( filename, path )
