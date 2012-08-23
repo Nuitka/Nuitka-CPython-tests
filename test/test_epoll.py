@@ -165,7 +165,9 @@ class TestEPoll(unittest.TestCase):
         expected.sort()
 
         self.assertEquals(events, expected)
-        self.failIf(then - now > 0.01, then - now)
+
+        # Nuitka: My ARM box is too slow, allow for more time.
+        self.failIf(then - now > 0.1, then - now)
 
         now = time.time()
         events = ep.poll(timeout=2.1, maxevents=4)
