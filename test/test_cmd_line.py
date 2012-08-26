@@ -255,15 +255,11 @@ class CmdLineTest(unittest.TestCase):
     def test_stdin_readline(self):
         # Issue #11272: check that sys.stdin.readline() replaces '\r\n' by '\n'
         # on Windows (sys.stdin is opened in binary mode)
-        self.check_input(
-            "import sys; print(repr(sys.stdin.readline()))",
-            b"'abc\\n'")
+        self.check_input("import sys; print(repr(sys.stdin.readline()))",b"'abc\\n'")
 
     def test_builtin_input(self):
         # Issue #11272: check that input() strips newlines ('\n' or '\r\n')
-        self.check_input(
-            "print(repr(input()))",
-            b"'abc'")
+        self.check_input("print(repr(input()))",b"'abc'")
 
     def test_unmached_quote(self):
         # Issue #10206: python program starting with unmatched quote
@@ -281,8 +277,7 @@ class CmdLineTest(unittest.TestCase):
             os.close(sys.stdout.fileno())"""
         rc, out, err = assert_python_ok('-c', code)
         self.assertEqual(b'', out)
-        self.assertRegex(err.decode('ascii', 'ignore'),
-                         'Exception IOError: .* ignored')
+        self.assertRegex(err.decode('ascii', 'ignore'), 'Exception IOError: .* ignored')
 
     def test_closed_stdout(self):
         # Issue #13444: if stdout has been explicitly closed, we should

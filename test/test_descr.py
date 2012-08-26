@@ -4461,8 +4461,7 @@ class DictProxyTests(unittest.TestCase):
         self.assertNotIsInstance(it, list)
         keys = list(it)
         keys.sort()
-        self.assertEqual(keys, ['__dict__', '__doc__', '__module__',
-            '__weakref__', 'meth'])
+        self.assertEqual(keys, ['__dict__', '__doc__', '__module__', '__weakref__', 'meth'])
 
     def test_iter_values(self):
         # Testing dict-proxy values...
@@ -4477,8 +4476,7 @@ class DictProxyTests(unittest.TestCase):
         self.assertNotIsInstance(it, list)
         keys = [item[0] for item in it]
         keys.sort()
-        self.assertEqual(keys, ['__dict__', '__doc__', '__module__',
-            '__weakref__', 'meth'])
+        self.assertEqual(keys, ['__dict__', '__doc__', '__module__', '__weakref__', 'meth'])
 
     def test_dict_type_with_metaclass(self):
         # Testing type of __dict__ when metaclass set...
@@ -4531,8 +4529,10 @@ class PTypesLongInitTest(unittest.TestCase):
 
 def test_main():
     # Run all local test cases, with PTypesLongInitTest first.
-    support.run_unittest(PTypesLongInitTest, OperatorsTest,
-                              ClassPropertiesAndMethods, DictProxyTests)
+
+    # Nuitka: Issue#9 http://bugs.nuitka.net/issue9
+    # In tracebacks Nuitka uses start of call line, whereas CPython uses end of call line
+    support.run_unittest(PTypesLongInitTest, OperatorsTest, ClassPropertiesAndMethods, DictProxyTests)
 
 if __name__ == "__main__":
     test_main()

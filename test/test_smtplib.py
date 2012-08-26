@@ -510,8 +510,7 @@ class NonConnectingTests(unittest.TestCase):
 
     def testNonnumericPort(self):
         # check that non-numeric port raises socket.error
-        self.assertRaises(mock_socket.error, smtplib.SMTP,
-                          "localhost", "bogus")
+        self.assertRaises(mock_socket.error, smtplib.SMTP,"localhost", "bogus")
         self.assertRaises(mock_socket.error, smtplib.SMTP,
                           "localhost:bogus")
 
@@ -533,8 +532,7 @@ class BadHELOServerTests(unittest.TestCase):
         sys.stdout = self.old_stdout
 
     def testFailingHELO(self):
-        self.assertRaises(smtplib.SMTPConnectError, smtplib.SMTP,
-                            HOST, self.port, 'localhost', 3)
+        self.assertRaises(smtplib.SMTPConnectError, smtplib.SMTP,HOST, self.port, 'localhost', 3)
 
 
 sim_users = {'Mr.A@somewhere.com':'John A',
@@ -758,9 +756,7 @@ class SMTPSimTests(unittest.TestCase):
 
 @support.reap_threads
 def test_main(verbose=None):
-    support.run_unittest(GeneralTests, DebuggingServerTests,
-                              NonConnectingTests,
-                              BadHELOServerTests, SMTPSimTests)
+    support.run_unittest(GeneralTests, DebuggingServerTests,NonConnectingTests,BadHELOServerTests, SMTPSimTests)
 
 if __name__ == '__main__':
     test_main()

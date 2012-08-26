@@ -212,7 +212,7 @@ class DatetimeTimeTests(DatetimeTests):
 
 
 def test_main():
-    support.run_unittest(HashEqualityTestCase,
+    cases = (HashEqualityTestCase,
                          HashInheritanceTestCase,
                          HashBuiltinsTestCase,
                          StrHashRandomizationTests,
@@ -221,6 +221,7 @@ def test_main():
                          DatetimeDatetimeTests,
                          DatetimeTimeTests)
 
+    support.run_unittest(*cases)
 
 if __name__ == "__main__":
     test_main()

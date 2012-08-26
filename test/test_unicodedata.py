@@ -317,11 +317,7 @@ class UnicodeMiscTest(UnicodeDatabaseTest):
         self.assertEqual(self.db.digit("\U0001D7FD"), 7)
 
 def test_main():
-    test.support.run_unittest(
-        UnicodeMiscTest,
-        UnicodeMethodsTest,
-        UnicodeFunctionsTest
-    )
+    test.support.run_unittest(UnicodeMiscTest,UnicodeMethodsTest,UnicodeFunctionsTest)
 
 if __name__ == "__main__":
     test_main()

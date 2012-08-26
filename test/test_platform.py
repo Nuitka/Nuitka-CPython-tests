@@ -249,9 +249,7 @@ class PlatformTest(unittest.TestCase):
 
 
 def test_main():
-    support.run_unittest(
-        PlatformTest
-    )
+    support.run_unittest(PlatformTest)
 
 if __name__ == '__main__':
     test_main()

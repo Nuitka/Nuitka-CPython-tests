@@ -160,8 +160,9 @@ class OtherNetworkTests(unittest.TestCase):
         with support.transient_internet(urlwith_frag):
             req = urllib.request.Request(urlwith_frag)
             res = urllib.request.urlopen(req)
-            self.assertEqual(res.geturl(),
-                    "http://docs.python.org/glossary.html#glossary")
+            # Nuitka: Issue#9 http://bugs.nuitka.net/issue9
+            # In tracebacks Nuitka uses start of call line, whereas CPython uses end of call line
+            self.assertEqual(res.geturl(),"http://docs.python.org/glossary.html#glossary")
 
     def test_custom_headers(self):
         url = "http://www.example.com"
@@ -352,12 +353,9 @@ class HTTPSTests(unittest.TestCase):
 
 def test_main():
     support.requires("network")
-    support.run_unittest(AuthTests,
-                         HTTPSTests,
-                         OtherNetworkTests,
-                         CloseSocketTest,
-                         TimeoutTest,
-                         )
+    # Nuitka: Issue#9 http://bugs.nuitka.net/issue9
+    # In tracebacks Nuitka uses start of call line, whereas CPython uses end of call line
+    support.run_unittest(AuthTests,HTTPSTests,OtherNetworkTests,CloseSocketTest,TimeoutTest)
 
 if __name__ == "__main__":
     test_main()

@@ -83,8 +83,7 @@ class UncompressedZipImportTestCase(ImportHooksBaseTestCase):
 
             sys.path.insert(0, TEMP_ZIP)
 
-            mod = __import__(".".join(modules), globals(), locals(),
-                             ["__dummy__"])
+            mod = __import__(".".join(modules), globals(), locals(),["__dummy__"])
 
             call = kw.get('call')
             if call is not None:
@@ -470,11 +469,7 @@ class BadFileZipImportTestCase(unittest.TestCase):
 
 def test_main():
     try:
-        support.run_unittest(
-              UncompressedZipImportTestCase,
-              CompressedZipImportTestCase,
-              BadFileZipImportTestCase,
-            )
+        support.run_unittest(UncompressedZipImportTestCase, CompressedZipImportTestCase, BadFileZipImportTestCase)
     finally:
         support.unlink(TESTMOD)
 

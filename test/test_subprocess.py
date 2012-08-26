@@ -503,8 +503,7 @@ class ProcessTestCase(BaseTestCase):
                          "line2\n")
         self.assertEqual(p.stdout.read(6),
                          "line3\n")
-        self.assertEqual(p.stdout.read(),
-                         "line4\nline5\nline6\nline7\nline8")
+        self.assertEqual(p.stdout.read(),"line4\nline5\nline6\nline7\nline8")
 
     def test_universal_newlines_communicate(self):
         # universal newlines through communicate()
@@ -529,8 +528,7 @@ class ProcessTestCase(BaseTestCase):
         # BUG: can't give a non-empty stdin because it breaks both the
         # select- and poll-based communicate() implementations.
         (stdout, stderr) = p.communicate()
-        self.assertEqual(stdout,
-                         "line2\nline4\nline5\nline6\nline7\nline8")
+        self.assertEqual(stdout,"line2\nline4\nline5\nline6\nline7\nline8")
 
     def test_universal_newlines_communicate_stdin(self):
         # universal newlines through communicate(), with only stdin
@@ -786,8 +784,7 @@ class POSIXProcessTestCase(BaseTestCase):
 
         # Error in the child re-raised in the parent.
         try:
-            p = subprocess.Popen([sys.executable, "-c", ""],
-                                 cwd=nonexistent_dir)
+            p = subprocess.Popen([sys.executable, "-c", ""],cwd=nonexistent_dir)
         except OSError as e:
             # Test that the child process chdir failure actually makes
             # it up to the parent process as the correct exception.
@@ -1627,8 +1624,7 @@ class ProcessTestCasePOSIXPurePython(ProcessTestCase, POSIXProcessTestCase):
         # Reimport subprocess while forcing _posixsubprocess to not exist.
         with support.check_warnings(('.*_posixsubprocess .* not being used.*',
                                      RuntimeWarning)):
-            subprocess = support.import_fresh_module(
-                    'subprocess', blocked=['_posixsubprocess'])
+            subprocess = support.import_fresh_module('subprocess', blocked=['_posixsubprocess'])
         assert not subprocess._posixsubprocess
 
     @classmethod

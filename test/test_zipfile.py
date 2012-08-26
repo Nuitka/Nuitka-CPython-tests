@@ -1471,10 +1471,9 @@ class UniversalNewlineTests(unittest.TestCase):
 
 
 def test_main():
-    run_unittest(TestsWithSourceFile, TestZip64InSmallFiles, OtherTests,
-                 PyZipFileTests, DecryptionTests, TestsWithMultipleOpens,
-                 TestWithDirectory, UniversalNewlineTests,
-                 TestsWithRandomBinaryFiles)
+    # Nuitka: Issue#9 http://bugs.nuitka.net/issue9
+    # In tracebacks Nuitka uses start of call line, whereas CPython uses end of call line
+    run_unittest(TestsWithSourceFile, TestZip64InSmallFiles, OtherTests,PyZipFileTests, DecryptionTests, TestsWithMultipleOpens,TestWithDirectory, UniversalNewlineTests,TestsWithRandomBinaryFiles)
 
 if __name__ == "__main__":
     test_main()

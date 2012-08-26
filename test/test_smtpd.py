@@ -80,8 +80,7 @@ class SMTPDChannelTest(TestCase):
 
     def test_EHLO_not_implemented(self):
         self.write_line(b'EHLO test.example')
-        self.assertEqual(self.channel.socket.last,
-                         b'502 Error: command "EHLO" not implemented\r\n')
+        self.assertEqual(self.channel.socket.last,b'502 Error: command "EHLO" not implemented\r\n')
 
     def test_HELO(self):
         name = smtpd.socket.getfqdn()
@@ -138,23 +137,19 @@ class SMTPDChannelTest(TestCase):
         self.write_line(b'DATA')
         self.write_line(b'A' * self.channel.data_size_limit +
                         b'A\r\n.')
-        self.assertEqual(self.channel.socket.last,
-                         b'552 Error: Too much mail data\r\n')
+        self.assertEqual(self.channel.socket.last,b'552 Error: Too much mail data\r\n')
 
     def test_need_MAIL(self):
         self.write_line(b'RCPT to:spam@example')
-        self.assertEqual(self.channel.socket.last,
-            b'503 Error: need MAIL command\r\n')
+        self.assertEqual(self.channel.socket.last,b'503 Error: need MAIL command\r\n')
 
     def test_MAIL_syntax(self):
         self.write_line(b'MAIL from eggs@example')
-        self.assertEqual(self.channel.socket.last,
-            b'501 Syntax: MAIL FROM:<address>\r\n')
+        self.assertEqual(self.channel.socket.last,b'501 Syntax: MAIL FROM:<address>\r\n')
 
     def test_MAIL_missing_from(self):
         self.write_line(b'MAIL from:')
-        self.assertEqual(self.channel.socket.last,
-            b'501 Syntax: MAIL FROM:<address>\r\n')
+        self.assertEqual(self.channel.socket.last,b'501 Syntax: MAIL FROM:<address>\r\n')
 
     def test_MAIL_chevrons(self):
         self.write_line(b'MAIL from:<eggs@example>')
@@ -163,20 +158,17 @@ class SMTPDChannelTest(TestCase):
     def test_nested_MAIL(self):
         self.write_line(b'MAIL from:eggs@example')
         self.write_line(b'MAIL from:spam@example')
-        self.assertEqual(self.channel.socket.last,
-            b'503 Error: nested MAIL command\r\n')
+        self.assertEqual(self.channel.socket.last,b'503 Error: nested MAIL command\r\n')
 
     def test_need_RCPT(self):
         self.write_line(b'MAIL From:eggs@example')
         self.write_line(b'DATA')
-        self.assertEqual(self.channel.socket.last,
-            b'503 Error: need RCPT command\r\n')
+        self.assertEqual(self.channel.socket.last,b'503 Error: need RCPT command\r\n')
 
     def test_RCPT_syntax(self):
         self.write_line(b'MAIL From:eggs@example')
         self.write_line(b'RCPT to eggs@example')
-        self.assertEqual(self.channel.socket.last,
-            b'501 Syntax: RCPT TO: <address>\r\n')
+        self.assertEqual(self.channel.socket.last,b'501 Syntax: RCPT TO: <address>\r\n')
 
     def test_data_dialog(self):
         self.write_line(b'MAIL From:eggs@example')
@@ -211,8 +203,7 @@ class SMTPDChannelTest(TestCase):
         self.write_line(b'RCPT To:ham@example')
         self.write_line(b'DATA')
         self.write_line(b'data\r\n.')
-        self.assertEqual(self.server.messages,
-            [('peer', 'eggs@example', ['spam@example','ham@example'], 'data')])
+        self.assertEqual(self.server.messages,[('peer', 'eggs@example', ['spam@example','ham@example'], 'data')])
 
     def test_manual_status(self):
         # checks that the Channel is able to return a custom status message

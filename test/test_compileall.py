@@ -135,8 +135,7 @@ class CommandLineTests(unittest.TestCase):
     """Test compileall's CLI."""
 
     def assertRunOK(self, *args, **env_vars):
-        rc, out, err = script_helper.assert_python_ok(
-                        '-S', '-m', 'compileall', *args, **env_vars)
+        rc, out, err = script_helper.assert_python_ok('-S', '-m', 'compileall', *args, **env_vars)
         self.assertEqual(b'', err)
         return out
 
@@ -349,11 +348,7 @@ class CommandLineTests(unittest.TestCase):
 
 
 def test_main():
-    support.run_unittest(
-        CommandLineTests,
-        CompileallTests,
-        EncodingTest,
-        )
+    support.run_unittest(CommandLineTests,CompileallTests,EncodingTest)
 
 
 if __name__ == "__main__":

@@ -195,9 +195,7 @@ class TestPkg(unittest.TestCase):
         self.run_code(s)
 
         import t5
-        self.assertEqual(fixdir(dir(t5)),
-                         ['__cached__', '__doc__', '__file__', '__name__',
-                          '__package__', '__path__', 'foo', 'string', 't5'])
+        self.assertEqual(fixdir(dir(t5)), ['__cached__', '__doc__', '__file__', '__name__', '__package__', '__path__', 'foo', 'string', 't5'])
         self.assertEqual(fixdir(dir(t5.foo)),
                          ['__cached__', '__doc__', '__file__', '__name__',
                           '__package__', 'string'])
@@ -217,9 +215,7 @@ class TestPkg(unittest.TestCase):
         self.mkhier(hier)
 
         import t6
-        self.assertEqual(fixdir(dir(t6)),
-                         ['__all__', '__cached__', '__doc__', '__file__',
-                          '__name__', '__package__', '__path__'])
+        self.assertEqual(fixdir(dir(t6)),['__all__', '__cached__', '__doc__', '__file__','__name__', '__package__', '__path__'])
         s = """
             import t6
             from t6 import *
@@ -251,9 +247,7 @@ class TestPkg(unittest.TestCase):
 
         t7, sub, subsub = None, None, None
         import t7 as tas
-        self.assertEqual(fixdir(dir(tas)),
-                         ['__cached__', '__doc__', '__file__', '__name__',
-                          '__package__', '__path__'])
+        self.assertEqual(fixdir(dir(tas)), ['__cached__', '__doc__', '__file__', '__name__', '__package__', '__path__'])
         self.assertFalse(t7)
         from t7 import sub as subpar
         self.assertEqual(fixdir(dir(subpar)),

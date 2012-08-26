@@ -22,10 +22,7 @@ class UserStringTest(
         object = self.fixtype(object)
         # we don't fix the arguments, because UserString can't cope with it
         realresult = getattr(object, methodname)(*args)
-        self.assertEqual(
-            result,
-            realresult
-        )
+        self.assertEqual(result,realresult)
 
     def checkraises(self, exc, object, methodname, *args):
         object = self.fixtype(object)

@@ -149,8 +149,7 @@ class TestShutil(unittest.TestCase):
             if func is os.remove:
                 self.assertEqual(arg, self.childpath)
             else:
-                self.assertIs(func, os.listdir,
-                              "func must be either os.remove or os.listdir")
+                self.assertIs(func, os.listdir, "func must be either os.remove or os.listdir")
                 self.assertEqual(arg, TESTFN)
             self.assertTrue(issubclass(exc[0], OSError))
             self.errorState = 1

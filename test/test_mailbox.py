@@ -272,8 +272,7 @@ class TestMailbox(TestBase):
         # Get bytes representations of messages
         key0 = self._box.add(self._template % 0)
         key1 = self._box.add(_sample_message)
-        self.assertEqual(self._box.get_bytes(key0),
-            (self._template % 0).encode('ascii'))
+        self.assertEqual(self._box.get_bytes(key0),(self._template % 0).encode('ascii'))
         self.assertEqual(self._box.get_bytes(key1), _bytes_sample_message)
 
     def test_get_string(self):
@@ -292,8 +291,7 @@ class TestMailbox(TestBase):
             data0 = file.read()
         with self._box.get_file(key1) as file:
             data1 = file.read()
-        self.assertEqual(data0.decode('ascii').replace(os.linesep, '\n'),
-                         self._template % 0)
+        self.assertEqual(data0.decode('ascii').replace(os.linesep, '\n'),self._template % 0)
         self.assertEqual(data1.decode('ascii').replace(os.linesep, '\n'),
                          _sample_message)
 
@@ -396,8 +394,7 @@ class TestMailbox(TestBase):
     def test_set_item(self):
         # Modify messages using __setitem__()
         key0 = self._box.add(self._template % 'original 0')
-        self.assertEqual(self._box.get_string(key0),
-                         self._template % 'original 0')
+        self.assertEqual(self._box.get_string(key0),self._template % 'original 0')
         key1 = self._box.add(self._template % 'original 1')
         self.assertEqual(self._box.get_string(key1),
                          self._template % 'original 1')
@@ -474,8 +471,7 @@ class TestMailbox(TestBase):
         self._box.update({key0: self._template % 'changed 0',
                           key2: _sample_message})
         self.assertEqual(len(self._box), 3)
-        self.assertEqual(self._box.get_string(key0),
-                     self._template % 'changed 0')
+        self.assertEqual(self._box.get_string(key0),self._template % 'changed 0')
         self.assertEqual(self._box.get_string(key1),
                      self._template % 'original 1')
         self._check_sample(self._box[key2])

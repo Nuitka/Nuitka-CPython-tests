@@ -269,8 +269,7 @@ class TestFifo(unittest.TestCase):
 
 
 def test_main(verbose=None):
-    support.run_unittest(TestAsynchat, TestAsynchat_WithPoll,
-                              TestHelperFunctions, TestFifo)
+    support.run_unittest(TestAsynchat, TestAsynchat_WithPoll, TestHelperFunctions, TestFifo)
 
 if __name__ == "__main__":
     test_main(verbose=True)

@@ -662,7 +662,7 @@ class ForeignDTDTests(unittest.TestCase):
 
 
 def test_main():
-    run_unittest(SetAttributeTest,
+    cases = (SetAttributeTest,
                  ParseTest,
                  NamespaceSeparatorTest,
                  InterningTest,
@@ -674,6 +674,8 @@ def test_main():
                  MalformedInputTest,
                  ErrorMessageTest,
                  ForeignDTDTests)
+
+    run_unittest(*cases)
 
 if __name__ == "__main__":
     test_main()

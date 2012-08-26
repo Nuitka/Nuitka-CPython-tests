@@ -458,7 +458,7 @@ class ConsoleOutputTestCase(unittest.TestCase):
         self.assertEqual(stdout[:6], b'<?xml ')
 
 def test_main():
-    support.run_unittest(
+    cases = (
         OutputTestCase,
         CalendarTestCase,
         MondayTestCase,
@@ -468,6 +468,8 @@ def test_main():
         LeapdaysTestCase,
         ConsoleOutputTestCase
     )
+
+    support.run_unittest(*cases)
 
 
 if __name__ == "__main__":

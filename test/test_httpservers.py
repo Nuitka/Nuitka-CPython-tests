@@ -625,13 +625,9 @@ class SimpleHTTPRequestHandlerTestCase(unittest.TestCase):
 def test_main(verbose=None):
     cwd = os.getcwd()
     try:
-        support.run_unittest(
-            BaseHTTPRequestHandlerTestCase,
-            BaseHTTPServerTestCase,
-            SimpleHTTPServerTestCase,
-            CGIHTTPServerTestCase,
-            SimpleHTTPRequestHandlerTestCase,
-        )
+        # Nuitka: Issue#9 http://bugs.nuitka.net/issue9
+        # In tracebacks Nuitka uses start of call line, whereas CPython uses end of call line
+        support.run_unittest(BaseHTTPRequestHandlerTestCase, BaseHTTPServerTestCase,SimpleHTTPServerTestCase,CGIHTTPServerTestCase, SimpleHTTPRequestHandlerTestCase)
     finally:
         os.chdir(cwd)
 

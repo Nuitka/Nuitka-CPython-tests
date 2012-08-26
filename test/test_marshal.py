@@ -237,13 +237,9 @@ class BugsTestCase(unittest.TestCase):
 
 
 def test_main():
-    support.run_unittest(IntTestCase,
-                              FloatTestCase,
-                              StringTestCase,
-                              CodeTestCase,
-                              ContainerTestCase,
-                              ExceptionTestCase,
-                              BugsTestCase)
+    # Nuitka: Issue#9 http://bugs.nuitka.net/issue9
+    # In tracebacks Nuitka uses start of call line, whereas CPython uses end of call line
+    support.run_unittest(IntTestCase, FloatTestCase,StringTestCase,CodeTestCase,ContainerTestCase,ExceptionTestCase,BugsTestCase)
 
 if __name__ == "__main__":
     test_main()

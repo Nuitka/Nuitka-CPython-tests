@@ -1203,10 +1203,11 @@ class BytesSubclassTest(SubclassTest):
 
 
 def test_main():
-    test.support.run_unittest(
+    cases = (
         BytesTest, AssortedBytesTest, BytesAsStringTest,
         ByteArrayTest, ByteArrayAsStringTest, BytesSubclassTest,
         ByteArraySubclassTest, BytearrayPEP3137Test)
 
+    test.support.run_unittest( *case )
 if __name__ == "__main__":
     test_main()

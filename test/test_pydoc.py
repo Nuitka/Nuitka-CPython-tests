@@ -520,13 +520,15 @@ class TestHelper(unittest.TestCase):
 @reap_threads
 def test_main():
     try:
-        test.support.run_unittest(PydocDocTest,
+        cases = (PydocDocTest,
                                   PydocImportTest,
                                   TestDescriptions,
                                   PydocServerTest,
                                   PydocUrlHandlerTest,
                                   TestHelper,
                                   )
+
+        test.support.run_unittest(*cases)
     finally:
         reap_children()
 

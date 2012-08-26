@@ -233,10 +233,7 @@ class MemoryviewBinASCIITest(BinASCIITest):
 
 
 def test_main():
-    support.run_unittest(BinASCIITest,
-                         ArrayBinASCIITest,
-                         BytearrayBinASCIITest,
-                         MemoryviewBinASCIITest)
+    support.run_unittest(BinASCIITest,ArrayBinASCIITest,BytearrayBinASCIITest,MemoryviewBinASCIITest)
 
 if __name__ == "__main__":
     test_main()

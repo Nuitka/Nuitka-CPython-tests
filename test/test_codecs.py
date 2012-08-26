@@ -1733,7 +1733,7 @@ class TransformCodecTest(unittest.TestCase):
 
 
 def test_main():
-    support.run_unittest(
+    cases = (
         UTF32Test,
         UTF32LETest,
         UTF32BETest,
@@ -1761,6 +1761,8 @@ def test_main():
         BomTest,
         TransformCodecTest,
     )
+
+    support.run_unittest(*cases)
 
 
 if __name__ == "__main__":

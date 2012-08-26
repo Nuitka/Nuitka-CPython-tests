@@ -211,10 +211,7 @@ class CodecCallbackTest(unittest.TestCase):
                     raise TypeError("don't know how to handle %r" % exc)
                 return ("\x01", 1)
 
-            self.assertEqual(
-                b"\x00\x00\x00\x00\x00".decode("unicode-internal", "ignore"),
-                "\u0000"
-            )
+            self.assertEqual( b"\x00\x00\x00\x00\x00".decode("unicode-internal", "ignore"), "\u0000")
 
             self.assertEqual(
                 b"\x00\x00\x00\x00\x00".decode("unicode-internal", "replace"),
@@ -260,10 +257,7 @@ class CodecCallbackTest(unittest.TestCase):
             "\x00[<129>][<128>]"
         )
 
-        self.assertEqual(
-            b"\\u3042\u3xxx".decode("unicode-escape", "test.handler1"),
-            "\u3042[<92><117><51><120>]xx"
-        )
+        self.assertEqual( b"\\u3042\u3xxx".decode("unicode-escape", "test.handler1"), "\u3042[<92><117><51><120>]xx")
 
         self.assertEqual(
             b"\\u3042\u3xx".decode("unicode-escape", "test.handler1"),

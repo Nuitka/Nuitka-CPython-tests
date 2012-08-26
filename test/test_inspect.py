@@ -667,8 +667,7 @@ class TestGetcallargsFunctions(unittest.TestCase):
     def assertEqualCallArgs(self, func, call_params_string, locs=None):
         locs = dict(locs or {}, func=func)
         r1 = eval('func(%s)' % call_params_string, None, locs)
-        r2 = eval('inspect.getcallargs(func, %s)' % call_params_string, None,
-                  locs)
+        r2 = eval('inspect.getcallargs(func, %s)' % call_params_string, None, locs)
         self.assertEqual(r1, r2)
 
     def assertEqualException(self, func, call_param_string, locs=None):

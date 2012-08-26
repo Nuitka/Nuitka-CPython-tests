@@ -198,8 +198,7 @@ class ExceptionTests(unittest.TestCase):
             pass
         else:
             self.assertEqual(str(WindowsError(1001)), "1001")
-            self.assertEqual(str(WindowsError(1001, "message")),
-                             "[Error 1001] message")
+            self.assertEqual(str(WindowsError(1001, "message")), "[Error 1001] message")
             self.assertEqual(WindowsError(1001, "message").errno, 22)
             self.assertEqual(WindowsError(1001, "message").winerror, 1001)
 

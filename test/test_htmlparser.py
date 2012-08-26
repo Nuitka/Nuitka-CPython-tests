@@ -84,9 +84,7 @@ class TestCaseBase(unittest.TestCase):
         parser.close()
         events = parser.get_events()
         if events != expected_events:
-            self.fail("received events did not match expected events\n"
-                      "Expected:\n" + pprint.pformat(expected_events) +
-                      "\nReceived:\n" + pprint.pformat(events))
+            self.fail("received events did not match expected events\n" "Expected:\n" + pprint.pformat(expected_events) + "\nReceived:\n" + pprint.pformat(events))
 
     def _run_check_extra(self, source, events):
         self._run_check(source, events, EventCollectorExtra())
@@ -442,11 +440,7 @@ class HTMLParserTolerantTestCase(HTMLParserStrictTestCase):
         self._run_check(html, expected)
 
     def test_comma_between_attributes(self):
-        self._run_check('<form action="/xxx.php?a=1&amp;b=2&amp", '
-                        'method="post">', [
-                            ('starttag', 'form',
-                                [('action', '/xxx.php?a=1&b=2&amp'),
-                                 (',', None), ('method', 'post')])])
+        self._run_check('<form action="/xxx.php?a=1&amp;b=2&amp", ''method="post">', [('starttag', 'form',[('action', '/xxx.php?a=1&b=2&amp'), (',', None), ('method', 'post')])])
 
     def test_weird_chars_in_unquoted_attribute_values(self):
         self._run_check('<form action=bogus|&#()value>', [
@@ -724,8 +718,7 @@ class AttributesTolerantTestCase(AttributesStrictTestCase):
 
 
 def test_main():
-    support.run_unittest(HTMLParserStrictTestCase, HTMLParserTolerantTestCase,
-                         AttributesStrictTestCase, AttributesTolerantTestCase)
+    support.run_unittest(HTMLParserStrictTestCase, HTMLParserTolerantTestCase,AttributesStrictTestCase, AttributesTolerantTestCase)
 
 
 if __name__ == "__main__":

@@ -396,7 +396,7 @@ class TestAccept2YearBad(_TestAsctimeYear, _BaseYearTest):
 
 
 def test_main():
-    support.run_unittest(
+    cases = (
         TimeTestCase,
         TestLocale,
         TestAsctimeAccept2dYear,
@@ -406,6 +406,8 @@ def test_main():
         Test2dyearBool,
         Test4dyearBool,
         TestAccept2YearBad)
+
+    support.run_unittest(*cases)
 
 if __name__ == "__main__":
     test_main()
