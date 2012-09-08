@@ -46,17 +46,8 @@ os.environ[ "NUITKA_EXTRA_OPTIONS" ] = os.environ.get( "NUITKA_EXTRA_OPTIONS", "
 
 print( "Using concrete python", python_version )
 
-for filename in sorted( os.listdir( "test" ) ):
-    if not filename.endswith( ".py" ) or not filename.startswith( "test_" ):
-        continue
-
-    if filename == "test_support.py":
-        continue
-
-    path = "test/" + filename
-
-    if not active and start_at in ( filename, path ):
-        active = True
+def checkPath( filename, path ):
+    global active
 
     extra_flags = [ "silent", "exec_in_tmp", "remove_output", "ignore_warnings" ]
 
@@ -67,23 +58,39 @@ for filename in sorted( os.listdir( "test" ) ):
     elif filename in ( "test_fork1.py", "test_pyclbr.py", "test_scriptpackages.py", "test_uuid.py", "test_multiprocessing.py" ):
         # These will given the __import__ not resolved warning, but they ought to go away.
         extra_flags.append( "ignore_stderr" )
-    elif python_version < "2.7" and filename in ( "test_exceptions.py", "test_strop.py" ):
-        extra_flags.append( "ignore_stderr" )
-    elif python_version >= "2.7" and filename in ( "test_logging.py" ):
-        extra_flags.append( "ignore_stderr" )
 
-    if active:
-        result = subprocess.call(
-                "%s %s %s %s" % (
-                sys.executable,
-                os.path.join( "..", "..", "bin", "compare_with_cpython" ),
-                path,
-                " ".join( extra_flags )
-            ),
-            shell = True
-        )
+    result = subprocess.call(
+        "%s %s %s %s" % (
+            sys.executable,
+            os.path.join( "..", "..", "bin", "compare_with_cpython" ),
+            path,
+            " ".join( extra_flags )
+        ),
+        shell = True
+    )
 
-        if result != 0 and search_mode:
-            sys.exit( result )
-    else:
-        print( "Skipping", filename )
+    if result != 0 and search_mode:
+        sys.exit( result )
+
+def checkDir( directory ):
+    global active
+
+    for filename in sorted( os.listdir( directory ) ):
+        if not filename.endswith( ".py" ) or not filename.startswith( "test_" ):
+            continue
+
+        if filename == "test_support.py":
+            continue
+
+        path = os.path.join( directory, filename )
+
+        if not active and start_at in ( filename, path ):
+            active = True
+
+        if active:
+            checkPath( filename, path )
+        else:
+            print( "Skipping", path )
+
+checkDir( "test" )
+checkDir( "doctest_generated" )
