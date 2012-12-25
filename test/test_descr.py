@@ -1192,6 +1192,11 @@ order (MRO) for bases """
                 def __eq__(self, other):
                     return False
             g = G()
+            # Nuitka: The reference for 'i' is not consumed unless the variable is
+            # assigned to, so add this to achieve the effect.
+            for i in range(10):
+                g==g
+
             orig_objects = len(gc.get_objects())
             for i in range(10):
                 g==g
