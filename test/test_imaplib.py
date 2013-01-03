@@ -14,6 +14,9 @@ import calendar
 from test.support import reap_threads, verbose, transient_internet
 import unittest
 
+# Nuitka: Don't output run time stuff with changing names.
+verbose = False
+
 try:
     import ssl
 except ImportError:
