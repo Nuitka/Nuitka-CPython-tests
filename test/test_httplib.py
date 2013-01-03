@@ -505,7 +505,8 @@ class HTTPSTest(TestCase):
             with self.assertRaises(ssl.SSLError):
                 h.request('GET', '/')
 
-    def test_local_good_hostname(self):
+    # Nuitka: Disabled, because it outputs timestamps that change.
+    def notest_local_good_hostname(self):
         # The (valid) cert validates the HTTP hostname
         import ssl
         from test.ssl_servers import make_https_server
@@ -518,7 +519,8 @@ class HTTPSTest(TestCase):
         resp = h.getresponse()
         self.assertEqual(resp.status, 404)
 
-    def test_local_bad_hostname(self):
+    # Nuitka: Disabled, because it outputs timestamps that change.
+    def notest_local_bad_hostname(self):
         # The (valid) cert doesn't validate the HTTP hostname
         import ssl
         from test.ssl_servers import make_https_server
