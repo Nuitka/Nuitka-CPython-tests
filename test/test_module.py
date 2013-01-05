@@ -55,8 +55,10 @@ class ModuleTests(unittest.TestCase):
               {"__name__": "foo", "__doc__": "foodoc", "bar": 42})
         self.assertTrue(foo.__dict__ is d)
 
+    # Nuitka: Due to differences in temporary variable handling, the issue doesn't show
+    # with Nuitka, so do not expect failure.
     @unittest.expectedFailure
-    def test_dont_clear_dict(self):
+    def notest_dont_clear_dict(self):
         # See issue 7140.
         def f():
             foo = ModuleType("foo")
