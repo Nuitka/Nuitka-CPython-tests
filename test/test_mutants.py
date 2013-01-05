@@ -2,6 +2,9 @@ from test.support import verbose, TESTFN
 import random
 import os
 
+# Nuitka: Can't really be random, or else we can't compare outputs.
+random.seed( 27272 )
+
 # From SF bug #422121:  Insecurities in dict comparison.
 
 # Safety of code doing comparisons has been an historical Python weak spot.
