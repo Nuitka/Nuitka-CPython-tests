@@ -19,7 +19,8 @@ def dis_single(line):
 
 class TestTranforms(unittest.TestCase):
 
-    def test_unot(self):
+    # Nuitka: There is no bytecode to check
+    def notest_unot(self):
         # UNARY_NOT POP_JUMP_IF_FALSE  -->  POP_JUMP_IF_TRUE'
         def unot(x):
             if not x == 2:
@@ -40,7 +41,8 @@ class TestTranforms(unittest.TestCase):
             asm = dis_single(line)
             self.assertIn(elem, asm)
 
-    def test_global_as_constant(self):
+    # Nuitka: There is no bytecode to check
+    def notest_global_as_constant(self):
         # LOAD_GLOBAL None/True/False  -->  LOAD_CONST None/True/False
         def f(x):
             None
@@ -64,7 +66,8 @@ class TestTranforms(unittest.TestCase):
         self.assertIn('LOAD_CONST', disassemble(f))
         self.assertNotIn('LOAD_GLOBAL', disassemble(f))
 
-    def test_while_one(self):
+    # Nuitka: There is no bytecode to check
+    def notest_while_one(self):
         # Skip over:  LOAD_CONST trueconst  POP_JUMP_IF_FALSE xx
         def f():
             while 1:
@@ -232,7 +235,8 @@ class TestTranforms(unittest.TestCase):
             self.assertIn(elem, asm, asm)
             self.assertIn('UNARY_', asm)
 
-    def test_elim_extra_return(self):
+    # Nuitka: There is no bytecode to check
+    def notest_elim_extra_return(self):
         # RETURN LOAD_CONST None RETURN  -->  RETURN
         def f(x):
             return x
@@ -241,7 +245,8 @@ class TestTranforms(unittest.TestCase):
         self.assertNotIn('(None)', asm)
         self.assertEqual(asm.split().count('RETURN_VALUE'), 1)
 
-    def test_elim_jump_to_return(self):
+    # Nuitka: There is no bytecode to check
+    def notest_elim_jump_to_return(self):
         # JUMP_FORWARD to RETURN -->  RETURN
         def f(cond, true_value, false_value):
             return true_value if cond else false_value
@@ -250,7 +255,8 @@ class TestTranforms(unittest.TestCase):
         self.assertNotIn('JUMP_ABSOLUTE', asm)
         self.assertEqual(asm.split().count('RETURN_VALUE'), 2)
 
-    def test_elim_jump_after_return1(self):
+    # Nuitka: There is no bytecode to check
+    def notest_elim_jump_after_return1(self):
         # Eliminate dead code: jumps immediately after returns can't be reached
         def f(cond1, cond2):
             if cond1: return 1
@@ -266,7 +272,8 @@ class TestTranforms(unittest.TestCase):
         self.assertNotIn('JUMP_ABSOLUTE', asm)
         self.assertEqual(asm.split().count('RETURN_VALUE'), 6)
 
-    def test_elim_jump_after_return2(self):
+    # Nuitka: There is no bytecode to check
+    def notest_elim_jump_after_return2(self):
         # Eliminate dead code: jumps immediately after returns can't be reached
         def f(cond1, cond2):
             while 1:
@@ -277,7 +284,8 @@ class TestTranforms(unittest.TestCase):
         self.assertEqual(asm.split().count('JUMP_ABSOLUTE'), 1)
         self.assertEqual(asm.split().count('RETURN_VALUE'), 2)
 
-    def test_make_function_doesnt_bail(self):
+    # Nuitka: There is no bytecode to check
+    def notest_make_function_doesnt_bail(self):
         def f():
             def g()->1+1:
                 pass
