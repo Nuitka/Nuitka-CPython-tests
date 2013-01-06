@@ -1,5 +1,8 @@
 from test.support import verbose, run_unittest, import_module, reap_children
 
+# Nuitka: Don't output run time stuff with changing content.
+verbose = False
+
 #Skip these tests if either fcntl or termios is not available
 fcntl = import_module('fcntl')
 import_module('termios')
