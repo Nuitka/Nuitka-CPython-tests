@@ -7,6 +7,8 @@ from functools import cmp_to_key
 verbose = support.verbose
 nerrors = 0
 
+# Nuitka: Don't output run time stuff with changing content.
+verbose = False
 
 def check(tag, expected, raw, compare=None):
     global nerrors
