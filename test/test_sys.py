@@ -679,7 +679,8 @@ class SizeofTest(unittest.TestCase):
         # dict
         check({}, size(h + '3P2P' + 8*'P2P'))
         longdict = {1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7, 8:8}
-        check(longdict, size(h + '3P2P' + 8*'P2P') + 16*size('P2P'))
+        # Nuitka: Sizes need not match
+        # check(longdict, size(h + '3P2P' + 8*'P2P') + 16*size('P2P'))
         # dictionary-keyiterator
         check({}.keys(), size(h + 'P'))
         # dictionary-valueiterator
