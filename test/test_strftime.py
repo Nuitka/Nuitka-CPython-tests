@@ -9,6 +9,8 @@ from test import support
 import time
 import unittest
 
+# Nuitka: Don't output run time stuff with changing content.
+test_support.verbose = False
 
 # helper functions
 def fixasctime(s):
