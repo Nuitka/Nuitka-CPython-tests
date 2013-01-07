@@ -724,7 +724,8 @@ class SizeofTest(unittest.TestCase):
         check(x, size(vh + '12P3i' + CO_MAXBLOCKS*'3i' + 'P' + extras*'P'))
         # function
         def func(): pass
-        check(func, size(h + '11P'))
+        # Nuitka: Our compiled function has different size
+        # check(func, size(h + '11P'))
         class c():
             @staticmethod
             def foo():
@@ -738,7 +739,8 @@ class SizeofTest(unittest.TestCase):
             check(bar, size(h + 'P'))
         # generator
         def get_gen(): yield 1
-        check(get_gen(), size(h + 'Pi2P'))
+        # Nuitka: Our compiled generator has different size
+        # check(get_gen(), size(h + 'Pi2P'))
         # iterator
         check(iter('abc'), size(h + 'lP'))
         # callable-iterator
