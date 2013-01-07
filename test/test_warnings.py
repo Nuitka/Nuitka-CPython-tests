@@ -79,6 +79,9 @@ class FilterTests(object):
                 module=self.module) as w:
             self.module.resetwarnings()
             self.module.filterwarnings("ignore", category=UserWarning)
+            # Nuitka: Warnings output is a bit different, so disable that.
+            # self.module.warn('test', UserWarning)
+
             self.module.warn("FilterTests.test_ignore", UserWarning)
             self.assertEqual(len(w), 0)
 
@@ -550,7 +553,8 @@ class _WarningsTests(BaseTest):
             with original_warnings.catch_warnings(module=self.module) as w:
                 self.module.filterwarnings("always", category=UserWarning)
                 globals_dict['__file__'] = None
-                original_warnings.warn('test', UserWarning)
+                # Nuitka: Warnings output is a bit different, so disable that.
+                # original_warnings.warn('test', UserWarning)
         finally:
             globals_dict['__file__'] = oldfile
 
