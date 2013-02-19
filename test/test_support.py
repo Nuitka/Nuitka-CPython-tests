@@ -212,6 +212,11 @@ def is_resource_enabled(resource):
     if resource == "audio":
         return False
 
+    # Nuitka: No 'network' please, it may toggle during test and is
+    # wasteful anyway.
+    if resource == "network":
+        return False
+
     return use_resources is not None and resource in use_resources
 
 def requires(resource, msg=None):
@@ -223,6 +228,9 @@ def requires(resource, msg=None):
     if resource == "audio":
         raise ResourceDenied(msg)
 
+    # Nuitka: No 'network' please, it's not nice
+    if resource == "network":
+        raise ResourceDenied(msg)
 
     # see if the caller's module is __main__ - if so, treat as if
     # the resource was set
