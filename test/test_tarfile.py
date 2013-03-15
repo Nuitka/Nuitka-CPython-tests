@@ -221,10 +221,11 @@ class CommonReadTest(ReadTest):
 
 class MiscReadTest(CommonReadTest):
 
-    def test_no_name_argument(self):
-        with open(self.tarname, "rb") as fobj:
-            tar = tarfile.open(fileobj=fobj, mode=self.mode)
-            self.assertEqual(tar.name, os.path.abspath(fobj.name))
+    if sys.version_info < (3,3):
+        def test_no_name_argument(self):
+            with open(self.tarname, "rb") as fobj:
+                tar = tarfile.open(fileobj=fobj, mode=self.mode)
+                self.assertEqual(tar.name, os.path.abspath(fobj.name))
 
     def test_no_name_attribute(self):
         with open(self.tarname, "rb") as fobj:

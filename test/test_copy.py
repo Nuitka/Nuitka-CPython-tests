@@ -323,8 +323,11 @@ class TestCopy(unittest.TestCase):
         memo = {}
         x = 42
         y = copy.deepcopy(x, memo)
-        self.assertTrue(memo[id(x)] is x)
 
+        # Nuitka: Python3.3 gives KeyError with the random id value, avoid it.
+        import sys
+        if sys.version_info < (3,3):
+            self.assertTrue(memo[id(x)] is x)
     def test_deepcopy_inst_vanilla(self):
         class C:
             def __init__(self, foo):

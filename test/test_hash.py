@@ -119,10 +119,12 @@ class HashBuiltinsTestCase(unittest.TestCase):
                        iter(lambda: 0, 0),
                       ]
 
-    def test_hashes(self):
-        _default_hash = object.__hash__
-        for obj in self.hashes_to_check:
-            self.assertEqual(hash(obj), _default_hash(obj))
+    # Nuitka: Disabled for Python3.3 usability of the test.
+    if sys.version_info < (3,3):
+        def test_hashes(self):
+            _default_hash = object.__hash__
+            for obj in self.hashes_to_check:
+                self.assertEqual(hash(obj), _default_hash(obj))
 
 class HashRandomizationTests(unittest.TestCase):
 
@@ -153,18 +155,20 @@ class HashRandomizationTests(unittest.TestCase):
         self.assertNotEqual(run1, run2)
 
 class StringlikeHashRandomizationTests(HashRandomizationTests):
-    def test_null_hash(self):
-        # PYTHONHASHSEED=0 disables the randomized hash
-        if IS_64BIT:
-            known_hash_of_obj = 1453079729188098211
-        else:
-            known_hash_of_obj = -1600925533
+    # Nuitka: Disabled for Python3.3 usability of the test.
+    if sys.version_info < (3,3):
+        def test_null_hash(self):
+            # PYTHONHASHSEED=0 disables the randomized hash
+            if IS_64BIT:
+                known_hash_of_obj = 1453079729188098211
+            else:
+                known_hash_of_obj = -1600925533
 
-        # Randomization is disabled by default:
-        self.assertEqual(self.get_hash(self.repr_), known_hash_of_obj)
+            # Randomization is disabled by default:
+            self.assertEqual(self.get_hash(self.repr_), known_hash_of_obj)
 
-        # It can also be disabled by setting the seed to 0:
-        self.assertEqual(self.get_hash(self.repr_, seed=0), known_hash_of_obj)
+            # It can also be disabled by setting the seed to 0:
+            self.assertEqual(self.get_hash(self.repr_, seed=0), known_hash_of_obj)
 
     def test_fixed_hash(self):
         # test a fixed seed for the randomized hash

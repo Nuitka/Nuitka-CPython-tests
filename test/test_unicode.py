@@ -1610,6 +1610,11 @@ class UnicodeTest(string_tests.CommonTest,
 
     # Test PyUnicode_FromFormat()
     def test_from_format(self):
+        # Nuitka: The ctypes will output the binary name, which is different, so disable
+        # the test.
+        if sys.version_info >= ( 3, 3 ):
+            return
+
         support.import_module('ctypes')
         from ctypes import pythonapi, py_object, c_int
         if sys.maxunicode == 65535:

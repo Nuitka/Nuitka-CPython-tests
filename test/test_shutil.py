@@ -23,6 +23,8 @@ import warnings
 from test import support
 from test.support import TESTFN, check_warnings, captured_stdout
 
+support.verbose = 0
+
 try:
     import bz2
     BZ2_SUPPORTED = True
