@@ -51,6 +51,9 @@ def checkPath( filename, path ):
 
     extra_flags = [ "silent", "exec_in_tmp", "remove_output", "ignore_warnings" ]
 
+    if path == "test" + os.path.sep + "test_shelve.py":
+        extra_flags.append( "ignore_stderr" )
+
     result = subprocess.call(
         "%s %s %s %s" % (
             sys.executable,
