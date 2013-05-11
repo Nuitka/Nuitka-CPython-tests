@@ -55,6 +55,9 @@ def checkPath( filename, path ):
         extra_flags.append( "ignore_stderr" )
     elif python_version >= b"2.7" and filename in ( "test_xml_etree.py", "test_xml_etree_c.py" ):
         extra_flags.append( "ignore_stderr" )
+    elif os.name == "nt" and filename in ( "test_unicode.py", "test_unicode_file.py" ):
+        extra_flags.append( "ignore_stderr" )
+
 
     result = subprocess.call(
         "%s %s %s %s" % (
