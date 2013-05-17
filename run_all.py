@@ -51,7 +51,7 @@ def checkPath( filename, path ):
 
     extra_flags = [ "silent", "exec_in_tmp", "remove_output", "ignore_warnings" ]
 
-    if python_version < b"2.7" and filename == "test_strop.py":
+    if python_version < b"2.7" and filename in ( "test_strop.py", "test_cpickle.py" ):
         extra_flags.append( "ignore_stderr" )
     elif python_version >= b"2.7" and filename in ( "test_xml_etree.py", "test_xml_etree_c.py" ):
         extra_flags.append( "ignore_stderr" )
