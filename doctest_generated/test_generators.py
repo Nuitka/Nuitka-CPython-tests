@@ -636,19 +636,8 @@ except Exception, e:
 
 
 try:
-    sys.stderr.getvalue().startswith(
-except Exception, e:
-    print "Occured", type(e), e
-
-
-try:
-        "Exception RuntimeError: 'generator ignored GeneratorExit' in "
-except Exception, e:
-    print "Occured", type(e), e
-
-
-try:
-    )
+    print 'Line 286'
+    print sys.stderr.getvalue().startswith("Exception RuntimeError: 'generator ignored GeneratorExit' in ")
 except Exception, e:
     print "Occured", type(e), e
 
@@ -675,14 +664,14 @@ except Exception, e:
 
 
 try:
-    print 'Line 301'
+    print 'Line 299'
     print g.next()
 except Exception, e:
     print "Occured", type(e), e
 
 
 try:
-    print 'Line 302'
+    print 'Line 300'
     print g.close()
 except Exception, e:
     print "Occured", type(e), e
@@ -695,7 +684,7 @@ except Exception, e:
 
 
 try:
-    print 'Line 313'
+    print 'Line 311'
     print type(f())
 except Exception, e:
     print "Occured", type(e), e
@@ -708,7 +697,7 @@ except Exception, e:
 
 
 try:
-    print 'Line 318'
+    print 'Line 316'
     print type(f())
 except Exception, e:
     print "Occured", type(e), e
@@ -721,14 +710,14 @@ except Exception, e:
 
 
 try:
-    print 'Line 323'
+    print 'Line 321'
     print type(f())
 except Exception, e:
     print "Occured", type(e), e
 
 
 try:
-    print 'Line 328'
+    print 'Line 326'
     print type(f())
 except Exception, e:
     print "Occured", type(e), e
@@ -753,35 +742,35 @@ except Exception, e:
 
 
 try:
-    print 'Line 335'
+    print 'Line 333'
     print type(g)
 except Exception, e:
     print "Occured", type(e), e
 
 
 try:
-    print 'Line 338'
+    print 'Line 336'
     print g.send(None)
 except Exception, e:
     print "Occured", type(e), e
 
 
 try:
-    print 'Line 341'
+    print 'Line 339'
     print data
 except Exception, e:
     print "Occured", type(e), e
 
 
 try:
-    print 'Line 344'
+    print 'Line 342'
     print g.send(0)
 except Exception, e:
     print "Occured", type(e), e
 
 
 try:
-    print 'Line 347'
+    print 'Line 345'
     print data
 except Exception, e:
     print "Occured", type(e), e
@@ -795,7 +784,7 @@ except Exception, e:
 
 
 try:
-    print 'Line 352'
+    print 'Line 350'
     print data
 except Exception, e:
     print "Occured", type(e), e

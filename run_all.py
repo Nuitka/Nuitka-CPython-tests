@@ -52,12 +52,20 @@ def checkPath( filename, path ):
     extra_flags = [ "silent", "exec_in_tmp", "remove_output", "ignore_warnings" ]
 
     if filename in ( "test_import.py", "test_importhooks.py", "test_pkgimport.py", "test_py3kwarn.py", "test_runpy.py", "test_zipimport.py" ):
-        # These will given the __import__ not resolved warning and there won't be anything
-        # to ever change that.
+        # These will given the __import__ not resolved warning and there won't
+        # be anything to ever change that.
         extra_flags.append( "ignore_stderr" )
     elif filename in ( "test_fork1.py", "test_pyclbr.py", "test_scriptpackages.py", "test_uuid.py", "test_multiprocessing.py" ):
-        # These will given the __import__ not resolved warning, but they ought to go away.
+        # These will given the __import__ not resolved warning, but they ought
+        # to go away.
         extra_flags.append( "ignore_stderr" )
+
+    if "doctest_generated" in path:
+        if python_version < "3":
+            extra_flags.append( "expect_success" )
+
+        if filename == "test_generators.py":
+            extra_flags.append( "ignore_stderr" )
 
     result = subprocess.call(
         "%s %s %s %s" % (

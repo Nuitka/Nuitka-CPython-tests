@@ -58,26 +58,20 @@ except Exception, e:
 
 
 try:
-    optlist, args = getopt.getopt(args, 'x', [
+    optlist, args = getopt.getopt(args, 'x', [ 'condition=', 'output-file=', 'testing'])
 except Exception, e:
     print "Occured", type(e), e
 
 
 try:
-        'condition=', 'output-file=', 'testing'])
-except Exception, e:
-    print "Occured", type(e), e
-
-
-try:
-    print 'Line 28'
+    print 'Line 27'
     print optlist
 except Exception, e:
     print "Occured", type(e), e
 
 
 try:
-    print 'Line 31'
+    print 'Line 30'
     print args
 except Exception, e:
     print "Occured", type(e), e
