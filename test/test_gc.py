@@ -202,7 +202,9 @@ class GCTests(unittest.TestCase):
             frame = sys._getframe()
         gc.collect()
         f()
-        self.assertEqual(gc.collect(), 1)
+        # Nuitka: We keep the frame around in case a function gets called again, so
+        # there is nothing to collect here.
+        # self.assertEqual(gc.collect(), 1)
 
     def test_saveall(self):
         # Verify that cyclic garbage like lists show up in gc.garbage if the

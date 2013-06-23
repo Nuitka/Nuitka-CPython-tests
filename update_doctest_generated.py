@@ -114,7 +114,7 @@ for test in test.test_descrtut.__test__.values():
 open( "doctest_generated/test_descrtut.py", "w" ).write( script )
 
 import test.test_extcall
-script = "import test.test_support as test_support\n" + convertToPython( test.test_extcall.__doc__ )
+script = "import test.support as support\n" + convertToPython( test.test_extcall.__doc__ )
 open( "doctest_generated/test_extcall.py", "w" ).write( script )
 
 import test.test_generators

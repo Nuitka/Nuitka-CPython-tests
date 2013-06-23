@@ -16,6 +16,8 @@ import os
 from test.script_helper import assert_python_ok, assert_python_failure
 import subprocess
 
+verbose = False
+
 from test import lock_tests
 
 # A trivial mutable counter.

@@ -9,6 +9,7 @@ from test import support
 import time
 import unittest
 
+support.verbose = False
 
 # helper functions
 def fixasctime(s):

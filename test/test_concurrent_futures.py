@@ -21,6 +21,7 @@ from concurrent.futures._base import (
     PENDING, RUNNING, CANCELLED, CANCELLED_AND_NOTIFIED, FINISHED, Future)
 from concurrent.futures.process import BrokenProcessPool
 
+support.verbose = False
 
 def create_future(state=PENDING, exception=None, result=None):
     f = Future()

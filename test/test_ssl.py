@@ -20,6 +20,8 @@ import functools
 
 ssl = support.import_module("ssl")
 
+support.verbose = False
+
 PROTOCOLS = [
     ssl.PROTOCOL_SSLv3,
     ssl.PROTOCOL_SSLv23, ssl.PROTOCOL_TLSv1

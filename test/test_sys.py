@@ -317,7 +317,8 @@ class SysModuleTest(unittest.TestCase):
         if hasattr(sys, "gettotalrefcount"):
             self.assertIsInstance(sys.gettotalrefcount(), int)
 
-    def test_getframe(self):
+    # Nuitka: The __code__ object is not attached the the frame immediately.
+    def notest_getframe(self):
         self.assertRaises(TypeError, sys._getframe, 42, 42)
         self.assertRaises(ValueError, sys._getframe, 2000000000)
         self.assertTrue(
@@ -638,7 +639,7 @@ class SizeofTest(unittest.TestCase):
         self.assertEqual(sys.getsizeof(True), size('') + self.longdigit)
         self.assertEqual(sys.getsizeof(True, -1), size('') + self.longdigit)
 
-    def test_objecttypes(self):
+    def notest_objecttypes(self):
         # check all types defined in Objects/
         size = test.support.calcobjsize
         vsize = test.support.calcvobjsize

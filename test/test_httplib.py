@@ -10,6 +10,8 @@ TestCase = unittest.TestCase
 
 from test import support
 
+support.verbose = False
+
 here = os.path.dirname(__file__)
 # Self-signed cert file for 'localhost'
 CERT_localhost = os.path.join(here, 'keycert.pem')

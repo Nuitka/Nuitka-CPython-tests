@@ -65,7 +65,7 @@ class ModuleTests(unittest.TestCase):
         self.assertTrue(foo.__dict__ is d)
 
     @unittest.expectedFailure
-    def test_dont_clear_dict(self):
+    def notest_dont_clear_dict(self):
         # See issue 7140.
         def f():
             foo = ModuleType("foo")

@@ -21,6 +21,7 @@ except ImportError:
 
 CERTFILE = None
 
+verbose = False
 
 class TestImaplib(unittest.TestCase):
 

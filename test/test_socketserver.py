@@ -21,6 +21,8 @@ try:
 except ImportError:
     threading = None
 
+verbose = False
+
 test.support.requires("network")
 
 TEST_STR = b"hello world\n"

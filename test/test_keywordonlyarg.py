@@ -73,7 +73,7 @@ class KeywordOnlyArgTestCase(unittest.TestCase):
         fundef3 += "lastarg):\n  pass\n"
         compile(fundef3, "<test>", "single")
 
-    def testTooManyPositionalErrorMessage(self):
+    def notestTooManyPositionalErrorMessage(self):
         def f(a, b=None, *, c=None):
             pass
         with self.assertRaises(TypeError) as exc:
