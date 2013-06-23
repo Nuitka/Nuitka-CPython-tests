@@ -627,19 +627,7 @@ except Exception as e:
 
 
 try:
-    sys.stderr.getvalue().startswith(
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-        "Exception RuntimeError: 'generator ignored GeneratorExit' in "
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    )
+    sys.stderr.getvalue().startswith("Exception RuntimeError: 'generator ignored GeneratorExit' in ")
 except Exception as e:
     print( "Occured", type(e), e )
 

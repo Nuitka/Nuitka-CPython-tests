@@ -1,7 +1,7 @@
 #!/usr/bin/env python3.2
 
-# This script should be run each time the CPython test suite is updated. It extracts the
-# doctests from the objects specified manually.
+# This script should be run each time the CPython test suite is updated. It
+# extracts the doctests from the objects specified manually.
 
 import doctest, os, ast
 
@@ -122,7 +122,7 @@ script = convertToPython( test.test_dictcomps.doctests )
 open( "doctest_generated/test_dictcomps.py", "w" ).write( script )
 
 import test.test_extcall
-script = "import test.test_support as test_support\n" + convertToPython( test.test_extcall.__doc__ )
+script = "import test.support as support\n" + convertToPython( test.test_extcall.__doc__ )
 open( "doctest_generated/test_extcall.py", "w" ).write( script )
 
 import test.test_generators

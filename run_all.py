@@ -54,6 +54,19 @@ def checkPath( filename, path ):
     if path == "test" + os.path.sep + "test_shelve.py":
         extra_flags.append( "ignore_stderr" )
 
+    if python_version < b"3" and \
+       filename in ( "test_locale.py", "test_nntplib.py", \
+                     "test_sys_settrace.py", "test_warnings.py",
+                     "test_xml_etree.py" ):
+        extra_flags.append( "ignore_stderr" )
+
+    if "doctest_generated" in path:
+        if python_version >= b"3":
+            extra_flags.append( "expect_success" )
+
+        if filename == "test_generators.py":
+            extra_flags.append( "ignore_stderr" )
+
     result = subprocess.call(
         "%s %s %s %s" % (
             sys.executable,

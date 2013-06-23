@@ -1,4 +1,4 @@
-import test.test_support as test_support
+import test.support as support
 
 try:
     from collections import UserList
