@@ -58,6 +58,11 @@ def checkPath( filename, path ):
     elif os.name == "nt" and filename in ( "test_unicode.py", "test_unicode_file.py" ):
         extra_flags.append( "ignore_stderr" )
 
+    if "doctest_generated" in path:
+       extra_flags.append( "expect_success" )
+
+       if filename == "test_generators.py":
+           extra_flags.append( "ignore_stderr" )
 
     result = subprocess.call(
         "%s %s %s %s" % (

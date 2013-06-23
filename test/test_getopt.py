@@ -159,8 +159,7 @@ class GetoptTests(unittest.TestCase):
         >>> args = s.split()
         >>> args
         ['--condition=foo', '--testing', '--output-file', 'abc.def', '-x', 'a1', 'a2']
-        >>> optlist, args = getopt.getopt(args, 'x', [
-        ...     'condition=', 'output-file=', 'testing'])
+        >>> optlist, args = getopt.getopt(args, 'x', [ 'condition=', 'output-file=', 'testing'])
         >>> optlist
         [('--condition', 'foo'), ('--testing', ''), ('--output-file', 'abc.def'), ('-x', '')]
         >>> args
