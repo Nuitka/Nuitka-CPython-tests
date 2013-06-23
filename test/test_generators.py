@@ -1729,9 +1729,7 @@ Our ill-behaved code should be invoked during GC:
 >>> g = f()
 >>> next(g)
 >>> del g
->>> sys.stderr.getvalue().startswith(
-...     "Exception RuntimeError: 'generator ignored GeneratorExit' in "
-... )
+>>> sys.stderr.getvalue().startswith("Exception RuntimeError: 'generator ignored GeneratorExit' in ")
 True
 >>> sys.stderr = old
 
