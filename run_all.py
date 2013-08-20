@@ -59,6 +59,10 @@ def checkPath( filename, path ):
         # These will given the __import__ not resolved warning, but they ought
         # to go away.
         extra_flags.append( "ignore_stderr" )
+    elif filename in ( "test_unicode_file.py" ):
+        # Under Windows, stderr shows some Python warning here.
+        extra_flags.append( "ignore_stderr" )
+
 
     if "doctest_generated" in path:
         if python_version < "3":
