@@ -167,7 +167,7 @@ class TestEPoll(unittest.TestCase):
         expected.sort()
 
         self.assertEqual(events, expected)
-        self.assertFalse(then - now > 0.01, then - now)
+        self.assertFalse(then - now > 0.1, then - now)
 
         now = time.time()
         events = ep.poll(timeout=2.1, maxevents=4)
