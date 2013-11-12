@@ -294,6 +294,10 @@ def requires(resource, msg=None):
     """
     if resource == 'gui' and not _is_gui_available():
         raise unittest.SkipTest("Cannot use the 'gui' resource")
+
+    if resource == "network":
+        raise unittest.SkipTest("Network access forbidden.")
+
     # see if the caller's module is __main__ - if so, treat as if
     # the resource was set
     if sys._getframe(1).f_globals.get("__name__") == "__main__":
