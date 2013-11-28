@@ -41,35 +41,53 @@ version_output = check_output(
 
 python_version = version_output.split()[1]
 
-os.environ[ "PYTHONPATH" ] = os.getcwd()
-os.environ[ "NUITKA_EXTRA_OPTIONS" ] = os.environ.get( "NUITKA_EXTRA_OPTIONS", "" ) + " --execute-with-pythonpath"
+os.environ[ "NUITKA_EXTRA_OPTIONS" ] = \
+  os.environ.get( "NUITKA_EXTRA_OPTIONS", "" ) + \
+  " --recurse-none"
 
 print( "Using concrete python", python_version )
 
 def checkPath( filename, path ):
     global active
 
-    extra_flags = [ "silent", "exec_in_tmp", "remove_output", "ignore_warnings" ]
+    extra_flags = [
+        "silent",
+        "remove_output",
+        # Import test_support which won't be included and potentially others.
+        "binary_python_path",
+        # Ignore warnings about missing imports
+        "ignore_warnings",
+    ]
 
-    if python_version < b"2.7" and filename in ( "test_strop.py", "test_cpickle.py" ):
-        extra_flags.append( "ignore_stderr" )
-    elif python_version >= b"2.7" and filename in ( "test_xml_etree.py", "test_xml_etree_c.py" ):
-        extra_flags.append( "ignore_stderr" )
-    elif os.name == "nt" and filename in ( "test_unicode.py", "test_unicode_file.py" ):
-        extra_flags.append( "ignore_stderr" )
+    if python_version < b"2.7" and \
+       filename in ("test_strop.py", "test_cpickle.py"):
+        extra_flags.append("ignore_stderr")
+    elif python_version >= b"2.7" and \
+         filename in ("test_xml_etree.py", "test_xml_etree_c.py",
+                      "test_zipfile.py"):
+        extra_flags.append("ignore_stderr")
+    elif os.name == "nt" and \
+         filename in ("test_unicode.py", "test_unicode_file.py"):
+        extra_flags.append("ignore_stderr")
 
-    if "doctest_generated" in path:
-       extra_flags.append( "expect_success" )
+    # This crashes CPython2.7.exe on Windows, so avoid it.
+    if os.name == "nt" and \
+       python_version >= b"2.7" and \
+       filename == "test_time.py":
+        return
+
+    if "doctest_generated" in path and python_version < b"3":
+       extra_flags.append("expect_success")
 
        if filename == "test_generators.py":
-           extra_flags.append( "ignore_stderr" )
+           extra_flags.append("ignore_stderr")
 
     result = subprocess.call(
         "%s %s %s %s" % (
             sys.executable,
-            os.path.join( "..", "..", "bin", "compare_with_cpython" ),
+            os.path.join("..", "..", "bin", "compare_with_cpython"),
             path,
-            " ".join( extra_flags )
+            " ".join(extra_flags)
         ),
         shell = True
     )
@@ -81,7 +99,7 @@ def checkDir( directory ):
     global active
 
     for filename in sorted( os.listdir( directory ) ):
-        if not filename.endswith( ".py" ) or not filename.startswith( "test_" ):
+        if not filename.endswith(".py") or not filename.startswith("test_"):
             continue
 
         if filename == "test_support.py":
@@ -89,13 +107,13 @@ def checkDir( directory ):
 
         path = os.path.join( directory, filename )
 
-        if not active and start_at in ( filename, path ):
+        if not active and start_at in (filename, path):
             active = True
 
         if active:
             checkPath( filename, path )
         else:
-            print( "Skipping", path )
+            print("Skipping", path)
 
-checkDir( "test" )
-checkDir( "doctest_generated" )
+checkDir("test")
+checkDir("doctest_generated")
