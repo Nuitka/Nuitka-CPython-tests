@@ -41,15 +41,23 @@ version_output = check_output(
 
 python_version = version_output.split()[1]
 
-os.environ[ "PYTHONPATH" ] = os.getcwd()
-os.environ[ "NUITKA_EXTRA_OPTIONS" ] = os.environ.get( "NUITKA_EXTRA_OPTIONS", "" ) + " --execute-with-pythonpath --recurse-none"
+os.environ[ "NUITKA_EXTRA_OPTIONS" ] = \
+  os.environ.get( "NUITKA_EXTRA_OPTIONS", "" ) + \
+  " --recurse-none"
 
 print( "Using concrete python", python_version )
 
 def checkPath( filename, path ):
     global active
 
-    extra_flags = [ "silent", "exec_in_tmp", "remove_output", "ignore_warnings" ]
+    extra_flags = [
+        "silent",
+        "remove_output",
+        # Import test_support which won't be included and potentially others.
+        "binary_python_path",
+        # Ignore warnings about missing imports
+        "ignore_warnings",
+    ]
 
     if path == "test" + os.path.sep + "test_shelve.py":
         extra_flags.append( "ignore_stderr" )
