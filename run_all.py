@@ -41,15 +41,23 @@ version_output = check_output(
 
 python_version = version_output.split()[1]
 
-os.environ[ "PYTHONPATH" ] = os.getcwd()
-os.environ[ "NUITKA_EXTRA_OPTIONS" ] = os.environ.get( "NUITKA_EXTRA_OPTIONS", "" ) + " --execute-with-pythonpath"
+os.environ[ "NUITKA_EXTRA_OPTIONS" ] = \
+  os.environ.get( "NUITKA_EXTRA_OPTIONS", "" ) + \
+  " --recurse-none"
 
 print( "Using concrete python", python_version )
 
 def checkPath( filename, path ):
     global active
 
-    extra_flags = [ "silent", "exec_in_tmp", "remove_output", "ignore_warnings" ]
+    extra_flags = [
+        "silent",
+        "remove_output",
+        # Import test_support which won't be included and potentially others.
+        "binary_python_path",
+        # Ignore warnings about missing imports
+        "ignore_warnings",
+    ]
 
     if filename in ( "test_import.py", "test_importhooks.py", "test_pkgimport.py", "test_py3kwarn.py", "test_runpy.py", "test_zipimport.py" ):
         # These will given the __import__ not resolved warning and there won't
