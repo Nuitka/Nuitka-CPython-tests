@@ -816,7 +816,8 @@ class SizeofTest(unittest.TestCase):
                 check(set(sample), s + newsize*struct.calcsize('lP'))
                 check(frozenset(sample), s + newsize*struct.calcsize('lP'))
         # setiterator
-        check(iter(set()), size(h + 'P3P'))
+        # Nuitka: The set iteration is turned into a tuple iteration.
+        # check(iter(set()), size(h + 'P3P'))
         # slice
         check(slice(0), size(h + '3P'))
         # super
