@@ -353,8 +353,7 @@ class TestThreadState(unittest.TestCase):
 
 
 def test_main():
-    support.run_unittest(CAPITest, TestPendingCalls, Test6012,
-                         EmbeddingTest, SkipitemTest, TestThreadState)
+    support.run_unittest(CAPITest, TestPendingCalls, Test6012, EmbeddingTest, SkipitemTest, TestThreadState)
 
     for name in dir(_testcapi):
         if name.startswith('test_'):

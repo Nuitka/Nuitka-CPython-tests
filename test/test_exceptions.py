@@ -343,9 +343,7 @@ class ExceptionTests(unittest.TestCase):
                     value = getattr(e, checkArgName)
                     self.assertEqual(repr(value),
                                      repr(expected[checkArgName]),
-                                     '%r.%s == %r, expected %r' % (
-                                     e, checkArgName,
-                                     value, expected[checkArgName]))
+                                     '%r.%s == %r, expected %r' % (e, checkArgName, value, expected[checkArgName]))
 
                 # test for pickling support
                 for p in [pickle]:

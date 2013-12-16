@@ -702,8 +702,7 @@ class IpaddrUnitTest(unittest.TestCase):
 
         ipv6_zero_netmask = ipaddress.IPv6Interface('::1/0')
         self.assertEqual(int(ipv6_zero_netmask.network.netmask), 0)
-        self.assertTrue(ipv6_zero_netmask.network._is_valid_netmask(
-                str(0)))
+        self.assertTrue(ipv6_zero_netmask.network._is_valid_netmask(str(0)))
 
     def testIPv4NetAndHostmasks(self):
         net = self.ipv4_network
@@ -1467,9 +1466,7 @@ class IpaddrUnitTest(unittest.TestCase):
     def testIPBases(self):
         net = self.ipv4_network
         self.assertEqual('1.2.3.0/24', net.compressed)
-        self.assertEqual(
-                net._ip_int_from_prefix(24),
-                net._ip_int_from_prefix(None))
+        self.assertEqual( net._ip_int_from_prefix(24), net._ip_int_from_prefix(None))
         net = self.ipv6_network
         self.assertRaises(ValueError, net._string_from_ip_int, 2**128 + 1)
         self.assertEqual(

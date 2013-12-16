@@ -12,8 +12,7 @@ def tester(fn, wantResult):
     fn = fn.replace("\\", "\\\\")
     gotResult = eval(fn)
     if wantResult != gotResult:
-        raise TestFailed("%s should return: %s but returned: %s" \
-              %(str(fn), str(wantResult), str(gotResult)))
+        raise TestFailed("%s should return: %s but returned: %s" %(str(fn), str(wantResult), str(gotResult)))
 
     # then with bytes
     fn = fn.replace("('", "(b'")

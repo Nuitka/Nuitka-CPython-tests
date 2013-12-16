@@ -84,9 +84,7 @@ class TestCaseBase(unittest.TestCase):
         parser.close()
         events = parser.get_events()
         if events != expected_events:
-            self.fail("received events did not match expected events\n"
-                      "Expected:\n" + pprint.pformat(expected_events) +
-                      "\nReceived:\n" + pprint.pformat(events))
+            self.fail("received events did not match expected events\n" "Expected:\n" + pprint.pformat(expected_events) + "\nReceived:\n" + pprint.pformat(events))
 
     def _run_check_extra(self, source, events):
         self._run_check(source, events, EventCollectorExtra())
@@ -363,17 +361,7 @@ class HTMLParserTolerantTestCase(HTMLParserStrictTestCase):
         return EventCollector(strict=False)
 
     def test_tolerant_parsing(self):
-        self._run_check('<html <html>te>>xt&a<<bc</a></html>\n'
-                        '<img src="URL><//img></html</html>', [
-                            ('starttag', 'html', [('<html', None)]),
-                            ('data', 'te>>xt'),
-                            ('entityref', 'a'),
-                            ('data', '<<bc'),
-                            ('endtag', 'a'),
-                            ('endtag', 'html'),
-                            ('data', '\n<img src="URL>'),
-                            ('comment', '/img'),
-                            ('endtag', 'html<')])
+        self._run_check('<html <html>te>>xt&a<<bc</a></html>\n<img src="URL><//img></html</html>', [ ('starttag', 'html', [('<html', None)]), ('data', 'te>>xt'), ('entityref', 'a'), ('data', '<<bc'), ('endtag', 'a'), ('endtag', 'html'), ('data', '\n<img src="URL>'), ('comment', '/img'), ('endtag', 'html<')])
 
     def test_starttag_junk_chars(self):
         self._run_check("</>", [])
@@ -755,8 +743,7 @@ class AttributesTolerantTestCase(AttributesStrictTestCase):
 
 
 def test_main():
-    support.run_unittest(HTMLParserStrictTestCase, HTMLParserTolerantTestCase,
-                         AttributesStrictTestCase, AttributesTolerantTestCase)
+    support.run_unittest(HTMLParserStrictTestCase, HTMLParserTolerantTestCase, AttributesStrictTestCase, AttributesTolerantTestCase)
 
 
 if __name__ == "__main__":

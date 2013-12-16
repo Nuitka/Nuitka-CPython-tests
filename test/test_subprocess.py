@@ -309,8 +309,7 @@ class ProcessTestCase(BaseTestCase):
         p.wait()
         self.assertEqual(47, p.returncode)
         normcase = os.path.normcase
-        self.assertEqual(normcase(expected_cwd),
-                         normcase(p.stdout.read().decode("utf-8")))
+        self.assertEqual(normcase(expected_cwd),normcase(p.stdout.read().decode("utf-8")))
 
     def test_cwd(self):
         # Check that cwd changes the cwd for the child process.

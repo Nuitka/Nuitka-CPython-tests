@@ -76,8 +76,7 @@ class GeneralTests(unittest.TestCase):
     def testSourceAddress(self):
         mock_socket.reply_with(b"220 Hola mundo")
         # connects
-        smtp = smtplib.SMTP(HOST, self.port,
-                source_address=('127.0.0.1',19876))
+        smtp = smtplib.SMTP(HOST, self.port,source_address=('127.0.0.1',19876))
         self.assertEqual(smtp.source_address, ('127.0.0.1', 19876))
         smtp.close()
 
@@ -565,8 +564,7 @@ class BadHELOServerTests(unittest.TestCase):
         sys.stdout = self.old_stdout
 
     def testFailingHELO(self):
-        self.assertRaises(smtplib.SMTPConnectError, smtplib.SMTP,
-                            HOST, self.port, 'localhost', 3)
+        self.assertRaises(smtplib.SMTPConnectError, smtplib.SMTP, HOST, self.port, 'localhost', 3)
 
 
 sim_users = {'Mr.A@somewhere.com':'John A',
@@ -883,9 +881,7 @@ class SMTPSimTests(unittest.TestCase):
 
 @support.reap_threads
 def test_main(verbose=None):
-    support.run_unittest(GeneralTests, DebuggingServerTests,
-                              NonConnectingTests,
-                              BadHELOServerTests, SMTPSimTests)
+    support.run_unittest(GeneralTests, DebuggingServerTests, NonConnectingTests, BadHELOServerTests, SMTPSimTests)
 
 if __name__ == '__main__':
     test_main()

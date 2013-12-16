@@ -115,8 +115,7 @@ a = A(destroyed)"""
         del m.__name__
         # Yes, a class not an instance.
         m.__loader__ = BareLoader
-        self.assertEqual(
-            repr(m), "<module '?' (<class 'test.test_module.BareLoader'>)>")
+        self.assertEqual( repr(m), "<module '?' (<class 'test.test_module.BareLoader'>)>")
 
     def test_module_repr_with_full_loader_but_no_name(self):
         # m.__loader__.module_repr() will fail because the module has no
@@ -126,15 +125,13 @@ a = A(destroyed)"""
         del m.__name__
         # Yes, a class not an instance.
         m.__loader__ = FullLoader
-        self.assertEqual(
-            repr(m), "<module '?' (<class 'test.test_module.FullLoader'>)>")
+        self.assertEqual( repr(m), "<module '?' (<class 'test.test_module.FullLoader'>)>")
 
     def test_module_repr_with_bare_loader(self):
         m = ModuleType('foo')
         # Yes, a class not an instance.
         m.__loader__ = BareLoader
-        self.assertEqual(
-            repr(m), "<module 'foo' (<class 'test.test_module.BareLoader'>)>")
+        self.assertEqual( repr(m), "<module 'foo' (<class 'test.test_module.BareLoader'>)>")
 
     def test_module_repr_with_full_loader(self):
         m = ModuleType('foo')

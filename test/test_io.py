@@ -2573,8 +2573,7 @@ class TextIOWrapperTest(unittest.TestCase):
     def test_illegal_decoder(self):
         # Issue #17106
         # Crash when decoder returns non-string
-        t = self.TextIOWrapper(self.BytesIO(b'aaaaaa'), newline='\n',
-                               encoding='quopri_codec')
+        t = self.TextIOWrapper(self.BytesIO(b'aaaaaa'), newline='\n', encoding='quopri_codec')
         self.assertRaises(TypeError, t.read, 1)
         t = self.TextIOWrapper(self.BytesIO(b'aaaaaa'), newline='\n',
                                encoding='quopri_codec')
