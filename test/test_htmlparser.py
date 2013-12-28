@@ -360,17 +360,7 @@ class HTMLParserTolerantTestCase(HTMLParserStrictTestCase):
         return EventCollector(strict=False)
 
     def test_tolerant_parsing(self):
-        self._run_check('<html <html>te>>xt&a<<bc</a></html>\n'
-                        '<img src="URL><//img></html</html>', [
-                            ('starttag', 'html', [('<html', None)]),
-                            ('data', 'te>>xt'),
-                            ('entityref', 'a'),
-                            ('data', '<<bc'),
-                            ('endtag', 'a'),
-                            ('endtag', 'html'),
-                            ('data', '\n<img src="URL>'),
-                            ('comment', '/img'),
-                            ('endtag', 'html<')])
+        self._run_check('<html <html>te>>xt&a<<bc</a></html>\n' '<img src="URL><//img></html</html>', [ ('starttag', 'html', [('<html', None)]), ('data', 'te>>xt'), ('entityref', 'a'), ('data', '<<bc'), ('endtag', 'a'), ('endtag', 'html'), ('data', '\n<img src="URL>'), ('comment', '/img'), ('endtag', 'html<')])
 
     def test_starttag_junk_chars(self):
         self._run_check("</>", [])
