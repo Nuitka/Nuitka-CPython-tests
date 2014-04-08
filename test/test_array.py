@@ -1092,7 +1092,7 @@ def test_main(verbose=None):
             test_support.run_unittest(*tests)
             gc.collect()
             counts[i] = sys.gettotalrefcount()
-        print counts
+        print "REFCOUNTS", counts
 
 if __name__ == "__main__":
     test_main(verbose=True)
