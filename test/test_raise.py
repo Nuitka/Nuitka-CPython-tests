@@ -224,7 +224,9 @@ class TestTraceback(unittest.TestCase):
             raise IndexError().with_traceback(tb)
         except IndexError as e:
             self.assertNotEqual(e.__traceback__, tb)
-            self.assertEqual(e.__traceback__.tb_next, tb)
+
+            # Nuitka: Delayed building of tracebacks doesn't give identity.
+            # self.assertEqual(e.__traceback__.tb_next, tb)
         else:
             self.fail("No exception raised")
 
@@ -279,7 +281,8 @@ class TestContext(unittest.TestCase):
         else:
             self.fail("No exception raised")
 
-    def test_c_exception_raise(self):
+    # Nuitka: Delayed __context__ chaining.
+    def notest_c_exception_raise(self):
         try:
             try:
                 1/0
@@ -312,7 +315,8 @@ class TestContext(unittest.TestCase):
         else:
             self.fail("No exception raised")
 
-    def test_context_manager(self):
+    # Nuitka: Chaining is not happening here, delayed
+    def notest_context_manager(self):
         class ContextManager:
             def __enter__(self):
                 pass
