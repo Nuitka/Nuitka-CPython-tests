@@ -194,8 +194,7 @@ class TestAudioop(unittest.TestCase):
 
     def test_negativelen(self):
         # from issue 3306, previously it segfaulted
-        self.assertRaises(audioop.error,
-            audioop.findmax, ''.join(chr(x) for x in range(256)), -2392392)
+        self.assertRaises(audioop.error,audioop.findmax, ''.join(chr(x) for x in range(256)), -2392392)
 
     def test_issue7673(self):
         state = None
