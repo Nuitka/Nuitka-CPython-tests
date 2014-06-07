@@ -17,7 +17,7 @@ else:
     active = True
 
 if "PYTHON" not in os.environ:
-    os.environ[ "PYTHON" ] = "python" if os.name != "nt" else sys.executable
+    os.environ["PYTHON"] = "python" if os.name != "nt" else sys.executable
 
 def check_output(*popenargs, **kwargs):
     from subprocess import Popen, PIPE, CalledProcessError
@@ -63,10 +63,14 @@ def checkPath( filename, path ):
         extra_flags.append( "ignore_stderr" )
 
     if python_version < b"3" and \
-       filename in ( "test_locale.py", "test_nntplib.py", \
-                     "test_sys_settrace.py", "test_warnings.py",
-                     "test_xml_etree.py" ):
+       filename in ("test_locale.py", "test_nntplib.py", \
+                    "test_sys_settrace.py", "test_warnings.py",
+                    "test_xml_etree.py"):
         extra_flags.append( "ignore_stderr" )
+
+    if python_version >= b"3.4" and \
+       filename in ("test_ast.py", "test_base64.py", "test_cmd_line_script.py"):
+        return
 
     if "doctest_generated" in path:
         if python_version >= b"3":
