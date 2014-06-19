@@ -1087,7 +1087,7 @@ def test_main(verbose=None):
     # verify reference counting
     if verbose and hasattr(sys, "gettotalrefcount"):
         import gc
-        counts = [None] * 5
+        counts = [None] * 3
         for i in xrange(len(counts)):
             test_support.run_unittest(*tests)
             gc.collect()
