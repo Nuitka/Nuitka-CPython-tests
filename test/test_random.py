@@ -555,9 +555,12 @@ def test_main(verbose=None):
 
     # verify reference counting
     import sys
-    if verbose and hasattr(sys, "gettotalrefcount"):
+
+    # Nuitka: Instable counts with CPython already, setting a seed is not enough
+    if False and verbose and hasattr(sys, "gettotalrefcount"):
         counts = [None] * 5
         for i in xrange(len(counts)):
+            random.seed(0)
             test_support.run_unittest(*testclasses)
             counts[i] = sys.gettotalrefcount()
         print "REFCOUNTS", counts

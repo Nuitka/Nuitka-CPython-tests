@@ -227,6 +227,10 @@ def test_main(verbose=None):
                 test_support.run_unittest(*test_classes)
                 gc.collect()
                 counts[i] = sys.gettotalrefcount()
+
+            # Nuitka: There is some fluctuation in CPython to eleminate
+            if counts[0] in counts[1:] and counts[-1] in counts[:-1]:
+                counts = [ counts[0] * 5 ]
             print "REFCOUNTS", counts
 
 if __name__ == "__main__":
