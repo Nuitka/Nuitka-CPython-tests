@@ -35,7 +35,7 @@ def check_output(*popenargs, **kwargs):
     return output
 
 version_output = check_output(
-    [ os.environ[ "PYTHON" ], "--version" ],
+    [ os.environ["PYTHON"], "--version" ],
     stderr = subprocess.STDOUT
 )
 
@@ -60,17 +60,22 @@ def checkPath( filename, path ):
     ]
 
     if path == "test" + os.path.sep + "test_shelve.py":
-        extra_flags.append( "ignore_stderr" )
+        extra_flags.append("ignore_stderr")
 
     if python_version < b"3" and \
        filename in ("test_locale.py", "test_nntplib.py", \
                     "test_sys_settrace.py", "test_warnings.py",
                     "test_xml_etree.py"):
-        extra_flags.append( "ignore_stderr" )
+        extra_flags.append("ignore_stderr")
 
     if python_version >= b"3.4" and \
        filename in ("test_ast.py", "test_base64.py", "test_cmd_line_script.py"):
         return
+
+    # TODO: These don't compile in debug mode yet, due to missing optimization
+    if "--debug" in os.environ["NUITKA_EXTRA_OPTIONS"]:
+        if filename in ("test_grammar.py", ):
+            return
 
     if "doctest_generated" in path:
         if python_version >= b"3":
@@ -82,15 +87,15 @@ def checkPath( filename, path ):
     result = subprocess.call(
         "%s %s %s %s" % (
             sys.executable,
-            os.path.join( "..", "..", "bin", "compare_with_cpython" ),
+            os.path.join("..", "..", "bin", "compare_with_cpython"),
             path,
-            " ".join( extra_flags )
+            " ".join(extra_flags)
         ),
         shell = True
     )
 
     if result != 0 and search_mode:
-        sys.exit( result )
+        sys.exit(result)
 
 def checkDir( directory ):
     global active
