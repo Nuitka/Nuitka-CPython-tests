@@ -1,11 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3.3
 
 from __future__ import print_function
 
 import os, sys, subprocess
 
 # Go its own directory, to have it easy with path knowledge.
-os.chdir( os.path.dirname( os.path.abspath( __file__ ) ) )
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 search_mode = len( sys.argv ) > 1 and sys.argv[1] == "search"
 
@@ -17,7 +17,7 @@ else:
     active = True
 
 if "PYTHON" not in os.environ:
-    os.environ[ "PYTHON" ] = "python" if os.name != "nt" else sys.executable
+    os.environ["PYTHON"] = sys.executable
 
 def check_output(*popenargs, **kwargs):
     from subprocess import Popen, PIPE, CalledProcessError
@@ -35,19 +35,19 @@ def check_output(*popenargs, **kwargs):
     return output
 
 version_output = check_output(
-    [ os.environ[ "PYTHON" ], "--version" ],
+    [os.environ["PYTHON"], "--version"],
     stderr = subprocess.STDOUT
 )
 
 python_version = version_output.split()[1]
 
-os.environ[ "NUITKA_EXTRA_OPTIONS" ] = \
-  os.environ.get( "NUITKA_EXTRA_OPTIONS", "" ) + \
+os.environ["NUITKA_EXTRA_OPTIONS"] = \
+  os.environ.get("NUITKA_EXTRA_OPTIONS", "") + \
   " --recurse-none"
 
-print( "Using concrete python", python_version )
+print("Using concrete python", python_version)
 
-def checkPath( filename, path ):
+def checkPath(filename, path):
     global active
 
     extra_flags = [
@@ -60,18 +60,18 @@ def checkPath( filename, path ):
     ]
 
     # Avoid memory runaway of CPython2.
-    if path == "doctest_generated/test_itertools.py" and python_version < "3":
+    if path == "doctest_generated/test_itertools.py" and python_version < b"3":
         return
 
     if path == "test/test_shelve.py":
-        extra_flags.append( "ignore_stderr" )
+        extra_flags.append("ignore_stderr")
 
     if "doctest_generated" in path:
-        if python_version >= "3.3":
-            extra_flags.append( "expect_success" )
+        if python_version >= b"3.3":
+            extra_flags.append("expect_success")
 
         if filename == "test_generators.py":
-            extra_flags.append( "ignore_stderr" )
+            extra_flags.append("ignore_stderr")
 
 
     # TODO: These don't compile in debug mode yet, due to missing optimization
@@ -82,35 +82,36 @@ def checkPath( filename, path ):
     result = subprocess.call(
         "%s %s %s %s" % (
             sys.executable,
-            os.path.join( "..", "..", "bin", "compare_with_cpython" ),
+            os.path.join("..", "..", "bin", "compare_with_cpython"),
             path,
-            " ".join( extra_flags )
+            " ".join(extra_flags)
         ),
         shell = True
     )
 
     if result != 0 and search_mode:
-        sys.exit( result )
+        sys.exit(result)
 
-def checkDir( directory ):
+
+def checkDir(directory):
     global active
 
-    for filename in sorted( os.listdir( directory ) ):
-        if not filename.endswith( ".py" ) or not filename.startswith( "test_" ):
+    for filename in sorted(os.listdir(directory)):
+        if not filename.endswith(".py") or not filename.startswith("test_"):
             continue
 
         if filename == "test_support.py":
             continue
 
-        path = os.path.join( directory, filename )
+        path = os.path.join(directory, filename)
 
-        if not active and start_at in ( filename, path ):
+        if not active and start_at in (filename, path):
             active = True
 
         if active:
-            checkPath( filename, path )
+            checkPath(filename, path)
         else:
-            print( "Skipping", path )
+            print("Skipping", path)
 
-checkDir( "test" )
-checkDir( "doctest_generated" )
+checkDir("test")
+checkDir("doctest_generated")
