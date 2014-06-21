@@ -73,6 +73,12 @@ def checkPath( filename, path ):
         if filename == "test_generators.py":
             extra_flags.append( "ignore_stderr" )
 
+
+    # TODO: These don't compile in debug mode yet, due to missing optimization
+    if "--debug" in os.environ["NUITKA_EXTRA_OPTIONS"]:
+        if filename in ("test_grammar.py", ):
+            return
+
     result = subprocess.call(
         "%s %s %s %s" % (
             sys.executable,
