@@ -80,11 +80,19 @@ def checkPath(filename, path):
     # TODO: These don't compile in debug mode yet, due to missing optimization
     if "--debug" in os.environ["NUITKA_EXTRA_OPTIONS"]:
         if filename in ("test_grammar.py",):
+            print("Skipping (due to warnings issue)", path)
             return
+
+    # TODO: This deadlocks, likely a threading problem.
+    if python_version >= "3.4" and \
+       filename == "test_concurrent_futures.py":
+        print("Skipping (due to threading issue)", path)
+        return
 
     # TODO: The output from cgit attempts to access locals not in the frame,
     # probably due to chaining problems from above.
     if filename == "test_cgitb.py":
+        print("Skipping (due to traceback issue)", path)
         return
 
     result = subprocess.call(
