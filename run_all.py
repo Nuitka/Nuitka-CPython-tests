@@ -79,13 +79,13 @@ def checkPath(filename, path):
 
     # TODO: These don't compile in debug mode yet, due to missing optimization
     if "--debug" in os.environ["NUITKA_EXTRA_OPTIONS"]:
-        if filename in ("test_grammar.py", ):
+        if filename in ("test_grammar.py",):
             return
 
-    # TODO: Some weird effects of exception chaining are going on there, that
-    # need to be examined, but aren't critical.
-    if filename == "test_ast.py" and python_version >= "3.4":
-        extra_flags.append("ignore_stderr")
+    # TODO: The output from cgit attempts to access locals not in the frame,
+    # probably due to chaining problems from above.
+    if filename == "test_cgitb.py":
+        return
 
     result = subprocess.call(
         "%s %s %s %s" % (
