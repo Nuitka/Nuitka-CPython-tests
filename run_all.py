@@ -45,7 +45,7 @@ os.environ[ "NUITKA_EXTRA_OPTIONS" ] = \
   os.environ.get( "NUITKA_EXTRA_OPTIONS", "" ) + \
   " --recurse-none"
 
-print( "Using concrete python", python_version )
+print("Using concrete python", python_version)
 
 def checkPath( filename, path ):
     global active
@@ -71,6 +71,12 @@ def checkPath( filename, path ):
     if python_version >= b"3.4" and \
        filename in ("test_ast.py", "test_base64.py", "test_cmd_line_script.py"):
         return
+
+    if python_version >= b"3.2" and python_version < b"3.3" and os.name == "nt":
+        if filename in ("test_ast.py", "test_descr.py", "test_imp.py",
+                        "test_json.py"):
+            print("Skipping (crashes CPython on Windows)", path)
+            return
 
     # TODO: These don't compile in debug mode yet, due to missing optimization
     if "--debug" in os.environ["NUITKA_EXTRA_OPTIONS"]:
@@ -119,7 +125,7 @@ def checkDir( directory ):
         if active:
             checkPath( filename, path )
         else:
-            print( "Skipping", path )
+            print("Skipping", path)
 
 checkDir( "test" )
 checkDir( "doctest_generated" )
