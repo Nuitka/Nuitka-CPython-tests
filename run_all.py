@@ -17,7 +17,7 @@ else:
     active = True
 
 if "PYTHON" not in os.environ:
-    os.environ[ "PYTHON" ] = "python" if os.name != "nt" else sys.executable
+    os.environ["PYTHON"] = sys.executable
 
 def check_output(*popenargs, **kwargs):
     from subprocess import Popen, PIPE, CalledProcessError
@@ -45,9 +45,9 @@ os.environ[ "NUITKA_EXTRA_OPTIONS" ] = \
   os.environ.get( "NUITKA_EXTRA_OPTIONS", "" ) + \
   " --recurse-none"
 
-print( "Using concrete python", python_version )
+print("Using concrete python", python_version)
 
-def checkPath( filename, path ):
+def checkPath(filename, path):
     global active
 
     extra_flags = [
