@@ -328,7 +328,9 @@ class SysModuleTest(unittest.TestCase):
         )
 
     # sys._current_frames() is a CPython-only gimmick.
-    def test_current_frames(self):
+    # Nuitka: Don't check line numbers of frames, Nuitka won't update them as
+    # much.
+    def notest_current_frames(self):
         have_threads = True
         try:
             import _thread
