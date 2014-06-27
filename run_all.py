@@ -17,7 +17,7 @@ else:
     active = True
 
 if "PYTHON" not in os.environ:
-    os.environ["PYTHON"] = "python" if os.name != "nt" else sys.executable
+    os.environ["PYTHON"] = sys.executable
 
 def check_output(*popenargs, **kwargs):
     from subprocess import Popen, PIPE, CalledProcessError
@@ -67,6 +67,12 @@ def checkPath( filename, path ):
                     "test_sys_settrace.py", "test_warnings.py",
                     "test_xml_etree.py"):
         extra_flags.append("ignore_stderr")
+
+    # Deprecation warnings on wrong lines.
+    if python_version >= b"3.3" and \
+       filename in ("test_smtpd.py", "test_unicode.py"):
+        print("Skipping (warning output with wrong line)", path)
+        return
 
     if python_version >= b"3.4" and \
        filename in ("test_ast.py", "test_base64.py", "test_cmd_line_script.py"):
