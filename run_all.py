@@ -72,6 +72,9 @@ def checkPath( filename, path ):
         extra_flags.append("ignore_stderr")
     elif filename in ("test_zipfile.py", ):
         extra_flags.append("ignore_stderr")
+    elif filename in ("test_mmap.py",) and os.name == "nt":
+        print("Skipping (does not work on Windows)", path)
+        return
 
     if "doctest_generated" in path:
         if python_version < "3":
@@ -111,7 +114,7 @@ def checkDir( directory ):
         if active:
             checkPath( filename, path )
         else:
-            print( "Skipping", path )
+            print("Skipping", path)
 
-checkDir( "test" )
-checkDir( "doctest_generated" )
+checkDir("test")
+checkDir("doctest_generated")
