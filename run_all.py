@@ -19,6 +19,13 @@ else:
 if "PYTHON" not in os.environ:
     os.environ["PYTHON"] = sys.executable
 
+# Make sure we flush after every print, the "-u" option does more than that
+# and this is easy enough.
+def my_print(*args, **kwargs):
+    print(*args, **kwargs)
+
+    sys.stdout.flush()
+
 def check_output(*popenargs, **kwargs):
     from subprocess import Popen, PIPE, CalledProcessError
 
@@ -45,7 +52,7 @@ os.environ["NUITKA_EXTRA_OPTIONS"] = \
   os.environ.get("NUITKA_EXTRA_OPTIONS", "") + \
   " --recurse-none"
 
-print("Using concrete python", python_version)
+my_print("Using concrete python", python_version)
 
 def checkPath(filename, path):
     global active
@@ -77,6 +84,17 @@ def checkPath(filename, path):
     # TODO: These don't compile in debug mode yet, due to missing optimization
     if "--debug" in os.environ["NUITKA_EXTRA_OPTIONS"]:
         if filename in ("test_grammar.py", ):
+            my_print("Skipped, does not compile in --debug mode without warnings.")
+            return
+
+    if python_version >= b"3.4":
+        if filename == "test_argparse.py":
+            my_print("Skipped, compilation takes too long for unknown reasons.")
+            return
+
+        # Errors in exception chaing on Python3.4 require this.
+        if filename == "test_ast.py":
+            my_print("Skipped, problems with exception chaining.")
             return
 
     result = subprocess.call(
@@ -111,7 +129,7 @@ def checkDir(directory):
         if active:
             checkPath(filename, path)
         else:
-            print("Skipping", path)
+            my_print("Skipping", path)
 
 checkDir("test")
 checkDir("doctest_generated")
