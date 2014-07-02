@@ -107,6 +107,10 @@ def checkPath(filename, path):
         shell = True
     )
 
+    for scanned in os.listdir("."):
+        if scanned.startswith("@test_"):
+            assert False, filename
+
     if result != 0 and search_mode:
         sys.exit(result)
 
