@@ -84,6 +84,10 @@ def checkPath( filename, path ):
             print("Skipping (crashes CPython on Windows)", path)
             return
 
+        if filename in ("test_exceptions.py", "test_keywordonlyarg.py"):
+            print("Skipping (the CPython fails more on Windows)", path)
+            return
+
     # TODO: These don't compile in debug mode yet, due to missing optimization
     if "--debug" in os.environ["NUITKA_EXTRA_OPTIONS"]:
         if filename in ("test_grammar.py", ):
