@@ -1578,7 +1578,7 @@ def test_main(verbose=None):
             run_unittest(*test_classes)
             gc.collect()
             counts[i] = sys.gettotalrefcount()
-        print(counts)
+        print("REFCOUNTS", counts)
 
 
 if __name__ == "__main__":

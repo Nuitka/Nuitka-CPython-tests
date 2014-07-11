@@ -142,7 +142,7 @@ def test_main(verbose=None):
             support.run_doctest(test_genexps, verbose)
             gc.collect()
             counts[i] = sys.gettotalrefcount()
-        print(counts)
+        print("REFCOUNTS", counts)
 
 if __name__ == "__main__":
     test_main(verbose=True)
