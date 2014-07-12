@@ -5,7 +5,7 @@ from __future__ import print_function
 import os, sys, subprocess
 
 # Go its own directory, to have it easy with path knowledge.
-os.chdir( os.path.dirname( os.path.abspath( __file__ ) ) )
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 search_mode = len( sys.argv ) > 1 and sys.argv[1] == "search"
 
@@ -18,6 +18,13 @@ else:
 
 if "PYTHON" not in os.environ:
     os.environ["PYTHON"] = sys.executable
+
+# Make sure we flush after every print, the "-u" option does more than that
+# and this is easy enough.
+def my_print(*args, **kwargs):
+    print(*args, **kwargs)
+
+    sys.stdout.flush()
 
 def check_output(*popenargs, **kwargs):
     from subprocess import Popen, PIPE, CalledProcessError
@@ -48,7 +55,7 @@ os.environ[ "NUITKA_EXTRA_OPTIONS" ] = \
   os.environ.get("NUITKA_EXTRA_OPTIONS", "") + \
   " --recurse-none"
 
-print("Using concrete python", python_version)
+my_print("Using concrete python", python_version)
 
 def checkPath(filename, path):
     global active
@@ -80,19 +87,19 @@ def checkPath(filename, path):
     # TODO: These don't compile in debug mode yet, due to missing optimization
     if "--debug" in os.environ["NUITKA_EXTRA_OPTIONS"]:
         if filename in ("test_grammar.py",):
-            print("Skipping (due to warnings issue)", path)
+            my_print("Skipping (due to warnings issue)", path)
             return
 
     # TODO: This deadlocks, likely a threading problem.
     if python_version >= "3.4" and \
        filename == "test_concurrent_futures.py":
-        print("Skipping (due to threading issue)", path)
+        my_print("Skipping (due to threading issue)", path)
         return
 
     # TODO: The output from cgit attempts to access locals not in the frame,
     # probably due to chaining problems from above.
     if filename == "test_cgitb.py":
-        print("Skipping (due to traceback issue)", path)
+        my_print("Skipping (due to traceback issue)", path)
         return
 
     result = subprocess.call(
@@ -126,7 +133,7 @@ def checkDir(directory):
         if active:
             checkPath(filename, path)
         else:
-            print("Skipping", path)
+            my_print("Skipping", path)
 
 checkDir("test")
 checkDir("doctest_generated")
