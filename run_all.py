@@ -48,6 +48,9 @@ version_output = check_output(
 
 python_version = version_output.split()[1]
 
+if sys.version.startswith("3"):
+    python_version = python_version.decode()
+
 os.environ["NUITKA_EXTRA_OPTIONS"] = \
   os.environ.get("NUITKA_EXTRA_OPTIONS", "") + \
   " --recurse-none"
@@ -67,14 +70,14 @@ def checkPath(filename, path):
     ]
 
     # Avoid memory runaway of CPython2.
-    if path == "doctest_generated/test_itertools.py" and python_version < b"3":
+    if path == "doctest_generated/test_itertools.py" and python_version < "3":
         return
 
     if path == "test/test_shelve.py":
         extra_flags.append("ignore_stderr")
 
     if "doctest_generated" in path:
-        if python_version >= b"3.3":
+        if python_version >= "3.3":
             extra_flags.append("expect_success")
 
         if filename == "test_generators.py":
@@ -87,7 +90,7 @@ def checkPath(filename, path):
             my_print("Skipped, does not compile in --debug mode without warnings.")
             return
 
-    if python_version >= b"3.4":
+    if python_version >= "3.4":
         if filename == "test_argparse.py":
             my_print("Skipped, compilation takes too long for unknown reasons.")
             return
