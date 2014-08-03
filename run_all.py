@@ -17,7 +17,14 @@ else:
     active = True
 
 if "PYTHON" not in os.environ:
-    os.environ[ "PYTHON" ] = "python" if os.name != "nt" else sys.executable
+    os.environ["PYTHON"] = sys.executable
+
+# Make sure we flush after every print, the "-u" option does more than that
+# and this is easy enough.
+def my_print(*args, **kwargs):
+    print(*args, **kwargs)
+
+    sys.stdout.flush()
 
 def check_output(*popenargs, **kwargs):
     from subprocess import Popen, PIPE, CalledProcessError
@@ -45,7 +52,7 @@ os.environ[ "NUITKA_EXTRA_OPTIONS" ] = \
   os.environ.get( "NUITKA_EXTRA_OPTIONS", "" ) + \
   " --recurse-none"
 
-print( "Using concrete python", python_version )
+my_print( "Using concrete python", python_version )
 
 def checkPath( filename, path ):
     global active
@@ -73,7 +80,7 @@ def checkPath( filename, path ):
     elif filename in ("test_zipfile.py", ):
         extra_flags.append("ignore_stderr")
     elif filename in ("test_mmap.py",) and os.name == "nt":
-        print("Skipping (does not work on Windows)", path)
+        my_print("Skipping (does not work on Windows)", path)
         return
 
     if "doctest_generated" in path:
@@ -114,7 +121,7 @@ def checkDir( directory ):
         if active:
             checkPath( filename, path )
         else:
-            print("Skipping", path)
+            my_print("Skipping", path)
 
 checkDir("test")
 checkDir("doctest_generated")
