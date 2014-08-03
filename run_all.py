@@ -5,7 +5,7 @@ from __future__ import print_function
 import os, sys, subprocess
 
 # Go its own directory, to have it easy with path knowledge.
-os.chdir( os.path.dirname( os.path.abspath( __file__ ) ) )
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 search_mode = len( sys.argv ) > 1 and sys.argv[1] == "search"
 
@@ -18,6 +18,13 @@ else:
 
 if "PYTHON" not in os.environ:
     os.environ["PYTHON"] = sys.executable
+
+# Make sure we flush after every print, the "-u" option does more than that
+# and this is easy enough.
+def my_print(*args, **kwargs):
+    print(*args, **kwargs)
+
+    sys.stdout.flush()
 
 def check_output(*popenargs, **kwargs):
     from subprocess import Popen, PIPE, CalledProcessError
@@ -45,7 +52,7 @@ os.environ[ "NUITKA_EXTRA_OPTIONS" ] = \
   os.environ.get( "NUITKA_EXTRA_OPTIONS", "" ) + \
   " --recurse-none"
 
-print("Using concrete python", python_version)
+my_print("Using concrete python", python_version)
 
 def checkPath( filename, path ):
     global active
@@ -71,7 +78,7 @@ def checkPath( filename, path ):
     # Deprecation warnings on wrong lines.
     if python_version >= b"3.3" and \
        filename in ("test_smtpd.py", "test_unicode.py"):
-        print("Skipping (warning output with wrong line)", path)
+        my_print("Skipping (warning output with wrong line)", path)
         return
 
     if python_version >= b"3.4" and \
@@ -81,11 +88,11 @@ def checkPath( filename, path ):
     if python_version >= b"3.2" and python_version < b"3.3" and os.name == "nt":
         if filename in ("test_ast.py", "test_descr.py", "test_imp.py",
                         "test_json.py"):
-            print("Skipping (crashes CPython on Windows)", path)
+            my_print("Skipping (crashes CPython on Windows)", path)
             return
 
         if filename in ("test_exceptions.py", "test_keywordonlyarg.py"):
-            print("Skipping (the CPython fails more on Windows)", path)
+            my_print("Skipping (the CPython fails more on Windows)", path)
             return
 
     # TODO: These don't compile in debug mode yet, due to missing optimization
@@ -116,16 +123,16 @@ def checkPath( filename, path ):
 def checkDir( directory ):
     global active
 
-    for filename in sorted( os.listdir( directory ) ):
-        if not filename.endswith( ".py" ) or not filename.startswith( "test_" ):
+    for filename in sorted(os.listdir( directory )):
+        if not filename.endswith(".py") or not filename.startswith("test_"):
             continue
 
         if filename == "test_support.py":
             continue
 
-        path = os.path.join( directory, filename )
+        path = os.path.join(directory, filename)
 
-        if not active and start_at in ( filename, path ):
+        if not active and start_at in (filename, path):
             active = True
 
         # This goes havoc on memory consumption.
@@ -135,7 +142,7 @@ def checkDir( directory ):
         if active:
             checkPath( filename, path )
         else:
-            print("Skipping", path)
+            my_print("Skipping", path)
 
-checkDir( "test" )
-checkDir( "doctest_generated" )
+checkDir("test")
+checkDir("doctest_generated")
