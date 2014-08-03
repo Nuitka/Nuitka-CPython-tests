@@ -19,6 +19,13 @@ else:
 if "PYTHON" not in os.environ:
     os.environ["PYTHON"] = sys.executable
 
+# Make sure we flush after every print, the "-u" option does more than that
+# and this is easy enough.
+def my_print(*args, **kwargs):
+    print(*args, **kwargs)
+
+    sys.stdout.flush()
+
 def check_output(*popenargs, **kwargs):
     from subprocess import Popen, PIPE, CalledProcessError
 
@@ -45,7 +52,7 @@ os.environ[ "NUITKA_EXTRA_OPTIONS" ] = \
   os.environ.get( "NUITKA_EXTRA_OPTIONS", "" ) + \
   " --recurse-none"
 
-print("Using concrete python", python_version)
+my_print("Using concrete python", python_version)
 
 def checkPath(filename, path):
     global active
@@ -77,10 +84,10 @@ def checkPath(filename, path):
         return
 
     if "doctest_generated" in path and python_version < b"3":
-       extra_flags.append("expect_success")
+        extra_flags.append("expect_success")
 
-       if filename == "test_generators.py":
-           extra_flags.append("ignore_stderr")
+        if filename == "test_generators.py":
+            extra_flags.append("ignore_stderr")
 
     result = subprocess.call(
         "%s %s %s %s" % (
@@ -93,27 +100,28 @@ def checkPath(filename, path):
     )
 
     if result != 0 and search_mode:
-        sys.exit( result )
+        sys.exit(result)
+
 
 def checkDir( directory ):
     global active
 
-    for filename in sorted( os.listdir( directory ) ):
+    for filename in sorted(os.listdir(directory)):
         if not filename.endswith(".py") or not filename.startswith("test_"):
             continue
 
         if filename == "test_support.py":
             continue
 
-        path = os.path.join( directory, filename )
+        path = os.path.join(directory, filename)
 
         if not active and start_at in (filename, path):
             active = True
 
         if active:
-            checkPath( filename, path )
+            checkPath(filename, path)
         else:
-            print("Skipping", path)
+            my_print("Skipping", path)
 
 checkDir("test")
 checkDir("doctest_generated")
