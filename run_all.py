@@ -13,6 +13,7 @@ start_at = sys.argv[2] if len( sys.argv ) > 2 else None
 
 if start_at:
     active = False
+    start_at = start_at.replace("/", os.path.sep)
 else:
     active = True
 
