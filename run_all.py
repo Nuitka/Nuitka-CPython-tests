@@ -96,9 +96,8 @@ def checkPath(filename, path):
             my_print("Skipped, compilation takes too long for unknown reasons.")
             return
 
-        # Errors in exception chaing on Python3.4 require this.
-        if filename == "test_ast.py":
-            my_print("Skipped, problems with exception chaining.")
+        if filename == "test_codecs.py":
+            my_print("Skipped, due to hard to disable deprecation warning.")
             return
 
     result = subprocess.call(
