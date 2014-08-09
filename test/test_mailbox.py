@@ -2005,8 +2005,7 @@ class TestPartialFile(TestProxyFileBase):
 
     def test_close(self):
         self._file.write(bytes('&foo%sbar%s^' % (os.linesep, os.linesep), 'ascii'))
-        self._test_close(mailbox._PartialFile(self._file, 1,
-                                              6 + 3 * len(os.linesep)))
+        self._test_close(mailbox._PartialFile(self._file, 1,6 + 3 * len(os.linesep)))
 
 
 ## Start: tests from the original module (for backward compatibility).

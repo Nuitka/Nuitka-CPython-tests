@@ -1119,8 +1119,7 @@ class Pathname_Tests(unittest.TestCase):
         for url in given:
             result = urllib.request.url2pathname(url)
             self.assertEqual(expect, result,
-                             'urllib.request..url2pathname() failed; %s != %s' %
-                             (expect, result))
+                             'urllib.request..url2pathname() failed; %s != %s' % (expect, result))
         given = '///C|/path'
         expect = 'C:\\path'
         result = urllib.request.url2pathname(given)
