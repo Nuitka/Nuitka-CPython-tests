@@ -13,6 +13,7 @@ start_at = sys.argv[2] if len( sys.argv ) > 2 else None
 
 if start_at:
     active = False
+    start_at = start_at.replace("/", os.path.sep)
 else:
     active = True
 
@@ -103,7 +104,7 @@ def checkPath(filename, path):
         sys.exit(result)
 
 
-def checkDir( directory ):
+def checkDir(directory):
     global active
 
     for filename in sorted(os.listdir(directory)):
