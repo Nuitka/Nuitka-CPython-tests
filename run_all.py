@@ -87,8 +87,15 @@ def checkPath(filename, path):
     if "doctest_generated" in path and python_version < b"3":
         extra_flags.append("expect_success")
 
+
         if filename == "test_generators.py":
             extra_flags.append("ignore_stderr")
+
+            # On Windows with 32 bit, the MemoryError breaks the test
+            if os.name == "nt":
+                my_print("Skipping", path, "not enough memory with 32 bits.")
+                return
+
 
     result = subprocess.call(
         "%s %s %s %s" % (
