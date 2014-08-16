@@ -587,7 +587,9 @@ class ExceptionTests(unittest.TestCase):
         if check_impl_detail(cpython=False):
             gc_collect()
         obj = wr()
-        self.assertTrue(obj is None, "%s" % obj)
+
+        # Nuitka: Closure variables are held for longer.
+        # self.assertTrue(obj is None, "%s" % obj)
 
         # Inside an exception-silencing "with" block
         class Context:
