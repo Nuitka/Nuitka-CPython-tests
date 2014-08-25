@@ -1,7 +1,12 @@
 import netrc, os, unittest, sys, textwrap
 from test import support
 
+# Nuitka: This is used in error messages, and if not changed, includes the
+# pid, and we do not care about parallel testing in same checkout.
+support.TESTFN = "@test"
+
 temp_filename = support.TESTFN
+
 
 class NetrcTestCase(unittest.TestCase):
 
