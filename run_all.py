@@ -88,11 +88,17 @@ def checkPath( filename, path ):
 
     if python_version >= b"3.2" and python_version < b"3.3" and os.name == "nt":
         if filename in ("test_ast.py", "test_descr.py", "test_imp.py",
-                        "test_json.py"):
+                        "test_json.py", "test_os.py", "test_pickle.py",
+                        "test_pickletools.py", "test_time.py"):
             my_print("Skipping (crashes CPython on Windows)", path)
             return
 
-        if filename in ("test_exceptions.py", "test_keywordonlyarg.py"):
+        if filename == "test_pep3120.py":
+            my_print("Skipping (crashes CPython compiled the file on Windows)", path)
+            return
+
+        if filename in ("test_exceptions.py", "test_keywordonlyarg.py",
+                        "test_raise.py"):
             my_print("Skipping (the CPython fails more on Windows)", path)
             return
 
