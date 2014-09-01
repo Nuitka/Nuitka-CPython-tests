@@ -749,6 +749,9 @@ class TestGetClosureVars(unittest.TestCase):
             return g(g)
 
         def check_y_combinator(func):
+            # Nuitka: The __closure__ attribute is working, but the code
+            # object does not announce freevars and cellvars properly, so
+            # it won't work.
             pass
             # self.assertEqual(_nonlocal_vars(func), {'f': Y.g_ref})
 
@@ -756,6 +759,7 @@ class TestGetClosureVars(unittest.TestCase):
         add_two = make_adder(2)
         greater_than_five = curry(less_than, 5)
 
+        # Nuitka: The __closure__ attribute is not working.
         # self.assertEqual(_nonlocal_vars(inc), {'x': 1})
         # self.assertEqual(_nonlocal_vars(add_two), {'x': 2})
         # self.assertEqual(_nonlocal_vars(greater_than_five),
@@ -767,6 +771,7 @@ class TestGetClosureVars(unittest.TestCase):
     def test_getclosurevars_empty(self):
         def foo(): pass
         _empty = inspect.ClosureVars({}, {}, {}, set())
+        # Nuitka: Closure variables are not yet supported to be retrived like this.
         # self.assertEqual(inspect.getclosurevars(lambda: True), _empty)
         # self.assertEqual(inspect.getclosurevars(foo), _empty)
 
@@ -1308,6 +1313,7 @@ class TestGetGeneratorState(unittest.TestCase):
             self.assertIn(name, repr(state))
             self.assertIn(name, str(state))
 
+    # Nuitka: getgeneratorlocals is not yet supported
     def notest_getgeneratorlocals(self):
         def each(lst, a=None):
             b=(1, 2, 3)
