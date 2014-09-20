@@ -84,6 +84,10 @@ def checkPath(filename, path):
         if filename == "test_generators.py":
             extra_flags.append("ignore_stderr")
 
+            # On Windows with 32 bit, the MemoryError breaks the test
+            if os.name == "nt":
+                my_print("Skipping", path, "not enough memory with 32 bits.")
+                return
 
     # TODO: These don't compile in debug mode yet, due to missing optimization
     if "--debug" in os.environ["NUITKA_EXTRA_OPTIONS"]:
