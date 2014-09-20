@@ -876,7 +876,9 @@ else:
 
 # Disambiguate TESTFN for parallel testing, while letting it remain a valid
 # module name.
-TESTFN = "{}_{}_tmp".format(TESTFN, os.getpid())
+
+# Nuitka: We don't run in parallel, but some error message use the filename.
+# TESTFN = "{}_{}_tmp".format(TESTFN, os.getpid())
 
 # Define the URL of a dedicated HTTP server for the network tests.
 # The URL must use clear-text HTTP: no redirection to encrypted HTTPS.
