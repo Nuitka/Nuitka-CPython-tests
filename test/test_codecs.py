@@ -2652,7 +2652,9 @@ class ExceptionChainingTest(unittest.TestCase):
         # We also make sure we use a truly unique id for the custom codec
         # to avoid issues with the codec cache when running these tests
         # multiple times (e.g. when hunting for refleaks)
-        unique_id = repr(self) + str(id(self))
+
+        # Nuitka: Make error messages deterministic.
+        unique_id = repr(self) # + str(id(self))
         self.codec_name = encodings.normalize_encoding(unique_id).lower()
 
         # We store the object to raise on the instance because of a bad
