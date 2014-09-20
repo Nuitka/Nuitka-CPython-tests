@@ -446,6 +446,18 @@ if sys.platform not in ('win32', 'vxworks'):
 else:
     unix_shell = None
 
+# Filename used for testing
+if os.name == 'java':
+    # Jython disallows @ in module names
+    TESTFN_ASCII = '$test'
+else:
+    TESTFN_ASCII = '@test'
+
+# Disambiguate TESTFN for parallel testing, while letting it remain a valid
+# module name.
+# Nuitka: We don't run in parallel, but some error message use the filename.
+# TESTFN_ASCII = "{}_{}_tmp".format(TESTFN_ASCII, os.getpid())
+
 # Define the URL of a dedicated HTTP server for the network tests.
 # The URL must use clear-text HTTP: no redirection to encrypted HTTPS.
 TEST_HTTP_URL = "http://www.pythontest.net"

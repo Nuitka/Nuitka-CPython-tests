@@ -19,7 +19,8 @@ else:
 
 # Disambiguate TESTFN for parallel testing, while letting it remain a valid
 # module name.
-TESTFN_ASCII = "{}_{}_tmp".format(TESTFN_ASCII, os.getpid())
+# Nuitka: We don't run in parallel, but some error message use the filename.
+# TESTFN_ASCII = "{}_{}_tmp".format(TESTFN_ASCII, os.getpid())
 
 # TESTFN_UNICODE is a non-ascii filename
 TESTFN_UNICODE = TESTFN_ASCII + "-\xe0\xf2\u0258\u0141\u011f"
