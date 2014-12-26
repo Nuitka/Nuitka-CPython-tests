@@ -106,11 +106,6 @@ def checkPath( filename, path ):
             my_print("Skipping (crashes for unknown reason on Windows with MSVC only)", path)
             return
 
-    # TODO: These don't compile in debug mode yet, due to missing optimization
-    if "--debug" in os.environ["NUITKA_EXTRA_OPTIONS"]:
-        if filename in ("test_grammar.py", ):
-            return
-
     if "doctest_generated" in path:
         if python_version >= b"3":
             extra_flags.append("expect_success")
