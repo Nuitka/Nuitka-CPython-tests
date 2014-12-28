@@ -287,7 +287,12 @@ class ModuleAndNamespacePackageInSameDir(NamespacePackageTest):
 
 
 def test_main():
-    run_unittest(*NamespacePackageTest.__subclasses__())
+    # Nuitka: There is an underlying dictionary used to build the list of
+    # subclasses, so this can randomize the order of tests.
+    test_cases = NamespacePackageTest.__subclasses__()
+    test_cases.sort(key = lambda c: c.__name__)
+
+    run_unittest(*test_cases)
 
 
 if __name__ == "__main__":
