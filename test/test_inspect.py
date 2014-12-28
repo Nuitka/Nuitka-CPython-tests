@@ -3087,6 +3087,12 @@ class TestMain(unittest.TestCase):
         self.assertEqual(lines, ["Can't get info for builtin modules."])
 
     def test_details(self):
+        # Nuitka: This is checking __file__ of imported modules, but the
+        # built-in "sys.path" as from "python.exe" and "python.dll" are
+        # different (lib vs Lib), so this won't work on Windows.
+        if os.name == "nt":
+            return
+
         module = importlib.import_module('unittest')
         rc, out, err = assert_python_ok('-m', 'inspect',
                                         'unittest', '--details')
