@@ -111,7 +111,8 @@ def checkPath(filename, path):
         # Gives deprecation warnings, unclear why that can happen. We try and
         # succeed at disabling them (as is Python default), but they seem to
         # be given in this test case anyway.
-        if filename == "test_format.py":
+        if filename in ("test_format.py", "test_unicode.py",
+                        "test_userstring.py", "test_ntpath.py"):
             extra_flags.append("ignore_stderr")
 
     result = subprocess.call(
