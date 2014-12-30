@@ -104,6 +104,10 @@ def checkPath(filename, path):
             my_print("Skipped, due to hard to disable deprecation warning.")
             return
 
+        if filename == "test_pep263.py":
+            my_print("Skipped, CPython refuses to decode for no apparent reason.")
+            return
+
         # Gives deprecation warnings, unclear why that can happen. We try and
         # succeed at disabling them (as is Python default), but they seem to
         # be given in this test case anyway.
