@@ -61,9 +61,11 @@ class BaseTestCase(unittest.TestCase):
                          "file '%s' does not end with '%s'" % (nbase, suf))
 
         nbase = nbase[len(pre):len(nbase)-len(suf)]
-        self.assertTrue(self.str_check.match(nbase),
-                     "random string '%s' does not match /^[a-zA-Z0-9_-]{6}$/"
-                     % nbase)
+        # Nuitka: We use this with Python versions that fail it, and then
+        # the output is random, so don't do it.
+        # self.assertTrue(self.str_check.match(nbase),
+        #              "random string '%s' does not match /^[a-zA-Z0-9_-]{6}$/"
+        #              % nbase)
 
 
 class TestExports(BaseTestCase):
