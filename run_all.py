@@ -74,9 +74,6 @@ def checkPath(filename, path):
     if path == "doctest_generated/test_itertools.py" and python_version < "3":
         return
 
-    if path == "test/test_shelve.py":
-        extra_flags.append("ignore_stderr")
-
     if "doctest_generated" in path:
         if python_version >= "3.4":
             extra_flags.append("expect_success")
@@ -88,6 +85,11 @@ def checkPath(filename, path):
             if os.name == "nt":
                 my_print("Skipping", path, "not enough memory with 32 bits.")
                 return
+    else:
+        # TODO: Deprecation warnings for some unknown reason. Need to find
+        # out why we don't successfully disable it.
+        if filename == "test_shutil.py":
+            extra_flags.append("ignore_stderr")
 
     # TODO: These don't compile in debug mode yet, due to missing optimization
     if "--debug" in os.environ["NUITKA_EXTRA_OPTIONS"]:
@@ -115,9 +117,14 @@ def checkPath(filename, path):
 
     # TODO: This fails to compiler, super is not fully solved.
     if python_version < "3.4":
-        if filename == "test_contextlib.py":
+        if filename in ("test_contextlib.py", "test_exceptions.py"):
             my_print("Skipped, CPython bug old versions.")
             return
+
+        if filename == "test_docxmlrpc.py":
+            my_print("Skipped, older CPython gives random port outputs.")
+            return
+
 
     result = subprocess.call(
         "%s %s %s %s" % (
