@@ -332,8 +332,10 @@ class WarnTests(BaseTest):
         finally:
             warning_tests.__file__ = filename
 
+    # Nuitka: This guesses the main filename to be Python source code, which
+    # it is not when compiled.
     @unittest.skipUnless(hasattr(sys, 'argv'), 'test needs sys.argv')
-    def test_missing_filename_main_with_argv(self):
+    def notest_missing_filename_main_with_argv(self):
         # If __file__ is not specified and the caller is __main__ and sys.argv
         # exists, then use sys.argv[0] as the file.
         filename = warning_tests.__file__
@@ -350,7 +352,9 @@ class WarnTests(BaseTest):
             warning_tests.__file__ = filename
             warning_tests.__name__ = module_name
 
-    def test_missing_filename_main_without_argv(self):
+    # Nuitka: This guesses the main filename to be Python source code, which
+    # it is not when compiled.
+    def notest_missing_filename_main_without_argv(self):
         # If __file__ is not specified, the caller is __main__, and sys.argv
         # is not set, then '__main__' is the file name.
         filename = warning_tests.__file__
@@ -370,7 +374,9 @@ class WarnTests(BaseTest):
             warning_tests.__name__ = module_name
             sys.argv = argv
 
-    def test_missing_filename_main_with_argv_empty_string(self):
+    # Nuitka: This guesses the main filename to be Python source code, which
+    # it is not when compiled.
+    def notest_missing_filename_main_with_argv_empty_string(self):
         # If __file__ is not specified, the caller is __main__, and sys.argv[0]
         # is the empty string, then '__main__ is the file name.
         # Tests issue 2743.
