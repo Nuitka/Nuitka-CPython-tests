@@ -53,6 +53,12 @@ def checkPath(filename, path):
                     "test_xml_etree.py"):
         extra_flags.append("ignore_stderr")
 
+    # This goes havoc on memory consumption.
+    if python_version < "3" and \
+       path == "doctest_generated"+ os.path.sep + "test_itertools.py":
+        my_print("Skipping (bug causing it be a memory hog)", path)
+        return
+
     # Deprecation warnings on wrong lines.
     if python_version >= "3.3" and \
        filename in ("test_smtpd.py", "test_unicode.py"):
@@ -112,10 +118,6 @@ def checkDir(directory):
             continue
 
         active = search_mode.consider(directory, filename)
-
-        # This goes havoc on memory consumption.
-        if filename == "test_itertools.py" and directory == "doctest_generated" and python_version < "3":
-            continue
 
         path = os.path.join(directory, filename)
 
