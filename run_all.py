@@ -1,84 +1,55 @@
 #!/usr/bin/env python3.3
 
-from __future__ import print_function
+import os, sys
 
-import os, sys, subprocess
-
-# Go its own directory, to have it easy with path knowledge.
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
-
-search_mode = len( sys.argv ) > 1 and sys.argv[1] == "search"
-
-start_at = sys.argv[2] if len( sys.argv ) > 2 else None
-
-if start_at:
-    active = False
-    start_at = start_at.replace("/", os.path.sep)
-else:
-    active = True
-
-if "PYTHON" not in os.environ:
-    os.environ["PYTHON"] = sys.executable
-
-# Make sure we flush after every print, the "-u" option does more than that
-# and this is easy enough.
-def my_print(*args, **kwargs):
-    print(*args, **kwargs)
-
-    sys.stdout.flush()
-
-def check_output(*popenargs, **kwargs):
-    from subprocess import Popen, PIPE, CalledProcessError
-
-    if 'stdout' in kwargs:
-        raise ValueError('stdout argument not allowed, it will be overridden.')
-    process = Popen(stdout=PIPE, *popenargs, **kwargs)
-    output, unused_err = process.communicate()
-    retcode = process.poll()
-    if retcode:
-        cmd = kwargs.get("args")
-        if cmd is None:
-            cmd = popenargs[0]
-        raise CalledProcessError(retcode, cmd, output=output)
-    return output
-
-version_output = check_output(
-    [os.environ["PYTHON"], "--version"],
-    stderr = subprocess.STDOUT
+# Find common code relative in file system. Not using packages for test stuff.
+sys.path.insert(
+    0,
+    os.path.normpath(
+        os.path.join(
+            os.path.dirname(os.path.abspath(__file__)),
+            ".."
+        )
+    )
+)
+from test_common import (
+    my_print,
+    setup,
+    decideFilenameVersionSkip,
+    compareWithCPython,
+    hasDebugPython,
+    createSearchMode
 )
 
-python_version = version_output.split()[1]
+python_version = setup(needs_io_encoding = True)
 
-if sys.version.startswith("3"):
-    python_version = python_version.decode()
-
-os.environ["NUITKA_EXTRA_OPTIONS"] = \
-  os.environ.get("NUITKA_EXTRA_OPTIONS", "") + \
-  " --recurse-none"
-
-my_print("Using concrete python", python_version)
+search_mode = createSearchMode()
 
 def checkPath(filename, path):
     global active
 
     extra_flags = [
-        "silent",
         "remove_output",
         # Import test_support which won't be included and potentially others.
         "binary_python_path",
-        # Ignore warnings about missing imports
-        "ignore_warnings",
-        # Keep us informed about timing, even if concurrent runs spoil the
-        # accuracy.
-        "timing"
+        # We mean to compile only that one module
+        "recurse_none"
     ]
 
     # Avoid memory runaway of CPython2.
     if path == "doctest_generated/test_itertools.py" and python_version < "3":
         return
 
-    if path == "test/test_shelve.py":
+    if filename == "test_buffer.py":
         extra_flags.append("ignore_stderr")
+
+    # Imports a module with syntax errors.
+    if filename == "test_pep3120.py":
+        extra_flags.append("ignore_warnings")
+
+    # Imports missing packages we cannot whitelist.
+    if filename in ("test_pkgutil.py", "test_threaded_import.py"):
+        extra_flags.append("ignore_warnings")
 
     if "doctest_generated" in path:
         if python_version >= "3.3":
@@ -91,12 +62,6 @@ def checkPath(filename, path):
             if os.name == "nt":
                 my_print("Skipping", path, "not enough memory with 32 bits.")
                 return
-
-    # TODO: These don't compile in debug mode yet, due to missing optimization
-    if "--debug" in os.environ["NUITKA_EXTRA_OPTIONS"]:
-        if filename in ("test_grammar.py", ):
-            my_print("Skipped, does not compile in --debug mode without warnings.")
-            return
 
     if python_version >= "3.4":
         if filename == "test_argparse.py":
@@ -118,27 +83,15 @@ def checkPath(filename, path):
                         "test_userstring.py", "test_ntpath.py"):
             extra_flags.append("ignore_stderr")
 
-    result = subprocess.call(
-        "%s %s %s %s" % (
-            sys.executable,
-            os.path.join("..", "..", "bin", "compare_with_cpython"),
-            path,
-            " ".join(extra_flags)
-        ),
-        shell = True
+    compareWithCPython(
+        path        = path,
+        extra_flags = extra_flags,
+        search_mode = search_mode,
+        needs_2to3  = False
     )
-
-    for scanned in os.listdir("."):
-        if scanned.startswith("@test_"):
-            assert False, filename
-
-    if result != 0 and search_mode:
-        sys.exit(result)
 
 
 def checkDir(directory):
-    global active
-
     for filename in sorted(os.listdir(directory)):
         if not filename.endswith(".py") or not filename.startswith("test_"):
             continue
@@ -146,10 +99,10 @@ def checkDir(directory):
         if filename == "test_support.py":
             continue
 
+        active = search_mode.consider(directory, filename)
+
         path = os.path.join(directory, filename)
 
-        if not active and start_at in (filename, path):
-            active = True
 
         if active:
             checkPath(filename, path)
