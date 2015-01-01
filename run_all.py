@@ -68,6 +68,9 @@ def checkPath(filename, path):
         "binary_python_path",
         # Ignore warnings about missing imports
         "ignore_warnings",
+        # Keep us informed about timing, even if concurrent runs spoil the
+        # accuracy.
+        "timing"
     ]
 
     # Avoid memory runaway of CPython2.
