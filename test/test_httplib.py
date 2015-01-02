@@ -310,9 +310,8 @@ class HTTPSTimeoutTest(TestCase):
             self.assertEqual(h.timeout, 30)
 
 def test_main(verbose=None):
-    # Nuitka Issue#9 http://bugs.nuitka.net/issue9
-    # In tracebacks Nuitka uses start of call line, whereas CPython uses end of call line
-    test_support.run_unittest(HeaderTests, OfflineTest, BasicTest, TimeoutTest, HTTPSTimeoutTest)
+    test_support.run_unittest(HeaderTests, OfflineTest, BasicTest, TimeoutTest,
+                              HTTPSTimeoutTest)
 
 if __name__ == '__main__':
     test_main()

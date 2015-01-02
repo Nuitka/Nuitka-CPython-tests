@@ -119,14 +119,13 @@ class TestMixedNewlines(TestGenericUnivNewlines):
 
 
 def test_main():
-    cases = (
+    test_support.run_unittest(
         TestNativeNewlines,
         TestCRNewlines,
         TestLFNewlines,
         TestCRLFNewlines,
         TestMixedNewlines
-    )
-    test_support.run_unittest( *cases )
+     )
 
 if __name__ == '__main__':
     test_main()

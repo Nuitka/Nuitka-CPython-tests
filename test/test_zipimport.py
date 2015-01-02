@@ -470,9 +470,11 @@ def cleanup():
 def test_main():
     cleanup()
     try:
-        # Nuitka Issue#9 http://bugs.nuitka.net/issue9
-        # In tracebacks Nuitka uses start of call line, whereas CPython uses end of call line
-        test_support.run_unittest( UncompressedZipImportTestCase, CompressedZipImportTestCase, BadFileZipImportTestCase )
+        test_support.run_unittest(
+              UncompressedZipImportTestCase,
+              CompressedZipImportTestCase,
+              BadFileZipImportTestCase,
+            )
     finally:
         test_support.unlink(TESTMOD)
 

@@ -169,7 +169,8 @@ class TestMailbox(TestBase):
         # Get file representations of messages
         key0 = self._box.add(self._template % 0)
         key1 = self._box.add(_sample_message)
-        self.assert_(self._box.get_file(key0).read().replace(os.linesep, '\n') == self._template % 0)
+        self.assert_(self._box.get_file(key0).read().replace(os.linesep, '\n')
+                     == self._template % 0)
         self.assert_(self._box.get_file(key1).read().replace(os.linesep, '\n')
                      == _sample_message)
 
@@ -273,7 +274,8 @@ class TestMailbox(TestBase):
     def test_set_item(self):
         # Modify messages using __setitem__()
         key0 = self._box.add(self._template % 'original 0')
-        self.assert_(self._box.get_string(key0) == self._template % 'original 0')
+        self.assert_(self._box.get_string(key0) == \
+                     self._template % 'original 0')
         key1 = self._box.add(self._template % 'original 1')
         self.assert_(self._box.get_string(key1) == \
                      self._template % 'original 1')
@@ -350,7 +352,8 @@ class TestMailbox(TestBase):
         self._box.update({key0: self._template % 'changed 0',
                           key2: _sample_message})
         self.assert_(len(self._box) == 3)
-        self.assert_(self._box.get_string(key0) == self._template % 'changed 0')
+        self.assert_(self._box.get_string(key0) ==
+                     self._template % 'changed 0')
         self.assert_(self._box.get_string(key1) ==
                      self._template % 'original 1')
         self._check_sample(self._box[key2])
@@ -1727,9 +1730,8 @@ class TestPartialFile(TestProxyFileBase):
 
     def test_close(self):
         self._file.write('&foo%sbar%s^' % (os.linesep, os.linesep))
-        # Nuitka Issue#9 http://bugs.nuitka.net/issue9
-        # In tracebacks Nuitka uses start of call line, whereas CPython uses end of call line
-        self._test_close(mailbox._PartialFile(self._file, 1, 6 + 3 * len(os.linesep)))
+        self._test_close(mailbox._PartialFile(self._file, 1,
+                                              6 + 3 * len(os.linesep)))
 
 
 ## Start: tests from the original module (for backward compatibility).

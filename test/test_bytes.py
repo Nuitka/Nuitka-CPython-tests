@@ -1042,10 +1042,11 @@ def test_main():
     #test.test_support.run_unittest(BytesTest)
     #test.test_support.run_unittest(AssortedBytesTest)
     #test.test_support.run_unittest(BytesAsStringTest)
-
-    # Nuitka: Issue#9 http://bugs.nuitka.net/issue9
-    # In tracebacks Nuitka uses start of call line, whereas CPython uses end of call line
-    test.test_support.run_unittest( ByteArrayTest, ByteArrayAsStringTest, ByteArraySubclassTest, BytearrayPEP3137Test)
+    test.test_support.run_unittest(
+        ByteArrayTest,
+        ByteArrayAsStringTest,
+        ByteArraySubclassTest,
+        BytearrayPEP3137Test)
 
 if __name__ == "__main__":
     test_main()

@@ -335,7 +335,8 @@ class TestDescriptions(unittest.TestCase):
 
 
 def test_main():
-    test.test_support.run_unittest(PyDocDocTest,TestDescriptions)
+    test.test_support.run_unittest(PyDocDocTest,
+                                   TestDescriptions)
 
 if __name__ == "__main__":
     test_main()

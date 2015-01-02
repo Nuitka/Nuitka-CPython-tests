@@ -103,10 +103,10 @@ class FractionTest(unittest.TestCase):
             # Avoid treating '.' as a regex special character.
             ValueError, "Invalid literal for Fraction: '3a2'",
             F, "3a2")
-
-        # Nuitka Issue#9 http://bugs.nuitka.net/issue9
-        # In tracebacks Nuitka uses start of call line, whereas CPython uses end of call line
-        self.assertRaisesMessage( ValueError, "Invalid literal for Fraction: '3.2e4'", F, "3.2e4")
+        self.assertRaisesMessage(
+            # Only parse ordinary decimals, not scientific form.
+            ValueError, "Invalid literal for Fraction: '3.2e4'",
+            F, "3.2e4")
         self.assertRaisesMessage(
             # Don't accept combinations of decimals and fractions.
             ValueError, "Invalid literal for Fraction: '3/7.2'",

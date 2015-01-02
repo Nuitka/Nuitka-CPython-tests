@@ -722,7 +722,7 @@ def test_main():
     with warnings.catch_warnings():
         warnings.filterwarnings('ignore', ".*urllib\.urlopen.*Python 3.0",
                                 DeprecationWarning)
-        cases = (
+        test_support.run_unittest(
             urlopen_FileTests,
             urlopen_HttpTests,
             urlretrieve_FileTests,
@@ -735,7 +735,6 @@ def test_main():
             #FTPWrapperTests,
         )
 
-        test_support.run_unittest( *cases )
 
 
 if __name__ == '__main__':

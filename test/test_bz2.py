@@ -406,13 +406,12 @@ class FuncTest(BaseTest):
         self.assertRaises(ValueError, bz2.decompress, self.DATA[:-10])
 
 def test_main():
-    cases = (
+    test_support.run_unittest(
         BZ2FileTest,
         BZ2CompressorTest,
         BZ2DecompressorTest,
         FuncTest
     )
-    test_support.run_unittest(*cases)
     test_support.reap_children()
 
 if __name__ == '__main__':

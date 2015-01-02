@@ -119,14 +119,13 @@ class cPickleDeepRecursive(unittest.TestCase):
 
 
 def test_main():
-    cases = (
+    test_support.run_unittest(
         cPickleTests,
         cPicklePicklerTests,
         cPickleListPicklerTests,
         cPickleFastPicklerTests,
         cPickleDeepRecursive,
     )
-    test_support.run_unittest(*cases)
 
 if __name__ == "__main__":
     test_main()

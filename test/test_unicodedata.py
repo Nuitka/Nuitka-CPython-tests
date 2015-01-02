@@ -295,14 +295,11 @@ class UnicodeMiscTest(UnicodeDatabaseTest):
         self.assertEqual(u"\u01c6".title(), u"\u01c5")
 
 def test_main():
-    # Nuitka Issue#9 http://bugs.nuitka.net/issue9
-    # In tracebacks Nuitka uses start of call line, whereas CPython uses end of call line
-    cases = (
+    test.test_support.run_unittest(
         UnicodeMiscTest,
         UnicodeMethodsTest,
         UnicodeFunctionsTest
     )
-    test.test_support.run_unittest( *cases )
 
 if __name__ == "__main__":
     test_main()

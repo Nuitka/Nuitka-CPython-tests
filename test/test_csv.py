@@ -1040,7 +1040,9 @@ else:
 
 def test_main():
     mod = sys.modules[__name__]
-    test_support.run_unittest( *[getattr(mod, name) for name in dir(mod) if name.startswith('Test')] )
+    test_support.run_unittest(
+        *[getattr(mod, name) for name in dir(mod) if name.startswith('Test')]
+    )
 
 if __name__ == '__main__':
     test_main()

@@ -348,14 +348,13 @@ class TestHashTable_InMemory(TestBSDDB):
 ##         #                                   Solaris Intel - rmasse 1/97
 
 def test_main(verbose=None):
-    cases = (
+    test_support.run_unittest(
         TestBTree,
         TestHashTable,
         TestBTree_InMemory,
         TestHashTable_InMemory,
         TestBTree_InMemory_Truncate,
     )
-    test_support.run_unittest(*cases)
 
 if __name__ == "__main__":
     test_main(verbose=True)

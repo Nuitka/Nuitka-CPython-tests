@@ -105,8 +105,7 @@ class HTMLParserTestCase(TestCaseBase):
             ])
 
     def test_simple_html(self):
-
-        checked = """
+        self._run_check("""
 <!DOCTYPE html PUBLIC 'foo'>
 <HTML>&entity;&#32;
 <!--comment1a
@@ -136,8 +135,6 @@ text
     ("endtag", "html"),
     ("data", "\n"),
     ])
-
-        self._run_check( checked )
 
     def test_unclosed_entityref(self):
         self._run_check("&entityref foo", [

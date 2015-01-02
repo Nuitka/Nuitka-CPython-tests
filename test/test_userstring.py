@@ -32,9 +32,11 @@ class UserStringTest(
     def checkraises(self, exc, object, methodname, *args):
         object = self.fixtype(object)
         # we don't fix the arguments, because UserString can't cope with it
-        # Nuitka Issue#9 http://bugs.nuitka.net/issue9
-        # In tracebacks Nuitka uses start of call line, whereas CPython uses end of call line
-        self.assertRaises( exc, getattr(object, methodname), *args )
+        self.assertRaises(
+            exc,
+            getattr(object, methodname),
+            *args
+        )
 
     def checkcall(self, object, methodname, *args):
         object = self.fixtype(object)

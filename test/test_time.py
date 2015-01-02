@@ -88,9 +88,8 @@ class TimeTestCase(unittest.TestCase):
         self.assertRaises(ValueError, time.strftime, '',
                             (1900, 1, 1, 0, 0, 0, 0, 367, -1))
         # Check daylight savings flag [-1, 1]
-        # Nuitka Issue#9 http://bugs.nuitka.net/issue9
-        # In tracebacks Nuitka uses start of call line, whereas CPython uses end of call line
-        self.assertRaises(ValueError, time.strftime, '', (1900, 1, 1, 0, 0, 0, 0, 1, -2))
+        self.assertRaises(ValueError, time.strftime, '',
+                            (1900, 1, 1, 0, 0, 0, 0, 1, -2))
         self.assertRaises(ValueError, time.strftime, '',
                             (1900, 1, 1, 0, 0, 0, 0, 1, 2))
 

@@ -585,9 +585,11 @@ def test_main():
     with test_support._check_py3k_warnings(
         ('dict(.has_key..| inequality comparisons) not supported in 3.x',
          DeprecationWarning)):
-        # Nuitka: Issue#9 http://bugs.nuitka.net/issue9
-        # In tracebacks Nuitka uses start of call line, whereas CPython uses end of call line
-        test_support.run_unittest( DictTest, GeneralMappingTests, SubclassMappingTests )
+        test_support.run_unittest(
+            DictTest,
+            GeneralMappingTests,
+            SubclassMappingTests,
+        )
 
 if __name__ == "__main__":
     test_main()

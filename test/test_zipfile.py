@@ -1126,12 +1126,10 @@ class UniversalNewlineTests(unittest.TestCase):
 
 
 def test_main():
-    cases = (TestsWithSourceFile, TestZip64InSmallFiles, OtherTests,
+    run_unittest(TestsWithSourceFile, TestZip64InSmallFiles, OtherTests,
                  PyZipFileTests, DecryptionTests, TestsWithMultipleOpens,
                  TestWithDirectory,
                  UniversalNewlineTests, TestsWithRandomBinaryFiles)
-
-    run_unittest(*cases)
 
 if __name__ == "__main__":
     test_main()
