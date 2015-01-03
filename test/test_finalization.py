@@ -128,7 +128,13 @@ class TestBase:
             gc.collect()
 
     def assert_del_calls(self, ids):
-        self.assertEqual(sorted(SimpleBase.del_calls), sorted(ids))
+        # Nuitka: When using this with old CPython, it will fail and output
+        # run time pointer values, lets no do that.
+        import sys
+        if sys.version_info() < (3, 4):
+            self.assertEqual(len(SimpleBase.del_calls), len(ids))
+        else:
+            self.assertEqual(sorted(SimpleBase.del_calls), sorted(ids))
 
     def assert_tp_del_calls(self, ids):
         self.assertEqual(sorted(SimpleBase.tp_del_calls), sorted(ids))
