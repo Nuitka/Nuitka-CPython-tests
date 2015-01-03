@@ -523,7 +523,10 @@ def test_main():
         cases = (PydocDocTest,
                                   PydocImportTest,
                                   TestDescriptions,
-                                  PydocServerTest,
+                                  # Nuitka: This starts a server, which makes
+                                  # use network for no good reason, disable it,
+                                  # doesn't cover anything.
+#                                  PydocServerTest,
                                   PydocUrlHandlerTest,
                                   TestHelper,
                                   )
