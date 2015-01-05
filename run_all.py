@@ -130,6 +130,9 @@ def checkPath(filename, path):
             my_print("Skipped, older CPython gives random port outputs.")
             return
 
+        if filename == "test_sched.py":
+            my_print("Skipped, older CPython gives random time stamps.")
+            return
 
     result = subprocess.call(
         "%s %s %s %s" % (
