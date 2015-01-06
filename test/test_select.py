@@ -5,6 +5,9 @@ import sys
 import unittest
 from test import support
 
+# Nuitka: Disable verbose output due to reorderings from threading.
+support.verbose = False
+
 @unittest.skipIf((sys.platform[:3]=='win'),
                  "can't easily test on this system")
 class SelectTestCase(unittest.TestCase):
