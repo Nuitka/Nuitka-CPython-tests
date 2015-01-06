@@ -134,6 +134,11 @@ def checkPath(filename, path):
             my_print("Skipped, older CPython gives random time stamps.")
             return
 
+        if filename == "test_scope.py":
+            my_print("Skipped, older CPython fails test that Nuitka passes.")
+            return
+
+
     result = subprocess.call(
         "%s %s %s %s" % (
             sys.executable,
