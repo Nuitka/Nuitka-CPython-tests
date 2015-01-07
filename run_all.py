@@ -138,6 +138,10 @@ def checkPath(filename, path):
             my_print("Skipped, older CPython fails test that Nuitka passes.")
             return
 
+        if filename == "test_pkg.py":
+            my_print("Skipped, older CPython fails test with random output.")
+            return
+
 
     result = subprocess.call(
         "%s %s %s %s" % (
