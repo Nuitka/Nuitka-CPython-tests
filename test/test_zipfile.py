@@ -511,8 +511,7 @@ class TestZip64InSmallFiles(unittest.TestCase):
 
     def large_file_exception_test2(self, f, compression):
         with zipfile.ZipFile(f, "w", compression) as zipfp:
-            self.assertRaises(zipfile.LargeZipFile,
-                              zipfp.writestr, "another.name", self.data)
+            self.assertRaises(zipfile.LargeZipFile, zipfp.writestr, "another.name", self.data)
 
     def test_large_file_exception(self):
         for f in (TESTFN2, TemporaryFile(), StringIO()):
