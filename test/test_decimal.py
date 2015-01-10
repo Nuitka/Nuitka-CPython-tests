@@ -77,7 +77,7 @@ directory = testdir + os.sep + TESTDATADIR + os.sep
 # directory, due to our environment choice. It could be there, but it is not,
 # and so we use the local path directly.
 
-directory = "test/" + TESTDATADIR
+directory = "test" + os.sep + TESTDATADIR + os.sep
 
 skip_expected = not os.path.isdir(directory)
 
