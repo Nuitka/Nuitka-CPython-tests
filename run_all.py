@@ -142,6 +142,10 @@ def checkPath(filename, path):
             my_print("Skipped, older CPython fails test with random output.")
             return
 
+        if filename == "test_urllib.py":
+            my_print("Skipped, older CPython fails test with random output.")
+            return
+
 
     result = subprocess.call(
         "%s %s %s %s" % (
