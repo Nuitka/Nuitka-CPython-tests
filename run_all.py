@@ -146,6 +146,14 @@ def checkPath(filename, path):
             my_print("Skipped, older CPython fails test with random output.")
             return
 
+        if filename == "test_strftime.py":
+            my_print("Skipped, older CPython bug causes crash.")
+            return
+
+        if filename == "test_super.py":
+            my_print("Skipped, older CPython bug causes crash.")
+            return
+
 
     result = subprocess.call(
         "%s %s %s %s" % (
