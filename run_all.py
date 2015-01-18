@@ -17,6 +17,7 @@ from test_common import (
     setup,
     decideFilenameVersionSkip,
     compareWithCPython,
+    reportSkip,
     hasDebugPython,
     createSearchMode
 )
@@ -26,7 +27,7 @@ python_version = setup(needs_io_encoding = True)
 search_mode = createSearchMode()
 
 
-def checkPath(filename, path):
+def checkPath(dirname, filename):
     global active
 
     extra_flags = [
@@ -52,11 +53,11 @@ def checkPath(filename, path):
     if os.name == "nt" and \
        python_version >= b"2.7" and \
        filename == "test_time.py":
-        my_print("Skipping (crashes CPython2.7 on Windows)", path)
+        reportSkip("crashes CPython2.7 on Windows", dirname, filename)
 
         return
 
-    if "doctest_generated" in path and python_version < b"3":
+    if "doctest_generated" in dirname and python_version < b"3":
         extra_flags.append("expect_success")
 
         if filename == "test_generators.py":
@@ -64,33 +65,35 @@ def checkPath(filename, path):
 
             # On Windows with 32 bit, the MemoryError breaks the test
             if os.name == "nt":
-                my_print("Skipping", path, "not enough memory with 32 bits.")
+                reportSkip("memory issue with 32 bits Windows", dirname, filename)
+
                 return
 
     compareWithCPython(
-        path        = path,
+        dirname     = dirname,
+        filename    = filename,
         extra_flags = extra_flags,
         search_mode = search_mode,
         needs_2to3  = python_version >= "3"
     )
 
 
-def checkDir(directory):
-    for filename in sorted(os.listdir(directory)):
+def checkDir(dirname):
+    for filename in sorted(os.listdir(dirname)):
         if not filename.endswith(".py") or not filename.startswith("test_"):
             continue
 
         if filename == "test_support.py":
             continue
 
-        active = search_mode.consider(directory, filename)
-
-        path = os.path.join(directory, filename)
+        active = search_mode.consider(dirname, filename)
 
         if active:
-            checkPath(filename, path)
+            checkPath(dirname, filename)
         else:
-            my_print("Skipping", path)
+            my_print("Skipping", os.path.join(dirname, filename))
 
 checkDir("test")
 checkDir("doctest_generated")
+
+search_mode.finish()
