@@ -16,6 +16,7 @@ from test_common import (
     my_print,
     setup,
     decideFilenameVersionSkip,
+    reportSkip,
     compareWithCPython,
     hasDebugPython,
     createSearchMode
@@ -25,7 +26,7 @@ python_version = setup(needs_io_encoding = True)
 
 search_mode = createSearchMode()
 
-def checkPath(filename, path):
+def checkPath(dirname, filename):
     global active
 
     extra_flags = [
@@ -37,7 +38,9 @@ def checkPath(filename, path):
     ]
 
     # Avoid memory runaway of CPython2.
-    if path == "doctest_generated/test_itertools.py" and python_version < "3":
+    if dirname == "doctest_generated" and \
+       filename == "test_itertools.py" and \
+       python_version < "3":
         return
 
     if filename == "test_buffer.py":
@@ -51,7 +54,7 @@ def checkPath(filename, path):
     if filename in ("test_pkgutil.py", "test_threaded_import.py"):
         extra_flags.append("ignore_warnings")
 
-    if "doctest_generated" in path:
+    if dirname == "doctest_generated":
         if python_version >= "3.3":
             extra_flags.append("expect_success")
 
@@ -60,7 +63,8 @@ def checkPath(filename, path):
 
             # On Windows with 32 bit, the MemoryError breaks the test
             if os.name == "nt":
-                my_print("Skipping", path, "not enough memory with 32 bits.")
+                reportSkip("not enough memory with 32 bits on Windows", dirname, filename)
+
                 return
 
     if python_version >= "3.4":
@@ -89,30 +93,28 @@ def checkPath(filename, path):
             extra_flags.append("ignore_stderr")
 
     compareWithCPython(
-        path        = path,
+        dirname     = dirname,
+        filename    = filename,
         extra_flags = extra_flags,
         search_mode = search_mode,
         needs_2to3  = False
     )
 
 
-def checkDir(directory):
-    for filename in sorted(os.listdir(directory)):
+def checkDir(dirname):
+    for filename in sorted(os.listdir(dirname)):
         if not filename.endswith(".py") or not filename.startswith("test_"):
             continue
 
         if filename == "test_support.py":
             continue
 
-        active = search_mode.consider(directory, filename)
-
-        path = os.path.join(directory, filename)
-
+        active = search_mode.consider(dirname, filename)
 
         if active:
-            checkPath(filename, path)
+            checkPath(dirname, filename)
         else:
-            my_print("Skipping", path)
+            my_print("Skipping", os.path.join(dirname, filename))
 
 checkDir("test")
 checkDir("doctest_generated")
