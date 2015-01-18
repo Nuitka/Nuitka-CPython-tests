@@ -379,8 +379,7 @@ class TestSysConfig(unittest.TestCase):
                      'EXT_SUFFIX required for this test')
     def test_SO_value(self):
         with check_warnings(('', DeprecationWarning)):
-            self.assertEqual(sysconfig.get_config_var('SO'),
-                             sysconfig.get_config_var('EXT_SUFFIX'))
+            self.assertEqual(sysconfig.get_config_var('SO'), sysconfig.get_config_var('EXT_SUFFIX'))
 
     @unittest.skipIf(sysconfig.get_config_var('EXT_SUFFIX') is None,
                      'EXT_SUFFIX required for this test')
