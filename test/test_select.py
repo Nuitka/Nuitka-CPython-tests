@@ -4,6 +4,9 @@ import select
 import os
 import sys
 
+# Nuitka: Verbose output shows reordering due to threading.
+test_support.verbose = 0
+
 @unittest.skipIf(sys.platform[:3] in ('win', 'os2', 'riscos'),
                  "can't easily test on this system")
 class SelectTestCase(unittest.TestCase):
