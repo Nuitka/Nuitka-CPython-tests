@@ -150,7 +150,8 @@ class TCPTimeoutTestCase(TimeoutTestCase):
     def tearDown(self):
         self.sock.close()
 
-    def testConnectTimeout(self):
+    # Nuitka: Do not use the network.
+    def notestConnectTimeout(self):
         # Testing connect timeout is tricky: we need to have IP connectivity
         # to a host that silently drops our packets.  We can't simulate this
         # from Python because it's a function of the underlying TCP/IP stack.
