@@ -1461,9 +1461,15 @@ True
 __test__ = {'libreftest' : libreftest}
 
 def test_main(verbose=None):
-    test_classes = (TestBasicOps, TestVariousIteratorArgs, TestGC,
-                    RegressionTests, LengthTransparency,
-                    SubclassWithKwargsTest, TestExamples)
+    test_classes = (
+        TestBasicOps,
+        TestVariousIteratorArgs,
+        TestGC,
+        RegressionTests,
+        LengthTransparency,
+        SubclassWithKwargsTest,
+        TestExamples
+    )
     test_support.run_unittest(*test_classes)
 
     # verify reference counting
@@ -1477,11 +1483,9 @@ def test_main(verbose=None):
 
         # Nuitka: There is some fluctuation in CPython to eleminate
         if counts[0] in counts[1:] and counts[-1] in counts[:-1]:
-            counts = [ counts[0] * 5 ]
-        print "REFCOUNTS", counts
+            counts = [ counts[0] ] * 5
 
-    # doctest the examples in the library reference
-    test_support.run_doctest(sys.modules[__name__], verbose)
+        print "REFCOUNTS", counts
 
 if __name__ == "__main__":
     test_main(verbose=True)
