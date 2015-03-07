@@ -175,11 +175,12 @@ class EmbeddingTest(unittest.TestCase):
         # This is needed otherwise we get a fatal error:
         # "Py_Initialize: Unable to get the locale encoding
         # LookupError: no codec search functions registered: can't find encoding"
-        os.chdir(basepath)
+        # Nuitka: Test environment, we are not in a source checkout.
+        os.chdir(basepath or ".")
         try:
             exe = os.path.join(basepath, "Modules", "_testembed")
             if not os.path.exists(exe):
-                self.skipTest("%r doesn't exist" % exe)
+                self.skipTest("doesn't exist")
             p = subprocess.Popen([exe],
                                  stdout=subprocess.PIPE,
                                  stderr=subprocess.PIPE)
