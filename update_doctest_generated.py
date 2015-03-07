@@ -1,7 +1,8 @@
 #!/usr/bin/env python2.7
 
-# This script should be run each time the CPython test suite is updated. It extracts the
-# doctests from the objects specified manually.
+# This script should be run each time the CPython test suite is updated. It
+# extracts the doctests from the objects specified manually inside this script,
+# and converts them into proper statements.
 
 import doctest, os, ast
 
@@ -180,3 +181,6 @@ open( "doctest_generated/test_unpack.py", "w" ).write( script )
 import test.test_weakref
 script = convertToPython( test.test_weakref.libreftest )
 open( "doctest_generated/test_weakref.py", "w" ).write( script )
+
+script = convertToPython(open("test/ieee754.txt").read())
+open("doctest_generated/test_ieee754.py", "w" ).write(script)
