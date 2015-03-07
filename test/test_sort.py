@@ -43,11 +43,6 @@ def check(tag, expected, raw, compare=None):
 
 class TestBase(unittest.TestCase):
     def testStressfully(self):
-        # Nuitka: Referencing itself causes a reference leak that we cannot fix
-        # yet. Issue#45 http://bugs.nuitka.net/issue45
-        if hasattr(sys, "gettotalrefcount"):
-            return
-
         # Try a variety of sizes at and around powers of 2, and at powers of 10.
         sizes = [0]
         for power in range(1, 10):
@@ -135,11 +130,6 @@ class TestBase(unittest.TestCase):
 class TestBugs(unittest.TestCase):
 
     def test_bug453523(self):
-        # Nuitka: Referencing itself causes a reference leak that we cannot fix
-        # yet. Issue#45 http://bugs.nuitka.net/issue45
-        if hasattr(sys, "gettotalrefcount"):
-            return
-
         # bug 453523 -- list.sort() crasher.
         # If this fails, the most likely outcome is a core dump.
         # Mutations during a list sort should raise a ValueError.

@@ -307,22 +307,19 @@ class TestBasicOps(unittest.TestCase):
         # __cmp__ failure on inner object
         self.assertRaises(ExpectedError, gulp, s)
 
-        # Nuitka: Referencing itself causes a reference leak that we cannot fix
-        # yet. Issue#45 http://bugs.nuitka.net/issue45
-        if not hasattr(sys, "gettotalrefcount"):
-            # keyfunc failure
-            def keyfunc(obj):
-                if keyfunc.skip > 0:
-                    keyfunc.skip -= 1
-                    return obj
-                else:
-                    raise ExpectedError
+        # keyfunc failure
+        def keyfunc(obj):
+            if keyfunc.skip > 0:
+                keyfunc.skip -= 1
+                return obj
+            else:
+                raise ExpectedError
 
-            # keyfunc failure on outer object
-            keyfunc.skip = 0
-            self.assertRaises(ExpectedError, gulp, [None], keyfunc)
-            keyfunc.skip = 1
-            self.assertRaises(ExpectedError, gulp, [None, None], keyfunc)
+        # keyfunc failure on outer object
+        keyfunc.skip = 0
+        self.assertRaises(ExpectedError, gulp, [None], keyfunc)
+        keyfunc.skip = 1
+        self.assertRaises(ExpectedError, gulp, [None, None], keyfunc)
 
     def test_ifilter(self):
         self.assertEqual(list(ifilter(isEven, range(6))), [0,2,4])
@@ -851,14 +848,11 @@ class TestGC(unittest.TestCase):
         self.makecycle(groupby([a]*2, lambda x:x), a)
 
     def test_issue2246(self):
-        # Nuitka: Referencing itself causes a reference leak that we cannot fix
-        # yet. Issue#45 http://bugs.nuitka.net/issue45
-        if not hasattr(sys, "gettotalrefcount"):
-            # Issue 2246 -- the _grouper iterator was not included in GC
-            n = 10
-            keyfunc = lambda x: x
-            for i, j in groupby(xrange(n), key=keyfunc):
-                keyfunc.__dict__.setdefault('x',[]).append(j)
+        # Issue 2246 -- the _grouper iterator was not included in GC
+        n = 10
+        keyfunc = lambda x: x
+        for i, j in groupby(xrange(n), key=keyfunc):
+            keyfunc.__dict__.setdefault('x',[]).append(j)
 
     def test_ifilter(self):
         a = []
@@ -1123,11 +1117,6 @@ class LengthTransparency(unittest.TestCase):
 class RegressionTests(unittest.TestCase):
 
     def test_sf_793826(self):
-        # Nuitka: Referencing itself causes a reference leak that we cannot fix
-        # yet. Issue#45 http://bugs.nuitka.net/issue45
-        if hasattr(sys, "gettotalrefcount"):
-            return
-
         # Fix Armin Rigo's successful efforts to wreak havoc
 
         def mutatingtuple(tuple1, f, tuple2):
