@@ -2,6 +2,206 @@ from test.test_generators import Knights
 ################################################################################
 
 try:
+    def f():
+       yield 1
+       yield 2
+    #
+    for i in f():
+        print(i)
+    # Expected:
+    ## 1
+    ## 2
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    g = f()
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    next(g)
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    next(g)
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    next(g)
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    def f():
+        yield 1
+        return
+        yield 2 # never reached
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    g = f()
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    next(g)
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    next(g)
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    next(g) # once stopped, can't be resumed
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    def f():
+        yield 1
+        raise StopIteration
+        yield 2 # never reached
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    g = f()
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    next(g)
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    next(g)
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    next(g)
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    def g1():
+        try:
+            return
+        except:
+            yield 1
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    list(g1())
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    def g2():
+        try:
+            raise StopIteration
+        except:
+            yield 42
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    print(list(g2()))
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    def g3():
+        try:
+            return
+        finally:
+            yield 1
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    list(g3())
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    def yrange(n):
+        for i in range(n):
+            yield i
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    list(yrange(5))
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    def creator():
+        r = yrange(5)
+        print("creator", next(r))
+        return r
+    def caller():
+        r = creator()
+        for i in r:
+                print("caller", i)
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    caller()
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    def zrange(n):
+        for i in yrange(n):
+            yield i
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    list(zrange(5))
+except Exception as e:
+    print( "Occured", type(e), e )
+
+################################################################################
+
+try:
     def g():
         i = next(me)
         yield i
@@ -171,133 +371,62 @@ except Exception as e:
 ################################################################################
 
 try:
-    for c in conjoin([lambda: iter((0, 1))] * 3):
-        print(c)
-    # Expected:
-    ## [0, 0, 0]
-    ## [0, 0, 1]
-    ## [0, 1, 0]
-    ## [0, 1, 1]
-    ## [1, 0, 0]
-    ## [1, 0, 1]
-    ## [1, 1, 0]
-    ## [1, 1, 1]
-    #
-    # For efficiency in typical backtracking apps, conjoin() yields the same list
-    # object each time.  So if you want to save away a full account of its
-    # generated sequence, you need to copy its results.
-    #
-    def gencopy(iterator):
-        for x in iterator:
-            yield x[:]
-    #
-    for n in range(10):
-        all = list(gencopy(conjoin([lambda: iter((0, 1))] * n)))
-        print(n, len(all), all[0] == [0] * n, all[-1] == [1] * n)
-    # Expected:
-    ## 0 1 True True
-    ## 1 2 True True
-    ## 2 4 True True
-    ## 3 8 True True
-    ## 4 16 True True
-    ## 5 32 True True
-    ## 6 64 True True
-    ## 7 128 True True
-    ## 8 256 True True
-    ## 9 512 True True
-    #
-    # And run an 8-queens solver.
-    #
+    import weakref
 except Exception as e:
     print( "Occured", type(e), e )
 
 
 try:
-    q = Queens(8)
+    def gen():
+        yield 'foo!'
 except Exception as e:
     print( "Occured", type(e), e )
 
 
 try:
-    LIMIT = 2
+    wr = weakref.ref(gen)
 except Exception as e:
     print( "Occured", type(e), e )
 
 
 try:
-    count = 0
+    wr() is gen
 except Exception as e:
     print( "Occured", type(e), e )
 
 
 try:
-    for row2col in q.solve():
-        count += 1
-        if count <= LIMIT:
-            print("Solution", count)
-            q.printsolution(row2col)
-    # Expected:
-    ## Solution 1
-    ## +-+-+-+-+-+-+-+-+
-    ## |Q| | | | | | | |
-    ## +-+-+-+-+-+-+-+-+
-    ## | | | | |Q| | | |
-    ## +-+-+-+-+-+-+-+-+
-    ## | | | | | | | |Q|
-    ## +-+-+-+-+-+-+-+-+
-    ## | | | | | |Q| | |
-    ## +-+-+-+-+-+-+-+-+
-    ## | | |Q| | | | | |
-    ## +-+-+-+-+-+-+-+-+
-    ## | | | | | | |Q| |
-    ## +-+-+-+-+-+-+-+-+
-    ## | |Q| | | | | | |
-    ## +-+-+-+-+-+-+-+-+
-    ## | | | |Q| | | | |
-    ## +-+-+-+-+-+-+-+-+
-    ## Solution 2
-    ## +-+-+-+-+-+-+-+-+
-    ## |Q| | | | | | | |
-    ## +-+-+-+-+-+-+-+-+
-    ## | | | | | |Q| | |
-    ## +-+-+-+-+-+-+-+-+
-    ## | | | | | | | |Q|
-    ## +-+-+-+-+-+-+-+-+
-    ## | | |Q| | | | | |
-    ## +-+-+-+-+-+-+-+-+
-    ## | | | | | | |Q| |
-    ## +-+-+-+-+-+-+-+-+
-    ## | | | |Q| | | | |
-    ## +-+-+-+-+-+-+-+-+
-    ## | |Q| | | | | | |
-    ## +-+-+-+-+-+-+-+-+
-    ## | | | | |Q| | | |
-    ## +-+-+-+-+-+-+-+-+
-    #
+    p = weakref.proxy(gen)
 except Exception as e:
     print( "Occured", type(e), e )
 
 
 try:
-    print(count, "solutions in all.")
+    gi = gen()
 except Exception as e:
     print( "Occured", type(e), e )
 
 
 try:
-    k = Knights(10, 10)
+    wr = weakref.ref(gi)
 except Exception as e:
     print( "Occured", type(e), e )
 
 
 try:
-    LIMIT = 2
+    wr() is gi
 except Exception as e:
     print( "Occured", type(e), e )
 
 
 try:
-    count = 0
+    p = weakref.proxy(gi)
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    list(p)
 except Exception as e:
     print( "Occured", type(e), e )
 
@@ -590,450 +719,6 @@ except Exception as e:
 
 try:
     firstn(fib(), 17)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-################################################################################
-
-try:
-    def g():
-        for i in range(3):
-            yield None
-        yield None
-        return
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    list(g())
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def g():
-        yield 1
-        try:
-            raise StopIteration
-        except:
-            yield 2
-        yield 3
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    list(g())
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def gcomb(x, k):
-        "Generate all combinations of k elements from list x."
-
-        if k > len(x):
-            return
-        if k == 0:
-            yield []
-        else:
-            first, rest = x[0], x[1:]
-            # A combination does or doesn't contain first.
-            # If it does, the remainder is a k-1 comb of rest.
-            for c in gcomb(rest, k-1):
-                c.insert(0, first)
-                yield c
-            # If it doesn't contain first, it's a k comb of rest.
-            for c in gcomb(rest, k):
-                yield c
-    #
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    seq = list(range(1, 5))
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    for k in range(len(seq) + 2):
-        print("%d-combs of %s:" % (k, seq))
-        for c in gcomb(seq, k):
-            print("   ", c)
-    # Expected:
-    ## 0-combs of [1, 2, 3, 4]:
-    ##     []
-    ## 1-combs of [1, 2, 3, 4]:
-    ##     [1]
-    ##     [2]
-    ##     [3]
-    ##     [4]
-    ## 2-combs of [1, 2, 3, 4]:
-    ##     [1, 2]
-    ##     [1, 3]
-    ##     [1, 4]
-    ##     [2, 3]
-    ##     [2, 4]
-    ##     [3, 4]
-    ## 3-combs of [1, 2, 3, 4]:
-    ##     [1, 2, 3]
-    ##     [1, 2, 4]
-    ##     [1, 3, 4]
-    ##     [2, 3, 4]
-    ## 4-combs of [1, 2, 3, 4]:
-    ##     [1, 2, 3, 4]
-    ## 5-combs of [1, 2, 3, 4]:
-    #
-    # From the Iterators list, about the types of these things.
-    #
-    def g():
-        yield 1
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    type(g)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    i = g()
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    type(i)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    from test.support import HAVE_DOCSTRINGS
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    print(i.__next__.__doc__ if HAVE_DOCSTRINGS else 'x.__next__() <==> next(x)')
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    iter(i) is i
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    import types
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    i.gi_running
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    i.gi_running = 42
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def g():
-        yield me.gi_running
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    me = g()
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    me.gi_running
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    next(me)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    me.gi_running
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    class disjointSet:
-        def __init__(self, name):
-            self.name = name
-            self.parent = None
-            self.generator = self.generate()
-
-        def generate(self):
-            while not self.parent:
-                yield self
-            for x in self.parent.generator:
-                yield x
-
-        def find(self):
-            return next(self.generator)
-
-        def union(self, parent):
-            if self.parent:
-                raise ValueError("Sorry, I'm not a root!")
-            self.parent = parent
-
-        def __str__(self):
-            return self.name
-    #
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    names = "ABCDEFGHIJKLM"
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    sets = [disjointSet(name) for name in names]
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    roots = sets[:]
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    import random
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    gen = random.Random(42)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-################################################################################
-
-try:
-    def f():
-       yield 1
-       yield 2
-    #
-    for i in f():
-        print(i)
-    # Expected:
-    ## 1
-    ## 2
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    g = f()
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    next(g)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    next(g)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    next(g)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def f():
-        yield 1
-        return
-        yield 2 # never reached
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    g = f()
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    next(g)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    next(g)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    next(g) # once stopped, can't be resumed
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def f():
-        yield 1
-        raise StopIteration
-        yield 2 # never reached
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    g = f()
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    next(g)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    next(g)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    next(g)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def g1():
-        try:
-            return
-        except:
-            yield 1
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    list(g1())
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def g2():
-        try:
-            raise StopIteration
-        except:
-            yield 42
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    print(list(g2()))
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def g3():
-        try:
-            return
-        finally:
-            yield 1
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    list(g3())
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def yrange(n):
-        for i in range(n):
-            yield i
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    list(yrange(5))
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def creator():
-        r = yrange(5)
-        print("creator", next(r))
-        return r
-    def caller():
-        r = creator()
-        for i in r:
-                print("caller", i)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    caller()
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def zrange(n):
-        for i in yrange(n):
-            yield i
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    list(zrange(5))
 except Exception as e:
     print( "Occured", type(e), e )
 
@@ -1401,62 +1086,244 @@ except Exception as e:
 ################################################################################
 
 try:
-    import weakref
+    def g():
+        for i in range(3):
+            yield None
+        yield None
+        return
 except Exception as e:
     print( "Occured", type(e), e )
 
 
 try:
-    def gen():
-        yield 'foo!'
+    list(g())
 except Exception as e:
     print( "Occured", type(e), e )
 
 
 try:
-    wr = weakref.ref(gen)
+    def g():
+        yield 1
+        try:
+            raise StopIteration
+        except:
+            yield 2
+        yield 3
 except Exception as e:
     print( "Occured", type(e), e )
 
 
 try:
-    wr() is gen
+    list(g())
 except Exception as e:
     print( "Occured", type(e), e )
 
 
 try:
-    p = weakref.proxy(gen)
+    def gcomb(x, k):
+        "Generate all combinations of k elements from list x."
+
+        if k > len(x):
+            return
+        if k == 0:
+            yield []
+        else:
+            first, rest = x[0], x[1:]
+            # A combination does or doesn't contain first.
+            # If it does, the remainder is a k-1 comb of rest.
+            for c in gcomb(rest, k-1):
+                c.insert(0, first)
+                yield c
+            # If it doesn't contain first, it's a k comb of rest.
+            for c in gcomb(rest, k):
+                yield c
+    #
 except Exception as e:
     print( "Occured", type(e), e )
 
 
 try:
-    gi = gen()
+    seq = list(range(1, 5))
 except Exception as e:
     print( "Occured", type(e), e )
 
 
 try:
-    wr = weakref.ref(gi)
+    for k in range(len(seq) + 2):
+        print("%d-combs of %s:" % (k, seq))
+        for c in gcomb(seq, k):
+            print("   ", c)
+    # Expected:
+    ## 0-combs of [1, 2, 3, 4]:
+    ##     []
+    ## 1-combs of [1, 2, 3, 4]:
+    ##     [1]
+    ##     [2]
+    ##     [3]
+    ##     [4]
+    ## 2-combs of [1, 2, 3, 4]:
+    ##     [1, 2]
+    ##     [1, 3]
+    ##     [1, 4]
+    ##     [2, 3]
+    ##     [2, 4]
+    ##     [3, 4]
+    ## 3-combs of [1, 2, 3, 4]:
+    ##     [1, 2, 3]
+    ##     [1, 2, 4]
+    ##     [1, 3, 4]
+    ##     [2, 3, 4]
+    ## 4-combs of [1, 2, 3, 4]:
+    ##     [1, 2, 3, 4]
+    ## 5-combs of [1, 2, 3, 4]:
+    #
+    # From the Iterators list, about the types of these things.
+    #
+    def g():
+        yield 1
 except Exception as e:
     print( "Occured", type(e), e )
 
 
 try:
-    wr() is gi
+    type(g)
 except Exception as e:
     print( "Occured", type(e), e )
 
 
 try:
-    p = weakref.proxy(gi)
+    i = g()
 except Exception as e:
     print( "Occured", type(e), e )
 
 
 try:
-    list(p)
+    type(i)
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    from test.support import HAVE_DOCSTRINGS
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    print(i.__next__.__doc__ if HAVE_DOCSTRINGS else 'x.__next__() <==> next(x)')
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    iter(i) is i
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    import types
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    i.gi_running
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    i.gi_running = 42
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    def g():
+        yield me.gi_running
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    me = g()
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    me.gi_running
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    next(me)
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    me.gi_running
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    class disjointSet:
+        def __init__(self, name):
+            self.name = name
+            self.parent = None
+            self.generator = self.generate()
+
+        def generate(self):
+            while not self.parent:
+                yield self
+            for x in self.parent.generator:
+                yield x
+
+        def find(self):
+            return next(self.generator)
+
+        def union(self, parent):
+            if self.parent:
+                raise ValueError("Sorry, I'm not a root!")
+            self.parent = parent
+
+        def __str__(self):
+            return self.name
+    #
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    names = "ABCDEFGHIJKLM"
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    sets = [disjointSet(name) for name in names]
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    roots = sets[:]
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    import random
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    gen = random.Random(42)
 except Exception as e:
     print( "Occured", type(e), e )
 
@@ -2100,5 +1967,138 @@ except Exception as e:
 
 try:
     data
+except Exception as e:
+    print( "Occured", type(e), e )
+
+################################################################################
+
+try:
+    for c in conjoin([lambda: iter((0, 1))] * 3):
+        print(c)
+    # Expected:
+    ## [0, 0, 0]
+    ## [0, 0, 1]
+    ## [0, 1, 0]
+    ## [0, 1, 1]
+    ## [1, 0, 0]
+    ## [1, 0, 1]
+    ## [1, 1, 0]
+    ## [1, 1, 1]
+    #
+    # For efficiency in typical backtracking apps, conjoin() yields the same list
+    # object each time.  So if you want to save away a full account of its
+    # generated sequence, you need to copy its results.
+    #
+    def gencopy(iterator):
+        for x in iterator:
+            yield x[:]
+    #
+    for n in range(10):
+        all = list(gencopy(conjoin([lambda: iter((0, 1))] * n)))
+        print(n, len(all), all[0] == [0] * n, all[-1] == [1] * n)
+    # Expected:
+    ## 0 1 True True
+    ## 1 2 True True
+    ## 2 4 True True
+    ## 3 8 True True
+    ## 4 16 True True
+    ## 5 32 True True
+    ## 6 64 True True
+    ## 7 128 True True
+    ## 8 256 True True
+    ## 9 512 True True
+    #
+    # And run an 8-queens solver.
+    #
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    q = Queens(8)
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    LIMIT = 2
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    count = 0
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    for row2col in q.solve():
+        count += 1
+        if count <= LIMIT:
+            print("Solution", count)
+            q.printsolution(row2col)
+    # Expected:
+    ## Solution 1
+    ## +-+-+-+-+-+-+-+-+
+    ## |Q| | | | | | | |
+    ## +-+-+-+-+-+-+-+-+
+    ## | | | | |Q| | | |
+    ## +-+-+-+-+-+-+-+-+
+    ## | | | | | | | |Q|
+    ## +-+-+-+-+-+-+-+-+
+    ## | | | | | |Q| | |
+    ## +-+-+-+-+-+-+-+-+
+    ## | | |Q| | | | | |
+    ## +-+-+-+-+-+-+-+-+
+    ## | | | | | | |Q| |
+    ## +-+-+-+-+-+-+-+-+
+    ## | |Q| | | | | | |
+    ## +-+-+-+-+-+-+-+-+
+    ## | | | |Q| | | | |
+    ## +-+-+-+-+-+-+-+-+
+    ## Solution 2
+    ## +-+-+-+-+-+-+-+-+
+    ## |Q| | | | | | | |
+    ## +-+-+-+-+-+-+-+-+
+    ## | | | | | |Q| | |
+    ## +-+-+-+-+-+-+-+-+
+    ## | | | | | | | |Q|
+    ## +-+-+-+-+-+-+-+-+
+    ## | | |Q| | | | | |
+    ## +-+-+-+-+-+-+-+-+
+    ## | | | | | | |Q| |
+    ## +-+-+-+-+-+-+-+-+
+    ## | | | |Q| | | | |
+    ## +-+-+-+-+-+-+-+-+
+    ## | |Q| | | | | | |
+    ## +-+-+-+-+-+-+-+-+
+    ## | | | | |Q| | | |
+    ## +-+-+-+-+-+-+-+-+
+    #
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    print(count, "solutions in all.")
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    k = Knights(10, 10)
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    LIMIT = 2
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    count = 0
 except Exception as e:
     print( "Occured", type(e), e )

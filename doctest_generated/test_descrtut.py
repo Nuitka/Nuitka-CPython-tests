@@ -2,6 +2,89 @@ from test.test_descrtut import defaultdict,defaultdict2,sortdict
 import pprint
 
 try:
+    class A:
+        def foo(self):
+            print("called A.foo()")
+    #
+    class B(A):
+        pass
+    #
+    class C(A):
+        def foo(self):
+            B.foo(self)
+    #
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    C().foo()
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    class C(A):
+        def foo(self):
+            A.foo(self)
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    C().foo()
+except Exception as e:
+    print( "Occured", type(e), e )
+
+try:
+    print(D().m()) # "DCBA"
+except Exception as e:
+    print( "Occured", type(e), e )
+
+try:
+    class A:    # implicit new-style class
+        def save(self):
+            print("called A.save()")
+    class B(A):
+        pass
+    class C(A):
+        def save(self):
+            print("called C.save()")
+    class D(B, C):
+        pass
+    #
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    D().save()
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    class A(object):  # explicit new-style class
+        def save(self):
+            print("called A.save()")
+    class B(A):
+        pass
+    class C(A):
+        def save(self):
+            print("called C.save()")
+    class D(B, C):
+        pass
+    #
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    D().save()
+except Exception as e:
+    print( "Occured", type(e), e )
+
+try:
     class property(object):
 
         def __init__(self, get, set=None):
@@ -238,50 +321,102 @@ except Exception as e:
     print( "Occured", type(e), e )
 
 try:
-    print(D().m()) # "DCBA"
-except Exception as e:
-    print( "Occured", type(e), e )
-
-try:
-    class A:    # implicit new-style class
-        def save(self):
-            print("called A.save()")
-    class B(A):
-        pass
-    class C(A):
-        def save(self):
-            print("called C.save()")
-    class D(B, C):
-        pass
-    #
+    type([])
 except Exception as e:
     print( "Occured", type(e), e )
 
 
 try:
-    D().save()
+    [].__class__
 except Exception as e:
     print( "Occured", type(e), e )
 
 
 try:
-    class A(object):  # explicit new-style class
-        def save(self):
-            print("called A.save()")
-    class B(A):
-        pass
-    class C(A):
-        def save(self):
-            print("called C.save()")
-    class D(B, C):
-        pass
-    #
+    list
 except Exception as e:
     print( "Occured", type(e), e )
 
 
 try:
-    D().save()
+    isinstance([], list)
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    isinstance([], dict)
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    isinstance([], object)
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    pprint.pprint(dir(list))    # like list.__dict__.keys(), but sorted
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    a = ['tic', 'tac']
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    list.__len__(a)          # same as len(a)
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    a.__len__()              # ditto
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    list.append(a, 'toe')    # same as a.append('toe')
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    a
+except Exception as e:
+    print( "Occured", type(e), e )
+
+try:
+    a = defaultdict2(default=0.0)
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    a[1]
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    a.default = -1
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    a[1]
+except Exception as e:
+    print( "Occured", type(e), e )
+
+
+try:
+    a.x1 = 1
 except Exception as e:
     print( "Occured", type(e), e )
 
@@ -455,140 +590,5 @@ except Exception as e:
 
 try:
     print(sortdict(a.__dict__))
-except Exception as e:
-    print( "Occured", type(e), e )
-
-try:
-    type([])
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    [].__class__
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    list
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    isinstance([], list)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    isinstance([], dict)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    isinstance([], object)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    pprint.pprint(dir(list))    # like list.__dict__.keys(), but sorted
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    a = ['tic', 'tac']
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    list.__len__(a)          # same as len(a)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    a.__len__()              # ditto
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    list.append(a, 'toe')    # same as a.append('toe')
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    a
-except Exception as e:
-    print( "Occured", type(e), e )
-
-try:
-    a = defaultdict2(default=0.0)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    a[1]
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    a.default = -1
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    a[1]
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    a.x1 = 1
-except Exception as e:
-    print( "Occured", type(e), e )
-
-try:
-    class A:
-        def foo(self):
-            print("called A.foo()")
-    #
-    class B(A):
-        pass
-    #
-    class C(A):
-        def foo(self):
-            B.foo(self)
-    #
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    C().foo()
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    class C(A):
-        def foo(self):
-            A.foo(self)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    C().foo()
 except Exception as e:
     print( "Occured", type(e), e )
