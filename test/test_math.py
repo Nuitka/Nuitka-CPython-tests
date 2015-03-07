@@ -1095,10 +1095,11 @@ class MathTests(unittest.TestCase):
 
 
 def test_main():
-    from doctest import DocFileSuite
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(MathTests))
-    suite.addTest(DocFileSuite("ieee754.txt"))
+
+    # Nuitka: Extracted as a doctest.
+    # suite.addTest(DocFileSuite("ieee754.txt"))
     run_unittest(suite)
 
 if __name__ == '__main__':
