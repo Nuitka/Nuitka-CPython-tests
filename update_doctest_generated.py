@@ -168,3 +168,6 @@ open( "doctest_generated/test_unpack.py", "w" ).write( script )
 import test.test_weakref
 script = convertToPython( test.test_weakref.libreftest )
 open( "doctest_generated/test_weakref.py", "w" ).write( script )
+
+script = convertToPython(open("test/ieee754.txt").read())
+open("doctest_generated/test_ieee754.py", "w" ).write(script)
