@@ -1208,6 +1208,6 @@ def test_main():
         ByteArrayTest, ByteArrayAsStringTest, BytesSubclassTest,
         ByteArraySubclassTest, BytearrayPEP3137Test)
 
-    test.support.run_unittest( *case )
+    test.support.run_unittest( *cases )
 if __name__ == "__main__":
     test_main()
