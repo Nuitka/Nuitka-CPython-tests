@@ -1653,7 +1653,7 @@ def test_main(verbose=None):
 
         # Nuitka: There is some fluctuation in CPython to eleminate
         if counts[0] in counts[1:] and counts[-1] in counts[:-1]:
-            counts = [ counts[0] * 5 ]
+            counts = [ counts[0] ] * 5
         print "REFCOUNTS", counts
 
     # doctest the examples in the library reference
