@@ -1449,11 +1449,14 @@ def test_main(verbose=None):
     # verify reference counting
     if verbose and hasattr(sys, "gettotalrefcount"):
         import gc
-        counts = [None] * 5
+        counts = [None] * 6
         for i in range(len(counts)):
             run_unittest(*test_classes)
             gc.collect()
             counts[i] = sys.gettotalrefcount()
+        # Nuitka: There is some fluctuation in CPython to eleminate
+        if counts[0] in counts[1:] and counts[-1] in counts[:-1]:
+            counts = [ counts[0] ] * len(counts)
         print("REFCOUNTS", counts)
 
 
