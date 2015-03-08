@@ -437,11 +437,6 @@ class TestTotalOrdering(unittest.TestCase):
                 pass
 
     def test_bug_10042(self):
-        # Nuitka: Referencing itself causes a reference leak that we cannot fix
-        # yet. Issue#45 http://bugs.nuitka.net/issue45
-        if hasattr(sys, "gettotalrefcount"):
-            return
-
         @functools.total_ordering
         class TestTO:
             def __init__(self, value):
