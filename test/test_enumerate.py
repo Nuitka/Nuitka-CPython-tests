@@ -243,7 +243,7 @@ def test_main(verbose=None):
         for i in range(len(counts)):
             support.run_unittest(__name__)
             counts[i] = sys.gettotalrefcount()
-        print(counts)
+        print("REFCOUNTS", counts)
 
 if __name__ == "__main__":
     test_main(verbose=True)

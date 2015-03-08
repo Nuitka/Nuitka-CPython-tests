@@ -41,7 +41,8 @@ def test_main(verbose=None):
     support.run_doctest(test_dictcomps, verbose)
 
     # verify reference counting
-    if verbose and hasattr(sys, "gettotalrefcount"):
+    # Nuitka: Unstable for CPython already, so we disable it.
+    if False and hasattr(sys, "gettotalrefcount"):
         import gc
         counts = [None] * 5
         for i in range(len(counts)):
