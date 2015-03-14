@@ -32,7 +32,10 @@ def checkPath(dirname, filename):
         # Import test_support which won't be included and potentially others.
         "binary_python_path",
         # We mean to compile only that one module
-        "recurse_none"
+        "recurse_none",
+        # Use the original __file__ value, at least one case warns about things
+        # with filename included.
+        "original_file"
     ]
 
     if dirname == "test" and filename == "test_shelve.py":
