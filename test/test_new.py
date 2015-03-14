@@ -89,8 +89,8 @@ class NewTest(unittest.TestCase):
             return g
         g = f(4)
         new.function(f.func_code, {}, "blah")
-        # Nuitka: Issue#25 http://bugs.nuitka.net/issue25
-        # No support for "func.func_closure"
+        # Nuitka: Issue#18 http://bugs.nuitka.net/issue18
+        # No support for local variables in "func.func_code.co_varnames"
         # The compiled functions do not exhibit func_closure, it is considered to
         # be too rarely used.
         # g2 = new.function(g.func_code, {}, "blah", (2,), g.func_closure)
