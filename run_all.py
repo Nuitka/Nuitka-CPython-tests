@@ -70,7 +70,10 @@ def checkPath(filename, path):
         "ignore_warnings",
         # Keep us informed about timing, even if concurrent runs spoil the
         # accuracy.
-        "timing"
+        "timing",
+        # Use the original __file__ value, at least one case warns about things
+        # with filename included.
+        "original_file"
     ]
 
     # Avoid memory runaway of CPython2.
