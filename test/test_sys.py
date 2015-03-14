@@ -576,9 +576,7 @@ class SizeofTest(unittest.TestCase):
             def inner():
                 return x
             return inner
-        # Nuitka: Issue#25 http://bugs.nuitka.net/issue25
-        # The "func.func_closure" is not supported.
-        # check(get_cell().func_closure[0], size(h + 'P'))
+        check(get_cell().func_closure[0], size(h + 'P'))
         # classobj (old-style class)
         class class_oldstyle():
             def method():
