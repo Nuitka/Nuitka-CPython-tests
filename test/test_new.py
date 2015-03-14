@@ -89,8 +89,7 @@ class NewTest(unittest.TestCase):
             return g
         g = f(4)
         new.function(f.func_code, {}, "blah")
-        # Nuitka: Issue#25 http://bugs.nuitka.net/issue25
-        # No support for "func.func_closure"
+        # Nuitka: Issue#18 http://bugs.nuitka.net/issue18
         # g2 = new.function(g.func_code, {}, "blah", (2,), g.func_closure)
         # self.assertEqual(g2(), 6)
         # g3 = new.function(g.func_code, {}, "blah", None, g.func_closure)
@@ -98,8 +97,7 @@ class NewTest(unittest.TestCase):
         def test_closure(func, closure, exc):
             self.assertRaises(exc, new.function, func.func_code, {}, "", None, closure)
 
-        # Nuitka: Issue#25 http://bugs.nuitka.net/issue25
-        # No support for "func.func_closure"
+        # Nuitka: Issue#18 http://bugs.nuitka.net/issue18
         # test_closure(g, None, TypeError) # invalid closure
         # test_closure(g, (1,), TypeError) # non-cell in closure
         # test_closure(g, (1, 1), ValueError) # closure is wrong size
