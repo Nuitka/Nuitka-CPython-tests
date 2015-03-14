@@ -524,8 +524,7 @@ class SizeofTest(unittest.TestCase):
             def inner():
                 return x
             return inner
-        # Nuitka: No func_closure available.
-        # check(get_cell().func_closure[0], size(h + 'P'))
+        check(get_cell().func_closure[0], size(h + 'P'))
         # classobj (old-style class)
         class class_oldstyle():
             def method():
