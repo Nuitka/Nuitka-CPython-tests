@@ -931,7 +931,9 @@ class TestGetClosureVars(unittest.TestCase):
         unbound_names = {"unbound_ref"}
         expected = inspect.ClosureVars(nonlocal_vars, global_vars,
                                        builtin_vars, unbound_names)
-        # Nuitka: The __closure__ attribute is not working.
+        # Nuitka: The __closure__ attribute is working, but the code
+        # object does not announce freevars and cellvars properly, so
+        # it won't work.
         # self.assertEqual(inspect.getclosurevars(f(_arg)), expected)
 
     def test_generator_closure(self):
@@ -947,7 +949,9 @@ class TestGetClosureVars(unittest.TestCase):
         unbound_names = {"unbound_ref"}
         expected = inspect.ClosureVars(nonlocal_vars, global_vars,
                                        builtin_vars, unbound_names)
-        # Nuitka: The __closure__ attribute is not working.
+        # Nuitka: The __closure__ attribute is working, but the code
+        # object does not announce freevars and cellvars properly, so
+        # it won't work.
         # self.assertEqual(inspect.getclosurevars(f(_arg)), expected)
 
     def test_method_closure(self):
@@ -963,7 +967,9 @@ class TestGetClosureVars(unittest.TestCase):
         unbound_names = {"unbound_ref"}
         expected = inspect.ClosureVars(nonlocal_vars, global_vars,
                                        builtin_vars, unbound_names)
-        # Nuitka: The __closure__ attribute is not working.
+        # Nuitka: The __closure__ attribute is working, but the code
+        # object does not announce freevars and cellvars properly, so
+        # it won't work.
         # self.assertEqual(inspect.getclosurevars(C().f(_arg)), expected)
 
     def test_nonlocal_vars(self):
@@ -990,7 +996,9 @@ class TestGetClosureVars(unittest.TestCase):
             return g(g)
 
         def check_y_combinator(func):
-            # Nuitka: The __closure__ attribute is not working.
+            # Nuitka: The __closure__ attribute is working, but the code
+            # object does not announce freevars and cellvars properly, so
+            # it won't work.
             pass
             # self.assertEqual(_nonlocal_vars(func), {'f': Y.g_ref})
 
@@ -998,7 +1006,9 @@ class TestGetClosureVars(unittest.TestCase):
         add_two = make_adder(2)
         greater_than_five = curry(less_than, 5)
 
-        # Nuitka: The __closure__ attribute is not working.
+        # Nuitka: The __closure__ attribute is working, but the code
+        # object does not announce freevars and cellvars properly, so
+        # it won't work.
         # self.assertEqual(_nonlocal_vars(inc), {'x': 1})
         # self.assertEqual(_nonlocal_vars(add_two), {'x': 2})
         # self.assertEqual(_nonlocal_vars(greater_than_five),

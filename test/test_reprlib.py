@@ -166,8 +166,7 @@ class ReprTests(unittest.TestCase):
         eq(r([[[[[[{}]]]]]]), "[[[[[[{}]]]]]]")
         eq(r([[[[[[[{}]]]]]]]), "[[[[[[[...]]]]]]]")
 
-	# Nuitka: We don't have __closure__ that way yet.
-    def notest_cell(self):
+    def test_cell(self):
         def get_cell():
             x = 42
             def inner():

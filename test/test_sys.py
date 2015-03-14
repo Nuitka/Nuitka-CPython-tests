@@ -788,8 +788,7 @@ class SizeofTest(unittest.TestCase):
                 return x
             return inner
 
-        # Nuitka, functions have no __closure__ attribute.
-        # check(get_cell().__closure__[0], size('P'))
+        check(get_cell().__closure__[0], size('P'))
         # code
         check(get_cell().__code__, size('5i9Pi3P'))
         check(get_cell.__code__, size('5i9Pi3P'))
