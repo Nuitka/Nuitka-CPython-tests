@@ -161,6 +161,9 @@ def checkPath(filename, path):
             my_print("Skipped, older CPython bug causes crash.")
             return
 
+        if filename == "test_pep277.py":
+            my_print("Skipped, older CPython has divergent unicode warning.")
+            return
 
     result = subprocess.call(
         "%s %s %s %s" % (
