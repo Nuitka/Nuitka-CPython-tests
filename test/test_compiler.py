@@ -16,8 +16,8 @@ class TrivialContext(object):
 
 class CompilerTest(unittest.TestCase):
 
-	# Disabled, because it is not determistic, and generally it doesn't say much about Nuitka
-	# at all.
+    # Disabled, because it is not deterministic, and generally it doesn't say
+    # much about Nuitka at all.
 
     def notestCompileLibrary(self):
         # A simple but large test.  Compile all the code in the
