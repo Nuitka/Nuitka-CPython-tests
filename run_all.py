@@ -35,6 +35,9 @@ def checkPath(dirname, filename):
         "binary_python_path",
         # We mean to compile only that one module
         "recurse_none",
+        # Keep us informed about timing, even if concurrent runs spoil the
+        # accuracy.
+        "timing",
         # Use the original __file__ value, at least one case warns about things
         # with filename included.
         "original_file"
