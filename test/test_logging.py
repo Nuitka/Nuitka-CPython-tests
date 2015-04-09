@@ -1953,7 +1953,9 @@ class HTTPHandlerTest(BaseTest):
         request.end_headers()
         self.handled.set()
 
-    def test_output(self):
+    # Nuitka: This hangs forever potentially
+    def notest_output(self):
+
         # The log message sent to the HTTPHandler is properly received.
         logger = logging.getLogger("http")
         root_logger = self.root_logger
