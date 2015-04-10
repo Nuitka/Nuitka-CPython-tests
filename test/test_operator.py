@@ -257,14 +257,21 @@ class OperatorTestCase(unittest.TestCase):
         c = a[:3] + b[3:]
         self.assertRaises(TypeError, operator.is_)
         self.assertTrue(operator.is_(a, b))
-        self.assertFalse(operator.is_(a,c))
+
+        # Nuitka: Optimization doesn't make that sure. We statically optimize
+        # all of the above to the same string constant.
+        # self.assertFalse(operator.is_(a,c))
+        assert a == c
 
     def test_is_not(self):
         a = b = 'xyzpdq'
         c = a[:3] + b[3:]
         self.assertRaises(TypeError, operator.is_not)
         self.assertFalse(operator.is_not(a, b))
-        self.assertTrue(operator.is_not(a,c))
+        # Nuitka: Optimization doesn't make that sure. We statically optimize
+        # all of the above to the same string constant.
+        # self.assertTrue(operator.is_not(a,c))
+        assert a == c
 
     def test_attrgetter(self):
         class A:
