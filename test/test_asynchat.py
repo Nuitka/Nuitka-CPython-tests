@@ -298,6 +298,10 @@ class TestHelperFunctions(unittest.TestCase):
 
 class TestFifo(unittest.TestCase):
     def test_basic(self):
+        # Nuitka: Python3.5 gives a deprecation warning for this
+        if sys.version_info >= (3,5):
+            return
+
         f = asynchat.fifo()
         f.push(7)
         f.push(b'a')
@@ -313,6 +317,10 @@ class TestFifo(unittest.TestCase):
         self.assertEqual(f.pop(), (0, None))
 
     def test_given_list(self):
+        # Nuitka: Python3.5 gives a deprecation warning for this
+        if sys.version_info >= (3,5):
+            return
+
         f = asynchat.fifo([b'x', 17, 3])
         self.assertEqual(len(f), 3)
         self.assertEqual(f.pop(), (1, b'x'))
