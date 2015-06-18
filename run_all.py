@@ -27,6 +27,8 @@ def my_print(*args, **kwargs):
 
     sys.stdout.flush()
 
+reportSkip = my_print
+
 def check_output(*popenargs, **kwargs):
     from subprocess import Popen, PIPE, CalledProcessError
 
@@ -78,7 +80,14 @@ def checkPath(filename, path):
 
     # Avoid memory runaway of CPython2.
     if path == "doctest_generated/test_itertools.py" and python_version < "3":
+        reportSkip("This triggers memory error with CPython2.x", os.path.dirname(path), filename)
         return
+
+    if python_version < "3":
+        # Order of syntax errors found is not the same. Encoding errors often
+        # overtake print function despite it being statement in Python2 errors-
+        if filename in ("test_locale.py", "test_xml_etree.py", "test_warnings.py"):
+            extra_flags.append("ignore_stderr")
 
     if "doctest_generated" in path:
         if python_version >= "3.4":
