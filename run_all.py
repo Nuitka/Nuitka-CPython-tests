@@ -47,7 +47,15 @@ def checkPath(dirname, filename):
     if dirname == "doctest_generated" and \
        filename == "test_itertools.py" and \
        python_version < "3":
+        reportSkip("This triggers memory error with CPython2.x", dirname, filename)
         return
+
+    if python_version < "3":
+        # Order of syntax errors found is not the same. Encoding errors often
+        # overtake print function despite it being statement in Python2 errors-
+        if filename in ("test_locale.py", "test_xml_etree.py"):
+            extra_flags.append("ignore_stderr")
+
 
     if filename == "test_buffer.py":
         extra_flags.append("ignore_stderr")
