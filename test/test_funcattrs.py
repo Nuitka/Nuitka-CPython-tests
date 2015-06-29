@@ -324,9 +324,7 @@ def empty_cell(empty=True):
 
 
 class CellTest(unittest.TestCase):
-    # Nuitka: Issue#25 http://bugs.nuitka.net/issue25
-    # The "func.__closure__" is not supported.
-    def notest_comparison(self):
+    def test_comparison(self):
         # These tests are here simply to exercise the comparison code;
         # their presence should not be interpreted as providing any
         # guarantees about the semantics (or even existence) of cell
