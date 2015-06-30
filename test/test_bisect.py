@@ -294,7 +294,8 @@ This example uses bisect() to look up a letter grade for an exam total
 __test__ = {'libreftest' : libreftest}
 
 def test_main(verbose=None):
-    from test import test_bisect
+    # Nuitka, use the compiled module, not a re-import.
+    test_bisect = sys.modules["__main__"]
 
     test_classes = [TestBisectPython, TestBisectC,
                     TestInsortPython, TestInsortC,
