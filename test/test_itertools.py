@@ -2472,10 +2472,7 @@ def test_main(verbose=None):
             support.run_unittest(*test_classes)
             gc.collect()
             counts[i] = sys.gettotalrefcount()
-        print(counts)
-
-    # doctest the examples in the library reference
-    support.run_doctest(sys.modules[__name__], verbose)
+        print("REFCOUNTS", counts)
 
 if __name__ == "__main__":
     test_main(verbose=True)

@@ -1,5 +1,5 @@
 import sys
-from test import list_tests
+from test import list_tests, support
 import pickle
 import unittest
 
@@ -158,4 +158,4 @@ class ListTest(list_tests.CommonTest):
             (3,) + L([1,2])
 
 if __name__ == "__main__":
-    unittest.main()
+    test_main(verbose=True)
