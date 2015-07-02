@@ -86,7 +86,9 @@ def checkPath(filename, path):
     if python_version < "3":
         # Order of syntax errors found is not the same. Encoding errors often
         # overtake print function despite it being statement in Python2 errors-
-        if filename in ("test_locale.py", "test_xml_etree.py", "test_warnings.py"):
+        if filename in ("test_locale.py", "test_xml_etree.py",
+                        "test_getpass.py", "test_hash.py",
+                        "test_warnings.py", "test_configparser.py"):
             extra_flags.append("ignore_stderr")
 
     if "doctest_generated" in path:
