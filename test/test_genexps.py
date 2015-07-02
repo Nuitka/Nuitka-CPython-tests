@@ -272,6 +272,7 @@ def test_main(verbose=None):
     support.run_doctest(test_genexps, verbose)
 
     # verify reference counting
+    # Nuitka: CPython leaks references already.
     if False and hasattr(sys, "gettotalrefcount"):
         import gc
         counts = [None] * 5

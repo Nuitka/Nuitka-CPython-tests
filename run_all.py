@@ -15,10 +15,8 @@ sys.path.insert(
 from test_common import (
     my_print,
     setup,
-    decideFilenameVersionSkip,
     reportSkip,
     compareWithCPython,
-    hasDebugPython,
     createSearchMode
 )
 
@@ -104,6 +102,16 @@ def checkPath(dirname, filename):
         # be given in this test case anyway.
         if filename in ("test_format.py", "test_unicode.py",
                         "test_userstring.py", "test_ntpath.py"):
+            extra_flags.append("ignore_stderr")
+
+    if python_version < "3.3":
+        # Can output warnings in debug mode on older CPython at least.
+        if filename == "test_sax.py":
+            extra_flags.append("ignore_stderr")
+
+    if python_version < "2.7":
+        # Different syntax errors are OK.
+        if filename == "test_configparser.py":
             extra_flags.append("ignore_stderr")
 
     compareWithCPython(
