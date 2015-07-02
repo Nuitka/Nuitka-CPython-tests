@@ -2522,7 +2522,7 @@ def test_main(verbose=None):
 
     # verify reference counting
     # Nuitka: CPython looses(?!) references already.
-    if False and hasattr(sys, "gettotalrefcount"):
+    if hasattr(sys, "gettotalrefcount"):
         import gc
         counts = [None] * 5
         for i in range(len(counts)):
@@ -2530,9 +2530,6 @@ def test_main(verbose=None):
             gc.collect()
             counts[i] = sys.gettotalrefcount()
         print("REFCOUNTS", counts)
-
-    # doctest the examples in the library reference
-    support.run_doctest(sys.modules[__name__], verbose)
 
 if __name__ == "__main__":
     test_main(verbose=True)

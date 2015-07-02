@@ -273,6 +273,7 @@ def test_main(verbose=None):
 
     # verify reference counting
     # Nuitka: CPython leaks references already.
+    # Nuitka: Generated doctest should be done instead
     if False and hasattr(sys, "gettotalrefcount"):
         import gc
         counts = [None] * 5
@@ -283,4 +284,4 @@ def test_main(verbose=None):
         print("REFCOUNTS", counts)
 
 if __name__ == "__main__":
-    test_main(verbose=True)
+    test_main(verbose=None)
