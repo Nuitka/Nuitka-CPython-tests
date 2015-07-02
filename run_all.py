@@ -15,10 +15,8 @@ sys.path.insert(
 from test_common import (
     my_print,
     setup,
-    decideFilenameVersionSkip,
     compareWithCPython,
     reportSkip,
-    hasDebugPython,
     createSearchMode
 )
 
@@ -59,8 +57,15 @@ def checkPath(dirname, filename):
 
         return
 
+    if python_version < "2.7":
+        if filename == "test_scope.py":
+            reportSkip("we do not emulate bugs on old Python", dirname, filename)
+
+            return
+
+
     if dirname == "doctest_generated":
-        if python_version < "3":
+        if python_version < "3" and python_version >= "2.7":
             extra_flags.append("expect_success")
 
         if filename == "test_generators.py":
