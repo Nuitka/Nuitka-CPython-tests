@@ -2521,14 +2521,15 @@ def test_main(verbose=None):
     support.run_unittest(*test_classes)
 
     # verify reference counting
-    if verbose and hasattr(sys, "gettotalrefcount"):
+    # Nuitka: CPython looses(?!) references already.
+    if False and hasattr(sys, "gettotalrefcount"):
         import gc
         counts = [None] * 5
         for i in range(len(counts)):
             support.run_unittest(*test_classes)
             gc.collect()
             counts[i] = sys.gettotalrefcount()
-        print(counts)
+        print("REFCOUNTS", counts)
 
     # doctest the examples in the library reference
     support.run_doctest(sys.modules[__name__], verbose)
