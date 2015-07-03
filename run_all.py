@@ -176,6 +176,10 @@ def checkPath(filename, path):
             my_print("Skipped, older CPython has divergent unicode warning.")
             return
 
+        if filename == "test_fileinput.py":
+            my_print("Skipped, older CPython runs into MemoryError.")
+            return
+
     result = subprocess.call(
         "%s %s %s %s" % (
             sys.executable,
