@@ -138,14 +138,14 @@ def test_main(verbose=None):
     support.run_doctest(test_setcomps, verbose)
 
     # verify reference counting
-    if verbose and hasattr(sys, "gettotalrefcount"):
+    if False and hasattr(sys, "gettotalrefcount"):
         import gc
         counts = [None] * 5
         for i in range(len(counts)):
             support.run_doctest(test_setcomps, verbose)
             gc.collect()
             counts[i] = sys.gettotalrefcount()
-        print(counts)
+        print("REFCOUNTS", counts)
 
 if __name__ == "__main__":
     test_main(verbose=True)

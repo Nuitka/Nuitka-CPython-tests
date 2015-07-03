@@ -120,7 +120,7 @@ def test_main(verbose=None):
             support.run_unittest(ListTest)
             gc.collect()
             counts[i] = sys.gettotalrefcount()
-        print(counts)
+        print("REFCOUNTS", counts)
 
 
 if __name__ == "__main__":
