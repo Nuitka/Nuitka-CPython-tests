@@ -2299,7 +2299,7 @@ def test_main(verbose=None):
             support.run_unittest(*test_classes)
             gc.collect()
             counts[i] = sys.gettotalrefcount()
-        print(counts)
+        print("REFCOUNTS", counts)
 
     # doctest the examples in the library reference
     support.run_doctest(sys.modules[__name__], verbose)
