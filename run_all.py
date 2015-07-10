@@ -172,6 +172,10 @@ def checkPath(filename, path):
             my_print("Skipped, older CPython bug causes crash.")
             return
 
+        if filename == "test_descr.py":
+            my_print("Skipped, older CPython bug causes crash.")
+            return
+
         if filename == "test_xml_etree_c.py":
             my_print("Skipped, older CPython bug causes crash.")
             return
