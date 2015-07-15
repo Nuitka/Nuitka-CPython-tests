@@ -393,12 +393,10 @@ if 1:
                 import __mangled_mod
                 import __package__.module
 
-        # Nuitka: Issue#18: http://bugs.nuitka.net/issue18
-        # No support for local variables in "func.func_code.co_varnames"
-        # self.assertIn("_A__mangled", A.f.__code__.co_varnames)
-        # self.assertIn("__not_mangled__", A.f.__code__.co_varnames)
-        # self.assertIn("_A__mangled_mod", A.f.__code__.co_varnames)
-        # self.assertIn("__package__", A.f.__code__.co_varnames)
+        self.assertIn("_A__mangled", A.f.__code__.co_varnames)
+        self.assertIn("__not_mangled__", A.f.__code__.co_varnames)
+        self.assertIn("_A__mangled_mod", A.f.__code__.co_varnames)
+        self.assertIn("__package__", A.f.__code__.co_varnames)
 
     def test_compile_ast(self):
         fname = __file__
