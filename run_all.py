@@ -188,6 +188,10 @@ def checkPath(filename, path):
             my_print("Skipped, older CPython runs into MemoryError.")
             return
 
+        if filename == "test_multibytecodec.py":
+            my_print("Skipped, older CPython runs into MemoryError.")
+            return
+
     result = subprocess.call(
         "%s %s %s %s" % (
             sys.executable,
