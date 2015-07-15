@@ -428,6 +428,9 @@ class MiscTracebackCases(unittest.TestCase):
             inner()
         def inner():
             i = 1
+
+            # Nuitka: Disable removing of variable names
+            i = locals()
             1/0
 
         try:
