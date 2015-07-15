@@ -235,13 +235,15 @@ class TCPTimeoutTestCase(TimeoutTestCase):
         with support.transient_internet(self.addr_remote[0]):
             self._sock_operation(1, 0.001, 'connect', self.addr_remote)
 
-    def testRecvTimeout(self):
+    # Nuitka: Do not use the network.
+    def notestRecvTimeout(self):
         # Test recv() timeout
         with support.transient_internet(self.addr_remote[0]):
             self.sock.connect(self.addr_remote)
             self._sock_operation(1, 1.5, 'recv', 1024)
 
-    def testAcceptTimeout(self):
+    # Nuitka: Do not use the network.
+    def notestAcceptTimeout(self):
         # Test accept() timeout
         support.bind_port(self.sock, self.localhost)
         self.sock.listen(5)
