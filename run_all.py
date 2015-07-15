@@ -197,6 +197,12 @@ def checkPath(filename, path):
             my_print("Skipped, newer CPython hangs in test.")
             return
 
+        # TODO: This could be removed, once we have deprecation warnings
+        # under control.
+        if filename in ("test_re.py", "test_smtpd.py"):
+            my_print("Skipped, newer CPython gives deprecations.")
+            return
+
     result = subprocess.call(
         "%s %s %s %s" % (
             sys.executable,
