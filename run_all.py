@@ -132,7 +132,6 @@ def checkPath(filename, path):
         my_print("Skipping (due to traceback issue)", path)
         return
 
-    # TODO: This fails to compile, super is not fully solved.
     if python_version < "3.4":
         if filename in ("test_contextlib.py", "test_format.py",
                         "test_poplib.py", "test_pickle.py",
@@ -188,6 +187,7 @@ def checkPath(filename, path):
             my_print("Skipped, older CPython runs into MemoryError.")
             return
 
+    if python_version < "3.4.3":
         if filename == "test_multibytecodec.py":
             my_print("Skipped, older CPython runs into MemoryError.")
             return
