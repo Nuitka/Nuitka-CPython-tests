@@ -192,6 +192,11 @@ def checkPath(filename, path):
             my_print("Skipped, older CPython runs into MemoryError.")
             return
 
+    if os.name == "nt":
+        if filename == "test_codeccallbacks.py":
+            my_print("Skipped, CPython crashes.")
+            return
+
     if python_version >= "3.5":
         if filename == "test_poplib.py":
             my_print("Skipped, newer CPython hangs in test.")
