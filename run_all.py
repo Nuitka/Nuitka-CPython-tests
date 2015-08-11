@@ -15,10 +15,8 @@ sys.path.insert(
 from test_common import (
     my_print,
     setup,
-    decideFilenameVersionSkip,
     reportSkip,
     compareWithCPython,
-    hasDebugPython,
     createSearchMode
 )
 
@@ -73,6 +71,10 @@ def checkPath(dirname, filename):
     if python_version >= "3.4" and \
        filename in ("test_ast.py", "test_base64.py", "test_cmd_line_script.py"):
         reportSkip("undocumented reason", dirname, filename)
+        return
+
+    if python_version >= "3.3" and filename == "test_shutil.py":
+        reportSkip("doesn't work properly with CPython already", dirname, filename)
         return
 
     if python_version >= "3.2" and python_version < "3.3" and os.name == "nt":
