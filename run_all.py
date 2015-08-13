@@ -213,7 +213,7 @@ def checkPath(filename, path):
         # TODO: This could be removed, once we have deprecation warnings
         # under control.
         if filename in ("test_re.py", "test_smtpd.py"):
-            my_print("Skipped, newer CPython gives deprecations.")
+            my_print("Skipped, newer CPython gives deprecation warnings.")
             return
 
     result = subprocess.call(
