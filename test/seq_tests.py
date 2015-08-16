@@ -307,7 +307,7 @@ class CommonTest(unittest.TestCase):
 
     def test_bigrepeat(self):
         import sys
-        if sys.maxint <= 2147483647:
+        if sys.maxsize <= 2147483647:
             x = self.type2test([0])
             x *= 2**16
             self.assertRaises(MemoryError, x.__mul__, 2**16)
