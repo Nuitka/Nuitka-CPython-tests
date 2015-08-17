@@ -441,6 +441,10 @@ def forget(modname):
 
 # Check whether a gui is actually available
 def _is_gui_available():
+    # Nuitka: Disable GUI tests, these may cause disturbance to logged in user.
+    _is_gui_available.reason = "gui tests disabled"
+    return False
+
     if hasattr(_is_gui_available, 'result'):
         return _is_gui_available.result
     reason = None
