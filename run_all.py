@@ -201,7 +201,7 @@ def checkPath(filename, path):
             return
 
     if os.name == "nt":
-        if filename == "test_codeccallbacks.py":
+        if filename in ("test_codeccallbacks.py", "test_xml_etree_c.py"):
             my_print("Skipped, CPython crashes.")
             return
 
