@@ -191,6 +191,10 @@ def checkPath(filename, path):
             my_print("Skipped, older CPython differs in recursion error.")
             return
 
+        if filename == "test_urllib_response.py":
+            my_print("Skipped, older CPython differs in error message.")
+            return
+
     if python_version < "3.4.3":
         if filename == "test_multibytecodec.py":
             my_print("Skipped, older CPython runs into MemoryError.")
