@@ -135,8 +135,9 @@ class TestDefaultDict(unittest.TestCase):
             def _factory(self):
                 return []
         d = sub()
+        # Nuitka: Allow for compiled_ prefix of compiled method type.
         self.assertRegex(repr(d),
-            r"sub\(<bound method .*sub\._factory "
+            r"sub\(<bound (compiled_)?method .*sub\._factory "
             r"of sub\(\.\.\., \{\}\)>, \{\}\)")
 
     def test_callable_arg(self):
