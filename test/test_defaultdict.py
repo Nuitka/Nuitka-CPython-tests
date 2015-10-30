@@ -156,8 +156,9 @@ class TestDefaultDict(unittest.TestCase):
             def _factory(self):
                 return []
         d = sub()
+        # Nuitka: Allow for compiled_ prefix of compiled method type.
         self.assertRegex(repr(d),
-            r"sub\(<bound method .*sub\._factory "
+            r"sub\(<bound (compiled_)?method .*sub\._factory "
             r"of sub\(\.\.\., \{\}\)>, \{\}\)")
 
         # NOTE: printing a subclass of a builtin type does not call its
