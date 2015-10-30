@@ -213,8 +213,10 @@ class GCTests(unittest.TestCase):
         del d
         self.assertEqual(gc.collect(), 2)
 
+    # Nuitka: We won't meet the specific behaviour there, due to optimized
+    # frame handling.
     @refcount_test
-    def test_frame(self):
+    def notest_frame(self):
         def f():
             frame = sys._getframe()
         gc.collect()
@@ -629,8 +631,10 @@ class GCTests(unittest.TestCase):
         do_work()
         gc.collect() # this blows up (bad C pointer) when it fails
 
+    # Nuitka: Not really a test of Nuitka to execute externally, and we did
+    # disable warnings, so it won't show.
     @cpython_only
-    def test_garbage_at_shutdown(self):
+    def notest_garbage_at_shutdown(self):
         import subprocess
         code = """if 1:
             import gc
