@@ -421,6 +421,9 @@ if 1:
                 import __mangled_mod
                 import __package__.module
 
+                # Nuitka: Avoid locals being removed, so they can be checked.
+                return locals()
+
         self.assertIn("_A__mangled", A.f.__code__.co_varnames)
         self.assertIn("__not_mangled__", A.f.__code__.co_varnames)
         self.assertIn("_A__mangled_mod", A.f.__code__.co_varnames)
