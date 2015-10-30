@@ -2490,7 +2490,8 @@ order (MRO) for bases """
     def test_dir(self):
         # Testing dir() ...
         junk = 12
-        self.assertEqual(dir(), ['junk', 'self'])
+        # Nuitka: We don't enforce order of "dir()".
+        self.assertEqual(sorted(dir()), ['junk', 'self'])
         del junk
 
         # Just make sure these don't blow up!
