@@ -1608,7 +1608,8 @@ order (MRO) for bases """
         class E: # *not* subclassing from C
             foo = C.foo
         self.assertEqual(E().foo.__func__, C.foo) # i.e., unbound
-        self.assertTrue(repr(C.foo.__get__(C())).startswith("<bound method "))
+        # Nuitka: repr contains "compiled_method".
+        # self.assertTrue(repr(C.foo.__get__(C())).startswith("<bound method "))
 
     def test_compattr(self):
         # Testing computed attributes...
@@ -1866,7 +1867,8 @@ order (MRO) for bases """
         class E(object):
             foo = C.foo
         self.assertEqual(E().foo.__func__, C.foo) # i.e., unbound
-        self.assertTrue(repr(C.foo.__get__(C(1))).startswith("<bound method "))
+        # Nuitka: repr contains "compiled_method".
+        # self.assertTrue(repr(C.foo.__get__(C(1))).startswith("<bound method "))
 
     def test_special_method_lookup(self):
         # The lookup of special methods bypasses __getattr__ and
@@ -4604,8 +4606,9 @@ order (MRO) for bases """
         class Foo:
             def method(self):
                 pass
+        # Nuitka: Allow for compiled method prefix "compiled_".
         self.assertRegex(repr(Foo().method),
-            r"<bound method .*Foo\.method of <.*Foo object at .*>>")
+            r"<bound (compiled_)?method .*Foo\.method of <.*Foo object at .*>>")
 
 
         class Base:
@@ -4620,24 +4623,26 @@ order (MRO) for bases """
         derived1 = Derived1()
         derived2 = Derived2()
         super_d2 = super(Derived2, derived2)
+        # Nuitka: Allow for compiled method prefix "compiled_".
         self.assertRegex(repr(base.method),
-            r"<bound method .*Base\.method of <.*Base object at .*>>")
+            r"<bound (compiled_)?method .*Base\.method of <.*Base object at .*>>")
         self.assertRegex(repr(derived1.method),
-            r"<bound method .*Base\.method of <.*Derived1 object at .*>>")
+            r"<bound (compiled_)?method .*Base\.method of <.*Derived1 object at .*>>")
         self.assertRegex(repr(derived2.method),
-            r"<bound method .*Derived2\.method of <.*Derived2 object at .*>>")
+            r"<bound (compiled_)?method .*Derived2\.method of <.*Derived2 object at .*>>")
         self.assertRegex(repr(super_d2.method),
-            r"<bound method .*Base\.method of <.*Derived2 object at .*>>")
+            r"<bound (compiled_)?method .*Base\.method of <.*Derived2 object at .*>>")
 
         class Foo:
             @classmethod
             def method(cls):
                 pass
         foo = Foo()
+        # Nuitka: Allow for compiled method prefix "compiled_".
         self.assertRegex(repr(foo.method), # access via instance
-            r"<bound method .*Foo\.method of <class '.*Foo'>>")
+            r"<bound (compiled_)?method .*Foo\.method of <class '.*Foo'>>")
         self.assertRegex(repr(Foo.method), # access via the class
-            r"<bound method .*Foo\.method of <class '.*Foo'>>")
+            r"<bound (compiled_)?method .*Foo\.method of <class '.*Foo'>>")
 
 
         class MyCallable:
@@ -4646,14 +4651,15 @@ order (MRO) for bases """
         func = MyCallable() # func has no __name__ or __qualname__ attributes
         instance = object()
         method = types.MethodType(func, instance)
+        # Nuitka: Allow for compiled method prefix "compiled_".
         self.assertRegex(repr(method),
-            r"<bound method \? of <object object at .*>>")
+            r"<bound (compiled_)?method \? of <object object at .*>>")
         func.__name__ = "name"
         self.assertRegex(repr(method),
-            r"<bound method name of <object object at .*>>")
+            r"<bound (compiled_)?method name of <object object at .*>>")
         func.__qualname__ = "qualname"
         self.assertRegex(repr(method),
-            r"<bound method qualname of <object object at .*>>")
+            r"<bound (compiled_)?method qualname of <object object at .*>>")
 
 
 class DictProxyTests(unittest.TestCase):
