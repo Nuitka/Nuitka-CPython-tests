@@ -136,6 +136,12 @@ class FrameAttrsTest(unittest.TestCase):
         def outer():
             x = 5
             y = 6
+
+            # Nuitka: We would remove useless x and y otherwise. This will work
+            # until we see through aliases.
+            x, y = y, x
+            x, y = y, x
+
             def inner():
                 z = x + 2
                 1/0
