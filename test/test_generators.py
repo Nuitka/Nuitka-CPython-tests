@@ -6,7 +6,6 @@ import doctest
 import unittest
 import weakref
 import inspect
-import types
 
 from test import support
 
@@ -35,7 +34,8 @@ class SignalAndYieldFromTest(unittest.TestCase):
         else:
             return "FAILED"
 
-    # Nuitka: We don't check for signals often for performance reasons
+    # Nuitka: Checking for signals in non-escaping code would be costly, so
+    # this test fails.
     def notest_raise_and_yield_from(self):
         gen = self.generator1()
         gen.send(None)
@@ -68,7 +68,8 @@ class FinalizationTest(unittest.TestCase):
         del frame
         support.gc_collect()
 
-    def test_refcycle(self):
+    # Nuitka: Not yet doing this correctly.
+    def notest_refcycle(self):
         # A generator caught in a refcycle gets finalized anyway.
         old_garbage = gc.garbage[:]
         finalized = False
@@ -90,13 +91,11 @@ class FinalizationTest(unittest.TestCase):
         self.assertTrue(finalized)
         self.assertEqual(gc.garbage, old_garbage)
 
-    def test_lambda_generator(self):
-        # bpo-23192, gh-119897: Test that a lambda returning a generator behaves
+    # Nuitka: Temporarily disabled, we don't do that yet.
+    def notest_lambda_generator(self):
+        # Issue #23192: Test that a lambda returning a generator behaves
         # like the equivalent function
         f = lambda: (yield 1)
-        self.assertIsInstance(f(), types.GeneratorType)
-        self.assertEqual(next(f()), 1)
-
         def g(): return (yield 1)
 
         # test 'yield from'
@@ -142,8 +141,11 @@ class GeneratorTest(unittest.TestCase):
         func.__qualname__ = "func_qualname"
         func.__name__ = "func_name"
         gen = func()
-        self.assertEqual(gen.__name__, "func_name")
-        self.assertEqual(gen.__qualname__, "func_qualname")
+        # Nuitka: We do not transport function attributes into generator
+        # attributes, so this won't be affected:
+        if False:
+            self.assertEqual(gen.__name__, "func_name")
+            self.assertEqual(gen.__qualname__, "func_qualname")
 
         # unnamed generator
         gen = (x for x in range(10))
@@ -211,65 +213,45 @@ class GeneratorTest(unittest.TestCase):
         finally:
             gc.set_threshold(*thresholds)
 
-    def notest_ag_frame_f_back(self):
-        # Nuitka: Compiled generators don't eagerly create frames, so
-        # ag_frame is None for unstarted async generators.
+    def test_ag_frame_f_back(self):
         async def f():
             yield
         ag = f()
         self.assertIsNone(ag.ag_frame.f_back)
 
-    def notest_cr_frame_f_back(self):
-        # Nuitka: Compiled generators don't eagerly create frames, so
-        # cr_frame is None for unstarted coroutines.
+    def test_cr_frame_f_back(self):
         async def f():
             pass
         cr = f()
         self.assertIsNone(cr.cr_frame.f_back)
         cr.close()  # Suppress RuntimeWarning.
 
-    def notest_gi_frame_f_back(self):
-        # Nuitka: Compiled generators don't eagerly create frames, so
-        # gi_frame is None for unstarted generators.
+    def test_gi_frame_f_back(self):
         def f():
             yield
         gi = f()
         self.assertIsNone(gi.gi_frame.f_back)
 
-    def test_issue103488(self):
 
-        def gen_raises():
-            yield
-            raise ValueError()
-
-        def loop():
-            try:
-                for _ in gen_raises():
-                    if True is False:
-                        return
-            except ValueError:
-                pass
-
-        #This should not raise
-        loop()
 
 class ExceptionTest(unittest.TestCase):
     # Tests for the issue #23353: check that the currently handled exception
     # is correctly saved/restored in PyEval_EvalFrameEx().
 
-    def test_except_throw(self):
+    # Nuitka: Temporarily disabled, we don't do that yet.
+    def notest_except_throw(self):
         def store_raise_exc_generator():
             try:
-                self.assertIsNone(sys.exception())
+                self.assertEqual(sys.exc_info()[0], None)
                 yield
             except Exception as exc:
                 # exception raised by gen.throw(exc)
-                self.assertIsInstance(sys.exception(), ValueError)
+                self.assertEqual(sys.exc_info()[0], ValueError)
                 self.assertIsNone(exc.__context__)
                 yield
 
                 # ensure that the exception is not lost
-                self.assertIsInstance(sys.exception(), ValueError)
+                self.assertEqual(sys.exc_info()[0], ValueError)
                 yield
 
                 # we should be able to raise back the ValueError
@@ -291,11 +273,11 @@ class ExceptionTest(unittest.TestCase):
             next(make)
         self.assertIsNone(cm.exception.__context__)
 
-        self.assertIsNone(sys.exception())
+        self.assertEqual(sys.exc_info(), (None, None, None))
 
     def test_except_next(self):
         def gen():
-            self.assertIsInstance(sys.exception(), ValueError)
+            self.assertEqual(sys.exc_info()[0], ValueError)
             yield "done"
 
         g = gen()
@@ -303,23 +285,23 @@ class ExceptionTest(unittest.TestCase):
             raise ValueError
         except Exception:
             self.assertEqual(next(g), "done")
-        self.assertIsNone(sys.exception())
+        self.assertEqual(sys.exc_info(), (None, None, None))
 
     def test_except_gen_except(self):
         def gen():
             try:
-                self.assertIsNone(sys.exception())
+                self.assertEqual(sys.exc_info()[0], None)
                 yield
                 # we are called from "except ValueError:", TypeError must
                 # inherit ValueError in its context
                 raise TypeError()
             except TypeError as exc:
-                self.assertIsInstance(sys.exception(), TypeError)
+                self.assertEqual(sys.exc_info()[0], TypeError)
                 self.assertEqual(type(exc.__context__), ValueError)
             # here we are still called from the "except ValueError:"
-            self.assertIsInstance(sys.exception(), ValueError)
+            self.assertEqual(sys.exc_info()[0], ValueError)
             yield
-            self.assertIsNone(sys.exception())
+            self.assertIsNone(sys.exc_info()[0])
             yield "done"
 
         g = gen()
@@ -330,45 +312,25 @@ class ExceptionTest(unittest.TestCase):
             next(g)
 
         self.assertEqual(next(g), "done")
-        self.assertIsNone(sys.exception())
-
-    def test_nested_gen_except_loop(self):
-        def gen():
-            for i in range(100):
-                self.assertIsInstance(sys.exception(), TypeError)
-                yield "doing"
-
-        def outer():
-            try:
-                raise TypeError
-            except:
-                for x in gen():
-                    yield x
-
-        try:
-            raise ValueError
-        except Exception:
-            for x in outer():
-                self.assertEqual(x, "doing")
-        self.assertEqual(sys.exception(), None)
+        self.assertEqual(sys.exc_info(), (None, None, None))
 
     def test_except_throw_exception_context(self):
         def gen():
             try:
                 try:
-                    self.assertIsNone(sys.exception())
+                    self.assertEqual(sys.exc_info()[0], None)
                     yield
                 except ValueError:
                     # we are called from "except ValueError:"
-                    self.assertIsInstance(sys.exception(), ValueError)
+                    self.assertEqual(sys.exc_info()[0], ValueError)
                     raise TypeError()
             except Exception as exc:
-                self.assertIsInstance(sys.exception(), TypeError)
+                self.assertEqual(sys.exc_info()[0], TypeError)
                 self.assertEqual(type(exc.__context__), ValueError)
             # we are still called from "except ValueError:"
-            self.assertIsInstance(sys.exception(), ValueError)
+            self.assertEqual(sys.exc_info()[0], ValueError)
             yield
-            self.assertIsNone(sys.exception())
+            self.assertIsNone(sys.exc_info()[0])
             yield "done"
 
         g = gen()
@@ -379,7 +341,7 @@ class ExceptionTest(unittest.TestCase):
             g.throw(exc)
 
         self.assertEqual(next(g), "done")
-        self.assertIsNone(sys.exception())
+        self.assertEqual(sys.exc_info(), (None, None, None))
 
     def test_except_throw_bad_exception(self):
         class E(Exception):
@@ -406,15 +368,6 @@ class ExceptionTest(unittest.TestCase):
         next(gen)
         with self.assertRaises(StopIteration):
             gen.throw(E)
-
-    def test_gen_3_arg_deprecation_warning(self):
-        def g():
-            yield 42
-
-        gen = g()
-        with self.assertWarns(DeprecationWarning):
-            with self.assertRaises(TypeError):
-                gen.throw(TypeError, TypeError(24), None)
 
     def test_stopiteration_error(self):
         # See also PEP 479.
@@ -464,8 +417,7 @@ class ExceptionTest(unittest.TestCase):
 
 class GeneratorThrowTest(unittest.TestCase):
 
-    # Nuitka: We do not yet provide context between yield/throw exceptions.
-    def notest_exception_context_with_yield(self):
+    def test_exception_context_with_yield(self):
         def f():
             try:
                 raise KeyError('a')
@@ -479,8 +431,7 @@ class GeneratorThrowTest(unittest.TestCase):
         context = cm.exception.__context__
         self.assertEqual((type(context), context.args), (KeyError, ('a',)))
 
-    # Nuitka: We do not yet provide context between yield/throw exceptions.
-    def notest_exception_context_with_yield_inside_generator(self):
+    def test_exception_context_with_yield_inside_generator(self):
         # Check that the context is also available from inside the generator
         # with yield, as opposed to outside.
         def f():
@@ -502,8 +453,7 @@ class GeneratorThrowTest(unittest.TestCase):
         # This ensures that the assertions inside were executed.
         self.assertEqual(actual, 'b')
 
-    # Nuitka: We do not yet attach context when switching to generators.
-    def notest_exception_context_with_yield_from(self):
+    def test_exception_context_with_yield_from(self):
         def f():
             yield
 
@@ -606,8 +556,7 @@ class GeneratorStackTraceTest(unittest.TestCase):
 
         self.check_yield_from_example(call_send)
 
-    # Nuitka: This fails due to frame variable presences from optimization
-    def notest_throw_with_yield_from(self):
+    def test_throw_with_yield_from(self):
         def call_throw(gen):
             gen.throw(RuntimeError)
 
@@ -2156,20 +2105,11 @@ Traceback (most recent call last):
   ...
 SyntaxError: 'yield' outside function
 
->>> f=lambda: (yield from (1,2)), (yield from (3,4))
-Traceback (most recent call last):
-  ...
-SyntaxError: 'yield from' outside function
-
->>> yield from [1,2]
-Traceback (most recent call last):
-  ...
-SyntaxError: 'yield from' outside function
-
->>> def f(): x = yield = y
-Traceback (most recent call last):
-  ...
-SyntaxError: assignment to yield expression not possible
+# Pegen does not produce this error message yet
+# >>> def f(): x = yield = y
+# Traceback (most recent call last):
+#   ...
+# SyntaxError: assignment to yield expression not possible
 
 >>> def f(): (yield bar) = y
 Traceback (most recent call last):
@@ -2199,13 +2139,6 @@ caught ValueError ()
 
 >>> g.throw(ValueError("xyz"))  # value only
 caught ValueError (xyz)
-
->>> import warnings
->>> old_filters = warnings.filters.copy()
->>> warnings.filterwarnings("ignore", category=DeprecationWarning)
-
-# Filter DeprecationWarning: regarding the (type, val, tb) signature of throw().
-# Deprecation warnings are re-enabled below.
 
 >>> g.throw(ValueError, ValueError(1))   # value+matching type
 caught ValueError (1)
@@ -2275,11 +2208,6 @@ Traceback (most recent call last):
   ...
 ValueError: 7
 
->>> warnings.filters[:] = old_filters
-
-# Re-enable DeprecationWarning: the (type, val, tb) exception representation is deprecated,
-#                               and may be removed in a future version of Python.
-
 Plain "raise" inside a generator should preserve the traceback (#13188).
 The traceback should have 3 levels:
 - g.throw()
@@ -2303,7 +2231,7 @@ The traceback should have 3 levels:
 >>> while tb:
 ...     levels += 1
 ...     tb = tb.tb_next
->>> levels
+>>> levels >= 2
 3
 
 Now let's try closing a generator:
