@@ -144,7 +144,8 @@ class ReprTests(unittest.TestCase):
         self.assertTrue(s.endswith(">"))
         self.assertIn(s.find("..."), [12, 13])
 
-    def test_lambda(self):
+    # Nuitka: The compiled lambdas starts with "compiled_function".
+    def notest_lambda(self):
         r = repr(lambda x: x)
         self.assertTrue(r.startswith("<function ReprTests.test_lambda.<locals>.<lambda"), r)
         # XXX anonymous functions?  see func_repr
