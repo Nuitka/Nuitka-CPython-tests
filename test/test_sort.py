@@ -4,7 +4,7 @@ import sys
 import unittest
 from functools import cmp_to_key
 
-verbose = support.verbose
+verbose = False and support.verbose
 nerrors = 0
 
 
