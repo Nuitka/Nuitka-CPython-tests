@@ -749,7 +749,9 @@ class LimitTests(unittest.TestCase):
     def last_returns_frame5(self):
         return self.last_returns_frame4()
 
-    def test_extract_stack(self):
+    # Nuitka: Frame walks are not fully compatible.
+    def notest_extract_stack(self):
+
         frame = self.last_returns_frame5()
         def extract(**kwargs):
             return traceback.extract_stack(frame, **kwargs)
@@ -885,10 +887,11 @@ class TestFrame(unittest.TestCase):
         linecache.clearcache()
         linecache.lazycache("f", globals())
         f = traceback.FrameSummary("f", 1, "dummy")
-        self.assertEqual(f,
-            ("f", 1, "dummy", '"""Test cases for traceback module"""'))
-        self.assertEqual(tuple(f),
-            ("f", 1, "dummy", '"""Test cases for traceback module"""'))
+        # Nuitka: Frame walks are not fully compatible.
+        # self.assertEqual(f,
+        #     ("f", 1, "dummy", '"""Test cases for traceback module"""'))
+        # self.assertEqual(tuple(f),
+        #     ("f", 1, "dummy", '"""Test cases for traceback module"""'))
         self.assertEqual(f, traceback.FrameSummary("f", 1, "dummy"))
         self.assertEqual(f, tuple(f))
         # Since tuple.__eq__ doesn't support FrameSummary, the equality
@@ -896,7 +899,8 @@ class TestFrame(unittest.TestCase):
         self.assertEqual(tuple(f), f)
         self.assertIsNone(f.locals)
 
-    def test_lazy_lines(self):
+    # Nuitka: Frame walks are not fully compatible.
+    def notest_lazy_lines(self):
         linecache.clearcache()
         f = traceback.FrameSummary("f", 1, "dummy", lookup_line=False)
         self.assertEqual(None, f._line)
@@ -940,7 +944,8 @@ class TestStack(unittest.TestCase):
         s = traceback.StackSummary.extract(traceback.walk_stack(None), limit=5)
         self.assertEqual(len(s), 5)
 
-    def test_extract_stack_lookup_lines(self):
+    # Nuitka: Frame walks are not fully compatible.
+    def notest_extract_stack_lookup_lines(self):
         linecache.clearcache()
         linecache.updatecache('/foo.py', globals())
         c = test_code('/foo.py', 'method')
@@ -949,7 +954,8 @@ class TestStack(unittest.TestCase):
         linecache.clearcache()
         self.assertEqual(s[0].line, "import sys")
 
-    def test_extract_stackup_deferred_lookup_lines(self):
+    # Nuitka: Frame walks are not fully compatible.
+    def notest_extract_stackup_deferred_lookup_lines(self):
         linecache.clearcache()
         c = test_code('/foo.py', 'method')
         f = test_frame(c, None, None)
@@ -994,7 +1000,8 @@ class TestStack(unittest.TestCase):
         s = traceback.StackSummary.extract(iter([(f, 6)]))
         self.assertEqual(s[0].locals, None)
 
-    def test_format_locals(self):
+    # Nuitka: We don't update frame locals before exceptions happen
+    def notest_format_locals(self):
         def some_inner(k, v):
             a = 1
             b = 2
@@ -1125,7 +1132,8 @@ class TestTracebackException(unittest.TestCase):
                 traceback.walk_tb(exc_info[2]), limit=5)
         self.assertEqual(expected_stack, exc.stack)
 
-    def test_lookup_lines(self):
+    # Nuitka: Frame walks are not fully compatible.
+    def notest_lookup_lines(self):
         linecache.clearcache()
         e = Exception("uh oh")
         c = test_code('/foo.py', 'method')
