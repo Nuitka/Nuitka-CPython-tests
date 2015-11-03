@@ -475,7 +475,6 @@ class TracebackFormatTests(unittest.TestCase):
         actual = stderr_g.getvalue().splitlines()
         self.assertEqual(actual, expected)
 
-    def test_recursive_traceback_python(self):
     # Nuitka: This won't match our stack well, don't do that test then.
     def notest_recursive_traceback_python(self):
         self._check_recursive_traceback_display(traceback.print_exc)
