@@ -106,14 +106,16 @@ class TestTracemallocEnabled(unittest.TestCase):
         self.assertGreaterEqual(size2, 0)
         self.assertLessEqual(size2, size)
 
-    def test_get_object_traceback(self):
+    # Nuitka: Line numbers do not match on to the exact line number
+    def notest_get_object_traceback(self):
         tracemalloc.clear_traces()
         obj_size = 12345
         obj, obj_traceback = allocate_bytes(obj_size)
         traceback = tracemalloc.get_object_traceback(obj)
         self.assertEqual(traceback, obj_traceback)
 
-    def test_set_traceback_limit(self):
+    # Nuitka: Tracing does not work with compiled functions.
+    def notest_set_traceback_limit(self):
         obj_size = 10
 
         tracemalloc.stop()
@@ -140,7 +142,8 @@ class TestTracemallocEnabled(unittest.TestCase):
 
         self.fail("trace not found")
 
-    def test_get_traces(self):
+    # Nuitka: Tracing does not work with compiled functions.
+    def notest_get_traces(self):
         tracemalloc.clear_traces()
         obj_size = 12345
         obj, obj_traceback = allocate_bytes(obj_size)
@@ -156,7 +159,8 @@ class TestTracemallocEnabled(unittest.TestCase):
         tracemalloc.stop()
         self.assertEqual(tracemalloc._get_traces(), [])
 
-    def test_get_traces_intern_traceback(self):
+    # Nuitka: Tracing does not work with compiled functions.
+    def notest_get_traces_intern_traceback(self):
         # dummy wrappers to get more useful and identical frames in the traceback
         def allocate_bytes2(size):
             return allocate_bytes(size)
