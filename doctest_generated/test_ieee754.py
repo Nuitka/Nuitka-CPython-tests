@@ -2,31 +2,31 @@
 try:
     from sys import float_info as FI
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     from math import *
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     PI = pi
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     E = e
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     EPS = 1E-15
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
@@ -42,304 +42,445 @@ try:
     # from the strings 'inf' and 'nan'.
     #
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     INF = float('inf')
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     NINF = float('-inf')
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     NAN = float('nan')
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    INF
+    print('Line 28')
+    print(INF
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    NINF
+    print('Line 31')
+    print(NINF
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    NAN
+    print('Line 34')
+    print(NAN
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    isinf(INF), isinf(NINF), isnan(NAN)
+    print('Line 40')
+    print(isinf(INF), isinf(NINF), isnan(NAN)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    INF == -NINF
+    print('Line 43')
+    print(INF == -NINF
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    INF * 0
+    print('Line 51')
+    print(INF * 0
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    INF - INF
+    print('Line 54')
+    print(INF - INF
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    INF / INF
+    print('Line 57')
+    print(INF / INF
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    INF * INF
+    print('Line 62')
+    print(INF * INF
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    1.5 * INF
+    print('Line 65')
+    print(1.5 * INF
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    0.5 * INF
+    print('Line 68')
+    print(0.5 * INF
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    INF / 1000
+    print('Line 71')
+    print(INF / 1000
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    NAN == NAN
+    print('Line 79')
+    print(NAN == NAN
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    NAN < 0
+    print('Line 82')
+    print(NAN < 0
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    NAN >= 0
+    print('Line 85')
+    print(NAN >= 0
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    1 + NAN
+    print('Line 90')
+    print(1 + NAN
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    1 * NAN
+    print('Line 93')
+    print(1 * NAN
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    0 * NAN
+    print('Line 96')
+    print(0 * NAN
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    1 ** NAN
+    print('Line 99')
+    print(1 ** NAN
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    NAN ** 0
+    print('Line 102')
+    print(NAN ** 0
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    0 ** NAN
+    print('Line 105')
+    print(0 ** NAN
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    (1.0 + FI.epsilon) * NAN
+    print('Line 108')
+    print((1.0 + FI.epsilon) * NAN
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    pow(1, 0)
+    print('Line 118')
+    print(pow(1, 0)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    pow(1, INF)
+    print('Line 121')
+    print(pow(1, INF)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    pow(1, -INF)
+    print('Line 124')
+    print(pow(1, -INF)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    pow(1, NAN)
+    print('Line 127')
+    print(pow(1, NAN)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    pow(0, 0)
+    print('Line 135')
+    print(pow(0, 0)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    pow(0, INF)
+    print('Line 138')
+    print(pow(0, INF)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    pow(0, -INF)
+    print('Line 141')
+    print(pow(0, -INF)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    0 ** -1
+    print('Line 146')
+    print(0 ** -1
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    pow(0, NAN)
+    print('Line 151')
+    print(pow(0, NAN)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    sin(INF)
+    print('Line 159')
+    print(sin(INF)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    sin(NINF)
+    print('Line 164')
+    print(sin(NINF)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    sin(NAN)
+    print('Line 169')
+    print(sin(NAN)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    cos(INF)
+    print('Line 172')
+    print(cos(INF)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    cos(NINF)
+    print('Line 177')
+    print(cos(NINF)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    cos(NAN)
+    print('Line 182')
+    print(cos(NAN)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    tan(INF)
+    print('Line 185')
+    print(tan(INF)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    tan(NINF)
+    print('Line 190')
+    print(tan(NINF)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    tan(NAN)
+    print('Line 195')
+    print(tan(NAN)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    tan(PI/2) > 1E10
+    print('Line 201')
+    print(tan(PI/2) > 1E10
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    -tan(-PI/2) > 1E10
+    print('Line 204')
+    print(-tan(-PI/2) > 1E10
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    tan(PI) < 1E-15
+    print('Line 207')
+    print(tan(PI) < 1E-15
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    asin(NAN), acos(NAN), atan(NAN)
+    print('Line 211')
+    print(asin(NAN), acos(NAN), atan(NAN)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    asin(INF), asin(NINF)
+    print('Line 214')
+    print(asin(INF), asin(NINF)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    acos(INF), acos(NINF)
+    print('Line 219')
+    print(acos(INF), acos(NINF)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    equal(atan(INF), PI/2), equal(atan(NINF), -PI/2)
+    print('Line 224')
+    print(equal(atan(INF), PI/2), equal(atan(NINF), -PI/2)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)

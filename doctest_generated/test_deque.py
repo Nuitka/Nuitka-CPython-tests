@@ -2,13 +2,13 @@
 try:
     from collections import deque
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     d = deque('ghi')                 # make a new deque with three items
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
@@ -19,133 +19,196 @@ try:
     ## H
     ## I
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    d.append('j')                    # add a new entry to the right side
+    print('Line 10')
+    print(d.append('j')                    # add a new entry to the right side
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    d.appendleft('f')                # add a new entry to the left side
+    print('Line 11')
+    print(d.appendleft('f')                # add a new entry to the left side
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    d                                # show the representation of the deque
+    print('Line 12')
+    print(d                                # show the representation of the deque
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    d.pop()                          # return and remove the rightmost item
+    print('Line 15')
+    print(d.pop()                          # return and remove the rightmost item
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    d.popleft()                      # return and remove the leftmost item
+    print('Line 18')
+    print(d.popleft()                      # return and remove the leftmost item
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    list(d)                          # list the contents of the deque
+    print('Line 21')
+    print(list(d)                          # list the contents of the deque
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    d[0]                             # peek at leftmost item
+    print('Line 24')
+    print(d[0]                             # peek at leftmost item
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    d[-1]                            # peek at rightmost item
+    print('Line 27')
+    print(d[-1]                            # peek at rightmost item
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    list(reversed(d))                # list the contents of a deque in reverse
+    print('Line 30')
+    print(list(reversed(d))                # list the contents of a deque in reverse
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    'h' in d                         # search the deque
+    print('Line 33')
+    print('h' in d                         # search the deque
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    d.extend('jkl')                  # add multiple elements at once
+    print('Line 36')
+    print(d.extend('jkl')                  # add multiple elements at once
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    d
+    print('Line 37')
+    print(d
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    d.rotate(1)                      # right rotation
+    print('Line 40')
+    print(d.rotate(1)                      # right rotation
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    d
+    print('Line 41')
+    print(d
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    d.rotate(-1)                     # left rotation
+    print('Line 44')
+    print(d.rotate(-1)                     # left rotation
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    d
+    print('Line 45')
+    print(d
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    deque(reversed(d))               # make a new deque in reverse order
+    print('Line 48')
+    print(deque(reversed(d))               # make a new deque in reverse order
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    d.clear()                        # empty the deque
+    print('Line 51')
+    print(d.clear()                        # empty the deque
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    d.pop()                          # cannot pop from an empty deque
+    print('Line 52')
+    print(d.pop()                          # cannot pop from an empty deque
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    d.extendleft('abc')              # extendleft() reverses the input order
+    print('Line 59')
+    print(d.extendleft('abc')              # extendleft() reverses the input order
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    d
+    print('Line 60')
+    print(d
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
@@ -154,25 +217,31 @@ try:
         d.popleft()
         d.rotate(n)
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     d = deque('abcdef')
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    delete_nth(d, 2)   # remove the entry at d[2]
+    print('Line 71')
+    print(delete_nth(d, 2)   # remove the entry at d[2]
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    d
+    print('Line 72')
+    print(d
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
@@ -206,10 +275,13 @@ try:
             d.append(pair)
         return list(d)
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    print(maketree('abcdefgh'))
+    print('Line 107')
+    print(print(maketree('abcdefgh'))
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)

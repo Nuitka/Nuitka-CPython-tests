@@ -1,69 +1,93 @@
 
 try:
-    sum({i*i for i in range(100) if i&1 == 1})
+    print('Line 4')
+    print(sum({i*i for i in range(100) if i&1 == 1})
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    {2*y + x + 1 for x in (0,) for y in (1,)}
+    print('Line 10')
+    print({2*y + x + 1 for x in (0,) for y in (1,)}
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    list(sorted({(i,j) for i in range(3) for j in range(4)}))
+    print('Line 16')
+    print(list(sorted({(i,j) for i in range(3) for j in range(4)}))
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    list(sorted({(i,j) for i in range(4) for j in range(i)}))
+    print('Line 22')
+    print(list(sorted({(i,j) for i in range(4) for j in range(i)}))
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     i = 20
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    sum({i*i for i in range(100)})
+    print('Line 29')
+    print(sum({i*i for i in range(100)})
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    i
+    print('Line 33')
+    print(i
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     def srange(n):
         return {i for i in range(n)}
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    list(sorted(srange(10)))
+    print('Line 56')
+    print(list(sorted(srange(10)))
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     lrange = lambda n:  {i for i in range(n)}
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    list(sorted(lrange(10)))
+    print('Line 63')
+    print(list(sorted(lrange(10)))
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
@@ -71,79 +95,97 @@ try:
         for x in {i for i in range(n)}:
             yield x
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    list(sorted(grange(5)))
+    print('Line 72')
+    print(list(sorted(grange(5)))
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    {None for i in range(10)}
+    print('Line 79')
+    print({None for i in range(10)}
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     items = {(lambda i=i: i) for i in range(5)}
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    {x() for x in items} == set(range(5))
+    print('Line 88')
+    print({x() for x in items} == set(range(5))
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    items = {(lambda: i) for i in range(5)}
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    {x() for x in items}
-except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     items = {(lambda: i) for i in range(5)}
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 95')
+    print({x() for x in items}
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    items = {(lambda: i) for i in range(5)}
+except Exception as e:
+    print("Occurred", type(e), e)
 
 
 try:
     i = 20
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    {x() for x in items}
+    print('Line 103')
+    print({x() for x in items}
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     items = {(lambda: y) for i in range(5)}
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     y = 2
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    {x() for x in items}
+    print('Line 111')
+    print({x() for x in items}
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
@@ -151,13 +193,16 @@ try:
         items = {(lambda i=i: i) for i in range(5)}
         return {x() for x in items}
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    test_func() == set(range(5))
+    print('Line 120')
+    print(test_func() == set(range(5))
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
@@ -165,13 +210,16 @@ try:
         items = {(lambda: i) for i in range(5)}
         return {x() for x in items}
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    test_func()
+    print('Line 127')
+    print(test_func()
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
@@ -180,13 +228,16 @@ try:
         i = 20
         return {x() for x in items}
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    test_func()
+    print('Line 135')
+    print(test_func()
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
@@ -195,10 +246,13 @@ try:
         y = 2
         return {x() for x in items}
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    test_func()
+    print('Line 143')
+    print(test_func()
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)

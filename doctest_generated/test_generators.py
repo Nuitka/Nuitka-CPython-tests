@@ -2,304 +2,6 @@ from test.test_generators import Knights
 ################################################################################
 
 try:
-    def f():
-        yield 1
-        return
-    #
-    def f():
-        try:
-            yield 1
-        finally:
-            pass
-    #
-    def f():
-        try:
-            try:
-                1//0
-            except ZeroDivisionError:
-                yield 666
-            except:
-                pass
-        finally:
-            pass
-    #
-    def f():
-        try:
-            try:
-                yield 12
-                1//0
-            except ZeroDivisionError:
-                yield 666
-            except:
-                try:
-                    x = 12
-                finally:
-                    yield 12
-        except:
-            return
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    list(f())
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def f():
-       yield
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    type(f())
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def f():
-       if 0:
-           yield
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    type(f())
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def f():
-        if 0:
-            yield 1
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    type(f())
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def f():
-       if "":
-           yield None
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    type(f())
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def f():
-        return
-        try:
-            if x==4:
-                pass
-            elif 0:
-                try:
-                    1//0
-                except SyntaxError:
-                    pass
-                else:
-                    if 0:
-                        while 12:
-                            x += 1
-                            yield 2 # don't blink
-                            f(a, b, c, d, e)
-            else:
-                pass
-        except:
-            x = 1
-        return
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    type(f())
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def f():
-        if 0:
-            def g():
-                yield 1
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    type(f())
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def f():
-        if 0:
-            class C:
-                def __init__(self):
-                    yield 1
-                def f(self):
-                    yield 2
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    type(f())
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def f():
-        if 0:
-            return
-        if 0:
-            yield 2
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    type(f())
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def f():
-        for i in range(3):
-            try:
-                continue
-            finally:
-                yield i
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    g = f()
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    print(next(g))
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    print(next(g))
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    print(next(g))
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    print(next(g))
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def f():
-        yield 5
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    g = f()
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    next(g)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    next(g)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def f():
-       yield 5
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    g = f()
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    g.__name__
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    repr(g)  # doctest: +ELLIPSIS
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    x = lambda: (yield 1)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    list(x())
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    x = lambda: ((yield 1), (yield 2))
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    list(x())
-except Exception as e:
-    print( "Occured", type(e), e )
-
-################################################################################
-
-try:
     def firstn(g, n):
         return [next(g) for i in range(n)]
     #
@@ -309,13 +11,16 @@ try:
             i += 1
     #
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    firstn(intsfrom(5), 7)
+    print('Line 10')
+    print(firstn(intsfrom(5), 7)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
@@ -325,13 +30,16 @@ try:
                 yield i
     #
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    firstn(exclude_multiples(3, intsfrom(1)), 6)
+    print('Line 19')
+    print(firstn(exclude_multiples(3, intsfrom(1)), 6)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
@@ -343,19 +51,22 @@ try:
             yield p
     #
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     primes = sieve(intsfrom(2))
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    firstn(primes, 20)
+    print('Line 31')
+    print(firstn(primes, 20)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
@@ -363,13 +74,16 @@ try:
         for i in g:
             yield n * i
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    firstn(times(10, intsfrom(1)), 10)
+    print('Line 45')
+    print(firstn(times(10, intsfrom(1)), 10)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
@@ -413,13 +127,13 @@ try:
     # address space, and it *looked* like a very slow leak.
     #
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     result = m235()
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
@@ -461,13 +175,13 @@ try:
     # efficient.
     #
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     m235 = LazyList(m235())
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
@@ -500,25 +214,28 @@ try:
             yield s
     #
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     fib = LazyList(fibgen(1, 2))
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    firstn(iter(fib), 17)
+    print('Line 156')
+    print(firstn(iter(fib), 17)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     from itertools import tee
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
@@ -534,13 +251,13 @@ try:
         return mRes
     #
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     it = m235()
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
@@ -581,1394 +298,16 @@ try:
         return fibRes
     #
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    firstn(fib(), 17)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-################################################################################
-
-try:
-    import itertools
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def leak():
-        class gen:
-            def __iter__(self):
-                return self
-            def __next__(self):
-                return self.item
-        g = gen()
-        head, tail = itertools.tee(g)
-        g.item = head
-        return head
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    it = leak()
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    item = next(it)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def leak():
-       def gen():
-           while True:
-               yield g
-       g = gen()
-    #
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    leak()
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    import sys, io
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    old = sys.stderr
-except Exception as e:
-    print( "Occured", type(e), e )
-
-################################################################################
-
-try:
-    def f():
-       yield 1
-       yield 2
-    #
-    for i in f():
-        print(i)
-    # Expected:
-    ## 1
-    ## 2
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    g = f()
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    next(g)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    next(g)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    next(g)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def f():
-        yield 1
-        return
-        yield 2 # never reached
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    g = f()
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    next(g)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    next(g)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    next(g) # once stopped, can't be resumed
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def f():
-        yield 1
-        raise StopIteration
-        yield 2 # never reached
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    g = f()
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    next(g)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    next(g)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    next(g)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def g1():
-        try:
-            return
-        except:
-            yield 1
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    list(g1())
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def g2():
-        try:
-            raise StopIteration
-        except:
-            yield 42
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    print(list(g2()))
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def g3():
-        try:
-            return
-        finally:
-            yield 1
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    list(g3())
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def yrange(n):
-        for i in range(n):
-            yield i
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    list(yrange(5))
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def creator():
-        r = yrange(5)
-        print("creator", next(r))
-        return r
-    def caller():
-        r = creator()
-        for i in r:
-                print("caller", i)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    caller()
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def zrange(n):
-        for i in yrange(n):
-            yield i
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    list(zrange(5))
-except Exception as e:
-    print( "Occured", type(e), e )
-
-################################################################################
-
-try:
-    def g():
-        for i in range(3):
-            yield None
-        yield None
-        return
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    list(g())
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def g():
-        yield 1
-        try:
-            raise StopIteration
-        except:
-            yield 2
-        yield 3
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    list(g())
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def gcomb(x, k):
-        "Generate all combinations of k elements from list x."
-
-        if k > len(x):
-            return
-        if k == 0:
-            yield []
-        else:
-            first, rest = x[0], x[1:]
-            # A combination does or doesn't contain first.
-            # If it does, the remainder is a k-1 comb of rest.
-            for c in gcomb(rest, k-1):
-                c.insert(0, first)
-                yield c
-            # If it doesn't contain first, it's a k comb of rest.
-            for c in gcomb(rest, k):
-                yield c
-    #
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    seq = list(range(1, 5))
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    for k in range(len(seq) + 2):
-        print("%d-combs of %s:" % (k, seq))
-        for c in gcomb(seq, k):
-            print("   ", c)
-    # Expected:
-    ## 0-combs of [1, 2, 3, 4]:
-    ##     []
-    ## 1-combs of [1, 2, 3, 4]:
-    ##     [1]
-    ##     [2]
-    ##     [3]
-    ##     [4]
-    ## 2-combs of [1, 2, 3, 4]:
-    ##     [1, 2]
-    ##     [1, 3]
-    ##     [1, 4]
-    ##     [2, 3]
-    ##     [2, 4]
-    ##     [3, 4]
-    ## 3-combs of [1, 2, 3, 4]:
-    ##     [1, 2, 3]
-    ##     [1, 2, 4]
-    ##     [1, 3, 4]
-    ##     [2, 3, 4]
-    ## 4-combs of [1, 2, 3, 4]:
-    ##     [1, 2, 3, 4]
-    ## 5-combs of [1, 2, 3, 4]:
-    #
-    # From the Iterators list, about the types of these things.
-    #
-    def g():
-        yield 1
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    type(g)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    i = g()
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    type(i)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    from test.support import HAVE_DOCSTRINGS
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    print(i.__next__.__doc__ if HAVE_DOCSTRINGS else 'Implement next(self).')
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    iter(i) is i
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    import types
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    i.gi_running
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    i.gi_running = 42
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def g():
-        yield me.gi_running
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    me = g()
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    me.gi_running
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    next(me)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    me.gi_running
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    class disjointSet:
-        def __init__(self, name):
-            self.name = name
-            self.parent = None
-            self.generator = self.generate()
-
-        def generate(self):
-            while not self.parent:
-                yield self
-            for x in self.parent.generator:
-                yield x
-
-        def find(self):
-            return next(self.generator)
-
-        def union(self, parent):
-            if self.parent:
-                raise ValueError("Sorry, I'm not a root!")
-            self.parent = parent
-
-        def __str__(self):
-            return self.name
-    #
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    names = "ABCDEFGHIJKLM"
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    sets = [disjointSet(name) for name in names]
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    roots = sets[:]
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    import random
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    gen = random.Random(42)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-################################################################################
-
-try:
-    import weakref
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def gen():
-        yield 'foo!'
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    wr = weakref.ref(gen)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    wr() is gen
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    p = weakref.proxy(gen)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    gi = gen()
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    wr = weakref.ref(gi)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    wr() is gi
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    p = weakref.proxy(gi)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    list(p)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-################################################################################
-
-try:
-    def g():
-        i = next(me)
-        yield i
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    me = g()
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    next(me)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def f1():
-        try:
-            return
-        except:
-           yield 1
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    print(list(f1()))
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def f2():
-        try:
-            raise StopIteration
-        except:
-            yield 42
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    print(list(f2()))
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def f():
-        return 1//0
-    def g():
-        yield f()  # the zero division exception propagates
-        yield 42   # and we'll never get here
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    k = g()
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    next(k)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    next(k)  # and the generator cannot be resumed
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def f():
-        try:
-            yield 1
-            try:
-                yield 2
-                1//0
-                yield 3  # never get here
-            except ZeroDivisionError:
-                yield 4
-                yield 5
-                raise
-            except:
-                yield 6
-            yield 7     # the "raise" above stops this
-        except:
-            yield 8
-        yield 9
-        try:
-            x = 12
-        finally:
-            yield 10
-        yield 11
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    print(list(f()))
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    class Tree:
-
-        def __init__(self, label, left=None, right=None):
-            self.label = label
-            self.left = left
-            self.right = right
-
-        def __repr__(self, level=0, indent="    "):
-            s = level*indent + repr(self.label)
-            if self.left:
-                s = s + "\n" + self.left.__repr__(level+1, indent)
-            if self.right:
-                s = s + "\n" + self.right.__repr__(level+1, indent)
-            return s
-
-        def __iter__(self):
-            return inorder(self)
-    #
-    def tree(list):
-        n = len(list)
-        if n == 0:
-            return []
-        i = n // 2
-        return Tree(list[i], tree(list[:i]), tree(list[i+1:]))
-    #
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    t = tree("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def inorder(t):
-        if t:
-            for x in inorder(t.left):
-                yield x
-            yield t.label
-            for x in inorder(t.right):
-                yield x
-    #
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    t = tree("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
-except Exception as e:
-    print( "Occured", type(e), e )
-
-################################################################################
-
-try:
-    def f():
-        print((yield 1))
-        yield 2
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    g = f()
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    next(g)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    g.send(42)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    f().send("foo")
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def f(): yield
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    list(f())
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def f(): list(i for i in [(yield 26)])
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    type(f())
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def coroutine(seq):
-        count = 0
-        while count < 200:
-            count += yield
-            seq.append(count)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    seq = []
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    c = coroutine(seq)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    next(c)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    print(seq)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    c.send(10)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    print(seq)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    c.send(10)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    print(seq)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    c.send(10)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    print(seq)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def f():
-        while True:
-            try:
-                print((yield))
-            except ValueError as v:
-                print("caught ValueError (%s)" % (v))
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    import sys
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    g = f()
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    next(g)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    g.throw(ValueError) # type only
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    g.throw(ValueError("xyz"))  # value only
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    g.throw(ValueError, ValueError(1))   # value+matching type
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    g.throw(ValueError, TypeError(1))  # mismatched type, rewrapped
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    g.throw(ValueError, ValueError(1), None)   # explicit None traceback
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    g.throw(ValueError(1), "foo")       # bad args
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    g.throw(ValueError, "foo", 23)      # bad args
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    g.throw("abc")
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    g.throw(0)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    g.throw(list)
-except Exception as e:
-    print( "Occured", type(e), e )
-
+    print('Line 236')
+    print(firstn(fib(), 17)
+    )
 
-try:
-    def throw(g,exc):
-        try:
-            raise exc
-        except:
-            g.throw(*sys.exc_info())
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    throw(g,ValueError) # do it with traceback included
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    g.send(1)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    throw(g,TypeError)  # terminate the generator
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    g.send(2)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    g.throw(ValueError,6)       # throw on closed generator
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    f().throw(ValueError,7)     # throw on just-opened generator
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def f():
-        try:
-            yield
-        except:
-            raise
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    g = f()
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    try:
-        1/0
-    except ZeroDivisionError as v:
-        try:
-            g.throw(v)
-        except Exception as w:
-            tb = w.__traceback__
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    levels = 0
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    while tb:
-        levels += 1
-        tb = tb.tb_next
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    levels
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def f():
-        try: yield
-        except GeneratorExit:
-            print("exiting")
-    #
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    g = f()
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    next(g)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    g.close()
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    g.close()  # should be no-op now
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    f().close()  # close on just-opened generator should be fine
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def f(): yield      # an even simpler generator
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    f().close()         # close before opening
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    g = f()
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    next(g)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    g.close()           # close normally
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def f():
-        try: yield
-        finally:
-            print("exiting")
-    #
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    g = f()
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    next(g)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    del g
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def f():
-        try: yield
-        except Exception:
-            print('except')
-        finally:
-            print('finally')
-    #
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    g = f()
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    next(g)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    del g
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def f():
-        try: yield
-        except GeneratorExit:
-            yield "foo!"
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    g = f()
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    next(g)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    g.close()
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    g.close()
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    import sys, io
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    old, sys.stderr = sys.stderr, io.StringIO()
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    g = f()
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    next(g)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    del g
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    "RuntimeError: generator ignored GeneratorExit" in sys.stderr.getvalue()
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    sys.stderr = old
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def f():
-        try: yield
-        except GeneratorExit:
-            raise TypeError("fie!")
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    g = f()
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    next(g)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    g.close()
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def f(): x += yield
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    type(f())
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def f(): x = yield
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    type(f())
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def f(): lambda x=(yield): 1
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    type(f())
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    type(f())
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    def f(d): d[(yield "a")] = d[(yield "b")] = 27
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    data = [1,2]
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    g = f(data)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    type(g)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    g.send(None)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    data
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    g.send(0)
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    data
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    try: g.send(1)
-    except StopIteration: pass
-except Exception as e:
-    print( "Occured", type(e), e )
-
-
-try:
-    data
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 ################################################################################
 
@@ -2011,25 +350,25 @@ try:
     # And run an 8-queens solver.
     #
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     q = Queens(8)
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     LIMIT = 2
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     count = 0
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
@@ -2077,28 +416,2043 @@ try:
     ## +-+-+-+-+-+-+-+-+
     #
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    print(count, "solutions in all.")
+    print('Line 86')
+    print(print(count, "solutions in all.")
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     k = Knights(10, 10)
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     LIMIT = 2
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     count = 0
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
+
+################################################################################
+
+try:
+    def g():
+        i = next(me)
+        yield i
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    me = g()
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 9')
+    print(next(me)
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def f1():
+        try:
+            return
+        except:
+           yield 1
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 27')
+    print(print(list(f1()))
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def f2():
+        try:
+            raise StopIteration
+        except:
+            yield 42
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 38')
+    print(print(list(f2()))
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def f():
+        return 1//0
+    def g():
+        yield f()  # the zero division exception propagates
+        yield 42   # and we'll never get here
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    k = g()
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 53')
+    print(next(k)
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 60')
+    print(next(k)  # and the generator cannot be resumed
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def f():
+        try:
+            yield 1
+            try:
+                yield 2
+                1//0
+                yield 3  # never get here
+            except ZeroDivisionError:
+                yield 4
+                yield 5
+                raise
+            except:
+                yield 6
+            yield 7     # the "raise" above stops this
+        except:
+            yield 8
+        yield 9
+        try:
+            x = 12
+        finally:
+            yield 10
+        yield 11
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 90')
+    print(print(list(f()))
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    class Tree:
+
+        def __init__(self, label, left=None, right=None):
+            self.label = label
+            self.left = left
+            self.right = right
+
+        def __repr__(self, level=0, indent="    "):
+            s = level*indent + repr(self.label)
+            if self.left:
+                s = s + "\n" + self.left.__repr__(level+1, indent)
+            if self.right:
+                s = s + "\n" + self.right.__repr__(level+1, indent)
+            return s
+
+        def __iter__(self):
+            return inorder(self)
+    #
+    def tree(list):
+        n = len(list)
+        if n == 0:
+            return []
+        i = n // 2
+        return Tree(list[i], tree(list[:i]), tree(list[i+1:]))
+    #
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    t = tree("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def inorder(t):
+        if t:
+            for x in inorder(t.left):
+                yield x
+            yield t.label
+            for x in inorder(t.right):
+                yield x
+    #
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    t = tree("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+except Exception as e:
+    print("Occurred", type(e), e)
+
+################################################################################
+
+try:
+    def g():
+        for i in range(3):
+            yield None
+        yield None
+        return
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 7')
+    print(list(g())
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def g():
+        yield 1
+        try:
+            raise StopIteration
+        except:
+            yield 2
+        yield 3
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 21')
+    print(list(g())
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def gcomb(x, k):
+        "Generate all combinations of k elements from list x."
+
+        if k > len(x):
+            return
+        if k == 0:
+            yield []
+        else:
+            first, rest = x[0], x[1:]
+            # A combination does or doesn't contain first.
+            # If it does, the remainder is a k-1 comb of rest.
+            for c in gcomb(rest, k-1):
+                c.insert(0, first)
+                yield c
+            # If it doesn't contain first, it's a k comb of rest.
+            for c in gcomb(rest, k):
+                yield c
+    #
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    seq = list(range(1, 5))
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    for k in range(len(seq) + 2):
+        print("%d-combs of %s:" % (k, seq))
+        for c in gcomb(seq, k):
+            print("   ", c)
+    # Expected:
+    ## 0-combs of [1, 2, 3, 4]:
+    ##     []
+    ## 1-combs of [1, 2, 3, 4]:
+    ##     [1]
+    ##     [2]
+    ##     [3]
+    ##     [4]
+    ## 2-combs of [1, 2, 3, 4]:
+    ##     [1, 2]
+    ##     [1, 3]
+    ##     [1, 4]
+    ##     [2, 3]
+    ##     [2, 4]
+    ##     [3, 4]
+    ## 3-combs of [1, 2, 3, 4]:
+    ##     [1, 2, 3]
+    ##     [1, 2, 4]
+    ##     [1, 3, 4]
+    ##     [2, 3, 4]
+    ## 4-combs of [1, 2, 3, 4]:
+    ##     [1, 2, 3, 4]
+    ## 5-combs of [1, 2, 3, 4]:
+    #
+    # From the Iterators list, about the types of these things.
+    #
+    def g():
+        yield 1
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 78')
+    print(type(g)
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    i = g()
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 82')
+    print(type(i)
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    from test.support import HAVE_DOCSTRINGS
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 89')
+    print(print(i.__next__.__doc__ if HAVE_DOCSTRINGS else 'Implement next(self).')
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 92')
+    print(iter(i) is i
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    import types
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 102')
+    print(i.gi_running
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    i.gi_running = 42
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def g():
+        yield me.gi_running
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    me = g()
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 116')
+    print(me.gi_running
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 119')
+    print(next(me)
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 122')
+    print(me.gi_running
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    class disjointSet:
+        def __init__(self, name):
+            self.name = name
+            self.parent = None
+            self.generator = self.generate()
+
+        def generate(self):
+            while not self.parent:
+                yield self
+            for x in self.parent.generator:
+                yield x
+
+        def find(self):
+            return next(self.generator)
+
+        def union(self, parent):
+            if self.parent:
+                raise ValueError("Sorry, I'm not a root!")
+            self.parent = parent
+
+        def __str__(self):
+            return self.name
+    #
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    names = "ABCDEFGHIJKLM"
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    sets = [disjointSet(name) for name in names]
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    roots = sets[:]
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    import random
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    gen = random.Random(42)
+except Exception as e:
+    print("Occurred", type(e), e)
+
+################################################################################
+
+try:
+    def f():
+        yield 1
+        return
+    #
+    def f():
+        try:
+            yield 1
+        finally:
+            pass
+    #
+    def f():
+        try:
+            try:
+                1//0
+            except ZeroDivisionError:
+                yield 666
+            except:
+                pass
+        finally:
+            pass
+    #
+    def f():
+        try:
+            try:
+                yield 12
+                1//0
+            except ZeroDivisionError:
+                yield 666
+            except:
+                try:
+                    x = 12
+                finally:
+                    yield 12
+        except:
+            return
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 37')
+    print(list(f())
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def f():
+       yield
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 43')
+    print(type(f())
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def f():
+       if 0:
+           yield
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 51')
+    print(type(f())
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def f():
+        if 0:
+            yield 1
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 59')
+    print(type(f())
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def f():
+       if "":
+           yield None
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 66')
+    print(type(f())
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def f():
+        return
+        try:
+            if x==4:
+                pass
+            elif 0:
+                try:
+                    1//0
+                except SyntaxError:
+                    pass
+                else:
+                    if 0:
+                        while 12:
+                            x += 1
+                            yield 2 # don't blink
+                            f(a, b, c, d, e)
+            else:
+                pass
+        except:
+            x = 1
+        return
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 91')
+    print(type(f())
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def f():
+        if 0:
+            def g():
+                yield 1
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 99')
+    print(type(f())
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def f():
+        if 0:
+            class C:
+                def __init__(self):
+                    yield 1
+                def f(self):
+                    yield 2
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 110')
+    print(type(f())
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def f():
+        if 0:
+            return
+        if 0:
+            yield 2
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 119')
+    print(type(f())
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def f():
+        for i in range(3):
+            try:
+                continue
+            finally:
+                yield i
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    g = f()
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 132')
+    print(print(next(g))
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 135')
+    print(print(next(g))
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 138')
+    print(print(next(g))
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 141')
+    print(print(next(g))
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def f():
+        yield 5
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    g = f()
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 155')
+    print(next(g)
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 158')
+    print(next(g)
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def f():
+       yield 5
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    g = f()
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 172')
+    print(g.__name__
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 175')
+    print(repr(g)  # doctest: +ELLIPSIS
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    x = lambda: (yield 1)
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 182')
+    print(list(x())
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    x = lambda: ((yield 1), (yield 2))
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 187')
+    print(list(x())
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+################################################################################
+
+try:
+    def f():
+       yield 1
+       yield 2
+    #
+    for i in f():
+        print(i)
+    # Expected:
+    ## 1
+    ## 2
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    g = f()
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 12')
+    print(next(g)
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 15')
+    print(next(g)
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 21')
+    print(next(g)
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def f():
+        yield 1
+        return
+        yield 2 # never reached
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    g = f()
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 35')
+    print(next(g)
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 38')
+    print(next(g)
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 44')
+    print(next(g) # once stopped, can't be resumed
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def f():
+        yield 1
+        raise StopIteration
+        yield 2 # never reached
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    g = f()
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 57')
+    print(next(g)
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 60')
+    print(next(g)
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 65')
+    print(next(g)
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def g1():
+        try:
+            return
+        except:
+            yield 1
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 78')
+    print(list(g1())
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def g2():
+        try:
+            raise StopIteration
+        except:
+            yield 42
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 87')
+    print(print(list(g2()))
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def g3():
+        try:
+            return
+        finally:
+            yield 1
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 98')
+    print(list(g3())
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def yrange(n):
+        for i in range(n):
+            yield i
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 107')
+    print(list(yrange(5))
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def creator():
+        r = yrange(5)
+        print("creator", next(r))
+        return r
+    def caller():
+        r = creator()
+        for i in r:
+                print("caller", i)
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 121')
+    print(caller()
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def zrange(n):
+        for i in yrange(n):
+            yield i
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 134')
+    print(list(zrange(5))
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+################################################################################
+
+try:
+    import itertools
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def leak():
+        class gen:
+            def __iter__(self):
+                return self
+            def __next__(self):
+                return self.item
+        g = gen()
+        head, tail = itertools.tee(g)
+        g.item = head
+        return head
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    it = leak()
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    item = next(it)
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def leak():
+       def gen():
+           while True:
+               yield g
+       g = gen()
+    #
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 34')
+    print(leak()
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    import sys, io
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    old = sys.stderr
+except Exception as e:
+    print("Occurred", type(e), e)
+
+################################################################################
+
+try:
+    import weakref
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def gen():
+        yield 'foo!'
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    wr = weakref.ref(gen)
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 6')
+    print(wr() is gen
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    p = weakref.proxy(gen)
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    gi = gen()
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    wr = weakref.ref(gi)
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 15')
+    print(wr() is gi
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    p = weakref.proxy(gi)
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 19')
+    print(list(p)
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+################################################################################
+
+try:
+    def f():
+        print((yield 1))
+        yield 2
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    g = f()
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 6')
+    print(next(g)
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 9')
+    print(g.send(42)
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 16')
+    print(f().send("foo")
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def f(): yield
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 26')
+    print(list(f())
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def f(): list(i for i in [(yield 26)])
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 41')
+    print(type(f())
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def coroutine(seq):
+        count = 0
+        while count < 200:
+            count += yield
+            seq.append(count)
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    seq = []
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    c = coroutine(seq)
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 55')
+    print(next(c)
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 56')
+    print(print(seq)
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 59')
+    print(c.send(10)
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 60')
+    print(print(seq)
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 63')
+    print(c.send(10)
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 64')
+    print(print(seq)
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 67')
+    print(c.send(10)
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 68')
+    print(print(seq)
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def f():
+        while True:
+            try:
+                print((yield))
+            except ValueError as v:
+                print("caught ValueError (%s)" % (v))
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    import sys
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    g = f()
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 110')
+    print(next(g)
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 112')
+    print(g.throw(ValueError) # type only
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 116')
+    print(g.throw(ValueError("xyz"))  # value only
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 120')
+    print(g.throw(ValueError, ValueError(1))   # value+matching type
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 124')
+    print(g.throw(ValueError, TypeError(1))  # mismatched type, rewrapped
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 128')
+    print(g.throw(ValueError, ValueError(1), None)   # explicit None traceback
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 132')
+    print(g.throw(ValueError(1), "foo")       # bad args
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 138')
+    print(g.throw(ValueError, "foo", 23)      # bad args
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 144')
+    print(g.throw("abc")
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 150')
+    print(g.throw(0)
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 156')
+    print(g.throw(list)
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def throw(g,exc):
+        try:
+            raise exc
+        except:
+            g.throw(*sys.exc_info())
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 167')
+    print(throw(g,ValueError) # do it with traceback included
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 171')
+    print(g.send(1)
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 175')
+    print(throw(g,TypeError)  # terminate the generator
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 185')
+    print(g.send(2)
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 191')
+    print(g.throw(ValueError,6)       # throw on closed generator
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 197')
+    print(f().throw(ValueError,7)     # throw on just-opened generator
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def f():
+        try:
+            yield
+        except:
+            raise
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    g = f()
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    try:
+        1/0
+    except ZeroDivisionError as v:
+        try:
+            g.throw(v)
+        except Exception as w:
+            tb = w.__traceback__
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    levels = 0
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    while tb:
+        levels += 1
+        tb = tb.tb_next
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 226')
+    print(levels
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def f():
+        try: yield
+        except GeneratorExit:
+            print("exiting")
+    #
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    g = f()
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 238')
+    print(next(g)
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 239')
+    print(g.close()
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 242')
+    print(g.close()  # should be no-op now
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 244')
+    print(f().close()  # close on just-opened generator should be fine
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def f(): yield      # an even simpler generator
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 247')
+    print(f().close()         # close before opening
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    g = f()
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 249')
+    print(next(g)
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 250')
+    print(g.close()           # close normally
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def f():
+        try: yield
+        finally:
+            print("exiting")
+    #
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    g = f()
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 260')
+    print(next(g)
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    del g
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def f():
+        try: yield
+        except Exception:
+            print('except')
+        finally:
+            print('finally')
+    #
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    g = f()
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 276')
+    print(next(g)
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    del g
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def f():
+        try: yield
+        except GeneratorExit:
+            yield "foo!"
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    g = f()
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 289')
+    print(next(g)
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 290')
+    print(g.close()
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 295')
+    print(g.close()
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    import sys, io
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    old, sys.stderr = sys.stderr, io.StringIO()
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    g = f()
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 303')
+    print(next(g)
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    del g
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 305')
+    print("RuntimeError: generator ignored GeneratorExit" in sys.stderr.getvalue()
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    sys.stderr = old
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def f():
+        try: yield
+        except GeneratorExit:
+            raise TypeError("fie!")
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    g = f()
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 318')
+    print(next(g)
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 319')
+    print(g.close()
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def f(): x += yield
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 330')
+    print(type(f())
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def f(): x = yield
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 335')
+    print(type(f())
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def f(): lambda x=(yield): 1
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 340')
+    print(type(f())
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 345')
+    print(type(f())
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    def f(d): d[(yield "a")] = d[(yield "b")] = 27
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    data = [1,2]
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    g = f(data)
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 352')
+    print(type(g)
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 355')
+    print(g.send(None)
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 358')
+    print(data
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 361')
+    print(g.send(0)
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 364')
+    print(data
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    try: g.send(1)
+    except StopIteration: pass
+except Exception as e:
+    print("Occurred", type(e), e)
+
+
+try:
+    print('Line 369')
+    print(data
+    )
+
+except Exception as e:
+    print("Occurred", type(e), e)

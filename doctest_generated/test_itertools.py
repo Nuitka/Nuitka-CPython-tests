@@ -3,7 +3,7 @@ from itertools import *
 try:
     amounts = [120.15, 764.05, 823.14]
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
@@ -15,13 +15,13 @@ try:
     ## Check 1202 is for $823.14
     #
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     import operator
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
@@ -33,13 +33,13 @@ try:
     ## 27
     #
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     reportlines = ['EuroPython', 'Roster', '', 'alex', '', 'laura', '', 'martin', '', 'walter', '', 'samuele']
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
@@ -53,25 +53,25 @@ try:
     ## Samuele
     #
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     from operator import itemgetter
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     d = dict(a=1, b=2, c=1, d=2, e=1, f=2, g=3)
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     di = sorted(sorted(d.items()), key=itemgetter(1))
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
@@ -86,13 +86,13 @@ try:
     # # is differencing with a range so that consecutive numbers all appear in
     # # same group.
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     data = [ 1,  4,5,6, 10, 15,16,17,18, 22, 25,26,27,28]
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
@@ -220,166 +220,241 @@ try:
     # perform as purported.
     #
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    take(10, count())
+    print('Line 166')
+    print(take(10, count())
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    list(enumerate('abc'))
+    print('Line 170')
+    print(list(enumerate('abc'))
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    list(islice(tabulate(lambda x: 2*x), 4))
+    print('Line 174')
+    print(list(islice(tabulate(lambda x: 2*x), 4))
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    nth('abcde', 3)
+    print('Line 178')
+    print(nth('abcde', 3)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    nth('abcde', 9) is None
+    print('Line 182')
+    print(nth('abcde', 9) is None
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    quantify(range(99), lambda x: x%2==0)
+    print('Line 186')
+    print(quantify(range(99), lambda x: x%2==0)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     a = [[1, 2, 3], [4, 5, 6]]
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    flatten(a)
+    print('Line 191')
+    print(flatten(a)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    list(repeatfunc(pow, 5, 2, 3))
+    print('Line 195')
+    print(list(repeatfunc(pow, 5, 2, 3))
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     import random
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    take(5, map(int, repeatfunc(random.random)))
+    print('Line 200')
+    print(take(5, map(int, repeatfunc(random.random)))
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    list(pairwise('abcd'))
+    print('Line 204')
+    print(list(pairwise('abcd'))
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    list(pairwise([]))
+    print('Line 208')
+    print(list(pairwise([]))
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    list(pairwise('a'))
+    print('Line 212')
+    print(list(pairwise('a'))
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    list(islice(padnone('abc'), 0, 6))
+    print('Line 216')
+    print(list(islice(padnone('abc'), 0, 6))
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    list(ncycles('abc', 3))
+    print('Line 220')
+    print(list(ncycles('abc', 3))
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    dotproduct([1,2,3], [4,5,6])
+    print('Line 224')
+    print(dotproduct([1,2,3], [4,5,6])
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    list(grouper(3, 'abcdefg', 'x'))
+    print('Line 228')
+    print(list(grouper(3, 'abcdefg', 'x'))
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    list(roundrobin('abc', 'd', 'ef'))
+    print('Line 232')
+    print(list(roundrobin('abc', 'd', 'ef'))
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    list(powerset([1,2,3]))
+    print('Line 236')
+    print(list(powerset([1,2,3]))
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    all(len(list(powerset(range(n)))) == 2**n for n in range(18))
+    print('Line 240')
+    print(all(len(list(powerset(range(n)))) == 2**n for n in range(18))
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    list(powerset('abcde')) == sorted(sorted(set(powerset('abcde'))), key=len)
+    print('Line 244')
+    print(list(powerset('abcde')) == sorted(sorted(set(powerset('abcde'))), key=len)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    list(unique_everseen('AAAABBBCCDAABBB'))
+    print('Line 248')
+    print(list(unique_everseen('AAAABBBCCDAABBB'))
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    list(unique_everseen('ABBCcAD', str.lower))
+    print('Line 252')
+    print(list(unique_everseen('ABBCcAD', str.lower))
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    list(unique_justseen('AAAABBBCCDAABBB'))
+    print('Line 256')
+    print(list(unique_justseen('AAAABBBCCDAABBB'))
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    list(unique_justseen('ABBCcAD', str.lower))
+    print('Line 260')
+    print(list(unique_justseen('ABBCcAD', str.lower))
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    first_true('ABC0DEF1', '9', str.isdigit)
+    print('Line 264')
+    print(first_true('ABC0DEF1', '9', str.isdigit)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
