@@ -2034,7 +2034,7 @@ except Exception as e:
 
 try:
     print('Line 232')
-    print(levels
+    print(levels >= 2
     )
 
 except Exception as e:

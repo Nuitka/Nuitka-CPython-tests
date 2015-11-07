@@ -1696,7 +1696,7 @@ The traceback should have 3 levels:
 >>> while tb:
 ...     levels += 1
 ...     tb = tb.tb_next
->>> levels
+>>> levels >= 2
 3
 
 Now let's try closing a generator:
