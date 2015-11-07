@@ -3,13 +3,13 @@ import test.support as support
 try:
     from collections import UserList
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     from collections import UserDict
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
@@ -28,145 +28,211 @@ try:
     # Argument list examples
     #
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    f()
+    print('Line 23')
+    print(f()
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    f(1)
+    print('Line 26')
+    print(f(1)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    f(1, 2)
+    print('Line 29')
+    print(f(1, 2)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    f(1, 2, 3)
+    print('Line 32')
+    print(f(1, 2, 3)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    f(1, 2, 3, *(4, 5))
+    print('Line 35')
+    print(f(1, 2, 3, *(4, 5))
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    f(1, 2, 3, *[4, 5])
+    print('Line 38')
+    print(f(1, 2, 3, *[4, 5])
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    f(1, 2, 3, *UserList([4, 5]))
+    print('Line 41')
+    print(f(1, 2, 3, *UserList([4, 5]))
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    f(1, 2, 3, **{'a':4, 'b':5})
+    print('Line 47')
+    print(f(1, 2, 3, **{'a':4, 'b':5})
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    f(1, 2, 3, *[4, 5], **{'a':6, 'b':7})
+    print('Line 50')
+    print(f(1, 2, 3, *[4, 5], **{'a':6, 'b':7})
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    f(1, 2, 3, x=4, y=5, *(6, 7), **{'a':8, 'b': 9})
+    print('Line 53')
+    print(f(1, 2, 3, x=4, y=5, *(6, 7), **{'a':8, 'b': 9})
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    f(1, 2, 3, **UserDict(a=4, b=5))
+    print('Line 57')
+    print(f(1, 2, 3, **UserDict(a=4, b=5))
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    f(1, 2, 3, *(4, 5), **UserDict(a=6, b=7))
+    print('Line 60')
+    print(f(1, 2, 3, *(4, 5), **UserDict(a=6, b=7))
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    f(1, 2, 3, x=4, y=5, *(6, 7), **UserDict(a=8, b=9))
+    print('Line 63')
+    print(f(1, 2, 3, x=4, y=5, *(6, 7), **UserDict(a=8, b=9))
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    e(c=4)
+    print('Line 72')
+    print(e(c=4)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    g()
+    print('Line 78')
+    print(g()
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    g(*())
+    print('Line 84')
+    print(g(*())
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    g(*(), **{})
+    print('Line 90')
+    print(g(*(), **{})
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    g(1)
+    print('Line 96')
+    print(g(1)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    g(1, 2)
+    print('Line 99')
+    print(g(1, 2)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    g(1, 2, 3)
+    print('Line 102')
+    print(g(1, 2, 3)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    g(1, 2, 3, *(4, 5))
+    print('Line 105')
+    print(g(1, 2, 3, *(4, 5))
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     class Nothing: pass
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    g(*Nothing())
+    print('Line 110')
+    print(g(*Nothing())
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
@@ -174,13 +240,16 @@ try:
         def __len__(self): return 5
     #
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    g(*Nothing())
+    print('Line 119')
+    print(g(*Nothing())
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
@@ -191,13 +260,16 @@ try:
             else: raise IndexError(i)
     #
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    g(*Nothing())
+    print('Line 131')
+    print(g(*Nothing())
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
@@ -212,37 +284,46 @@ try:
             return c
     #
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    g(*Nothing())
+    print('Line 145')
+    print(g(*Nothing())
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     d = {'a': 1, 'b': 2, 'c': 3}
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     d2 = d.copy()
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    g(1, d=4, **d)
+    print('Line 153')
+    print(g(1, d=4, **d)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    d == d2
+    print('Line 156')
+    print(d == d2
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
@@ -251,85 +332,118 @@ try:
         return kw
     #
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     d = {}
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     kw = saboteur(a=1, **d)
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    d
+    print('Line 168')
+    print(d
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    g(1, 2, 3, **{'x': 4, 'y': 5})
+    print('Line 173')
+    print(g(1, 2, 3, **{'x': 4, 'y': 5})
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    f(**{1:2})
+    print('Line 179')
+    print(f(**{1:2})
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    h(**{'e': 2})
+    print('Line 185')
+    print(h(**{'e': 2})
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    h(*h)
+    print('Line 191')
+    print(h(*h)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    dir(*h)
+    print('Line 197')
+    print(dir(*h)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    None(*h)
+    print('Line 203')
+    print(None(*h)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    h(**h)
+    print('Line 209')
+    print(h(**h)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    dir(**h)
+    print('Line 215')
+    print(dir(**h)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    None(**h)
+    print('Line 221')
+    print(None(**h)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    dir(b=1, **{'b': 1})
+    print('Line 227')
+    print(dir(b=1, **{'b': 1})
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
@@ -338,13 +452,13 @@ try:
     #
     #
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     d = {}
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
@@ -352,19 +466,22 @@ try:
         key = 'k%d' % i
         d[key] = i
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     a, b = f2(1, *(2,3), **d)
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    len(a), len(b), b == d
+    print('Line 244')
+    print(len(a), len(b), b == d
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
@@ -373,37 +490,49 @@ try:
             return arg1+arg2
     #
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     x = Foo()
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    Foo.method(*(x, 1, 2))
+    print('Line 253')
+    print(Foo.method(*(x, 1, 2))
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    Foo.method(x, *(1, 2))
+    print('Line 256')
+    print(Foo.method(x, *(1, 2))
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    Foo.method(*(1, 2, 3))
+    print('Line 259')
+    print(Foo.method(*(1, 2, 3))
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    Foo.method(1, *[2, 3])
+    print('Line 262')
+    print(Foo.method(1, *[2, 3])
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
@@ -416,13 +545,16 @@ try:
     ## True
     #
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    id(1, **{'foo': 1})
+    print('Line 278')
+    print(id(1, **{'foo': 1})
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
@@ -437,62 +569,74 @@ try:
             return str.__hash__(self)
     #
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     x = {Name("a"):1, Name("b"):2}
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     def f(a, b):
         print(a,b)
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    f(**x)
+    print('Line 300')
+    print(f(**x)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     def f(a, b):
        pass
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    f(b=1)
+    print('Line 308')
+    print(f(b=1)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     def f(a):
        pass
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    f(6, a=4, *(1, 2, 3))
+    print('Line 318')
+    print(f(6, a=4, *(1, 2, 3))
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
     def f(a, *, kw):
        pass
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
 
 
 try:
-    f(6, 4, kw=4)
+    print('Line 325')
+    print(f(6, 4, kw=4)
+    )
+
 except Exception as e:
-    print( "Occured", type(e), e )
+    print("Occurred", type(e), e)
