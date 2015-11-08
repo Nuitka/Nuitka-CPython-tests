@@ -74,6 +74,9 @@ def checkPath(dirname, filename):
         if filename in ("test_shutil.py", "test_ntpath.py"):
             extra_flags.append("ignore_stderr")
 
+    if filename == "test_buffer.py":
+        extra_flags.append("ignore_warnings")
+
     # TODO: This deadlocks, likely a threading problem.
     if python_version >= "3.4" and \
        filename == "test_concurrent_futures.py":
