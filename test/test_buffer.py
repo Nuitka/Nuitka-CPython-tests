@@ -207,7 +207,8 @@ def randitems(n, obj='ndarray', mode=None, char=None):
 def iter_mode(n, obj='ndarray'):
     """Iterate through supported mode/char combinations."""
     for mode in cap[obj][MODE]:
-        for char in fmtdict[mode]:
+        # Nuitka: Need to sort the dictionary for comparison of outputs.
+        for char in sorted(fmtdict[mode]):
             yield randitems(n, obj, mode, char)
 
 def iter_format(nitems, testobj='ndarray'):
