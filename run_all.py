@@ -98,7 +98,8 @@ def checkPath(dirname, filename):
     if python_version < "3.4":
         if filename in ("test_contextlib.py", "test_format.py",
                         "test_poplib.py", "test_pickle.py",
-                        "test_exceptions.py", "test_unicode.py"):
+                        "test_exceptions.py", "test_unicode.py",
+                        "test_winreg.py"):
             my_print("Skipped, triggers CPython bug in old versions.")
             return
 
