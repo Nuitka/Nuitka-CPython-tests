@@ -80,7 +80,7 @@ def checkPath(dirname, filename):
     if python_version >= "3.2" and python_version < "3.3" and os.name == "nt":
         if filename in ("test_ast.py", "test_descr.py", "test_imp.py",
                         "test_json.py", "test_os.py", "test_pickle.py",
-                        "test_pickletools.py", "test_time.py"):
+                        "test_pickletools.py", "test_time.py", "test_winreg.py"):
             reportSkip("crashes CPython on Windows", dirname, filename)
             return
 
