@@ -97,6 +97,10 @@ def checkPath(dirname, filename):
             reportSkip("crashes for unknown reason on Windows with MSVC only", dirname, filename)
             return
 
+        if filename == "test_uuid.py":
+            reportSkip("CPython fails more on Windows", dirname, filename)
+            return
+
     if dirname == "doctest_generated":
         if python_version >= "3":
             extra_flags.append("expect_success")
