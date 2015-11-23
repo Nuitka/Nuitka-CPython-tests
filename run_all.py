@@ -176,21 +176,14 @@ def checkPath(dirname, filename):
             my_print("Skipped, CPython crashes.")
             return
 
-    if python_version >= "3.5":
-        if filename == "test_poplib.py":
-            my_print("Skipped, newer CPython hangs in test.")
+        if filename in ("test_os.py", ):
+            my_print("Skipped, gives deprecation warnings on Windows.")
             return
 
-        # TODO: This could be removed, once we have deprecation warnings
-        # under control.
-        if filename in ("test_re.py", "test_smtpd.py"):
-            my_print("Skipped, newer CPython gives deprecation warnings.")
-            return
-
-        if filename in ("test_collections.py", "test_coroutines.py",
-                        "test_grammar.py", "test_inspect.py", "test_types.py"):
-            my_print("Skipped, no coroutine support yet.")
-            return
+    if filename in ("test_collections.py", "test_coroutines.py",
+                    "test_grammar.py", "test_inspect.py", "test_types.py"):
+        my_print("Skipped, no coroutine support yet.")
+        return
 
     compareWithCPython(
         dirname     = dirname,
