@@ -176,7 +176,7 @@ def checkPath(dirname, filename):
             my_print("Skipped, CPython on Windows crashes.")
             return
 
-        if filename in ("test_os.py", ):
+        if filename in ("test_os.py", "test_tarfile.py", ):
             my_print("Skipped, gives deprecation warnings on Windows.")
             return
 
