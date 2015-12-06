@@ -4,91 +4,20 @@
 # extracts the doctests from the objects specified manually inside this script,
 # and converts them into proper statements.
 
-import doctest, os, ast
-
-def _indentedCode(codes, count):
-    return '\n'.join( ' ' * count + line if line else "" for line in codes )
-
-def convertToPython(doctests, line_filter = None):
-    code = doctest.script_from_examples(doctests)
-
-    if code.endswith('\n'):
-        code +=  "#\n"
-    else:
-        assert False
-
-    output = []
-    inside = False
-
-    def getPrintPrefixed(evaluated):
-        try:
-            count = 0
-
-            while evaluated.startswith(' ' * count):
-                count += 1
-
-            modified = (count-1) * ' ' + "print " + evaluated
-
-            compile(modified, "dummy", "exec", ast.PyCF_ONLY_AST)
-            return (count-1) * ' ' + ("print 'Line %d'" % line_number) + '\n' + modified
-        except SyntaxError:
-            return evaluated
-
-    def getTried(evaluated):
-        return """
-try:
-%(evaluated)s
-except Exception, e:
-    print "Occured", type(e), e
-""" % { "evaluated" : _indentedCode(getPrintPrefixed(evaluated).split('\n'), 4) }
-
-    def isOpener(evaluated):
-        evaluated = evaluated.lstrip()
-
-        if evaluated == "":
-            return False
-
-        if evaluated.split()[0] in ("def", "class", "for", "while", "try:", "except", "except:", "finally:", "else:"):
-            return True
-        else:
-            return False
-
-    for line_number, line in enumerate(code.split('\n')):
-        # print "->", inside, line
-
-        if line_filter is not None and line_filter(line):
-            continue
-
-        if inside and len(line) > 0 and line[0].isalnum() and not isOpener(line):
-            output.append(getTried('\n'.join(chunk)))
-
-            chunk = []
-            inside = False
-
-        if inside and not (line.startswith('#') and line.find("SyntaxError:") != -1):
-            chunk.append(line)
-        elif line.startswith('#'):
-            if line.find("SyntaxError:") != -1:
-                # print "Syntax error detected"
-
-                if inside:
-                    # print "Dropping chunk", chunk
-
-                    chunk = []
-                    inside = False
-                else:
-                    del output[-1]
-        elif isOpener(line):
-            inside = True
-            chunk = [line]
-        elif line.strip() == "":
-            output.append(line)
-        else:
-            output.append(getTried(line))
-
-
-    return '\n'.join(output).rstrip() + '\n'
-
+# Find common code relative in file system. Not using packages for test stuff.
+import sys, os
+sys.path.insert(
+    0,
+    os.path.normpath(
+        os.path.join(
+            os.path.dirname(os.path.abspath(__file__)),
+            ".."
+        )
+    )
+)
+from test_common import (
+    convertToPython,
+)
 
 import test.test_bisect
 script = convertToPython(test.test_bisect.libreftest)
