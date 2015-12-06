@@ -188,6 +188,9 @@ def checkPath(dirname, filename):
             my_print("Skipped, newer CPython gives deprecation warnings.")
             return
 
+        if filename == "test_buffer.py":
+            extra_flags.append("ignore_stderr")
+
     compareWithCPython(
         dirname     = dirname,
         filename    = filename,
