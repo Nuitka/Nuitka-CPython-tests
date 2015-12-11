@@ -184,11 +184,6 @@ def checkPath(dirname, filename):
             my_print("Skipped, outputs random paths on Windows.")
             return
 
-    if filename in ("test_collections.py", "test_coroutines.py",
-                    "test_grammar.py", "test_inspect.py", "test_types.py"):
-        my_print("Skipped, no coroutine support yet.")
-        return
-
     compareWithCPython(
         dirname     = dirname,
         filename    = filename,
