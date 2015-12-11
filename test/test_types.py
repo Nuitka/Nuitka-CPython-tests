@@ -1244,9 +1244,10 @@ class CoroutineTests(unittest.TestCase):
         foo_code = foo.__code__
         foo_flags = foo.__code__.co_flags
         decorated_foo = types.coroutine(foo)
-        self.assertIs(foo, decorated_foo)
-        self.assertEqual(foo.__code__.co_flags, foo_flags)
-        self.assertIs(decorated_foo.__code__, foo_code)
+        # Nuitka: Our own compiled type will be decorated
+        # self.assertIs(foo, decorated_foo)
+        # self.assertEqual(foo.__code__.co_flags, foo_flags)
+        # self.assertIs(decorated_foo.__code__, foo_code)
 
         foo_coro = foo()
         def bar(): return foo_coro
@@ -1494,8 +1495,10 @@ class CoroutineTests(unittest.TestCase):
 
     def test_genfunc(self):
         def gen(): yield
-        self.assertIs(types.coroutine(gen), gen)
-        self.assertIs(types.coroutine(types.coroutine(gen)), gen)
+
+        # Nuitka: Our compiled generator type will be wrapped.
+        # self.assertIs(types.coroutine(gen), gen)
+        # self.assertIs(types.coroutine(types.coroutine(gen)), gen)
 
         self.assertTrue(gen.__code__.co_flags & inspect.CO_ITERABLE_COROUTINE)
         self.assertFalse(gen.__code__.co_flags & inspect.CO_COROUTINE)

@@ -26,7 +26,8 @@ class AsyncYield:
 
 
 def run_async(coro):
-    assert coro.__class__ in {types.GeneratorType, types.CoroutineType}
+    # Nuitka: We have our own type.
+    # assert coro.__class__ in {types.GeneratorType, types.CoroutineType}
 
     buffer = []
     result = None
@@ -40,7 +41,9 @@ def run_async(coro):
 
 
 def run_async__await__(coro):
-    assert coro.__class__ is types.CoroutineType
+    # Nuitka: We have our own type.
+    # assert coro.__class__ is types.CoroutineType
+
     aw = coro.__await__()
     buffer = []
     result = None
@@ -497,7 +500,8 @@ class CoroutineTest(unittest.TestCase):
             return 10
 
         f = foo()
-        self.assertIsInstance(f, types.CoroutineType)
+        # Nuitka: We have our own compiled coroutine type.
+        # self.assertIsInstance(f, types.CoroutineType)
         self.assertTrue(bool(foo.__code__.co_flags & inspect.CO_COROUTINE))
         self.assertFalse(bool(foo.__code__.co_flags & inspect.CO_GENERATOR))
         self.assertTrue(bool(f.cr_code.co_flags & inspect.CO_COROUTINE))
@@ -523,14 +527,14 @@ class CoroutineTest(unittest.TestCase):
             raise StopIteration
 
         with silence_coro_gc():
-            self.assertRegex(repr(foo()), '^<coroutine object.* at 0x.*>$')
+            self.assertRegex(repr(foo()), '^<.*coroutine object.* at 0x.*>$')
 
     def test_func_4(self):
         async def foo():
             raise StopIteration
 
         check = lambda: self.assertRaisesRegex(
-            TypeError, "'coroutine' object is not iterable")
+            TypeError, "'.*coroutine' object is not iterable")
 
         with check():
             list(foo())
@@ -560,7 +564,7 @@ class CoroutineTest(unittest.TestCase):
             await bar()
 
         check = lambda: self.assertRaisesRegex(
-            TypeError, "'coroutine' object is not iterable")
+            TypeError, "'.*coroutine' object is not iterable")
 
         with check():
             for el in foo(): pass
@@ -610,7 +614,8 @@ class CoroutineTest(unittest.TestCase):
 
         self.assertEqual(run_async(bar()), ([], 'spam') )
 
-    def test_func_9(self):
+    # Nuitka: We don't do warnings.
+    def notest_func_9(self):
         async def foo(): pass
 
         with self.assertWarnsRegex(
@@ -876,7 +881,10 @@ class CoroutineTest(unittest.TestCase):
 
         coro_b.send(None)
         self.assertEqual(inspect.getcoroutinestate(coro_b), inspect.CORO_SUSPENDED)
-        self.assertEqual(coro_b.cr_await.cr_await.gi_code.co_name, 'a')
+        # Nuitka: The wrapper is used for compiled generator functions made into
+        # coroutines.
+
+        # self.assertEqual(coro_b.cr_await.cr_await.gi_code.co_name, 'a')
 
         with self.assertRaises(StopIteration):
             coro_b.send(None)  # complete coroutine
@@ -1055,7 +1063,8 @@ class CoroutineTest(unittest.TestCase):
         class Wrapper:
             # Forces the interpreter to use CoroutineType.__await__
             def __init__(self, coro):
-                assert coro.__class__ is types.CoroutineType
+                # Nuitka: Our compiled coroutine type is separate
+                # assert coro.__class__ is types.CoroutineType
                 self.coro = coro
             def __await__(self):
                 return self.coro.__await__()
@@ -2025,7 +2034,9 @@ class CoroAsyncIOCompatTest(unittest.TestCase):
 
 class SysSetCoroWrapperTest(unittest.TestCase):
 
-    def test_set_wrapper_1(self):
+    # Nuitka: We do not support set_coroutine_wrapper at this time. It's a
+    # provisional feature, to be used only for debugging.
+    def notest_set_wrapper_1(self):
         async def foo():
             return 'spam'
 
@@ -2060,7 +2071,9 @@ class SysSetCoroWrapperTest(unittest.TestCase):
             sys.set_coroutine_wrapper(1)
         self.assertIsNone(sys.get_coroutine_wrapper())
 
-    def test_set_wrapper_3(self):
+    # Nuitka: We are not giving this error yet, TODO: Check out where to place
+    # such restriction in Nuitka.
+    def notest_set_wrapper_3(self):
         async def foo():
             return 'spam'
 
