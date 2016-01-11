@@ -225,8 +225,8 @@ class BaseXYTestCase(unittest.TestCase):
         self.assertTrue(issubclass(binascii.Error, ValueError))
 
 
-
-class TestMain(unittest.TestCase):
+# Nuitka: Disabled tests that fork Python, not needed.
+class NoTestMain(unittest.TestCase):
     def get_output(self, *args, **options):
         args = (sys.executable, '-m', 'base64') + args
         return subprocess.check_output(args, **options)
