@@ -309,7 +309,8 @@ class TestUUID(TestCase):
 
     def test_ipconfig_getnode(self):
         import os
-        if os.name == 'nt':
+        # Nuitka: Disable test that depends on IP configuration.
+        if False and os.name == 'nt':
             node = uuid._ipconfig_getnode()
             if node is not None:
                 self.check_node(node, 'ipconfig')
