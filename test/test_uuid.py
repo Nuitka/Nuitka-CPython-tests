@@ -473,7 +473,8 @@ eth0      Link encap:Ethernet  HWaddr 12:34:56:78:90:ab
         node = uuid._netstat_getnode()
         self.check_node(node, 'netstat', True)
 
-    @unittest.skipUnless(os.name == 'nt', 'requires Windows')
+    # Nuitka: Disable test that depends on IP configuration.
+    @unittest.skipUnless(False and os.name == 'nt', 'requires Windows')
     def test_ipconfig_getnode(self):
         node = uuid._ipconfig_getnode()
         self.check_node(node, 'ipconfig', True)
