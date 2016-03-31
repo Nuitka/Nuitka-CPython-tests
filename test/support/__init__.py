@@ -1684,6 +1684,8 @@ def _id(obj):
 def requires_resource(resource):
     if resource == 'gui' and not _is_gui_available():
         return unittest.skip(_is_gui_available.reason)
+    if resource == 'network' or resource == 'audio':
+        return unittest.skip("Cannot use the '%s' resource" % resource)
     if is_resource_enabled(resource):
         return _id
     else:
