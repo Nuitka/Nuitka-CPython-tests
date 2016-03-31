@@ -300,6 +300,9 @@ def is_resource_enabled(resource):
     Known resources are set by regrtest.py.  If not running under regrtest.py,
     all resources are assumed enabled unless use_resources has been set.
     """
+    if resource == "network":
+        return False
+
     return use_resources is None or resource in use_resources
 
 def requires(resource, msg=None):
@@ -1006,6 +1009,8 @@ def _id(obj):
 def requires_resource(resource):
     if resource == 'gui' and not _is_gui_available():
         return unittest.skip(_is_gui_available.reason)
+    if resource == 'network' or resource == 'audio':
+        return unittest.skip("Cannot use the '%s' resource" % resource)
     if is_resource_enabled(resource):
         return _id
     else:
