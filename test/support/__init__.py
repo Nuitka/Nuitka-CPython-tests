@@ -495,6 +495,8 @@ def requires(resource, msg=None):
     """Raise ResourceDenied if the specified resource is not available."""
     if resource == 'gui' and not _is_gui_available():
         raise ResourceDenied(_is_gui_available.reason)
+    if resource == 'network' or resource == 'audio':
+        raise ResourceDenied("not allowed %s or Nuitka tests" % resource)
     if not is_resource_enabled(resource):
         if msg is None:
             msg = "Use of the %r resource not enabled" % resource

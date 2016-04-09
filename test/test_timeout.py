@@ -249,7 +249,8 @@ class TCPTimeoutTestCase(TimeoutTestCase):
         self.sock.listen(5)
         self._sock_operation(1, 1.5, 'accept')
 
-    def testSend(self):
+    # Nuitka: Do not use the network.
+    def notestSend(self):
         # Test send() timeout
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as serv:
             support.bind_port(serv, self.localhost)
@@ -258,7 +259,8 @@ class TCPTimeoutTestCase(TimeoutTestCase):
             # Send a lot of data in order to bypass buffering in the TCP stack.
             self._sock_operation(100, 1.5, 'send', b"X" * 200000)
 
-    def testSendto(self):
+    # Nuitka: Do not use the network.
+    def notestSendto(self):
         # Test sendto() timeout
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as serv:
             support.bind_port(serv, self.localhost)
@@ -268,7 +270,8 @@ class TCPTimeoutTestCase(TimeoutTestCase):
             self._sock_operation(100, 1.5, 'sendto', b"X" * 200000,
                                  serv.getsockname())
 
-    def testSendall(self):
+    # Nuitka: Do not use the network.
+    def notestSendall(self):
         # Test sendall() timeout
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as serv:
             support.bind_port(serv, self.localhost)
