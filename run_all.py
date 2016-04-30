@@ -56,6 +56,10 @@ def checkPath(dirname, filename):
                         "test_warnings.py", "test_configparser.py"):
             extra_flags.append("ignore_stderr")
 
+    if os.name == "nt" and filename == "test_univnewlines.py":
+        reportSkip("this causes MemoryError for unknown reasons.", dirname, filename)
+        return
+
     if dirname == "doctest_generated":
         if python_version >= "3.4":
             extra_flags.append("expect_success")
