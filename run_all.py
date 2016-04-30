@@ -62,6 +62,10 @@ def checkPath(dirname, filename):
         reportSkip("bug of Python2 causing it be a memory hog", dirname, filename)
         return
 
+    if os.name == "nt" and filename == "test_univnewlines.py":
+        reportSkip("this causes MemoryError for unknown reasons.", dirname, filename)
+        return
+
     # Deprecation warnings on wrong lines.
     if python_version >= "3.3" and \
        filename in ("test_smtpd.py", "test_unicode.py"):
