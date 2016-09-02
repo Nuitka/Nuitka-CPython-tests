@@ -369,6 +369,9 @@ else:
 def is_resource_enabled(resource):
     """Test whether a resource is enabled.  Known resources are set by
     regrtest.py."""
+    if resource == "network":
+        return False
+
     return use_resources is not None and resource in use_resources
 
 def requires(resource, msg=None):
