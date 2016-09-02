@@ -116,8 +116,8 @@ def is_resource_enabled(resource):
     """Test whether a resource is enabled.  Known resources are set by
     regrtest.py."""
 
-    # Nuitka: No 'audio' please, I like it silent
-    if resource == "audio":
+    # Nuitka: No 'network' or 'audio' please, I like it silent
+    if resource == "audio" or resource == "network":
         return False
 
     return use_resources is not None and resource in use_resources
