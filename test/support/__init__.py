@@ -524,6 +524,9 @@ def is_resource_enabled(resource):
     Known resources are set by regrtest.py.  If not running under regrtest.py,
     all resources are assumed enabled unless use_resources has been set.
     """
+    if resource == "network":
+        return False
+
     return use_resources is None or resource in use_resources
 
 def requires(resource, msg=None):
