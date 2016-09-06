@@ -21,6 +21,8 @@ import signal
 from test import lock_tests
 from test import support
 
+# Nuitka: Verbose output is not stable.
+verbose = False
 
 # Between fork() and exec(), only async-safe functions are allowed (issues
 # #12316 and #11870), and fork() from a worker thread is known to trigger
