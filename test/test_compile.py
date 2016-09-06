@@ -578,6 +578,9 @@ if 1:
         self.assertEqual(namespace['x'], 12)
 
     def check_constant(self, func, expected):
+        # Nuitka: Our co_const is not used for storing or accessing constants.
+        return True
+
         for const in func.__code__.co_consts:
             if repr(const) == repr(expected):
                 break
@@ -618,10 +621,12 @@ if 1:
         # Merge constants in tuple or frozenset
         f1, f2 = lambda: "not a name", lambda: ("not a name",)
         f3 = lambda x: x in {("not a name",)}
-        self.assertIs(f1.__code__.co_consts[1],
-                      f2.__code__.co_consts[1][0])
-        self.assertIs(next(iter(f3.__code__.co_consts[1])),
-                      f2.__code__.co_consts[1])
+
+        # Nuitka: Our co_const is not used for storing or accessing constants.
+        # self.assertIs(f1.__code__.co_consts[1],
+        #               f2.__code__.co_consts[1][0])
+        # self.assertIs(next(iter(f3.__code__.co_consts[1])),
+        #               f2.__code__.co_consts[1])
 
         # {0} is converted to a constant frozenset({0}) by the peephole
         # optimizer
@@ -635,7 +640,8 @@ if 1:
     # that peephole optimization was actually done though that isn't an
     # indication of the bugs presence or not (crashing is).
     @support.cpython_only
-    def test_peephole_opt_unreachable_code_array_access_in_bounds(self):
+    # Nuitka: There is not bytecode in Nuitka.
+    def notest_peephole_opt_unreachable_code_array_access_in_bounds(self):
         """Regression test for issue35193 when run under clang msan."""
         def unused_code_at_end():
             return 3
@@ -673,7 +679,8 @@ if 1:
         # check_different_constants() cannot be used because repr(-0j) is
         # '(-0-0j)', but when '(-0-0j)' is evaluated to 0j: we loose the sign.
         f1, f2 = lambda: +0.0j, lambda: -0.0j
-        self.assertIsNot(f1.__code__, f2.__code__)
+        # Nuitka: These are identical, we use the same for all.
+        # self.assertIsNot(f1.__code__, f2.__code__)
         self.check_constant(f1, +0.0j)
         self.check_constant(f2, -0.0j)
         self.assertEqual(repr(f1()), repr(+0.0j))
@@ -682,7 +689,8 @@ if 1:
         # {0} is converted to a constant frozenset({0}) by the peephole
         # optimizer
         f1, f2 = lambda x: x in {0}, lambda x: x in {0.0}
-        self.assertIsNot(f1.__code__, f2.__code__)
+        # Nuitka: These are identical, we use the same for all.
+        # self.assertIsNot(f1.__code__, f2.__code__)
         self.check_constant(f1, frozenset({0}))
         self.check_constant(f2, frozenset({0.0}))
         self.assertTrue(f1(0))
@@ -700,7 +708,8 @@ if 1:
     # Multiple users rely on the fact that CPython does not generate
     # bytecode for dead code blocks. See bpo-37500 for more context.
     @support.cpython_only
-    def test_dead_blocks_do_not_generate_bytecode(self):
+    # Nuitka: There is not bytecode in Nuitka.
+    def notest_dead_blocks_do_not_generate_bytecode(self):
         def unused_block_if():
             if 0:
                 return 42
