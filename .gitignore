@@ -1,0 +1,8 @@
+*.pyc
+*.pyo
+*.swp
+*.swo
+*.so
+*.exe
+*.build
+*.dblite
