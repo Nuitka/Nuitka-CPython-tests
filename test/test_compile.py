@@ -586,6 +586,9 @@ if 1:
         self.assertEqual(namespace['x'], 12)
 
     def check_constant(self, func, expected):
+        # Nuitka: Our co_const is not used for storing or accessing constants.
+        return True
+
         for const in func.__code__.co_consts:
             if repr(const) == repr(expected):
                 break
@@ -655,7 +658,8 @@ if 1:
         # check_different_constants() cannot be used because repr(-0j) is
         # '(-0-0j)', but when '(-0-0j)' is evaluated to 0j: we loose the sign.
         f1, f2 = lambda: +0.0j, lambda: -0.0j
-        self.assertIsNot(f1.__code__, f2.__code__)
+        # Nuitka: These are identical, we use the same for all.
+        # self.assertIsNot(f1.__code__, f2.__code__)
         self.check_constant(f1, +0.0j)
         self.check_constant(f2, -0.0j)
         self.assertEqual(repr(f1()), repr(+0.0j))
@@ -664,7 +668,8 @@ if 1:
         # {0} is converted to a constant frozenset({0}) by the peephole
         # optimizer
         f1, f2 = lambda x: x in {0}, lambda x: x in {0.0}
-        self.assertIsNot(f1.__code__, f2.__code__)
+        # Nuitka: These are identical, we use the same for all.
+        # self.assertIsNot(f1.__code__, f2.__code__)
         self.check_constant(f1, frozenset({0}))
         self.check_constant(f2, frozenset({0.0}))
         self.assertTrue(f1(0))
