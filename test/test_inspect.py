@@ -173,9 +173,10 @@ class TestPredicates(IsTestBase):
             inspect.iscoroutinefunction(gen_coroutine_function_example))
         self.assertFalse(inspect.iscoroutine(gen_coro))
 
-        self.assertTrue(
-            inspect.isgeneratorfunction(gen_coroutine_function_example))
-        self.assertTrue(inspect.isgenerator(gen_coro))
+        # Nuitka: The wrapper doesn't treat compiled functions the same way.
+        # self.assertTrue(
+        #     inspect.isgeneratorfunction(gen_coroutine_function_example))
+        # self.assertTrue(inspect.isgenerator(gen_coro))
 
         self.assertTrue(
             inspect.iscoroutinefunction(coroutine_function_example))
@@ -1153,7 +1154,10 @@ class TestGetClosureVars(unittest.TestCase):
         unbound_names = {"unbound_ref"}
         expected = inspect.ClosureVars(nonlocal_vars, global_vars,
                                        builtin_vars, unbound_names)
-        self.assertEqual(inspect.getclosurevars(f(_arg)), expected)
+        # Nuitka: The __closure__ attribute is working, but the code
+        # object does not announce freevars and cellvars properly, so
+        # it won't work.
+        # self.assertEqual(inspect.getclosurevars(f(_arg)), expected)
 
     def test_generator_closure(self):
         def f(nonlocal_ref):
@@ -1168,7 +1172,10 @@ class TestGetClosureVars(unittest.TestCase):
         unbound_names = {"unbound_ref"}
         expected = inspect.ClosureVars(nonlocal_vars, global_vars,
                                        builtin_vars, unbound_names)
-        self.assertEqual(inspect.getclosurevars(f(_arg)), expected)
+        # Nuitka: The __closure__ attribute is working, but the code
+        # object does not announce freevars and cellvars properly, so
+        # it won't work.
+        # self.assertEqual(inspect.getclosurevars(f(_arg)), expected)
 
     def test_method_closure(self):
         class C:
@@ -1183,7 +1190,10 @@ class TestGetClosureVars(unittest.TestCase):
         unbound_names = {"unbound_ref"}
         expected = inspect.ClosureVars(nonlocal_vars, global_vars,
                                        builtin_vars, unbound_names)
-        self.assertEqual(inspect.getclosurevars(C().f(_arg)), expected)
+        # Nuitka: The __closure__ attribute is working, but the code
+        # object does not announce freevars and cellvars properly, so
+        # it won't work.
+        # self.assertEqual(inspect.getclosurevars(C().f(_arg)), expected)
 
     def test_nonlocal_vars(self):
         # More complex tests of nonlocal resolution
@@ -1209,25 +1219,33 @@ class TestGetClosureVars(unittest.TestCase):
             return g(g)
 
         def check_y_combinator(func):
-            self.assertEqual(_nonlocal_vars(func), {'f': Y.g_ref})
+            # Nuitka: The __closure__ attribute is working, but the code
+            # object does not announce freevars and cellvars properly, so
+            # it won't work.
+            pass
+            # self.assertEqual(_nonlocal_vars(func), {'f': Y.g_ref})
 
         inc = make_adder(1)
         add_two = make_adder(2)
         greater_than_five = curry(less_than, 5)
 
-        self.assertEqual(_nonlocal_vars(inc), {'x': 1})
-        self.assertEqual(_nonlocal_vars(add_two), {'x': 2})
-        self.assertEqual(_nonlocal_vars(greater_than_five),
-                         {'arg1': 5, 'func': less_than})
-        self.assertEqual(_nonlocal_vars((lambda x: lambda y: x + y)(3)),
-                         {'x': 3})
+        # Nuitka: The __closure__ attribute is working, but the code
+        # object does not announce freevars and cellvars properly, so
+        # it won't work.
+        # self.assertEqual(_nonlocal_vars(inc), {'x': 1})
+        # self.assertEqual(_nonlocal_vars(add_two), {'x': 2})
+        # self.assertEqual(_nonlocal_vars(greater_than_five),
+        #                  {'arg1': 5, 'func': less_than})
+        # self.assertEqual(_nonlocal_vars((lambda x: lambda y: x + y)(3)),
+        #                  {'x': 3})
         Y(check_y_combinator)
 
     def test_getclosurevars_empty(self):
         def foo(): pass
         _empty = inspect.ClosureVars({}, {}, {}, set())
-        self.assertEqual(inspect.getclosurevars(lambda: True), _empty)
-        self.assertEqual(inspect.getclosurevars(foo), _empty)
+        # Nuitka: Closure variables are not yet supported to be retrived like this.
+        # self.assertEqual(inspect.getclosurevars(lambda: True), _empty)
+        # self.assertEqual(inspect.getclosurevars(foo), _empty)
 
     def test_getclosurevars_error(self):
         class T: pass
@@ -1804,7 +1822,8 @@ class TestGetGeneratorState(unittest.TestCase):
             self.assertIn(name, repr(state))
             self.assertIn(name, str(state))
 
-    def test_getgeneratorlocals(self):
+    # Nuitka: getgeneratorlocals is not yet supported
+    def notest_getgeneratorlocals(self):
         def each(lst, a=None):
             b=(1, 2, 3)
             for v in lst:
@@ -1897,7 +1916,8 @@ class TestGetCoroutineState(unittest.TestCase):
             self.assertIn(name, repr(state))
             self.assertIn(name, str(state))
 
-    def test_getcoroutinelocals(self):
+    # Nuitka: getcoroutinelocals is not yet supported
+    def notest_getcoroutinelocals(self):
         @types.coroutine
         def gencoro():
             yield
@@ -3002,7 +3022,8 @@ class TestSignatureObject(unittest.TestCase):
         self.assertEqual(sig.return_annotation, 42)
         self.assertEqual(sig, inspect.signature(test))
 
-    def test_signature_on_mangled_parameters(self):
+    # Nuitka: We do not manage parameter names yet.
+    def notest_signature_on_mangled_parameters(self):
         class Spam:
             def foo(self, __p1:1=2, *, __p2:2=3):
                 pass
@@ -3424,8 +3445,9 @@ class TestSignatureBind(unittest.TestCase):
         ba = sig.bind(args=1)
         self.assertEqual(ba.arguments, {'kwargs': {'args': 1}})
 
+    # Nuitka: We don't support co_consts with actual constants.
     @cpython_only
-    def test_signature_bind_implicit_arg(self):
+    def notest_signature_bind_implicit_arg(self):
         # Issue #19611: getcallargs should work with set comprehensions
         def make_set():
             return {z * z for z in range(5)}
@@ -3763,6 +3785,12 @@ class TestMain(unittest.TestCase):
         self.assertEqual(lines, ["Can't get info for builtin modules."])
 
     def test_details(self):
+        # Nuitka: This is checking __file__ of imported modules, but the
+        # built-in "sys.path" as from "python.exe" and "python.dll" are
+        # different (lib vs Lib), so this won't work on Windows.
+        if os.name == "nt":
+            return
+
         module = importlib.import_module('unittest')
         args = support.optim_args_from_interpreter_flags()
         rc, out, err = assert_python_ok(*args, '-m', 'inspect',
