@@ -87,6 +87,15 @@ def checkPath(dirname, filename):
         my_print("Skipping (due to traceback issue)", filename)
         return
 
+    if python_version < "3.6":
+        if filename in ("test_file.py", "test_re.py"):
+            my_print("Skipped, gives deprecation warnings with CPython3.5.")
+            return
+
+        if filename == "test_tcl.py":
+            my_print("Skipped, segfauls with CPython3.5.")
+            return
+
     if os.name == "nt":
         if filename in ("test_itertools.py", ):
             my_print("Skipped, CPython on Windows crashes.")
