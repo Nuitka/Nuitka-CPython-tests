@@ -1407,7 +1407,8 @@ class CoroutineTest(unittest.TestCase):
 
         buffer = []
         async def test1():
-            with self.assertWarnsRegex(DeprecationWarning, "legacy"):
+            # Nuitka: We do not give deprecation warnings.
+            # with self.assertWarnsRegex(PendingDeprecationWarning, "legacy"):
                 async for i1, i2 in AsyncIter():
                     buffer.append(i1 + i2)
 
@@ -1421,7 +1422,9 @@ class CoroutineTest(unittest.TestCase):
         buffer = []
         async def test2():
             nonlocal buffer
-            with self.assertWarnsRegex(DeprecationWarning, "legacy"):
+            # Nuitka: We do not give deprecation warnings.
+            # with self.assertWarnsRegex(PendingDeprecationWarning, "legacy"):
+            if True:
                 async for i in AsyncIter():
                     buffer.append(i[0])
                     if i[0] == 20:
@@ -1440,7 +1443,9 @@ class CoroutineTest(unittest.TestCase):
         buffer = []
         async def test3():
             nonlocal buffer
-            with self.assertWarnsRegex(DeprecationWarning, "legacy"):
+            # Nuitka: We do not give deprecation warnings.
+            # with self.assertWarnsRegex(PendingDeprecationWarning, "legacy"):
+            if False:
                 async for i in AsyncIter():
                     if i[0] > 20:
                         continue
@@ -1658,8 +1663,9 @@ class CoroutineTest(unittest.TestCase):
                 run_async(foo())
         self.assertEqual(CNT, 0)
 
-    def test_for_9(self):
-        # Test that DeprecationWarning can safely be converted into
+    # Nuitka: We don't given warnings.
+    def notest_for_9(self):
+        # Test that PendingDeprecationWarning can safely be converted into
         # an exception (__aiter__ should not have a chance to raise
         # a ZeroDivisionError.)
         class AI:
@@ -1674,8 +1680,9 @@ class CoroutineTest(unittest.TestCase):
                 warnings.simplefilter("error")
                 run_async(foo())
 
-    def test_for_10(self):
-        # Test that DeprecationWarning can safely be converted into
+    # Nuitka: We don't given warnings.
+    def notest_for_10(self):
+        # Test that PendingDeprecationWarning can safely be converted into
         # an exception.
         class AI:
             async def __aiter__(self):
