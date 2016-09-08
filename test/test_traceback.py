@@ -476,10 +476,13 @@ class TracebackFormatTests(unittest.TestCase):
         self.assertEqual(actual, expected)
 
     def test_recursive_traceback_python(self):
+    # Nuitka: This won't match our stack well, don't do that test then.
+    def notest_recursive_traceback_python(self):
         self._check_recursive_traceback_display(traceback.print_exc)
 
+    # Nuitka: This won't match our stack well, don't do that test then.
     @cpython_only
-    def test_recursive_traceback_cpython_internal(self):
+    def notest_recursive_traceback_cpython_internal(self):
         from _testcapi import exception_print
         def render_exc():
             exc_type, exc_value, exc_tb = sys.exc_info()
