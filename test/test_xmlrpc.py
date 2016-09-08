@@ -304,7 +304,8 @@ class XMLRPCTestCase(unittest.TestCase):
         except OSError:
             self.assertTrue(has_ssl)
 
-    def test_keepalive_disconnect(self):
+    # Nuitka: Disabled, outputs time stamps, not sure why.
+    def notest_keepalive_disconnect(self):
         class RequestHandler(http.server.BaseHTTPRequestHandler):
             protocol_version = "HTTP/1.1"
             handled = False
