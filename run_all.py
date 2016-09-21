@@ -100,6 +100,9 @@ def checkPath(dirname, filename):
             my_print("Skipped, CPython fails with random output.")
             return
 
+        if filename == "test_gettext.py":
+            my_print("Skipped, older CPython fails to remove files after test.")
+            return
 
         # Gives deprecation warnings, unclear why that can happen. We try and
         # succeed at disabling them (as is Python default), but they seem to
