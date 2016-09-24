@@ -71,7 +71,7 @@ def checkPath(dirname, filename):
     else:
         # TODO: Deprecation warnings for some unknown reason. Need to find
         # out why we don't successfully disable it.
-        if filename in ("test_shutil.py", "test_ntpath.py"):
+        if filename in ("test_shutil.py", "test_ntpath.py", "test_mailcap.py"):
             extra_flags.append("ignore_stderr")
 
     if filename == "test_buffer.py":
