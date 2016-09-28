@@ -225,7 +225,8 @@ class ImportHooksTestCase(ImportHooksBaseTestCase):
         sys.path.append(test_path)
         self.doTestImports()
 
-    def testBlocker(self):
+    # Nuitka: We assume that built-in modules cannot fail to import.
+    def notestBlocker(self):
         mname = "exceptions"  # an arbitrary harmless builtin module
         if mname in sys.modules:
             del sys.modules[mname]
