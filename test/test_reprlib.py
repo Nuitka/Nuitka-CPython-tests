@@ -173,9 +173,12 @@ class ReprTests(unittest.TestCase):
                 return x
             return inner
         x = get_cell().__closure__[0]
-        self.assertRegex(repr(x), r'<cell at 0x[0-9A-Fa-f]+: '
+        # Nuitka: Issue#20 http://bugs.nuitka.net/issue20
+        # The "repr" of compiled types has a prefix "compiled_" that causes checks on "repr()" output to fail
+        # Adapted so that the "compiled_" prefix is tolerated too.
+        self.assertRegex(repr(x), r'<((compiled_)?cell at 0x[0-9A-Fa-f]+: '
                                   r'int object at 0x[0-9A-Fa-f]+>')
-        self.assertRegex(r(x), r'<cell at 0x.*\.\.\..*>')
+        self.assertRegex(r(x), r'<(compiled_)?cell at 0x.*\.\.\..*>')
 
     def test_descriptors(self):
         eq = self.assertEqual
