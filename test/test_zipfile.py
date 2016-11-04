@@ -629,7 +629,9 @@ class PyZipFileTests(unittest.TestCase):
             self.assertTrue(bn + 'o' in zipfp.namelist() or
                             bn + 'c' in zipfp.namelist())
 
-    def test_write_python_package(self):
+    # Nuitka: Strangely this attempts to write to package directory, but
+    # also with random file name.
+    def notest_write_python_package(self):
         import email
         packagedir = os.path.dirname(email.__file__)
 
