@@ -73,8 +73,7 @@ directory = testdir + os.sep + TESTDATADIR + os.sep
 # Nuitka, the compiled binary has a sys.argv[0] that is not in the tests
 # directory, due to our environment choice. It could be there, but it is not,
 # and so we use the local path directly.
-directory = "test" + os.sep + TESTDATADIR
-
+directory = "test" + os.sep + TESTDATADIR + os.sep
 skip_expected = not os.path.isdir(directory)
 
 # list of individual .decTest test ids that correspond to tests that
