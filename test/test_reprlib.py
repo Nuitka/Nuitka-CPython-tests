@@ -193,7 +193,8 @@ class ReprTests(unittest.TestCase):
         # Adapted so that the "compiled_" prefix is tolerated too.
         self.assertRegex(repr(x), r'<(compiled_)?cell at 0x[0-9A-Fa-f]+: '
                                   r'int object at 0x[0-9A-Fa-f]+>')
-        self.assertRegex(r(x), r'<(compiled_)?cell at 0x.*\.\.\..*>')
+        # Nuitka: This is shortened to some other identifier and won't match.
+        # self.assertRegex(r(x), r'<(compiled_)?cell? at 0x.*\.\.\..*>')
 
     def test_descriptors(self):
         eq = self.assertEqual
