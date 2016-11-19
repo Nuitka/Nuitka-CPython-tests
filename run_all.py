@@ -184,6 +184,12 @@ def checkPath(dirname, filename):
             my_print("Skipped, outputs random paths on Windows.")
             return
 
+        if "--python-debug" in os.environ.get("NUITKA_EXTRA_OPTIONS", ""):
+            if filename in ("test_datetime.py", "test_fileio.py", "test_genericpath.py"):
+                my_print("Skipped, debug CPython bug causes crash.")
+                return
+
+
     compareWithCPython(
         dirname     = dirname,
         filename    = filename,
