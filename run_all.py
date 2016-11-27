@@ -132,10 +132,22 @@ def checkPath(dirname, filename):
 
 def checkDir(dirname):
     for filename in sorted(os.listdir(dirname)):
-        if not filename.endswith(".py") or not filename.startswith("test_"):
+        if not filename.startswith("test_"):
             continue
 
         if filename == "test_support.py":
+            continue
+
+        fullname = os.path.join(dirname, filename)
+
+        if os.path.isfile(fullname):
+            if not filename.endswith(".py"):
+                continue
+        else:
+            if not os.path.isfile(os.path.join(fullname, "__main__.py")):
+                continue
+
+            checkDir(fullname)
             continue
 
         active = search_mode.consider(dirname, filename)
