@@ -189,6 +189,13 @@ def checkPath(dirname, filename):
                 my_print("Skipped, debug CPython bug causes crash.")
                 return
 
+    if python_version >= "3.6":
+        # Deprecation warnings.
+        if filename in ("test_codecs.py", "test_dbm_dumb.py", "test_os.py",
+                        "test_fileinput.py", "test_float.py", "test_re.py",
+                        "test_strlit.py", "test_urllib.py"):
+            extra_flags.append("ignore_stderr")
+
 
     compareWithCPython(
         dirname     = dirname,
