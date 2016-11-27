@@ -188,6 +188,10 @@ def checkPath(dirname, filename):
             if filename in ("test_datetime.py", "test_fileio.py", "test_genericpath.py"):
                 my_print("Skipped, debug CPython bug causes crash.")
                 return
+    else:
+        if filename in ("test_winconsoleio.py", "test_winreg.py"):
+            my_print("Skipping (Windows only)", filename)
+            return
 
     if python_version >= "3.6":
         # Deprecation warnings.
