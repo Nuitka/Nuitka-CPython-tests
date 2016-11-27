@@ -80,7 +80,8 @@ class FunctionPropertiesTest(FuncAttrsTest):
         self.assertIsInstance(c, tuple)
         self.assertEqual(len(c), 1)
         # don't have a type object handy
-        self.assertEqual(c[0].__class__.__name__, "cell")
+        # Nuitka: class name is "compiled_cell".
+        # self.assertEqual(c[0].__class__.__name__, "cell")
         self.cannot_set_attr(f, "__closure__", c, AttributeError)
 
     def test_empty_cell(self):
