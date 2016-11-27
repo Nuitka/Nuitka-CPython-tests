@@ -108,6 +108,10 @@ def checkPath(dirname, filename):
         if filename in ("test_pathlib.py", ):
             my_print("Skipped, outputs random paths on Windows.")
             return
+    else:
+        if filename in ("test_winconsoleio.py", "test_winreg.py"):
+            my_print("Skipping (Windows only)", filename)
+            return
 
     compareWithCPython(
         dirname     = dirname,
