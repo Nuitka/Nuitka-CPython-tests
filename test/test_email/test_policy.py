@@ -61,8 +61,8 @@ class PolicyAPITests(unittest.TestCase):
                                 "changed").format(policy))
 
     def test_all_attributes_covered(self):
-        for policy, expected in self.policies.items():
-            for attr in dir(policy):
+        for policy, expected in sorted(self.policies.items(), key = lambda x: x.__class__):
+            for attr in sorted(dir(policy)):
                 if (attr.startswith('_') or
                         isinstance(getattr(email.policy.EmailPolicy, attr),
                               types.FunctionType)):
