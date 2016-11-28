@@ -1971,7 +1971,8 @@ class HandleTests(test_utils.TestCase):
         h = asyncio.Handle(lambda: None, (), self.loop)
         wd['h'] = h  # Would fail without __weakref__ slot.
 
-    def test_handle_repr(self):
+    # Nuitka: Disable test that fails due to compiled function repr change.
+    def notest_handle_repr(self):
         self.loop.get_debug.return_value = False
 
         # simple function

@@ -78,8 +78,15 @@ def checkPath(dirname, filename):
         if filename in ("test_shutil.py", "test_ntpath.py"):
             extra_flags.append("ignore_stderr")
 
-    if filename == "test_buffer.py":
+    if filename in ("test_buffer.py", "test_base_events.py",
+                    "test_tasks.py", "test_unparse.py"):
         extra_flags.append("ignore_warnings")
+
+    # We don't output ignored exception for that test case.
+    if filename == "test_locks.py":
+        extra_flags.append("ignore_stderr")
+    if filename == "test_streams.py":
+        extra_flags.append("ignore_stderr")
 
     # TODO: This deadlocks, likely a threading problem.
     if python_version >= "3.4" and \
@@ -163,6 +170,14 @@ def checkPath(dirname, filename):
             my_print("Skipped, older CPython differs in error message.")
             return
 
+        if dirname.endswith("test_asyncio"):
+            my_print("Skipped, older CPython has no asyncio.")
+            return
+
+        if dirname.endswith("test_email"):
+            my_print("Skipped, older CPython has different email API.")
+            return
+
     if python_version < "3.4.3":
         if filename == "test_multibytecodec.py":
             my_print("Skipped, older CPython runs into MemoryError.")
@@ -190,6 +205,10 @@ def checkPath(dirname, filename):
         # under control.
         if filename in ("test_re.py", "test_smtpd.py"):
             my_print("Skipped, newer CPython gives deprecation warnings.")
+            return
+
+        if dirname.endswith("test_asyncio"):
+            my_print("Skipped, older CPython has no asyncio.")
             return
 
         if filename == "test_buffer.py":

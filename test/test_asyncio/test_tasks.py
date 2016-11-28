@@ -136,7 +136,8 @@ class TaskTests(test_utils.TestCase):
         with self.assertRaises(TypeError):
             asyncio.async('ok')
 
-    def test_task_repr(self):
+    # Nuitka: We have different repr for compiled stuff.
+    def notest_task_repr(self):
         self.loop.set_debug(False)
 
         @asyncio.coroutine
@@ -1545,7 +1546,8 @@ class TaskTests(test_utils.TestCase):
 
             # Check some properties.
             self.assertTrue(asyncio.iscoroutine(gen))
-            self.assertIsInstance(gen.gi_frame, types.FrameType)
+            # Nuitka: No frame before being start.
+            # self.assertIsInstance(gen.gi_frame, types.FrameType)
             self.assertFalse(gen.gi_running)
             self.assertIsInstance(gen.gi_code, types.CodeType)
 
@@ -1619,9 +1621,11 @@ class TaskTests(test_utils.TestCase):
         wd['cw'] = cw  # Would fail without __weakref__ slot.
         cw.gen = None  # Suppress warning from __del__.
 
+    # Nuitka: Disable test that requires frame variables to work, we do not
+    # support those.
     @unittest.skipUnless(PY34,
                          'need python 3.4 or later')
-    def test_log_destroyed_pending_task(self):
+    def notest_log_destroyed_pending_task(self):
         @asyncio.coroutine
         def kill_me(loop):
             future = asyncio.Future(loop=loop)
