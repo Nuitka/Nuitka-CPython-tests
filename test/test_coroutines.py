@@ -399,7 +399,9 @@ class CoroutineTest(unittest.TestCase):
         with silence_coro_gc():
             self.assertRegex(repr(foo()), '^<.*coroutine object.* at 0x.*>$')
 
-    def test_func_4(self):
+    # Nuitka: Disable this, our coroutines must be iterable to properly
+    # interact with generator coroutines yield from.
+    def notest_func_4(self):
         async def foo():
             raise StopIteration
 
@@ -433,11 +435,14 @@ class CoroutineTest(unittest.TestCase):
         async def foo():
             await bar()
 
-        check = lambda: self.assertRaisesRegex(
-            TypeError, "'.*coroutine' object is not iterable")
+        # Nuitka: Disable this, our coroutines must be iterable to properly
+        # interact with generator coroutines yield from.
+        if False:
+            check = lambda: self.assertRaisesRegex(
+                TypeError, "'.*coroutine' object is not iterable")
 
-        with check():
-            for el in foo(): pass
+            with check():
+                for el in foo(): pass
 
         # the following should pass without an error
         for el in bar():
