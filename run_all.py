@@ -214,6 +214,11 @@ def checkPath(dirname, filename):
         if filename == "test_buffer.py":
             extra_flags.append("ignore_stderr")
 
+    if os.name != "nt" and "arm" in os.uname().machine:
+        if filename == "test_futures.py":
+                my_print("Skipped, ARM compiled Nuitka segaults in openssl init.")
+                return
+
     compareWithCPython(
         dirname     = dirname,
         filename    = filename,
