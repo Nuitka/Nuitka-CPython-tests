@@ -30,7 +30,8 @@ class ClearTest(unittest.TestCase):
             tb.tb_frame.clear()
             tb = tb.tb_next
 
-    def test_clear_locals(self):
+    # Nuitka: We cannot clear locals
+    def notest_clear_locals(self):
         class C:
             pass
         c = C()
@@ -95,8 +96,9 @@ class ClearTest(unittest.TestCase):
         f.clear()
         self.assertTrue(endly)
 
+    # Nuitka: We cannot clear locals
     @support.cpython_only
-    def test_clear_refcycles(self):
+    def notest_clear_refcycles(self):
         # .clear() doesn't leave any refcycle behind
         with support.disable_gc():
             class C:
@@ -146,7 +148,8 @@ class FrameLocalsTest(unittest.TestCase):
         inner_locals = inner.f_locals
         self.assertEqual(inner_locals, {'x': 5, 'z': 7})
 
-    def test_clear_locals(self):
+    # Nuitka: We cannot clear locals
+    def notest_clear_locals(self):
         # Test f_locals after clear() (issue #21897)
         f, outer, inner = self.make_frames()
         outer.clear()
@@ -154,7 +157,8 @@ class FrameLocalsTest(unittest.TestCase):
         self.assertEqual(outer.f_locals, {})
         self.assertEqual(inner.f_locals, {})
 
-    def test_locals_clear_locals(self):
+    # Nuitka: We cannot clear locals
+    def notest_locals_clear_locals(self):
         # Test f_locals before and after clear() (to exercise caching)
         f, outer, inner = self.make_frames()
         outer.f_locals
