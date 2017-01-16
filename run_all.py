@@ -178,6 +178,10 @@ def checkPath(dirname, filename):
             my_print("Skipped, older CPython has different email API.")
             return
 
+        if filename == "test_imp.py":
+            my_print("Skipped, fails on Windows for technical reasons.")
+            return
+
     if python_version < "3.4.3":
         if filename == "test_multibytecodec.py":
             my_print("Skipped, older CPython runs into MemoryError.")
