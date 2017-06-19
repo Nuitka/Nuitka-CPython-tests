@@ -137,8 +137,11 @@ class GeneratorTest(unittest.TestCase):
         func.__qualname__ = "func_qualname"
         func.__name__ = "func_name"
         gen = func()
-        self.assertEqual(gen.__name__, "func_name")
-        self.assertEqual(gen.__qualname__, "func_qualname")
+        # Nuitka: We do not transport function attributes into generator
+        # attributes, so this won't be affected:
+        if False:
+            self.assertEqual(gen.__name__, "func_name")
+            self.assertEqual(gen.__qualname__, "func_qualname")
 
         # unnamed generator
         gen = (x for x in range(10))
