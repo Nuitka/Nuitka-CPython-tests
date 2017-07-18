@@ -94,6 +94,10 @@ def checkPath(dirname, filename):
             my_print("Skipped, gives deprecation warnings with CPython3.5.")
             return
 
+        if filename in ("test_asyncgen.py",):
+            my_print("Skipped, gives syntax error with CPython3.5.")
+            return
+
         if filename == "test_tcl.py":
             my_print("Skipped, segfauls with CPython3.5.")
             return
