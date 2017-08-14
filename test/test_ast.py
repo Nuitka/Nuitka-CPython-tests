@@ -977,6 +977,10 @@ class ConstantTests(unittest.TestCase):
                 self.assertIs(value, const)
 
     def test_values(self):
+        # Nuitka: This fails with random output on older CPython
+        if sys.version_info < (3,6):
+            return
+
         nested_tuple = (1,)
         nested_frozenset = frozenset({1})
         for level in range(3):
