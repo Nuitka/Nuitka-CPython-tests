@@ -29,7 +29,7 @@ except ImportError:
 def md5sum(data):
     return md5(data).hexdigest()
 
-TEMPDIR = os.path.abspath(support.TESTFN) + "-tardir"
+TEMPDIR = os.path.abspath(support.TESTFN)
 tarname = support.findfile("testtar.tar")
 gzipname = os.path.join(TEMPDIR, "testtar.tar.gz")
 bz2name = os.path.join(TEMPDIR, "testtar.tar.bz2")
