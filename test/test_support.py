@@ -408,7 +408,8 @@ else:
 
 # Disambiguate TESTFN for parallel testing, while letting it remain a valid
 # module name.
-TESTFN = "{}_{}_tmp".format(TESTFN, os.getpid())
+# Nuitka: We don't run in parallel, but some error message use the filename.
+# TESTFN = "{}_{}_tmp".format(TESTFN, os.getpid())
 
 # Save the initial cwd
 SAVEDCWD = os.getcwd()
