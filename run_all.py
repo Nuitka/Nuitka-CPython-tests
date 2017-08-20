@@ -106,6 +106,10 @@ def checkPath(dirname, filename):
             my_print("Fails with non-determistic output with CPython3.5.")
             return
 
+        if filename == "test_binascii.py":
+            my_print("Fails with non-determistic output with CPython3.5.")
+            return
+
     if os.name == "nt":
         if filename in ("test_itertools.py", ):
             my_print("Skipped, CPython on Windows crashes.")
