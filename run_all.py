@@ -94,7 +94,8 @@ def checkPath(dirname, filename):
             my_print("Skipped, gives deprecation warnings with CPython3.5.")
             return
 
-        if filename in ("test_asyncgen.py", "test_collections.py", "test_coroutines.py"):
+        if filename in ("test_asyncgen.py", "test_collections.py",
+                        "test_coroutines.py", "test_fstring.py"):
             my_print("Skipped, gives syntax error with CPython3.5.")
             return
 
@@ -102,13 +103,15 @@ def checkPath(dirname, filename):
             my_print("Skipped, segfauls with CPython3.5.")
             return
 
-        if filename == "test_aifc.py":
-            my_print("Fails with non-determistic output with CPython3.5.")
+        if filename in ("test_aifc.py", "test_binascii.py"):
+            my_print("Skipped, fails with non-determistic output with CPython3.5.")
             return
 
-        if filename == "test_binascii.py":
-            my_print("Fails with non-determistic output with CPython3.5.")
+        if filename == "test_contextlib.py":
+            my_print("Skipped, hangs with CPython3.5.")
             return
+
+
 
     if os.name == "nt":
         if filename in ("test_itertools.py", ):
