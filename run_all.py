@@ -95,7 +95,8 @@ def checkPath(dirname, filename):
             return
 
         if filename in ("test_asyncgen.py", "test_collections.py",
-                        "test_coroutines.py", "test_fstring.py"):
+                        "test_coroutines.py", "test_fstring.py",
+                        "test_functools.py", "test_grammar.py"):
             my_print("Skipped, gives syntax error with CPython3.5.")
             return
 
