@@ -196,6 +196,10 @@ def checkPath(dirname, filename):
             return
 
     if python_version >= "3.6":
+        if filename in ("test_decimal.py", ):
+            my_print("Crashes with CPython 3.6", filename)
+            return
+
         # Deprecation warnings.
         if filename in ("test_codecs.py", "test_dbm_dumb.py", "test_os.py",
                         "test_fileinput.py", "test_float.py", "test_re.py",
