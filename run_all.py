@@ -96,12 +96,14 @@ def checkPath(dirname, filename):
 
         if filename in ("test_asyncgen.py", "test_collections.py",
                         "test_coroutines.py", "test_fstring.py",
-                        "test_functools.py", "test_grammar.py"):
+                        "test_functools.py", "test_grammar.py",
+                        "test_inspect.py", "test_opcodes.py",
+                        "test_traceback.py", "test_unpack.py"):
             my_print("Skipped, gives syntax error with CPython3.5.")
             return
 
         if filename in ("test_tcl.py", "test_bz2.py"):
-            my_print("Skipped, segfauls with CPython3.5.")
+            my_print("Skipped, segfaults with CPython3.5.")
             return
 
         if filename in ("test_aifc.py", "test_binascii.py"):
