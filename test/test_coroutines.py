@@ -1445,7 +1445,7 @@ class CoroutineTest(unittest.TestCase):
             nonlocal buffer
             # Nuitka: We do not give deprecation warnings.
             # with self.assertWarnsRegex(PendingDeprecationWarning, "legacy"):
-            if False:
+            if True:
                 async for i in AsyncIter():
                     if i[0] > 20:
                         continue
