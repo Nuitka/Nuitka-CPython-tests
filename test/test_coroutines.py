@@ -1987,7 +1987,8 @@ class CoroutineTest(unittest.TestCase):
         finally:
             aw.close()
 
-    def test_fatal_coro_warning(self):
+    # Nuitka: Disable warning test, we don't give that.
+    def notest_fatal_coro_warning(self):
         # Issue 27811
         async def func(): pass
         with warnings.catch_warnings(), support.captured_stderr() as stderr:
