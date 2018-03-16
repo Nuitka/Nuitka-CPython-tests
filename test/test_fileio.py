@@ -10,7 +10,7 @@ from weakref import proxy
 from functools import wraps
 import _testcapi
 
-from test.support import TESTFN, check_warnings, run_unittest, make_bad_fd
+from test.support import TESTFN, check_warnings, run_unittest, make_bad_fd, unlink
 from collections import UserList
 
 from _io import FileIO as _FileIO
@@ -24,7 +24,7 @@ class AutoFileTests(unittest.TestCase):
     def tearDown(self):
         if self.f:
             self.f.close()
-        os.remove(TESTFN)
+        unlink(TESTFN)
 
     def testWeakRefs(self):
         # verify weak references
@@ -302,7 +302,7 @@ class OtherFileTests(unittest.TestCase):
                     self.assertEqual(f.isatty(), True)
                     f.close()
         finally:
-            os.unlink(TESTFN)
+            unlink(TESTFN)
 
     def testModeStrings(self):
         # check invalid mode strings
@@ -319,7 +319,7 @@ class OtherFileTests(unittest.TestCase):
         # verify repr works for unicode too
         f = _FileIO(str(TESTFN), "w")
         f.close()
-        os.unlink(TESTFN)
+        unlink(TESTFN)
 
     def testBytesOpen(self):
         # Opening a bytes filename
@@ -335,7 +335,7 @@ class OtherFileTests(unittest.TestCase):
             with open(TESTFN, "rb") as f:
                 self.assertEqual(f.read(), b"abc")
         finally:
-            os.unlink(TESTFN)
+            unlink(TESTFN)
 
     def testConstructorHandlesNULChars(self):
         fn_with_NUL = 'foo\0bar'
@@ -407,7 +407,7 @@ class OtherFileTests(unittest.TestCase):
         try:
             bug801631()
         finally:
-            os.unlink(TESTFN)
+            unlink(TESTFN)
 
     def testAppend(self):
         try:
@@ -423,7 +423,7 @@ class OtherFileTests(unittest.TestCase):
             self.assertEqual(d, b'spameggs')
         finally:
             try:
-                os.unlink(TESTFN)
+                unlink(TESTFN)
             except:
                 pass
 
@@ -457,7 +457,7 @@ def test_main():
         run_unittest(AutoFileTests, OtherFileTests)
     finally:
         if os.path.exists(TESTFN):
-            os.unlink(TESTFN)
+            unlink(TESTFN)
 
 if __name__ == '__main__':
     test_main()
