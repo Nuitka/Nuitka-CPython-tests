@@ -131,6 +131,7 @@ class FrameLocalsTest(unittest.TestCase):
             # Nuitka: We would remove useless x and y otherwise. This will work
             # until we see through aliases.
             x, y = y, x
+            x, y = y, x
             return inner()
         try:
             outer()
