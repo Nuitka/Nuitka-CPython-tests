@@ -10,7 +10,7 @@ import importlib
 import importlib.util
 import unittest
 
-from test.support import create_empty_file, verbose
+from test.support import create_empty_file, verbose, rmdir, unlink
 from reprlib import repr as r # Don't shadow builtin repr
 from reprlib import Repr
 from reprlib import recursive_repr
@@ -255,9 +255,9 @@ class LongReprTest(unittest.TestCase):
         actions.reverse()
         for p in actions:
             if os.path.isdir(p):
-                os.rmdir(p)
+                rmdir(p)
             else:
-                os.remove(p)
+                unlink(p)
         del sys.path[0]
 
     def _check_path_limitations(self, module_name):
