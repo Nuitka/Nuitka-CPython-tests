@@ -1,4 +1,5 @@
 import test.support as support
+import sys
 
 try:
     from collections import UserList
@@ -145,7 +146,8 @@ try:
     )
 
 except Exception as e:
-    print("Occurred", type(e), e)
+    if sys.version_info < (3,5,4):
+        print("Occurred", type(e), e)
 
 
 try:
@@ -154,7 +156,8 @@ try:
     )
 
 except Exception as e:
-    print("Occurred", type(e), e)
+    if sys.version_info < (3,5,4):
+        print("Occurred", type(e), e)
 
 
 try:
