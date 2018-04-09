@@ -82,7 +82,10 @@ def test_main(verbose=None):
             support.run_unittest(ListTest)
             gc.collect()
             counts[i] = sys.gettotalrefcount()
-        print(counts)
+        # Nuitka: There is some fluctuation in CPython to eleminate
+        if counts[0] in counts[1:] and counts[-1] in counts[:-1]:
+            counts = [ counts[0] ] * len(counts)
+        print("REFCOUNTS", counts)
 
 
 if __name__ == "__main__":
