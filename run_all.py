@@ -114,6 +114,8 @@ def checkPath(dirname, filename):
             my_print("Skipped, hangs with CPython3.5.")
             return
 
+        if filename == "test_hashlib.py":
+            extra_flags.append("ignore_warnings")
 
 
     if os.name == "nt":
