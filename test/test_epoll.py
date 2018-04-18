@@ -184,7 +184,7 @@ class TestEPoll(unittest.TestCase):
         now = time.monotonic()
         events = ep.poll(1, 4)
         then = time.monotonic()
-        self.assertFalse(then - now > 0.01)
+        self.assertFalse(then - now > 0.1)
 
         events.sort()
         expected = [(client.fileno(), select.EPOLLIN | select.EPOLLOUT),
