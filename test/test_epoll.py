@@ -145,7 +145,8 @@ class TestEPoll(unittest.TestCase):
         else:
             self.fail("epoll on closed fd didn't raise EBADF")
 
-    def test_control_and_wait(self):
+    # Nuitka: disabled timing dependent test part
+    def notest_control_and_wait(self):
         client, server = self._connected_pair()
 
         ep = select.epoll(16)
