@@ -117,8 +117,8 @@ def checkPath(dirname, filename):
         if filename == "test_hashlib.py":
             extra_flags.append("ignore_warnings")
 
-        if filename == "test_logging.py":
-            my_print("Skipped, dead locks with CPython3.5.")
+        if filename == "test_ordered_dict.py":
+            my_print("Skipped, fails with random errors before 3.6.")
             return
 
     if os.name == "nt":
@@ -132,6 +132,10 @@ def checkPath(dirname, filename):
 
         if filename in ("test_pathlib.py", ):
             my_print("Skipped, outputs random paths on Windows.")
+            return
+
+        if filename == "test_logging.py":
+            my_print("Skipped, dead locks on Windows due to races.")
             return
     else:
         if filename in ("test_winconsoleio.py", "test_winreg.py"):
