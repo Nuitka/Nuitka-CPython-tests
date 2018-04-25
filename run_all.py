@@ -117,6 +117,9 @@ def checkPath(dirname, filename):
         if filename == "test_hashlib.py":
             extra_flags.append("ignore_warnings")
 
+        if filename == "test_logging.py":
+            my_print("Skipped, dead locks with CPython3.5.")
+            return
 
     if os.name == "nt":
         if filename in ("test_itertools.py", ):
