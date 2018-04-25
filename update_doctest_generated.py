@@ -11,24 +11,21 @@ sys.path.insert(
     os.path.normpath(
         os.path.join(
             os.path.dirname(os.path.abspath(__file__)),
+            "..",
             ".."
         )
     )
 )
-from test_common import (
+
+from nuitka.tools.testing.Common import (
     convertToPython,
 )
-
-import test.test_setcomps
-script = convertToPython(test.test_setcomps.doctests)
 
 if not os.path.exists("doctest_generated"):
     os.mkdir("doctest_generated")
 
-open("doctest_generated/test_setcomps.py", 'w').write(script)
-
 import test.test_cmd
-script = "from test.test_cmd import samplecmdclass\n" + convertToPython(test.test_cmd.samplecmdclass.__doc__)
+script = "from test.test_cmd import samplecmdclass\n" + convertToPython(test.test_cmd.samplecmdclass.__doc__)  # @UndefinedVariable
 open("doctest_generated/test_cmd.py", 'w').write(script)
 
 import test.test_deque
@@ -43,7 +40,7 @@ for test in sorted(test.test_descrtut.__test__.values()):
 open("doctest_generated/test_descrtut.py", 'w').write(script)
 
 import test.test_extcall
-script = "import test.support as support\n" + convertToPython(test.test_extcall.__doc__)
+script = "import test.support as support\n" + convertToPython(test.test_extcall.__doc__)  # @UndefinedVariable
 open("doctest_generated/test_extcall.py", 'w').write(script)
 
 import test.test_generators
@@ -90,9 +87,21 @@ import test.test_itertools
 script = "from itertools import *\n" + convertToPython(test.test_itertools.libreftest)
 open("doctest_generated/test_itertools.py", 'w').write(script)
 
+import test.test_listcomps
+script = convertToPython(test.test_listcomps.doctests)
+open("doctest_generated/test_listcomps.py", 'w').write(script)
+
+import test.test_setcomps
+script = convertToPython(test.test_setcomps.doctests)
+open("doctest_generated/test_setcomps.py", 'w').write(script)
+
 import test.test_unpack
 script = convertToPython(test.test_unpack.doctests)
 open("doctest_generated/test_unpack.py", 'w').write(script)
+
+import test.test_unpack_ex
+script = convertToPython(test.test_unpack_ex.doctests)
+open("doctest_generated/test_unpack_ex.py", 'w').write(script)
 
 import test.test_weakref
 script = convertToPython(test.test_weakref.libreftest)
@@ -100,3 +109,7 @@ open("doctest_generated/test_weakref.py", 'w').write(script)
 
 script = convertToPython(open("test/ieee754.txt").read())
 open("doctest_generated/test_ieee754.py", 'w').write(script)
+
+import test.test_metaclass
+script = convertToPython(test.test_metaclass.doctests)
+open("doctest_generated/test_metaclass.py", 'w').write(script)

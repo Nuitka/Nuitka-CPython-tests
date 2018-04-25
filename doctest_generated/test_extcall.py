@@ -552,7 +552,7 @@ except Exception as __e:
 
 try:
     print('Line 272')
-    print(dir(*h)
+    print(h(1, *h)
     )
 
 except Exception as __e:
@@ -561,7 +561,7 @@ except Exception as __e:
 
 try:
     print('Line 278')
-    print(None(*h)
+    print(h(*[1], *h)
     )
 
 except Exception as __e:
@@ -570,7 +570,7 @@ except Exception as __e:
 
 try:
     print('Line 284')
-    print(h(**h)
+    print(dir(*h)
     )
 
 except Exception as __e:
@@ -579,7 +579,7 @@ except Exception as __e:
 
 try:
     print('Line 290')
-    print(dir(**h)
+    print(None(*h)
     )
 
 except Exception as __e:
@@ -588,7 +588,7 @@ except Exception as __e:
 
 try:
     print('Line 296')
-    print(None(**h)
+    print(h(**h)
     )
 
 except Exception as __e:
@@ -597,6 +597,69 @@ except Exception as __e:
 
 try:
     print('Line 302')
+    print(h(**[])
+    )
+
+except Exception as __e:
+    print("Occurred", type(__e), __e)
+
+
+try:
+    print('Line 308')
+    print(h(a=1, **h)
+    )
+
+except Exception as __e:
+    print("Occurred", type(__e), __e)
+
+
+try:
+    print('Line 314')
+    print(h(a=1, **[])
+    )
+
+except Exception as __e:
+    print("Occurred", type(__e), __e)
+
+
+try:
+    print('Line 320')
+    print(h(**{'a': 1}, **h)
+    )
+
+except Exception as __e:
+    print("Occurred", type(__e), __e)
+
+
+try:
+    print('Line 326')
+    print(h(**{'a': 1}, **[])
+    )
+
+except Exception as __e:
+    print("Occurred", type(__e), __e)
+
+
+try:
+    print('Line 332')
+    print(dir(**h)
+    )
+
+except Exception as __e:
+    print("Occurred", type(__e), __e)
+
+
+try:
+    print('Line 338')
+    print(None(**h)
+    )
+
+except Exception as __e:
+    print("Occurred", type(__e), __e)
+
+
+try:
+    print('Line 344')
     print(dir(b=1, **{'b': 1})
     )
 
@@ -634,7 +697,7 @@ except Exception as __e:
 
 
 try:
-    print('Line 319')
+    print('Line 361')
     print(len(a), len(b), b == d
     )
 
@@ -658,7 +721,7 @@ except Exception as __e:
 
 
 try:
-    print('Line 328')
+    print('Line 370')
     print(Foo.method(*(x, 1, 2))
     )
 
@@ -667,7 +730,7 @@ except Exception as __e:
 
 
 try:
-    print('Line 331')
+    print('Line 373')
     print(Foo.method(x, *(1, 2))
     )
 
@@ -676,7 +739,7 @@ except Exception as __e:
 
 
 try:
-    print('Line 334')
+    print('Line 376')
     print(Foo.method(*(1, 2, 3))
     )
 
@@ -685,7 +748,7 @@ except Exception as __e:
 
 
 try:
-    print('Line 337')
+    print('Line 379')
     print(Foo.method(1, *[2, 3])
     )
 
@@ -707,7 +770,7 @@ except Exception as __e:
 
 
 try:
-    print('Line 353')
+    print('Line 395')
     print(id(1, **{'foo': 1})
     )
 
@@ -744,7 +807,7 @@ except Exception as __e:
 
 
 try:
-    print('Line 375')
+    print('Line 417')
     print(f(**x)
     )
 
@@ -759,7 +822,7 @@ except Exception as __e:
 
 
 try:
-    print('Line 382')
+    print('Line 424')
     print(f(1)
     )
 
@@ -774,7 +837,7 @@ except Exception as __e:
 
 
 try:
-    print('Line 388')
+    print('Line 430')
     print(f(1, 2)
     )
 
@@ -789,7 +852,7 @@ except Exception as __e:
 
 
 try:
-    print('Line 394')
+    print('Line 436')
     print(f(1, 2, 3)
     )
 
@@ -804,7 +867,7 @@ except Exception as __e:
 
 
 try:
-    print('Line 400')
+    print('Line 442')
     print(f(1, kw=3)
     )
 
@@ -819,7 +882,7 @@ except Exception as __e:
 
 
 try:
-    print('Line 406')
+    print('Line 448')
     print(f(1, 2, 3, b=3, kw=3)
     )
 
@@ -834,7 +897,7 @@ except Exception as __e:
 
 
 try:
-    print('Line 412')
+    print('Line 454')
     print(f(2, 3, 4, kw=4)
     )
 
@@ -849,7 +912,7 @@ except Exception as __e:
 
 
 try:
-    print('Line 421')
+    print('Line 463')
     print(f()
     )
 
@@ -864,7 +927,7 @@ except Exception as __e:
 
 
 try:
-    print('Line 427')
+    print('Line 469')
     print(f()
     )
 
@@ -879,7 +942,7 @@ except Exception as __e:
 
 
 try:
-    print('Line 433')
+    print('Line 475')
     print(f()
     )
 
@@ -894,7 +957,7 @@ except Exception as __e:
 
 
 try:
-    print('Line 439')
+    print('Line 481')
     print(f()
     )
 
@@ -909,7 +972,7 @@ except Exception as __e:
 
 
 try:
-    print('Line 445')
+    print('Line 487')
     print(f(c=12, b=9)
     )
 
@@ -924,7 +987,7 @@ except Exception as __e:
 
 
 try:
-    print('Line 454')
+    print('Line 496')
     print(f()
     )
 
@@ -939,7 +1002,7 @@ except Exception as __e:
 
 
 try:
-    print('Line 460')
+    print('Line 502')
     print(f()
     )
 
