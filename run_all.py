@@ -121,6 +121,10 @@ def checkPath(dirname, filename):
             my_print("Skipped, fails with random errors before 3.6.")
             return
 
+        if filename == "test_syntax.py":
+            my_print("Skipped, not useful with older version.")
+            return
+
     if os.name == "nt":
         if filename in ("test_itertools.py", ):
             my_print("Skipped, CPython on Windows crashes.")
