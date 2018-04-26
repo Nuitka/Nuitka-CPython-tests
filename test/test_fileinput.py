@@ -120,11 +120,11 @@ class BufferSizesTests(unittest.TestCase):
 
 class FileInputTests(unittest.TestCase):
     def test_zero_byte_files(self):
+        t1 = writeTmp(1, [""])
+        t2 = writeTmp(2, [""])
+        t3 = writeTmp(3, ["The only line there is.\n"])
+        t4 = writeTmp(4, [""])
         try:
-            t1 = writeTmp(1, [""])
-            t2 = writeTmp(2, [""])
-            t3 = writeTmp(3, ["The only line there is.\n"])
-            t4 = writeTmp(4, [""])
             fi = FileInput(files=(t1, t2, t3, t4))
 
             line = fi.readline()
@@ -143,9 +143,9 @@ class FileInputTests(unittest.TestCase):
             remove_tempfiles(t1, t2, t3, t4)
 
     def test_files_that_dont_end_with_newline(self):
+        t1 = writeTmp(1, ["A\nB\nC"])
+        t2 = writeTmp(2, ["D\nE\nF"])
         try:
-            t1 = writeTmp(1, ["A\nB\nC"])
-            t2 = writeTmp(2, ["D\nE\nF"])
             fi = FileInput(files=(t1, t2))
             lines = list(fi)
             self.assertEqual(lines, ["A\n", "B\n", "C", "D\n", "E\n", "F"])
@@ -155,8 +155,8 @@ class FileInputTests(unittest.TestCase):
             remove_tempfiles(t1, t2)
 
     def test_unicode_filenames(self):
+        t1 = writeTmp(1, ["A\nB"])
         try:
-            t1 = writeTmp(1, ["A\nB"])
             encoding = sys.getfilesystemencoding()
             if encoding is None:
                 encoding = 'ascii'
@@ -167,9 +167,9 @@ class FileInputTests(unittest.TestCase):
             remove_tempfiles(t1)
 
     def test_fileno(self):
+        t1 = writeTmp(1, ["A\nB"])
+        t2 = writeTmp(2, ["C\nD"])
         try:
-            t1 = writeTmp(1, ["A\nB"])
-            t2 = writeTmp(2, ["C\nD"])
             fi = FileInput(files=(t1, t2))
             self.assertEqual(fi.fileno(), -1)
             line = fi.next()
@@ -210,8 +210,8 @@ class FileInputTests(unittest.TestCase):
             self.fail("FileInput should check openhook for being callable")
         except ValueError:
             pass
+        t1 = writeTmp(1, ["A\nB"], mode="wb")
         try:
-            t1 = writeTmp(1, ["A\nB"], mode="wb")
             fi = FileInput(files=t1, openhook=hook_encoded("rot13"))
             lines = list(fi)
             self.assertEqual(lines, ["N\n", "O"])
