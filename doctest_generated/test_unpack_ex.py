@@ -308,22 +308,19 @@ except Exception as __e:
 
 
 try:
-    len(eval("{" + ", ".join("**{{{}: {}}}".format(i, i)
+    print('Line 142')
+    print(len(eval("{" + ", ".join("**{{{}: {}}}".format(i, i) for i in range(1000)) + "}"))
+    )
+
 except Exception as __e:
     print("Occurred", type(__e), __e)
 
 
 try:
-                             for i in range(1000)) + "}"))
-    # Expected:
-    ## 1000
-    #
-    {0:1, **{0:2}, 0:3, 0:4}
-    # Expected:
-    ## {0: 4}
-    #
-    # List comprehension element unpacking
-    #
+    print('Line 146')
+    print({0:1, **{0:2}, 0:3, 0:4}
+    )
+
 except Exception as __e:
     print("Occurred", type(__e), __e)
 
@@ -335,7 +332,7 @@ except Exception as __e:
 
 
 try:
-    print('Line 154')
+    print('Line 153')
     print([*a, b, c]
     )
 
@@ -350,7 +347,7 @@ except Exception as __e:
 
 
 try:
-    print('Line 203')
+    print('Line 202')
     print(print(*[1], *[2], 3)
     )
 
@@ -372,7 +369,7 @@ except Exception as __e:
 
 
 try:
-    print('Line 212')
+    print('Line 211')
     print(f(**original_dict, y=2)
     )
 
@@ -381,7 +378,7 @@ except Exception as __e:
 
 
 try:
-    print('Line 215')
+    print('Line 214')
     print(original_dict
     )
 
@@ -452,7 +449,7 @@ except Exception as __e:
 
 
 try:
-    print('Line 255')
+    print('Line 254')
     print(f(**d)
     )
 
@@ -461,7 +458,7 @@ except Exception as __e:
 
 
 try:
-    print('Line 263')
+    print('Line 262')
     print(f(x=5, **{'x': 3}, y=2)
     )
 
@@ -470,7 +467,7 @@ except Exception as __e:
 
 
 try:
-    print('Line 269')
+    print('Line 268')
     print(f(**{'x': 3}, x=5, y=2)
     )
 
@@ -479,7 +476,7 @@ except Exception as __e:
 
 
 try:
-    print('Line 275')
+    print('Line 274')
     print(f(**{'x': 3}, **{'x': 5}, y=2)
     )
 
@@ -488,7 +485,7 @@ except Exception as __e:
 
 
 try:
-    print('Line 281')
+    print('Line 280')
     print(f(x=5, **{'x': 3}, **{'x': 2})
     )
 
@@ -497,7 +494,7 @@ except Exception as __e:
 
 
 try:
-    print('Line 287')
+    print('Line 286')
     print(f(**{1: 3}, **{1: 5})
     )
 

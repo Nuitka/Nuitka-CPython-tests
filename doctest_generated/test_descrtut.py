@@ -1,6 +1,8 @@
 from test.test_descrtut import defaultdict,defaultdict2,sortdict
 import pprint
 
+################################################################################
+
 try:
     class property(object):
 
@@ -141,6 +143,8 @@ try:
 except Exception as __e:
     print("Occurred", type(__e), __e)
 
+################################################################################
+
 try:
     class A:
         def foo(self):
@@ -182,6 +186,8 @@ try:
 except Exception as __e:
     print("Occurred", type(__e), __e)
 
+################################################################################
+
 try:
     print('Line 2')
     print(print(D().m()) # "DCBA"
@@ -189,6 +195,8 @@ try:
 
 except Exception as __e:
     print("Occurred", type(__e), __e)
+
+################################################################################
 
 try:
     print('Line 2')
@@ -426,6 +434,8 @@ try:
 except Exception as __e:
     print("Occurred", type(__e), __e)
 
+################################################################################
+
 try:
     print('Line 4')
     print(type([])
@@ -530,6 +540,8 @@ try:
 except Exception as __e:
     print("Occurred", type(__e), __e)
 
+################################################################################
+
 try:
     class A:    # implicit new-style class
         def save(self):
@@ -578,6 +590,8 @@ try:
 
 except Exception as __e:
     print("Occurred", type(__e), __e)
+
+################################################################################
 
 try:
     class C:
@@ -713,6 +727,8 @@ try:
 
 except Exception as __e:
     print("Occurred", type(__e), __e)
+
+################################################################################
 
 try:
     a = defaultdict2(default=0.0)
