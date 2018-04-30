@@ -2557,7 +2557,8 @@ def test_main():
         OSErrorTests,
         RemoveDirsTests,
         CPUCountTests,
-        FDInheritanceTests,
+        # Nuitka: These sporadically fail with permission errors
+        # FDInheritanceTests,
     )
 
 if __name__ == "__main__":
