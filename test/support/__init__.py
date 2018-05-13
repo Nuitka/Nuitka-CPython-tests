@@ -341,8 +341,8 @@ if sys.platform.startswith("win"):
             # Increase the timeout and try again
             time.sleep(timeout)
             timeout *= 2
-        warnings.warn('tests may fail, delete still pending for ' + pathname,
-                      RuntimeWarning, stacklevel=4)
+        # Nuitka: This can cause test outputs that are indetermistic.
+        # warnings.warn('tests may fail, delete still pending for ' + pathname, RuntimeWarning, stacklevel=4)
 
     def _unlink(filename):
         _waitfor(os.unlink, filename)
