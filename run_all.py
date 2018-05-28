@@ -125,6 +125,10 @@ def checkPath(dirname, filename):
             my_print("Skipped, not useful with older version.")
             return
 
+        if filename == "test_typing.py":
+            my_print("Skipped, recursion errors vary.")
+            return
+
     if os.name == "nt":
         if filename in ("test_itertools.py", ):
             my_print("Skipped, CPython on Windows crashes.")
