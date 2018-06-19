@@ -19,10 +19,14 @@ sys.path.insert(
 
 from nuitka.tools.testing.Common import (
     convertToPython,
+    goMainDir
+
 )
 from nuitka.tools.quality.autoformat.Autoformat import (
     cleanupWindowsNewlines,
 )
+
+goMainDir()
 
 if not os.path.exists("doctest_generated"):
     os.mkdir("doctest_generated")
