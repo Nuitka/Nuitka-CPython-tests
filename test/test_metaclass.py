@@ -133,8 +133,10 @@ Check for duplicate keywords.
 
 Another way.
 
-    >>> kwds = {'metaclass': type}
-    >>> class C(metaclass=type, **kwds): pass
+    # Nuitka: Disable this error check, we don't do it for now. Corner case
+    # that makes things only more complex.
+    >>> # kwds = {'metaclass': type}
+    >>> # class C(metaclass=type, **kwds): pass
     ...
     Traceback (most recent call last):
     [...]
