@@ -306,20 +306,6 @@ except Exception as __e:
 
 
 try:
-    kwds = {'metaclass': type}
-except Exception as __e:
-    print("Occurred", type(__e), __e)
-
-
-try:
-    class C(metaclass=type, **kwds): pass
-    # Expected:
-    ## Traceback (most recent call last):
-    ## [...]
-    ## TypeError: __build_class__() got multiple values for keyword argument 'metaclass'
-    #
-    # Use a __prepare__ method that returns an instrumented dict.
-    #
     class LoggingDict(dict):
         def __setitem__(self, key, value):
             print("d[%r] = %r" % (key, value))
@@ -358,7 +344,7 @@ except Exception as __e:
 
 
 try:
-    print('Line 177')
+    print('Line 173')
     print(type(C) is dict
     )
 
@@ -367,7 +353,7 @@ except Exception as __e:
 
 
 try:
-    print('Line 180')
+    print('Line 176')
     print(print(sorted(C.items()))
     )
 
@@ -412,7 +398,7 @@ except Exception as __e:
 
 
 try:
-    print('Line 207')
+    print('Line 203')
     print(type.__prepare__()
     )
 
@@ -436,7 +422,7 @@ except Exception as __e:
 
 
 try:
-    print('Line 223')
+    print('Line 219')
     print(print(C.hello)
     )
 
