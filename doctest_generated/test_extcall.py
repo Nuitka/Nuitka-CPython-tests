@@ -146,7 +146,7 @@ try:
     )
 
 except Exception as e:
-    if sys.version_info < (3,5,4):
+    if sys.version_info < (3,5,4) and sys.version_info < (3,6):
         print("Occurred", type(e), e)
 
 
@@ -156,7 +156,7 @@ try:
     )
 
 except Exception as e:
-    if sys.version_info < (3,5,4):
+    if sys.version_info < (3,5,4) and sys.version_info < (3,6):
         print("Occurred", type(e), e)
 
 
