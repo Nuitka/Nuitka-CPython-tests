@@ -159,6 +159,19 @@ def checkPath(dirname, filename):
         my_print("Skipping (KNOWN BUGGY)", filename)
         return
 
+    if python_version >= "3.7":
+        if filename in ("test_ast.py", "test_coroutines.py", "test_enum.py",
+                        "test_dictviews.py", "test_docxmlrpc.py", "test_hmac.py",
+                        "test_functools.py", "test_getargs2.py", "test_locale.py",
+                        "test_pathlib.py", "test_platform.py", "test_time.py",
+                        "test_statistics.py", "test_types.py", "test_xml_etree.py"):
+            extra_flags.append("ignore_stderr")
+
+        if filename == "test_logging.py":
+            reportSkip("This test hangs with CPython3.7", dirname, filename)
+            return
+
+
     compareWithCPython(
         dirname     = dirname,
         filename    = filename,
