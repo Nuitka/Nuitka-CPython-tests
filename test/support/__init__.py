@@ -39,6 +39,10 @@ import warnings
 
 from .testresult import get_test_runner
 
+# Nuitka: Seed random generator
+import random
+random.seed(27)
+
 try:
     import multiprocessing.process
 except ImportError:
