@@ -129,6 +129,11 @@ def checkPath(dirname, filename):
             my_print("Skipped, recursion errors vary.")
             return
 
+        if dirname == "doctest_generated" and \
+           filename == "test_extcall.py":
+            my_print("Skipped, worse call errors not implemented.")
+            return
+
     if os.name == "nt":
         if filename in ("test_itertools.py", ):
             my_print("Skipped, CPython on Windows crashes.")
