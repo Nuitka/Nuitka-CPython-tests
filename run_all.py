@@ -200,6 +200,10 @@ def checkPath(dirname, filename):
             my_print("Crashes with CPython 3.6", filename)
             return
 
+        if filename in ("test_epoll.py", ):
+            my_print("Fails indetermistically with CPython 3.6", filename)
+            return
+
         # Deprecation warnings.
         if filename in ("test_codecs.py", "test_dbm_dumb.py", "test_os.py",
                         "test_fileinput.py", "test_float.py", "test_re.py",
