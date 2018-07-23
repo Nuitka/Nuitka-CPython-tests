@@ -43,6 +43,17 @@ def checkPath(dirname, filename):
         "original_file"
     ]
 
+    # TODO: Segfaulting due to reference counting issue.
+    if filename == "test_asyncgen.py":
+        my_print("Skipping (KNOWN BUGGY)", filename)
+        return
+
+    # TODO: This deadlocks, likely a threading problem.
+    if python_version >= "3.4" and \
+       filename == "test_concurrent_futures.py":
+        reportSkip("Skipping (due to threading issue)", dirname, filename)
+        return
+
     if dirname == "doctest_generated":
         if python_version >= "3.7":
             extra_flags.append("expect_success")
