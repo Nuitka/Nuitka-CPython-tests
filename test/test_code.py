@@ -171,8 +171,10 @@ class CodeTest(unittest.TestCase):
         self.assertEqual(co.co_name, "funcname")
         self.assertEqual(co.co_firstlineno, 15)
 
+    # Nuitka: Disabled test that tries to create uncompiled function with
+    # compiled cells. Also kind of out of scope.
     @cpython_only
-    def test_closure_injection(self):
+    def notest_closure_injection(self):
         # From https://bugs.python.org/issue32176
         from types import FunctionType
 
