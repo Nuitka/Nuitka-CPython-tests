@@ -577,13 +577,18 @@ class ClassTests(unittest.TestCase):
             return 'summa'
 
         name = str(b'__add__', 'ascii')  # shouldn't be optimized
-        self.assertIsNot(name, '__add__')  # not interned
+
+        # Nuitka: We intern the name as an optimization, which is of course
+        # not an issue.
+        # self.assertIsNot(name, '__add__')  # not interned
         type.__setattr__(A, name, add)
         self.assertEqual(A() + 1, 'summa')
 
         name2 = str(b'__add__', 'ascii')
-        self.assertIsNot(name2, '__add__')
-        self.assertIsNot(name2, name)
+        # Nuitka: We intern the name as an optimization, which is of course
+        # not an issue.
+        # self.assertIsNot(name2, '__add__')
+        # self.assertIsNot(name2, name)
         type.__delattr__(A, name2)
         with self.assertRaises(TypeError):
             A() + 1
