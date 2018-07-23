@@ -182,8 +182,10 @@ class CodeTest(unittest.TestCase):
         with self.assertRaises(Exception):
             exec(co)
 
+    # Nuitka: Disabled test that tries to create uncompiled function with
+    # compiled cells. Also kind of out of scope.
     @cpython_only
-    def test_closure_injection(self):
+    def notest_closure_injection(self):
         # From https://bugs.python.org/issue32176
         from types import FunctionType
 
