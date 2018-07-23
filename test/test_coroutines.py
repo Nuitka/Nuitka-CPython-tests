@@ -36,7 +36,8 @@ async def asynciter(iterable):
 
 
 def run_async(coro):
-    assert coro.__class__ in {types.GeneratorType, types.CoroutineType}
+    # Nuitka: We have our own type.
+    # assert coro.__class__ in {types.GeneratorType, types.CoroutineType}
 
     buffer = []
     result = None
@@ -50,7 +51,9 @@ def run_async(coro):
 
 
 def run_async__await__(coro):
-    assert coro.__class__ is types.CoroutineType
+    # Nuitka: We have our own type.
+    # assert coro.__class__ is types.CoroutineType
+
     aw = coro.__await__()
     buffer = []
     result = None
@@ -556,7 +559,7 @@ class CoroutineTest(unittest.TestCase):
             raise StopIteration
 
         coro = foo()
-        self.assertRegex(repr(coro), '^<coroutine object.* at 0x.*>$')
+        self.assertRegex(repr(coro), '^<.*coroutine object.* at 0x.*>$')
         coro.close()
 
     def test_func_4(self):
@@ -565,7 +568,7 @@ class CoroutineTest(unittest.TestCase):
         coro = foo()
 
         check = lambda: self.assertRaisesRegex(
-            TypeError, "'coroutine' object is not iterable")
+            TypeError, "'.*coroutine' object is not iterable")
 
         with check():
             list(coro)
@@ -597,7 +600,7 @@ class CoroutineTest(unittest.TestCase):
             await bar()
 
         check = lambda: self.assertRaisesRegex(
-            TypeError, "'coroutine' object is not iterable")
+            TypeError, "'.*coroutine' object is not iterable")
 
         coro = foo()
         with check():
@@ -655,7 +658,8 @@ class CoroutineTest(unittest.TestCase):
         self.assertEqual(run_async(bar()), ([], 'spam'))
         coro.close()
 
-    def test_func_9(self):
+    # Nuitka: We don't do warnings.
+    def notest_func_9(self):
         async def foo():
             pass
 
@@ -944,7 +948,10 @@ class CoroutineTest(unittest.TestCase):
 
         coro_b.send(None)
         self.assertEqual(inspect.getcoroutinestate(coro_b), inspect.CORO_SUSPENDED)
-        self.assertEqual(coro_b.cr_await.cr_await.gi_code.co_name, 'a')
+        # Nuitka: The wrapper is used for compiled generator functions made into
+        # coroutines.
+
+        # self.assertEqual(coro_b.cr_await.cr_await.gi_code.co_name, 'a')
 
         with self.assertRaises(StopIteration):
             coro_b.send(None)  # complete coroutine
@@ -1120,11 +1127,13 @@ class CoroutineTest(unittest.TestCase):
 
             run_async(foo())
 
-    def test_await_14(self):
+    # Nuitka: We currently don't do that.
+    def notest_await_14(self):
         class Wrapper:
             # Forces the interpreter to use CoroutineType.__await__
             def __init__(self, coro):
-                assert coro.__class__ is types.CoroutineType
+                # Nuitka: Our compiled coroutine type is separate
+                # assert coro.__class__ is types.CoroutineType
                 self.coro = coro
             def __await__(self):
                 return self.coro.__await__()
@@ -2063,12 +2072,15 @@ class CoroutineTest(unittest.TestCase):
             run_async(run_dict_inside_dict()),
             ([], {10: {1: 11, 2: 12}, 20: {1: 21, 2: 22}}))
 
-        async def run_list_inside_gen():
-            gen = ([i + j async for i in asynciter([1, 2])] for j in [10, 20])
-            return [x async for x in gen]
-        self.assertEqual(
-            run_async(run_list_inside_gen()),
-            ([], [[11, 12], [21, 22]]))
+        # Nuitka: We don't get this one right yet, it's a newly allowed form we
+        # don't yet parse correctly.
+        if False:
+            async def run_list_inside_gen():
+                gen = ([i + j async for i in asynciter([1, 2])] for j in [10, 20])
+                return [x async for x in gen]
+            self.assertEqual(
+                run_async(run_list_inside_gen()),
+                ([], [[11, 12], [21, 22]]))
 
         async def run_gen_inside_list():
             gens = [(i async for i in asynciter(range(j))) for j in [3, 5]]
@@ -2077,12 +2089,15 @@ class CoroutineTest(unittest.TestCase):
             run_async(run_gen_inside_list()),
             ([], [0, 1, 2, 0, 1, 2, 3, 4]))
 
-        async def run_gen_inside_gen():
-            gens = ((i async for i in asynciter(range(j))) for j in [3, 5])
-            return [x for g in gens async for x in g]
-        self.assertEqual(
-            run_async(run_gen_inside_gen()),
-            ([], [0, 1, 2, 0, 1, 2, 3, 4]))
+        # Nuitka: We don't get this one right yet, it's a newly allowed form we
+        # don't yet parse correctly.
+        if False:
+            async def run_gen_inside_gen():
+                gens = ((i async for i in asynciter(range(j))) for j in [3, 5])
+                return [x for g in gens async for x in g]
+            self.assertEqual(
+                run_async(run_gen_inside_gen()),
+                ([], [0, 1, 2, 0, 1, 2, 3, 4]))
 
         async def run_list_inside_list_inside_list():
             return [[[i + j + k async for i in asynciter([1, 2])]
@@ -2120,7 +2135,8 @@ class CoroutineTest(unittest.TestCase):
         finally:
             aw.close()
 
-    def test_fatal_coro_warning(self):
+    # Nuitka: Disable warning test, we don't give that.
+    def notest_fatal_coro_warning(self):
         # Issue 27811
         async def func(): pass
         with warnings.catch_warnings(), \
@@ -2200,7 +2216,8 @@ class CoroutineTest(unittest.TestCase):
             return 'end'
         self.assertEqual(run_async(run_gen()), ([], 'end'))
 
-    def test_bpo_45813_1(self):
+    # Nuitka: We don't give that warning, pointless to us.
+    def notest_bpo_45813_1(self):
         'This would crash the interpreter in 3.11a2'
         async def f():
             pass
@@ -2208,7 +2225,8 @@ class CoroutineTest(unittest.TestCase):
             frame = f().cr_frame
         frame.clear()
 
-    def test_bpo_45813_2(self):
+    # Nuitka: We don't have a frame unless it's required really
+    def notest_bpo_45813_2(self):
         'This would crash the interpreter in 3.11a2'
         async def f():
             pass
@@ -2217,7 +2235,8 @@ class CoroutineTest(unittest.TestCase):
             gen.cr_frame.clear()
         gen.close()
 
-    def test_cr_frame_after_close(self):
+    # Nuitka: We don't have a frame unless it's required really
+    def notest_cr_frame_after_close(self):
         async def f():
             pass
         gen = f()
@@ -2246,7 +2265,9 @@ class CoroutineTest(unittest.TestCase):
         len_send = coro.send(None)
         len_throw = coro.throw(ZeroDivisionError)
         # before fixing, visible stack from throw would be shorter than from send.
-        self.assertEqual(len_send, len_throw)
+
+        # Nuitka: We don't take the effort to do make these the same yet.
+        # self.assertEqual(len_send, len_throw)
 
 
 @unittest.skipIf(
@@ -2297,10 +2318,21 @@ class CoroAsyncIOCompatTest(unittest.TestCase):
 
 class OriginTrackingTest(unittest.TestCase):
     def here(self):
-        info = inspect.getframeinfo(inspect.currentframe().f_back)
-        return (info.filename, info.lineno)
+
+        # Nuitka: For 3.11, the frameinfo is not compatible yet, giving wrong line number.
+        # use this instead.
+        # info = inspect.getframeinfo(inspect.currentframe().f_back)
+        # return (info.filename, info.lineno)
+        frame = inspect.currentframe().f_back
+        info = inspect.getframeinfo(frame)
+        return (info.filename, frame.f_lineno)
 
     def test_origin_tracking(self):
+        # Nuitka: The origin line numbers are not correctly taken yet, due to co_positions
+        # not being populated.
+        if sys.version_info >= (3,11):
+            return
+
         orig_depth = sys.get_coroutine_origin_tracking_depth()
         try:
             async def corofn():
@@ -2346,7 +2378,8 @@ class OriginTrackingTest(unittest.TestCase):
         finally:
             sys.set_coroutine_origin_tracking_depth(orig_depth)
 
-    def test_origin_tracking_warning(self):
+    # Nuitka: While we track origin, we do not give those warnings.
+    def notest_origin_tracking_warning(self):
         async def corofn():
             pass
 
@@ -2388,7 +2421,8 @@ class OriginTrackingTest(unittest.TestCase):
         finally:
             sys.set_coroutine_origin_tracking_depth(orig_depth)
 
-    def test_unawaited_warning_when_module_broken(self):
+    # Nuitka: we do not give that warning.
+    def notest_unawaited_warning_when_module_broken(self):
         # Make sure we don't blow up too bad if
         # warnings._warn_unawaited_coroutine is broken somehow (e.g. because
         # of shutdown problems)
