@@ -197,7 +197,7 @@ class ReprTest(unittest.TestCase):
         file_repr = re.escape(repr(__file__))
         self.assertRegex(repr(f_this),
                          r"^<(compiled_)?frame at 0x[0-9a-fA-F]+, file %s, line %d, code test_repr>$"
-                         % (file_repr, offset + 23))
+                         % (file_repr, offset + 22)) # Nuitka: repr does not update line
         self.assertRegex(repr(f_outer),
                          r"^<(compiled_)?frame at 0x[0-9a-fA-F]+, file %s, line %d, code outer>$"
                          % (file_repr, offset + 7))
