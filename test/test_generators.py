@@ -33,7 +33,8 @@ class SignalAndYieldFromTest(unittest.TestCase):
         else:
             return "FAILED"
 
-    def test_raise_and_yield_from(self):
+    # Nuitka: That C API insists on uncompiled generators
+    def notest_raise_and_yield_from(self):
         gen = self.generator1()
         gen.send(None)
         try:
