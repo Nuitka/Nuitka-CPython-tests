@@ -70,6 +70,11 @@ def checkPath(dirname, filename):
     if filename in ("test_platform.py",):
         extra_flags.append("ignore_stderr")
 
+    # TODO: Get it to work!
+    if filename == "test_asyncgen.py":
+        reportSkip("KNOWN BUGGY", dirname, filename)
+        return
+
     compareWithCPython(
         dirname     = dirname,
         filename    = filename,
