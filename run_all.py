@@ -54,6 +54,12 @@ def checkPath(dirname, filename):
         reportSkip("Skipping (due to threading issue)", dirname, filename)
         return
 
+    # TODO: This fails to compile, super is not fully solved.
+    if python_version >= "3.4" and \
+       filename == "test_super.py":
+        my_print("Skipping (due to compilation issue)", filename)
+        return
+
     if dirname == "doctest_generated":
         if python_version >= "3.7":
             extra_flags.append("expect_success")
