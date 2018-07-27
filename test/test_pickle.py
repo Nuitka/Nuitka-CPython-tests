@@ -508,7 +508,9 @@ def test_main():
                       CDispatchTableTests, CChainDispatchTableTests,
                       InMemoryPickleTests, SizeofTests])
     support.run_unittest(*tests)
-    support.run_doctest(pickle)
+
+    # Nuitka: Out of scope.
+    # support.run_doctest(pickle)
 
 if __name__ == "__main__":
     test_main()
