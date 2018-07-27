@@ -67,6 +67,9 @@ def checkPath(dirname, filename):
 
                 return
 
+    if filename in ("test_platform.py",):
+        extra_flags.append("ignore_stderr")
+
     compareWithCPython(
         dirname     = dirname,
         filename    = filename,
