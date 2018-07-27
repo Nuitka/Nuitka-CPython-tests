@@ -1352,7 +1352,10 @@ class SizeofTest(unittest.TestCase):
             def inner():
                 return x
             return inner
-        check_code_size(get_cell2.__code__, size('6i13P') + calcsize('n'))
+
+        # Nuitka: Our code objects do not include cell variables
+        # check_code_size(get_cell2.__code__, size('6i13P') + calcsize('n'))
+
         # complex
         check(complex(0,1), size('2d'))
         # method_descriptor (descriptor object)
@@ -1386,7 +1389,8 @@ class SizeofTest(unittest.TestCase):
         # dictionary-itemview
         check({}.items(), size('P'))
         # dictionary iterator
-        check(iter({}), size('P2nPn'))
+        # Nuitka: We lower iterator to tuple iteration, therefore size difference
+        # check(iter({}), size('P2nPn'))
         # dictionary-keyiterator
         check(iter({}.keys()), size('P2nPn'))
         # dictionary-valueiterator
@@ -1422,10 +1426,12 @@ class SizeofTest(unittest.TestCase):
         def func():
             return sys._getframe()
         x = func()
-        check(x, size('3Pi3c7P2ic??2P'))
+        # Nuitka: Compiled frames are different size.
+        # check(x, size('3Pi3c7P2ic??2P'))
         # function
         def func(): pass
-        check(func, size('14Pi'))
+        # Nuitka: Compiled functions are different size.
+        # check(func, size('14Pi'))
         class c():
             @staticmethod
             def foo():
@@ -1439,7 +1445,8 @@ class SizeofTest(unittest.TestCase):
             check(bar, size('PP'))
         # generator
         def get_gen(): yield 1
-        check(get_gen(), size('P2P4P4c7P2ic??P'))
+        # Nuitka: Compiled generator objects are different size.
+        # check(get_gen(), size('P2P4P4c7P2ic??P'))
         # iterator
         check(iter('abc'), size('lP'))
         # callable-iterator
@@ -1511,7 +1518,8 @@ class SizeofTest(unittest.TestCase):
                 check(set(sample), s + newsize*calcsize('nP'))
                 check(frozenset(sample), s + newsize*calcsize('nP'))
         # setiterator
-        check(iter(set()), size('P3n'))
+        # Nuitka: We lower iterator to tuple iteration, therefore size difference
+        # check(iter(set()), size('P3n'))
         # slice
         check(slice(0), size('3P'))
         # super
