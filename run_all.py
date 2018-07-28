@@ -130,7 +130,7 @@ def checkPath(dirname, filename):
             return
 
         if dirname == "doctest_generated" and \
-           filename == "test_extcall.py":
+           filename in ("test_extcall.py", "test_unpack_ex.py"):
             my_print("Skipped, worse call errors not implemented.")
             return
 
