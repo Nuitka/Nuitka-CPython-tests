@@ -73,7 +73,7 @@ def checkPath(dirname, filename):
 
                 return
 
-    if filename in ("test_platform.py",):
+    if filename in ("test_platform.py", "test_dataclasses.py"):
         extra_flags.append("ignore_stderr")
 
     # TODO: Get it to work!
