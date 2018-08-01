@@ -1347,7 +1347,9 @@ order (MRO) for bases """
         a.foo = 42
         self.assertEqual(a.__dict__, {"foo": 42})
 
-    def test_slots_special2(self):
+    # Nuitka: We do not care about __classcell__ yet, our super works without
+    # it.
+    def notest_slots_special2(self):
         # Testing __qualname__ and __classcell__ in __slots__
         class Meta(type):
             def __new__(cls, name, bases, namespace, attr):
