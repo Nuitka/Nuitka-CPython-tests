@@ -198,7 +198,8 @@ class ExceptionTests(unittest.TestCase):
         check('Python = "\u1e54\xfd\u0163\u0125\xf2\xf1" +', 1, 20)
 
     @cpython_only
-    def testSettingException(self):
+    # Nuitka: We do not have _testcapi available.
+    def notestSettingException(self):
         # test that setting an exception at the C level works even if the
         # exception object can't be constructed.
 
@@ -944,7 +945,8 @@ class ExceptionTests(unittest.TestCase):
         self.assertIn("maximum recursion depth exceeded", str(v))
 
     @cpython_only
-    def test_recursion_normalizing_exception(self):
+    # Nuitka: We do not have _testcapi available.
+    def notest_recursion_normalizing_exception(self):
         # Issue #22898.
         # Test that a RecursionError is raised when tstate->recursion_depth is
         # equal to recursion_limit in PyErr_NormalizeException() and check
@@ -1003,7 +1005,8 @@ class ExceptionTests(unittest.TestCase):
         self.assertIn(b'Done.', out)
 
     @cpython_only
-    def test_recursion_normalizing_infinite_exception(self):
+    # Nuitka: We do not have _testcapi available.
+    def notest_recursion_normalizing_infinite_exception(self):
         # Issue #30697. Test that a RecursionError is raised when
         # PyErr_NormalizeException() maximum recursion depth has been
         # exceeded.
@@ -1021,7 +1024,8 @@ class ExceptionTests(unittest.TestCase):
         self.assertIn(b'Done.', out)
 
     @cpython_only
-    def test_recursion_normalizing_with_no_memory(self):
+    # Nuitka: We do not have _testcapi available.
+    def notest_recursion_normalizing_with_no_memory(self):
         # Issue #30697. Test that in the abort that occurs when there is no
         # memory left and the size of the Python frames stack is greater than
         # the size of the list of preallocated MemoryError instances, the
@@ -1044,7 +1048,8 @@ class ExceptionTests(unittest.TestCase):
                           b'MemoryErrors while normalizing exceptions.', err)
 
     @cpython_only
-    def test_MemoryError(self):
+    # Nuitka: We do not have _testcapi available.
+    def notest_MemoryError(self):
         # PyErr_NoMemory always raises the same exception instance.
         # Check that the traceback is not doubled.
         import traceback
@@ -1063,7 +1068,8 @@ class ExceptionTests(unittest.TestCase):
         self.assertEqual(tb1, tb2)
 
     @cpython_only
-    def test_exception_with_doc(self):
+    # Nuitka: We do not have _testcapi available.
+    def notest_exception_with_doc(self):
         import _testcapi
         doc2 = "This is a test docstring."
         doc4 = "This is another test docstring."
@@ -1103,7 +1109,8 @@ class ExceptionTests(unittest.TestCase):
         self.assertEqual(error5.__doc__, "")
 
     @cpython_only
-    def test_memory_error_cleanup(self):
+    # Nuitka: We do not have _testcapi available.
+    def notest_memory_error_cleanup(self):
         # Issue #5437: preallocated MemoryError instances should not keep
         # traceback objects alive.
         from _testcapi import raise_memoryerror
@@ -1204,7 +1211,8 @@ class ExceptionTests(unittest.TestCase):
                 self.assertTrue(report.endswith("\n"))
 
     @cpython_only
-    def test_memory_error_in_PyErr_PrintEx(self):
+    # Nuitka: We do not have _testcapi available.
+    def notest_memory_error_in_PyErr_PrintEx(self):
         code = """if 1:
             import _testcapi
             class C(): pass
