@@ -171,6 +171,9 @@ def checkPath(dirname, filename):
             reportSkip("This test hangs with CPython3.7", dirname, filename)
             return
 
+        if filename == "test_gc.py":
+            reportSkip("This test is not true to irrelevant details with CPython3.7", dirname, filename)
+            return
 
     compareWithCPython(
         dirname     = dirname,
