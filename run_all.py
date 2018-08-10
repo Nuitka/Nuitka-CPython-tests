@@ -125,6 +125,10 @@ def checkPath(dirname, filename):
             my_print("Skipped, not useful with older version.")
             return
 
+        if filename == "test_unicode.py":
+            my_print("Skipped, not emulating old bugs.")
+            return
+
         if filename == "test_typing.py":
             my_print("Skipped, recursion errors vary.")
             return
