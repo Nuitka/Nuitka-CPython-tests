@@ -86,6 +86,10 @@ def checkPath(dirname, filename):
         reportSkip("KNOWN BUGGY", dirname, filename)
         return
 
+    if filename == "test_gc.py" and python_version == "3.7.0":
+        reportSkip("Bug in CPython 3.7.0 affects gc.", dirname, filename)
+        return
+
     if python_version < "3.7":
         if filename in ("test_abc.py",):
             reportSkip("Not useful with older Python", dirname, filename)
