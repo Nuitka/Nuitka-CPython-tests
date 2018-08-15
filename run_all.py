@@ -215,10 +215,6 @@ def checkPath(dirname, filename):
             my_print("Skipped, newer CPython gives deprecation warnings.")
             return
 
-        if dirname.endswith("test_asyncio"):
-            my_print("Skipped, older CPython has no asyncio.")
-            return
-
         if filename == "test_buffer.py":
             extra_flags.append("ignore_stderr")
 
