@@ -159,10 +159,6 @@ def checkPath(dirname, filename):
             my_print("Skipping (Windows only)", filename)
             return
 
-    if filename == "test_asyncgen.py":
-        my_print("Skipping (KNOWN BUGGY)", filename)
-        return
-
     if python_version >= "3.7":
         if filename in ("test_ast.py", "test_coroutines.py", "test_enum.py",
                         "test_dictviews.py", "test_docxmlrpc.py", "test_hmac.py",
