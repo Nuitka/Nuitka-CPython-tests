@@ -159,8 +159,13 @@ def checkPath(dirname, filename):
             my_print("Skipping (Windows only)", filename)
             return
 
+    # Newer 3.6 gives deprecation warning about itself.
+    if python_version >= "3.6":
+        if filename == "test_ast.py":
+            extra_flags.append("ignore_stderr")
+
     if python_version >= "3.7":
-        if filename in ("test_ast.py", "test_coroutines.py", "test_enum.py",
+        if filename in ("test_coroutines.py", "test_enum.py",
                         "test_dictviews.py", "test_docxmlrpc.py", "test_hmac.py",
                         "test_functools.py", "test_getargs2.py", "test_locale.py",
                         "test_pathlib.py", "test_platform.py", "test_time.py",
