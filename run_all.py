@@ -90,6 +90,11 @@ def checkPath(dirname, filename):
         reportSkip("Bug in CPython 3.7.0 affects gc.", dirname, filename)
         return
 
+    # Newer 3.6 gives deprecation warning about itself.
+    if python_version >= "3.6":
+        if filename == "test_ast.py":
+            extra_flags.append("ignore_stderr")
+
     if python_version < "3.7":
         if filename in ("test_abc.py",):
             reportSkip("Not useful with older Python", dirname, filename)
