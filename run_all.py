@@ -90,6 +90,13 @@ def checkPath(dirname, filename):
         reportSkip("Bug in CPython 3.7.0 affects gc.", dirname, filename)
         return
 
+    if filename == "test_datetime.py" and python_version == "3.7.0":
+        # TODO: Use this for actual coverage.
+        extra_flags.append("recurse_to:test.datetimetester")
+
+        reportSkip("Bug in CPython 3.7.0 affects test.", dirname, filename)
+        return
+
     # Newer 3.6 gives deprecation warning about itself.
     if python_version >= "3.6":
         if filename == "test_ast.py":
