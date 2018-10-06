@@ -22,7 +22,7 @@ from nuitka.tools.testing.Common import (
     createSearchMode
 )
 
-python_version = setup(needs_io_encoding = True)
+python_version = setup(suite = "CPython32", needs_io_encoding = True)
 
 search_mode = createSearchMode()
 
@@ -35,7 +35,9 @@ def checkPath(dirname, filename):
         "recurse_none",
         # Use the original __file__ value, at least one case warns about things
         # with filename included.
-        "original_file"
+        "original_file",
+        # Cache the CPython results for re-use, they will normally not change.
+        "cpython_cache",
     ]
 
     if dirname == "test" and filename == "test_shelve.py":
