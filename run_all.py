@@ -76,13 +76,6 @@ def checkPath(dirname, filename):
                 reportSkip("not enough memory with 32 bits on Windows", dirname, filename)
 
                 return
-    else:
-        # TODO: Deprecation warnings for some unknown reason. Need to find
-        # out why we don't successfully disable it.
-        if filename in ("test_shutil.py", "test_ntpath.py",
-                        "test_base_events.py", "test_tasks.py",
-                        "test_windows_events.py"):
-            extra_flags.append("ignore_stderr")
 
     if filename in ("test_buffer.py", "test_base_events.py",
                     "test_tasks.py", "test_unparse.py"):
@@ -211,18 +204,12 @@ def checkPath(dirname, filename):
             my_print("Skipped, newer CPython hangs in test.")
             return
 
-        # TODO: This could be removed, once we have deprecation warnings
-        # under control.
-        if filename in ("test_re.py", "test_smtpd.py"):
-            my_print("Skipped, newer CPython gives deprecation warnings.")
-            return
-
         if filename == "test_buffer.py":
             extra_flags.append("ignore_stderr")
 
     if os.name != "nt" and "arm" in os.uname()[-1]:  # @UndefinedVariable
         if filename == "test_futures.py":
-                my_print("Skipped, ARM compiled Nuitka segaults in openssl init.")
+                my_print("Skipped, ARM compiled Nuitka segfaults in openssl init.")
                 return
 
     compareWithCPython(
