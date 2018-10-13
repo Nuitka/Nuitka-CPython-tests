@@ -92,10 +92,6 @@ def checkPath(dirname, filename):
             my_print("Skipped, compilation takes too long for unknown reasons.")
             return
 
-        if filename == "test_codecs.py":
-            my_print("Skipped, due to hard to disable deprecation warning.")
-            return
-
         if filename == "test_pep263.py":
             my_print("Skipped, CPython refuses to decode for no apparent reason.")
             return
@@ -107,13 +103,6 @@ def checkPath(dirname, filename):
         if filename == "test_gettext.py":
             my_print("Skipped, older CPython fails to remove files after test.")
             return
-
-        # Gives deprecation warnings, unclear why that can happen. We try and
-        # succeed at disabling them (as is Python default), but they seem to
-        # be given in this test case anyway.
-        if filename in ("test_format.py", "test_unicode.py",
-                        "test_userstring.py", "test_ntpath.py"):
-            extra_flags.append("ignore_stderr")
 
     if python_version < "3.3":
         # Can output warnings in debug mode on older CPython at least.
