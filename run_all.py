@@ -64,11 +64,6 @@ def checkPath(dirname, filename):
                 reportSkip("not enough memory with 32 bits on Windows", dirname, filename)
 
                 return
-    else:
-        # TODO: Deprecation warnings for some unknown reason. Need to find
-        # out why we don't successfully disable it.
-        if filename in ("test_shutil.py", "test_ntpath.py", "test_with.py"):
-            extra_flags.append("ignore_stderr")
 
         # TODO: The asyncio module gives warnings about closing tasks for
         # compiled ones, need to check how to disable it for them too.
@@ -97,10 +92,6 @@ def checkPath(dirname, filename):
         return
 
     if python_version < "3.6":
-        if filename in ("test_file.py", "test_re.py"):
-            my_print("Skipped, gives deprecation warnings with CPython3.5.")
-            return
-
         if filename in ("test_asyncgen.py", "test_collections.py",
                         "test_coroutines.py", "test_fstring.py",
                         "test_functools.py", "test_grammar.py",
@@ -150,10 +141,6 @@ def checkPath(dirname, filename):
             my_print("Skipped, CPython on Windows crashes.")
             return
 
-        if filename in ("test_os.py", "test_tarfile.py", ):
-            my_print("Skipped, gives deprecation warnings on Windows.")
-            return
-
         if filename in ("test_pathlib.py", ):
             my_print("Skipped, outputs random paths on Windows.")
             return
@@ -166,19 +153,7 @@ def checkPath(dirname, filename):
             my_print("Skipping (Windows only)", filename)
             return
 
-    # Newer 3.6 gives deprecation warning about itself.
-    if python_version >= "3.6":
-        if filename == "test_ast.py":
-            extra_flags.append("ignore_stderr")
-
     if python_version >= "3.7":
-        if filename in ("test_coroutines.py", "test_enum.py",
-                        "test_dictviews.py", "test_docxmlrpc.py", "test_hmac.py",
-                        "test_functools.py", "test_getargs2.py", "test_locale.py",
-                        "test_pathlib.py", "test_platform.py", "test_time.py",
-                        "test_statistics.py", "test_types.py", "test_xml_etree.py"):
-            extra_flags.append("ignore_stderr")
-
         if filename == "test_logging.py":
             reportSkip("This test hangs with CPython3.7", dirname, filename)
             return
