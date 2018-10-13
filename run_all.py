@@ -72,11 +72,6 @@ def checkPath(dirname, filename):
                 reportSkip("not enough memory with 32 bits on Windows", dirname, filename)
 
                 return
-    else:
-        # TODO: Deprecation warnings for some unknown reason. Need to find
-        # out why we don't successfully disable it.
-        if filename in ("test_shutil.py", "test_ntpath.py", "test_mailcap.py"):
-            extra_flags.append("ignore_stderr")
 
     if filename == "test_buffer.py":
         extra_flags.append("ignore_warnings")
@@ -180,10 +175,6 @@ def checkPath(dirname, filename):
             my_print("Skipped, CPython on Windows crashes.")
             return
 
-        if filename in ("test_os.py", "test_tarfile.py", ):
-            my_print("Skipped, gives deprecation warnings on Windows.")
-            return
-
         if filename in ("test_pathlib.py", ):
             my_print("Skipped, outputs random paths on Windows.")
             return
@@ -205,13 +196,6 @@ def checkPath(dirname, filename):
         if filename in ("test_epoll.py", ):
             my_print("Fails indetermistically with CPython 3.6", filename)
             return
-
-        # Deprecation warnings.
-        if filename in ("test_codecs.py", "test_dbm_dumb.py", "test_os.py",
-                        "test_fileinput.py", "test_float.py", "test_re.py",
-                        "test_strlit.py", "test_urllib.py"):
-            extra_flags.append("ignore_stderr")
-
 
     compareWithCPython(
         dirname     = dirname,
