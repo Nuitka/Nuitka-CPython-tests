@@ -104,7 +104,8 @@ def checkPath(dirname, filename):
             my_print("Skipped, segfaults with CPython3.5.")
             return
 
-        if filename in ("test_aifc.py", "test_binascii.py", "test_urllib2.py"):
+        if filename in ("test_aifc.py", "test_binascii.py", "test_urllib2.py",
+                        "test_re.py"):
             my_print("Skipped, fails with non-determistic output with CPython3.5.")
             return
 
