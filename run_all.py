@@ -65,10 +65,10 @@ def checkPath(dirname, filename):
 
                 return
 
-        # TODO: The asyncio module gives warnings about closing tasks for
-        # compiled ones, need to check how to disable it for them too.
-        if filename == "test_asyncgen.py":
-            extra_flags.append("ignore_stderr")
+    # TODO: The asyncio module gives warnings about closing tasks for
+    # compiled ones, need to check how to disable it for them too.
+    if filename == "test_asyncgen.py":
+        extra_flags.append("ignore_stderr")
 
     if filename == "test_buffer.py":
         extra_flags.append("ignore_warnings")
