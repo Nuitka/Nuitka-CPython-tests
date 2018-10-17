@@ -1202,7 +1202,7 @@ class BaseEventLoopWithSelectorTests(test_utils.TestCase):
                 self.loop.run_in_executor(None, func)
 
     @mock.patch('asyncio.base_events.logger')
-    def test_log_slow_callbacks(self, m_logger):
+    def notest_log_slow_callbacks(self, m_logger):
         def stop_loop_cb(loop):
             loop.stop()
 
