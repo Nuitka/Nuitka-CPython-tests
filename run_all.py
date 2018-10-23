@@ -163,6 +163,11 @@ def checkPath(dirname, filename):
             reportSkip("This test is not true to irrelevant details with CPython3.7", dirname, filename)
             return
 
+        if filename == "test_xml_etree.py":
+            reportSkip("Deprecation warning with full filenames with CPython3.7", dirname, filename)
+            return
+
+
     compareWithCPython(
         dirname     = dirname,
         filename    = filename,
