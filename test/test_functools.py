@@ -2166,9 +2166,11 @@ class TestSingleDispatch(unittest.TestCase):
             @i.register
             def _(arg):
                 return "I forgot to annotate"
-        self.assertTrue(str(exc.exception).startswith(msg_prefix +
-            "<function TestSingleDispatch.test_invalid_registrations.<locals>._"
-        ))
+        # Nuitka: This is a compiled function
+        if False:
+            self.assertTrue(str(exc.exception).startswith(msg_prefix +
+                "<function TestSingleDispatch.test_invalid_registrations.<locals>._"
+            ))
         self.assertTrue(str(exc.exception).endswith(msg_suffix))
 
         # FIXME: The following will only work after PEP 560 is implemented.
