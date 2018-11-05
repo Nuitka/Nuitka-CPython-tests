@@ -197,6 +197,11 @@ def checkPath(dirname, filename):
             my_print("Fails indetermistically with CPython 3.6", filename)
             return
 
+        if filename == "test_os.py":
+            my_print("Too fragile to be used with CPython 3.6", filename)
+            return
+
+
     compareWithCPython(
         dirname     = dirname,
         filename    = filename,
