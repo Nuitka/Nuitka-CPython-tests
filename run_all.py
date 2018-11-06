@@ -108,6 +108,10 @@ def checkPath(dirname, filename):
             reportSkip("Crashes with older Python", dirname, filename)
             return
 
+        if filename == "test_difflib.py":
+            reportSkip("Hangs with older Python", dirname, filename)
+            return
+
     compareWithCPython(
         dirname     = dirname,
         filename    = filename,
