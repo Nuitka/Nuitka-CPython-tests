@@ -277,6 +277,10 @@ class ExceptionTest(unittest.TestCase):
         self.assertEqual(sys.exc_info(), (None, None, None))
 
     def test_stopiteration_error(self):
+        # Nuitka: Not traceback compatible with this as an error.
+        if sys.version_info < (3,7):
+            return
+
         # See also PEP 479.
 
         def gen():
@@ -287,6 +291,10 @@ class ExceptionTest(unittest.TestCase):
             next(gen())
 
     def test_tutorial_stopiteration(self):
+        # Nuitka: Not traceback compatible with this as an error.
+        if sys.version_info < (3,7):
+            return
+
         # Raise StopIteration" stops the generator too:
 
         def f():
