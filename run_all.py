@@ -113,6 +113,10 @@ def checkPath(dirname, filename):
             reportSkip("Hangs with older Python", dirname, filename)
             return
 
+        if filename == "test_imp.py":
+            reportSkip("Not bug compatible with older Python", dirname, filename)
+            return
+
     compareWithCPython(
         dirname     = dirname,
         filename    = filename,
