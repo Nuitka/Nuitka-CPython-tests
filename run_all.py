@@ -117,6 +117,10 @@ def checkPath(dirname, filename):
             reportSkip("Not bug compatible with older Python", dirname, filename)
             return
 
+        if filename == "test_xmlrpc.py":
+            reportSkip("Hangs occasionally with older Python", dirname, filename)
+            return
+
     compareWithCPython(
         dirname     = dirname,
         filename    = filename,
