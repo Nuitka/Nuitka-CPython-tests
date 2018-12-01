@@ -100,7 +100,7 @@ def checkPath(dirname, filename):
         return
 
     if python_version < "3.7":
-        if filename in ("test_abc.py",):
+        if filename in ("test_abc.py", "test_os.py"):
             reportSkip("Not useful with older Python", dirname, filename)
             return
 
