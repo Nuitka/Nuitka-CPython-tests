@@ -167,6 +167,9 @@ def checkPath(dirname, filename):
             reportSkip("Deprecation warning with full filenames with CPython3.7", dirname, filename)
             return
 
+        if filename == "test_os.py":
+            my_print("Too fragile to be used with CPython 3.7", filename)
+            return
 
     compareWithCPython(
         dirname     = dirname,
