@@ -229,6 +229,9 @@ def test_main():
     test_cases = [
             tc for tc in globals().values()
             if isinstance(tc, type) and issubclass(tc, unittest.TestCase)]
+
+    # Nuitka: Make sure order is stable.
+    test_cases.sort(key=lambda x:x.__name__)
     run_unittest(*test_cases)
 
 
