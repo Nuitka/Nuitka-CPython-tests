@@ -812,8 +812,9 @@ class BaseEventLoopWithSelectorTests(test_utils.TestCase):
 
         self.assertEqual(str(cm.exception), 'Multiple exceptions: err1, err2')
 
+    # Nuitka: Avoid using socket on localhost.
     @mock.patch('asyncio.base_events.socket')
-    def test_create_connection_timeout(self, m_socket):
+    def notest_create_connection_timeout(self, m_socket):
         # Ensure that the socket is closed on timeout
         sock = mock.Mock()
         m_socket.socket.return_value = sock
