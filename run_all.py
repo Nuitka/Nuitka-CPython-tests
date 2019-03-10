@@ -14,15 +14,19 @@ sys.path.insert(
     )
 )
 
+# isort:start
+
 from nuitka.tools.testing.Common import (
     my_print,
     setup,
     reportSkip,
     compareWithCPython,
-    createSearchMode
+    createSearchMode,
+    setupCacheHashSalt
 )
 
 python_version = setup(suite = "CPython33", needs_io_encoding = True)
+setupCacheHashSalt(".")
 
 search_mode = createSearchMode()
 
