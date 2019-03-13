@@ -2087,6 +2087,10 @@ class Matcher(object):
 
 _can_symlink = None
 def can_symlink():
+    # Nuitka: Do not do this on Windows, too variable if it works
+    if os.name == "nt":
+        return False
+
     global _can_symlink
     if _can_symlink is not None:
         return _can_symlink
