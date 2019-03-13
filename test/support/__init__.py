@@ -1446,6 +1446,32 @@ class Matcher(object):
         return result
 
 
+_can_symlink = None
+def can_symlink():
+    # Nuitka: Do not do this on Windows, too variable if it works
+    if os.name == "nt":
+        return False
+
+    global _can_symlink
+    if _can_symlink is not None:
+        return _can_symlink
+    symlink_path = TESTFN + "can_symlink"
+    try:
+        os.symlink(TESTFN, symlink_path)
+        can = True
+    except (OSError, NotImplementedError, AttributeError):
+        can = False
+    else:
+        os.remove(symlink_path)
+    _can_symlink = can
+    return can
+
+def skip_unless_symlink(test):
+    """Skip decorator for tests that require functional symlink"""
+    ok = can_symlink()
+    msg = "Requires functional symlink implementation"
+    return test if ok else unittest.skip(msg)(test)
+
 _buggy_ucrt = None
 def skip_if_buggy_ucrt_strfptime(test):
     """
