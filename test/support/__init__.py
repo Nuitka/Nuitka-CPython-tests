@@ -2256,6 +2256,11 @@ def patch(test_instance, object_to_patch, attr_name, new_value):
     # actually override the attribute
     setattr(object_to_patch, attr_name, new_value)
 
+# Nuitka: Moved to function so we avoid line number bug of CPython related
+# to try/except/else that would be hard to immitate.
+def _run_in_subinterp(code):
+    import _testcapi
+    return _testcapi.run_in_subinterp(code)
 
 def run_in_subinterp(code):
     """
@@ -2273,5 +2278,5 @@ def run_in_subinterp(code):
             raise unittest.SkipTest("run_in_subinterp() cannot be used "
                                      "if tracemalloc module is tracing "
                                      "memory allocations")
-    import _testcapi
-    return _testcapi.run_in_subinterp(code)
+
+    return _run_in_subinterp(code)
