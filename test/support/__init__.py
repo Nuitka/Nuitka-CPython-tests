@@ -1772,6 +1772,11 @@ def patch(test_instance, object_to_patch, attr_name, new_value):
     # actually override the attribute
     setattr(object_to_patch, attr_name, new_value)
 
+# Nuitka: Moved to function so we avoid line number bug of CPython related
+# to try/except/else that would be hard to immitate.
+def _run_in_subinterp(code):
+    import _testcapi
+    return _testcapi.run_in_subinterp(code)
 
 @contextlib.contextmanager
 def patch_list(orig):
