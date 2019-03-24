@@ -85,6 +85,11 @@ def checkPath(dirname, filename):
                     "test_tasks.py", "test_unparse.py"):
         extra_flags.append("ignore_warnings")
 
+    # Hard to disable warning of CPython when it's too slow and Nuitka
+    # doesn't given it, being fast enough.
+    if filename == "test_base_events":
+        extra_flags.append("ignore_stderr")
+
     # We don't output ignored exception for that test case.
     if filename == "test_locks.py":
         extra_flags.append("ignore_stderr")
