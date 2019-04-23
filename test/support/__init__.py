@@ -2245,14 +2245,18 @@ def threading_cleanup(*original_values):
             # Display a warning at the first iteration
             environment_altered = True
             dangling_threads = values[1]
-            print("Warning -- threading_cleanup() failed to cleanup "
-                  "%s threads (count: %s, dangling: %s)"
-                  % (values[0] - original_values[0],
-                     values[0], len(dangling_threads)),
-                  file=sys.stderr)
-            for thread in dangling_threads:
-                print(f"Dangling thread: {thread!r}", file=sys.stderr)
-            sys.stderr.flush()
+
+            # Nuitka: Seems some tests encouter this and make non-determistic
+            # outputs in these cases.
+            if False:
+                print("Warning -- threading_cleanup() failed to cleanup "
+                      "%s threads (count: %s, dangling: %s)"
+                      % (values[0] - original_values[0],
+                         values[0], len(dangling_threads)),
+                      file=sys.stderr)
+                for thread in dangling_threads:
+                    print(f"Dangling thread: {thread!r}", file=sys.stderr)
+                sys.stderr.flush()
 
             # Don't hold references to threads
             dangling_threads = None
