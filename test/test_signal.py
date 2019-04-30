@@ -15,6 +15,8 @@ try:
 except ImportError:
     _testcapi = None
 
+# Nuitka: Disable random verbose output.
+support.verbose = False
 
 class GenericTests(unittest.TestCase):
 
@@ -1072,7 +1074,8 @@ class StressTest(unittest.TestCase):
 
     @unittest.skipUnless(hasattr(signal, "setitimer"),
                          "test needs setitimer()")
-    def test_stress_delivery_dependent(self):
+    # Nuitka: Disable indetermistic test.
+    def notest_stress_delivery_dependent(self):
         """
         This test uses dependent signal handlers.
         """
@@ -1118,7 +1121,8 @@ class StressTest(unittest.TestCase):
 
     @unittest.skipUnless(hasattr(signal, "setitimer"),
                          "test needs setitimer()")
-    def test_stress_delivery_simultaneous(self):
+    # Nuitka: Disable indetermistic test.
+    def notest_stress_delivery_simultaneous(self):
         """
         This test uses simultaneous signal handlers.
         """
