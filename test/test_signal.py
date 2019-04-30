@@ -15,6 +15,8 @@ try:
 except ImportError:
     _testcapi = None
 
+# Nuitka: Disable random verbose output.
+support.verbose = False
 
 class GenericTests(unittest.TestCase):
 
@@ -770,7 +772,8 @@ class ItimerTest(unittest.TestCase):
         # and the handler should have been called
         self.assertEqual(self.hndl_called, True)
 
-    def test_setitimer_tiny(self):
+    # Nuitka: Disable noisy test that is indetermistic.
+    def notest_setitimer_tiny(self):
         # bpo-30807: C setitimer() takes a microsecond-resolution interval.
         # Check that float -> timeval conversion doesn't round
         # the interval down to zero, which would disable the timer.
@@ -1166,7 +1169,8 @@ class StressTest(unittest.TestCase):
 
     @unittest.skipUnless(hasattr(signal, "setitimer"),
                          "test needs setitimer()")
-    def test_stress_delivery_dependent(self):
+    # Nuitka: Disable indetermistic test.
+    def notest_stress_delivery_dependent(self):
         """
         This test uses dependent signal handlers.
         """
@@ -1212,7 +1216,8 @@ class StressTest(unittest.TestCase):
 
     @unittest.skipUnless(hasattr(signal, "setitimer"),
                          "test needs setitimer()")
-    def test_stress_delivery_simultaneous(self):
+    # Nuitka: Disable indetermistic test.
+    def notest_stress_delivery_simultaneous(self):
         """
         This test uses simultaneous signal handlers.
         """
