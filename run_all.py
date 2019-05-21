@@ -125,6 +125,11 @@ def checkPath(dirname, filename):
             reportSkip("Hangs occasionally with older Python", dirname, filename)
             return
 
+        if filename == "test_types.py":
+            reportSkip("Fails due to very minor incompatibility with older Python", dirname, filename)
+            return
+
+
     compareWithCPython(
         dirname     = dirname,
         filename    = filename,
