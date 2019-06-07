@@ -129,6 +129,10 @@ def checkPath(dirname, filename):
             reportSkip("Fails due to very minor incompatibility with older Python", dirname, filename)
             return
 
+        if filename == "test_xml_etree_c.py":
+            reportSkip("Fails due exception differences in SystemError cases", dirname, filename)
+            return
+
 
     compareWithCPython(
         dirname     = dirname,
