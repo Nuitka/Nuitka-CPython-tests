@@ -133,6 +133,19 @@ def checkPath(dirname, filename):
             reportSkip("Fails due exception differences in SystemError cases", dirname, filename)
             return
 
+    if python_version >= "3.8":
+        if filename == "test_ast.py":
+            reportSkip("Fails due ast module changes of newer Python.", dirname, filename)
+            return
+
+        if filename == "test_capi.py":
+            reportSkip("Fails due test_capi module changes of newer Python.", dirname, filename)
+            return
+
+        if filename in ("test_dict_version.py", "test_tracemalloc.py", "test_xml_etree.py"):
+            reportSkip("Fails due to random output for errors with newer Python.", dirname, filename)
+            return
+
 
     compareWithCPython(
         dirname     = dirname,
