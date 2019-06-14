@@ -1,37 +1,37 @@
 #!/usr/bin/env python3.6
 
-import os, sys
+""" Runner for CPython 3.5 test suite comparing against Nuitka.
+
+Not every test of CPython has to pass, but instead it should fail just
+the same with Nuitka.
+
+"""
+
+import os
+import sys
 
 # Find nuitka package relative to us.
 sys.path.insert(
     0,
     os.path.normpath(
-        os.path.join(
-            os.path.dirname(os.path.abspath(__file__)),
-            "..",
-            ".."
-        )
-    )
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..")
+    ),
 )
 
 # isort:start
 
 from nuitka.tools.testing.Common import (
-    my_print,
-    setup,
-    reportSkip,
     compareWithCPython,
     createSearchMode,
-    setupCacheHashSalt
+    my_print,
+    reportSkip,
+    setup,
+    setupCacheHashSalt,
 )
 
-python_version = setup(suite = "CPython36", needs_io_encoding = True)
-setupCacheHashSalt(".")
-
-search_mode = createSearchMode()
 
 def checkPath(dirname, filename):
-    global active
+    # Complex stuff, pylint: disable=too-many-branches,too-many-return-statements,too-many-statements
 
     extra_flags = [
         "remove_output",
@@ -50,9 +50,11 @@ def checkPath(dirname, filename):
     ]
 
     # Avoid memory runaway of CPython2.
-    if dirname == "doctest_generated" and \
-       filename == "test_itertools.py" and \
-       python_version < "3":
+    if (
+        dirname == "doctest_generated"
+        and filename == "test_itertools.py"
+        and python_version < "3"
+    ):
         reportSkip("This triggers memory error with CPython2.x", dirname, filename)
         return
 
@@ -65,7 +67,9 @@ def checkPath(dirname, filename):
 
             # On Windows with 32 bit, the MemoryError breaks the test
             if os.name == "nt":
-                reportSkip("not enough memory with 32 bits on Windows", dirname, filename)
+                reportSkip(
+                    "not enough memory with 32 bits on Windows", dirname, filename
+                )
 
                 return
 
@@ -78,14 +82,12 @@ def checkPath(dirname, filename):
         extra_flags.append("ignore_warnings")
 
     # TODO: This deadlocks, likely a threading problem.
-    if python_version >= "3.4" and \
-       filename == "test_concurrent_futures.py":
+    if python_version >= "3.4" and filename == "test_concurrent_futures.py":
         my_print("Skipping (due to threading issue)", filename)
         return
 
     # TODO: This fails to compiler, super is not fully solved.
-    if python_version >= "3.4" and \
-       filename == "test_super.py":
+    if python_version >= "3.4" and filename == "test_super.py":
         my_print("Skipping (due to compilation issue)", filename)
         return
 
@@ -96,11 +98,18 @@ def checkPath(dirname, filename):
         return
 
     if python_version < "3.6":
-        if filename in ("test_asyncgen.py", "test_collections.py",
-                        "test_coroutines.py", "test_fstring.py",
-                        "test_functools.py", "test_grammar.py",
-                        "test_inspect.py", "test_opcodes.py",
-                        "test_traceback.py", "test_unpack.py"):
+        if filename in (
+            "test_asyncgen.py",
+            "test_collections.py",
+            "test_coroutines.py",
+            "test_fstring.py",
+            "test_functools.py",
+            "test_grammar.py",
+            "test_inspect.py",
+            "test_opcodes.py",
+            "test_traceback.py",
+            "test_unpack.py",
+        ):
             my_print("Skipped, gives syntax error with CPython3.5.")
             return
 
@@ -108,8 +117,12 @@ def checkPath(dirname, filename):
             my_print("Skipped, segfaults with CPython3.5.")
             return
 
-        if filename in ("test_aifc.py", "test_binascii.py", "test_urllib2.py",
-                        "test_re.py"):
+        if filename in (
+            "test_aifc.py",
+            "test_binascii.py",
+            "test_urllib2.py",
+            "test_re.py",
+        ):
             my_print("Skipped, fails with non-determistic output with CPython3.5.")
             return
 
@@ -136,17 +149,19 @@ def checkPath(dirname, filename):
             my_print("Skipped, recursion errors vary.")
             return
 
-        if dirname == "doctest_generated" and \
-           filename in ("test_extcall.py", "test_unpack_ex.py"):
+        if dirname == "doctest_generated" and filename in (
+            "test_extcall.py",
+            "test_unpack_ex.py",
+        ):
             my_print("Skipped, worse call errors not implemented.")
             return
 
     if os.name == "nt":
-        if filename in ("test_itertools.py", ):
+        if filename in ("test_itertools.py",):
             my_print("Skipped, CPython on Windows crashes.")
             return
 
-        if filename in ("test_pathlib.py", ):
+        if filename in ("test_pathlib.py",):
             my_print("Skipped, outputs random paths on Windows.")
             return
 
@@ -164,11 +179,19 @@ def checkPath(dirname, filename):
             return
 
         if filename == "test_gc.py":
-            reportSkip("This test is not true to irrelevant details with CPython3.7", dirname, filename)
+            reportSkip(
+                "This test is not true to irrelevant details with CPython3.7",
+                dirname,
+                filename,
+            )
             return
 
         if filename == "test_xml_etree.py":
-            reportSkip("Deprecation warning with full filenames with CPython3.7", dirname, filename)
+            reportSkip(
+                "Deprecation warning with full filenames with CPython3.7",
+                dirname,
+                filename,
+            )
             return
 
         if filename == "test_os.py":
@@ -176,11 +199,11 @@ def checkPath(dirname, filename):
             return
 
     compareWithCPython(
-        dirname     = dirname,
-        filename    = filename,
-        extra_flags = extra_flags,
-        search_mode = search_mode,
-        needs_2to3  = False
+        dirname=dirname,
+        filename=filename,
+        extra_flags=extra_flags,
+        search_mode=search_mode,
+        needs_2to3=False,
     )
 
 
@@ -198,6 +221,12 @@ def checkDir(dirname):
             checkPath(dirname, filename)
         else:
             my_print("Skipping", os.path.join(dirname, filename))
+
+
+python_version = setup(suite="CPython36", needs_io_encoding=True)
+setupCacheHashSalt(".")
+
+search_mode = createSearchMode()
 
 checkDir("test")
 checkDir("doctest_generated")
