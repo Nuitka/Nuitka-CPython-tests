@@ -1,37 +1,37 @@
 #!/usr/bin/env python3.3
 
-import os, sys
+""" Runner for CPython 3.3 test suite comparing against Nuitka.
+
+Not every test of CPython has to pass, but instead it should fail just
+the same with Nuitka.
+
+"""
+
+import os
+import sys
 
 # Find nuitka package relative to us.
 sys.path.insert(
     0,
     os.path.normpath(
-        os.path.join(
-            os.path.dirname(os.path.abspath(__file__)),
-            "..",
-            ".."
-        )
-    )
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..")
+    ),
 )
 
 # isort:start
 
 from nuitka.tools.testing.Common import (
-    my_print,
-    setup,
-    reportSkip,
     compareWithCPython,
     createSearchMode,
-    setupCacheHashSalt
+    my_print,
+    reportSkip,
+    setup,
+    setupCacheHashSalt,
 )
 
-python_version = setup(suite = "CPython33", needs_io_encoding = True)
-setupCacheHashSalt(".")
-
-search_mode = createSearchMode()
 
 def checkPath(dirname, filename):
-    global active
+    # Complex stuff, pylint: disable=too-many-branches,too-many-return-statements
 
     extra_flags = [
         "remove_output",
@@ -50,9 +50,11 @@ def checkPath(dirname, filename):
     ]
 
     # Avoid memory runaway of CPython2.
-    if dirname == "doctest_generated" and \
-       filename == "test_itertools.py" and \
-       python_version < "3":
+    if (
+        dirname == "doctest_generated"
+        and filename == "test_itertools.py"
+        and python_version < "3"
+    ):
         reportSkip("This triggers memory error with CPython2.x", dirname, filename)
         return
 
@@ -61,7 +63,6 @@ def checkPath(dirname, filename):
         # overtake print function despite it being statement in Python2 errors-
         if filename in ("test_locale.py", "test_xml_etree.py"):
             extra_flags.append("ignore_stderr")
-
 
     if filename == "test_buffer.py":
         extra_flags.append("ignore_stderr")
@@ -87,7 +88,9 @@ def checkPath(dirname, filename):
 
             # On Windows with 32 bit, the MemoryError breaks the test
             if os.name == "nt":
-                reportSkip("not enough memory with 32 bits on Windows", dirname, filename)
+                reportSkip(
+                    "not enough memory with 32 bits on Windows", dirname, filename
+                )
 
                 return
 
@@ -119,11 +122,11 @@ def checkPath(dirname, filename):
             extra_flags.append("ignore_stderr")
 
     compareWithCPython(
-        dirname     = dirname,
-        filename    = filename,
-        extra_flags = extra_flags,
-        search_mode = search_mode,
-        needs_2to3  = False
+        dirname=dirname,
+        filename=filename,
+        extra_flags=extra_flags,
+        search_mode=search_mode,
+        needs_2to3=False,
     )
 
 
@@ -153,6 +156,12 @@ def checkDir(dirname):
             checkPath(dirname, filename)
         else:
             my_print("Skipping", os.path.join(dirname, filename))
+
+
+python_version = setup(suite="CPython33", needs_io_encoding=True)
+setupCacheHashSalt(".")
+
+search_mode = createSearchMode()
 
 checkDir("test")
 checkDir("doctest_generated")
