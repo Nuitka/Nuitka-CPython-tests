@@ -1,37 +1,37 @@
 #!/usr/bin/env python3.7
 
-import os, sys
+""" Runner for CPython 3.7 test suite comparing against Nuitka.
+
+Not every test of CPython has to pass, but instead it should fail just
+the same with Nuitka.
+
+"""
+
+import os
+import sys
 
 # Find nuitka package relative to us.
 sys.path.insert(
     0,
     os.path.normpath(
-        os.path.join(
-            os.path.dirname(os.path.abspath(__file__)),
-            "..",
-            ".."
-        )
-    )
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..")
+    ),
 )
 
 # isort:start
 
 from nuitka.tools.testing.Common import (
-    my_print,
-    setup,
-    reportSkip,
     compareWithCPython,
     createSearchMode,
-    setupCacheHashSalt
+    my_print,
+    reportSkip,
+    setup,
+    setupCacheHashSalt,
 )
 
-python_version = setup(suite = "CPython37", needs_io_encoding = True)
-setupCacheHashSalt(".")
-
-search_mode = createSearchMode()
 
 def checkPath(dirname, filename):
-    global active
+    # Complex stuff, pylint: disable=too-many-branches,too-many-return-statements
 
     extra_flags = [
         "remove_output",
@@ -55,14 +55,12 @@ def checkPath(dirname, filename):
         return
 
     # TODO: This deadlocks, likely a threading problem.
-    if python_version >= "3.4" and \
-       filename == "test_concurrent_futures.py":
+    if python_version >= "3.4" and filename == "test_concurrent_futures.py":
         reportSkip("Skipping (due to threading issue)", dirname, filename)
         return
 
     # TODO: This fails to compile, super is not fully solved.
-    if python_version >= "3.4" and \
-       filename == "test_super.py":
+    if python_version >= "3.4" and filename == "test_super.py":
         my_print("Skipping (due to compilation issue)", filename)
         return
 
@@ -75,7 +73,9 @@ def checkPath(dirname, filename):
 
             # On Windows with 32 bit, the MemoryError breaks the test
             if os.name == "nt":
-                reportSkip("not enough memory with 32 bits on Windows", dirname, filename)
+                reportSkip(
+                    "not enough memory with 32 bits on Windows", dirname, filename
+                )
 
                 return
 
@@ -108,8 +108,11 @@ def checkPath(dirname, filename):
             reportSkip("Not useful with older Python", dirname, filename)
             return
 
-        if filename in ("test_compile.py", "test_codeccallbacks.py",
-                        "test_datetime.py"):
+        if filename in (
+            "test_compile.py",
+            "test_codeccallbacks.py",
+            "test_datetime.py",
+        ):
             reportSkip("Crashes with older Python", dirname, filename)
             return
 
@@ -126,33 +129,52 @@ def checkPath(dirname, filename):
             return
 
         if filename == "test_types.py":
-            reportSkip("Fails due to very minor incompatibility with older Python", dirname, filename)
+            reportSkip(
+                "Fails due to very minor incompatibility with older Python",
+                dirname,
+                filename,
+            )
             return
 
         if filename == "test_xml_etree_c.py":
-            reportSkip("Fails due exception differences in SystemError cases", dirname, filename)
+            reportSkip(
+                "Fails due exception differences in SystemError cases",
+                dirname,
+                filename,
+            )
             return
 
     if python_version >= "3.8":
         if filename == "test_ast.py":
-            reportSkip("Fails due ast module changes of newer Python.", dirname, filename)
+            reportSkip(
+                "Fails due ast module changes of newer Python.", dirname, filename
+            )
             return
 
         if filename == "test_capi.py":
-            reportSkip("Fails due test_capi module changes of newer Python.", dirname, filename)
+            reportSkip(
+                "Fails due test_capi module changes of newer Python.", dirname, filename
+            )
             return
 
-        if filename in ("test_dict_version.py", "test_tracemalloc.py", "test_xml_etree.py"):
-            reportSkip("Fails due to random output for errors with newer Python.", dirname, filename)
+        if filename in (
+            "test_dict_version.py",
+            "test_tracemalloc.py",
+            "test_xml_etree.py",
+        ):
+            reportSkip(
+                "Fails due to random output for errors with newer Python.",
+                dirname,
+                filename,
+            )
             return
-
 
     compareWithCPython(
-        dirname     = dirname,
-        filename    = filename,
-        extra_flags = extra_flags,
-        search_mode = search_mode,
-        needs_2to3  = False
+        dirname=dirname,
+        filename=filename,
+        extra_flags=extra_flags,
+        search_mode=search_mode,
+        needs_2to3=False,
     )
 
 
@@ -170,6 +192,12 @@ def checkDir(dirname):
             checkPath(dirname, filename)
         else:
             my_print("Skipping", os.path.join(dirname, filename))
+
+
+python_version = setup(suite="CPython37", needs_io_encoding=True)
+setupCacheHashSalt(".")
+
+search_mode = createSearchMode()
 
 checkDir("test")
 checkDir("doctest_generated")
