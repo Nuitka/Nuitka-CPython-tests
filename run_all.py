@@ -1,39 +1,35 @@
 #!/usr/bin/env python
 
-import os, sys
+""" Runner for CPython 2.7 test suite comparing against Nuitka.
+
+Not every test of CPython has to pass, but instead it should fail just
+the same with Nuitka.
+
+"""
+
+import os
+import sys
 
 # Find nuitka package relative to us.
 sys.path.insert(
     0,
     os.path.normpath(
-        os.path.join(
-            os.path.dirname(os.path.abspath(__file__)),
-            "..",
-            ".."
-        )
-    )
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..")
+    ),
 )
 
 # isort:start
 
 from nuitka.tools.testing.Common import (
-    my_print,
-    setup,
     compareWithCPython,
-    reportSkip,
     createSearchMode,
-    setupCacheHashSalt
+    my_print,
+    reportSkip,
+    setup,
+    setupCacheHashSalt,
 )
 
-python_version = setup(suite = "CPython27", needs_io_encoding = True)
-setupCacheHashSalt(".")
-
-search_mode = createSearchMode()
-
-
 def checkPath(dirname, filename):
-    global active
-
     extra_flags = [
         "remove_output",
         # Import test_support which won't be included and potentially others.
@@ -47,18 +43,31 @@ def checkPath(dirname, filename):
         "cpython_cache",
     ]
 
-    if filename in ("test_import.py", "test_importhooks.py", "test_pkgimport.py", "test_py3kwarn.py", "test_runpy.py", "test_zipimport.py"):
+    if filename in (
+        "test_import.py",
+        "test_importhooks.py",
+        "test_pkgimport.py",
+        "test_py3kwarn.py",
+        "test_runpy.py",
+        "test_zipimport.py",
+    ):
         # These will given the __import__ not resolved warning and there won't
         # be anything to ever change that.
         extra_flags.append("ignore_stderr")
-    elif filename in ("test_fork1.py", "test_pyclbr.py", "test_scriptpackages.py", "test_uuid.py", "test_multiprocessing.py"):
+    elif filename in (
+        "test_fork1.py",
+        "test_pyclbr.py",
+        "test_scriptpackages.py",
+        "test_uuid.py",
+        "test_multiprocessing.py",
+    ):
         # These will given the __import__ not resolved warning, but they ought
         # to go away.
         extra_flags.append("ignore_stderr")
     elif filename in ("test_unicode_file.py",):
         # Under Windows, stderr shows some Python warning here.
         extra_flags.append("ignore_stderr")
-    elif filename in ("test_zipfile.py", ):
+    elif filename in ("test_zipfile.py",):
         extra_flags.append("ignore_stderr")
     elif filename in ("test_mmap.py",) and os.name == "nt":
         reportSkip("does not work on Windows", dirname, filename)
@@ -71,9 +80,8 @@ def checkPath(dirname, filename):
 
             return
 
-
     if dirname == "doctest_generated":
-        if python_version < "3" and python_version >= "2.7":
+        if "2.7" <= python_version < "3":
             extra_flags.append("expect_success")
 
         if filename == "test_generators.py":
@@ -86,12 +94,13 @@ def checkPath(dirname, filename):
                 return
 
     compareWithCPython(
-        dirname     = dirname,
-        filename    = filename,
-        extra_flags = extra_flags,
-        search_mode = search_mode,
-        needs_2to3  = python_version >= "3"
+        dirname=dirname,
+        filename=filename,
+        extra_flags=extra_flags,
+        search_mode=search_mode,
+        needs_2to3=python_version >= "3",
     )
+
 
 def checkDir(dirname):
     for filename in sorted(os.listdir(dirname)):
@@ -107,6 +116,12 @@ def checkDir(dirname):
             checkPath(dirname, filename)
         else:
             my_print("Skipping", os.path.join(dirname, filename))
+
+
+python_version = setup(suite="CPython27", needs_io_encoding=True)
+setupCacheHashSalt(".")
+
+search_mode = createSearchMode()
 
 checkDir("test")
 checkDir("doctest_generated")
