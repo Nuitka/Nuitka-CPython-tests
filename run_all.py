@@ -1,37 +1,37 @@
 #!/usr/bin/env python3.5
 
-import os, sys
+""" Runner for CPython 3.5 test suite comparing against Nuitka.
+
+Not every test of CPython has to pass, but instead it should fail just
+the same with Nuitka.
+
+"""
+
+import os
+import sys
 
 # Find nuitka package relative to us.
 sys.path.insert(
     0,
     os.path.normpath(
-        os.path.join(
-            os.path.dirname(os.path.abspath(__file__)),
-            "..",
-            ".."
-        )
-    )
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..")
+    ),
 )
 
 # isort:start
 
 from nuitka.tools.testing.Common import (
-    my_print,
-    setup,
-    reportSkip,
     compareWithCPython,
     createSearchMode,
-    setupCacheHashSalt
+    my_print,
+    reportSkip,
+    setup,
+    setupCacheHashSalt,
 )
 
-python_version = setup(suite = "CPython35", needs_io_encoding = True)
-setupCacheHashSalt(".")
-
-search_mode = createSearchMode()
 
 def checkPath(dirname, filename):
-    global active
+    # Complex stuff, pylint: disable=too-many-branches,too-many-return-statements,too-many-statements
 
     extra_flags = [
         "remove_output",
@@ -50,18 +50,25 @@ def checkPath(dirname, filename):
     ]
 
     # Avoid memory runaway of CPython2.
-    if dirname == "doctest_generated" and \
-       filename == "test_itertools.py" and \
-       python_version < "3":
+    if (
+        dirname == "doctest_generated"
+        and filename == "test_itertools.py"
+        and python_version < "3"
+    ):
         reportSkip("This triggers memory error with CPython2.x", dirname, filename)
         return
 
     if python_version < "3":
         # Order of syntax errors found is not the same. Encoding errors often
         # overtake print function despite it being statement in Python2 errors-
-        if filename in ("test_locale.py", "test_xml_etree.py",
-                        "test_getpass.py", "test_hash.py",
-                        "test_warnings.py", "test_configparser.py"):
+        if filename in (
+            "test_locale.py",
+            "test_xml_etree.py",
+            "test_getpass.py",
+            "test_hash.py",
+            "test_warnings.py",
+            "test_configparser.py",
+        ):
             extra_flags.append("ignore_stderr")
 
     if dirname == "doctest_generated":
@@ -73,7 +80,9 @@ def checkPath(dirname, filename):
 
             # On Windows with 32 bit, the MemoryError breaks the test
             if os.name == "nt":
-                reportSkip("not enough memory with 32 bits on Windows", dirname, filename)
+                reportSkip(
+                    "not enough memory with 32 bits on Windows", dirname, filename
+                )
 
                 return
 
@@ -81,14 +90,12 @@ def checkPath(dirname, filename):
         extra_flags.append("ignore_warnings")
 
     # TODO: This deadlocks, likely a threading problem.
-    if python_version >= "3.4" and \
-       filename == "test_concurrent_futures.py":
+    if python_version >= "3.4" and filename == "test_concurrent_futures.py":
         my_print("Skipping (due to threading issue)", filename)
         return
 
     # TODO: This fails to compiler, super is not fully solved.
-    if python_version >= "3.4" and \
-       filename == "test_super.py":
+    if python_version >= "3.4" and filename == "test_super.py":
         my_print("Skipping (due to compilation issue)", filename)
         return
 
@@ -99,9 +106,14 @@ def checkPath(dirname, filename):
         return
 
     if python_version < "3.4":
-        if filename in ("test_contextlib.py", "test_format.py",
-                        "test_poplib.py", "test_pickle.py",
-                        "test_exceptions.py", "test_unicode.py"):
+        if filename in (
+            "test_contextlib.py",
+            "test_format.py",
+            "test_poplib.py",
+            "test_pickle.py",
+            "test_exceptions.py",
+            "test_unicode.py",
+        ):
             my_print("Skipped, triggers CPython bug in old versions.")
             return
 
@@ -175,16 +187,20 @@ def checkPath(dirname, filename):
             return
 
     if os.name == "nt":
-        if filename in ("test_itertools.py", ):
+        if filename in ("test_itertools.py",):
             my_print("Skipped, CPython on Windows crashes.")
             return
 
-        if filename in ("test_pathlib.py", ):
+        if filename in ("test_pathlib.py",):
             my_print("Skipped, outputs random paths on Windows.")
             return
 
         if "--python-debug" in os.environ.get("NUITKA_EXTRA_OPTIONS", ""):
-            if filename in ("test_datetime.py", "test_fileio.py", "test_genericpath.py"):
+            if filename in (
+                "test_datetime.py",
+                "test_fileio.py",
+                "test_genericpath.py",
+            ):
                 my_print("Skipped, debug CPython bug causes crash.")
                 return
     else:
@@ -193,11 +209,11 @@ def checkPath(dirname, filename):
             return
 
     if python_version >= "3.6":
-        if filename in ("test_decimal.py", ):
+        if filename in ("test_decimal.py",):
             my_print("Crashes with CPython 3.6", filename)
             return
 
-        if filename in ("test_epoll.py", ):
+        if filename in ("test_epoll.py",):
             my_print("Fails indetermistically with CPython 3.6", filename)
             return
 
@@ -205,13 +221,12 @@ def checkPath(dirname, filename):
             my_print("Too fragile to be used with CPython 3.6", filename)
             return
 
-
     compareWithCPython(
-        dirname     = dirname,
-        filename    = filename,
-        extra_flags = extra_flags,
-        search_mode = search_mode,
-        needs_2to3  = False
+        dirname=dirname,
+        filename=filename,
+        extra_flags=extra_flags,
+        search_mode=search_mode,
+        needs_2to3=False,
     )
 
 
@@ -229,6 +244,12 @@ def checkDir(dirname):
             checkPath(dirname, filename)
         else:
             my_print("Skipping", os.path.join(dirname, filename))
+
+
+python_version = setup(suite="CPython35", needs_io_encoding=True)
+setupCacheHashSalt(".")
+
+search_mode = createSearchMode()
 
 checkDir("test")
 checkDir("doctest_generated")
