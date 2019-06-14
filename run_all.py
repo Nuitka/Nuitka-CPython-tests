@@ -1,36 +1,38 @@
 #!/usr/bin/env python3.2
 
-import os, sys
+""" Runner for CPython 3.2 test suite comparing against Nuitka.
+
+Not every test of CPython has to pass, but instead it should fail just
+the same with Nuitka.
+
+"""
+
+import os
+import sys
 
 # Find nuitka package relative to us.
 sys.path.insert(
     0,
     os.path.normpath(
-        os.path.join(
-            os.path.dirname(os.path.abspath(__file__)),
-            "..",
-            ".."
-        )
-    )
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..")
+    ),
 )
 
 # isort:start
 
 from nuitka.tools.testing.Common import (
-    my_print,
-    setup,
-    reportSkip,
     compareWithCPython,
     createSearchMode,
-    setupCacheHashSalt
+    my_print,
+    reportSkip,
+    setup,
+    setupCacheHashSalt,
 )
 
-python_version = setup(suite = "CPython32", needs_io_encoding = True)
-setupCacheHashSalt(".")
-
-search_mode = createSearchMode()
 
 def checkPath(dirname, filename):
+    # Many cases to deal with, pylint:disable=too-many-branches
+
     extra_flags = [
         "remove_output",
         # Import test_support which won't be included and potentially others.
@@ -57,16 +59,21 @@ def checkPath(dirname, filename):
     if filename == "test_threaded_import.py":
         extra_flags.append("ignore_warnings")
 
-    if python_version < "3" and \
-       filename in ("test_locale.py", "test_nntplib.py", \
-                    "test_sys_settrace.py", "test_warnings.py",
-                    "test_xml_etree.py"):
+    if python_version < "3" and filename in (
+        "test_locale.py",
+        "test_nntplib.py",
+        "test_sys_settrace.py",
+        "test_warnings.py",
+        "test_xml_etree.py",
+    ):
         extra_flags.append("ignore_stderr")
 
     # This goes havoc on memory consumption.
-    if python_version < "3" and \
-       dirname == "doctest_generated" and \
-       filename == "test_itertools.py":
+    if (
+        python_version < "3"
+        and dirname == "doctest_generated"
+        and filename == "test_itertools.py"
+    ):
         reportSkip("bug of Python2 causing it be a memory hog", dirname, filename)
         return
 
@@ -75,43 +82,21 @@ def checkPath(dirname, filename):
         return
 
     # Deprecation warnings on wrong lines.
-    if python_version >= "3.3" and \
-       filename in ("test_smtpd.py", "test_unicode.py"):
+    if python_version >= "3.3" and filename in ("test_smtpd.py", "test_unicode.py"):
         reportSkip("warning output with wrong line", dirname, filename)
         return
 
-    if python_version >= "3.4" and \
-       filename in ("test_ast.py", "test_base64.py", "test_cmd_line_script.py"):
+    if python_version >= "3.4" and filename in (
+        "test_ast.py",
+        "test_base64.py",
+        "test_cmd_line_script.py",
+    ):
         reportSkip("undocumented reason", dirname, filename)
         return
 
     if python_version >= "3.3" and filename == "test_shutil.py":
         reportSkip("doesn't work properly with CPython already", dirname, filename)
         return
-
-    if python_version >= "3.2" and python_version < "3.3" and os.name == "nt":
-        if filename in ("test_ast.py", "test_descr.py", "test_imp.py",
-                        "test_json.py", "test_os.py", "test_pickle.py",
-                        "test_pickletools.py", "test_time.py", "test_winreg.py"):
-            reportSkip("crashes CPython on Windows", dirname, filename)
-            return
-
-        if filename == "test_pep3120.py":
-            reportSkip("crashes CPython on Windows", dirname, filename)
-            return
-
-        if filename in ("test_exceptions.py", "test_keywordonlyarg.py",
-                        "test_raise.py"):
-            reportSkip("CPython fails more on Windows", dirname, filename)
-            return
-
-        if filename == "test_range.py":
-            reportSkip("crashes for unknown reason on Windows with MSVC only", dirname, filename)
-            return
-
-        if filename == "test_uuid.py":
-            reportSkip("CPython fails more on Windows", dirname, filename)
-            return
 
     if dirname == "doctest_generated":
         if python_version >= "3":
@@ -122,16 +107,18 @@ def checkPath(dirname, filename):
 
             # On Windows with 32 bit, the MemoryError breaks the test
             if os.name == "nt":
-                reportSkip("not enough memory with 32 bits on Windows", dirname, filename)
+                reportSkip(
+                    "not enough memory with 32 bits on Windows", dirname, filename
+                )
 
                 return
 
     compareWithCPython(
-        dirname     = dirname,
-        filename    = filename,
-        extra_flags = extra_flags,
-        search_mode = search_mode,
-        needs_2to3  = False
+        dirname=dirname,
+        filename=filename,
+        extra_flags=extra_flags,
+        search_mode=search_mode,
+        needs_2to3=False,
     )
 
 
@@ -151,6 +138,12 @@ def checkDir(dirname):
             checkPath(dirname, filename)
         else:
             my_print("Skipping", os.path.join(dirname, filename))
+
+
+python_version = setup(suite="CPython32", needs_io_encoding=True)
+setupCacheHashSalt(".")
+
+search_mode = createSearchMode()
 
 checkDir("test")
 checkDir("doctest_generated")
