@@ -1,38 +1,36 @@
 #!/usr/bin/env python3.4
 
-import os, sys
+""" Runner for CPython 3.4 test suite comparing against Nuitka.
+
+Not every test of CPython has to pass, but instead it should fail just
+the same with Nuitka.
+
+"""
+
+import os
+import sys
 
 # Find nuitka package relative to us.
 sys.path.insert(
     0,
     os.path.normpath(
-        os.path.join(
-            os.path.dirname(os.path.abspath(__file__)),
-            "..",
-            ".."
-        )
-    )
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..")
+    ),
 )
 
 # isort:start
 
 from nuitka.tools.testing.Common import (
-    my_print,
-    setup,
-    reportSkip,
     compareWithCPython,
     createSearchMode,
-    setupCacheHashSalt
+    my_print,
+    reportSkip,
+    setup,
+    setupCacheHashSalt,
 )
 
-python_version = setup(suite = "CPython34", needs_io_encoding = True)
-setupCacheHashSalt(".")
-
-search_mode = createSearchMode()
-
 def checkPath(dirname, filename):
-    global active
-
+    # Complex stuff, pylint: disable=too-many-branches,too-many-statements,too-many-return-statements
     extra_flags = [
         "remove_output",
         # Import test_support which won't be included and potentially others.
@@ -50,18 +48,25 @@ def checkPath(dirname, filename):
     ]
 
     # Avoid memory runaway of CPython2.
-    if dirname == "doctest_generated" and \
-       filename == "test_itertools.py" and \
-       python_version < "3":
+    if (
+        dirname == "doctest_generated"
+        and filename == "test_itertools.py"
+        and python_version < "3"
+    ):
         reportSkip("This triggers memory error with CPython2.x", dirname, filename)
         return
 
     if python_version < "3":
         # Order of syntax errors found is not the same. Encoding errors often
         # overtake print function despite it being statement in Python2 errors-
-        if filename in ("test_locale.py", "test_xml_etree.py",
-                        "test_getpass.py", "test_hash.py",
-                        "test_warnings.py", "test_configparser.py"):
+        if filename in (
+            "test_locale.py",
+            "test_xml_etree.py",
+            "test_getpass.py",
+            "test_hash.py",
+            "test_warnings.py",
+            "test_configparser.py",
+        ):
             extra_flags.append("ignore_stderr")
 
     if os.name == "nt" and filename == "test_univnewlines.py":
@@ -77,12 +82,18 @@ def checkPath(dirname, filename):
 
             # On Windows with 32 bit, the MemoryError breaks the test
             if os.name == "nt":
-                reportSkip("not enough memory with 32 bits on Windows", dirname, filename)
+                reportSkip(
+                    "not enough memory with 32 bits on Windows", dirname, filename
+                )
 
                 return
 
-    if filename in ("test_buffer.py", "test_base_events.py",
-                    "test_tasks.py", "test_unparse.py"):
+    if filename in (
+        "test_buffer.py",
+        "test_base_events.py",
+        "test_tasks.py",
+        "test_unparse.py",
+    ):
         extra_flags.append("ignore_warnings")
 
     # Hard to disable warning of CPython when it's too slow and Nuitka
@@ -97,14 +108,12 @@ def checkPath(dirname, filename):
         extra_flags.append("ignore_stderr")
 
     # TODO: This deadlocks, likely a threading problem.
-    if python_version >= "3.4" and \
-       filename == "test_concurrent_futures.py":
+    if python_version >= "3.4" and filename == "test_concurrent_futures.py":
         my_print("Skipping (due to threading issue)", filename)
         return
 
     # TODO: This fails to compiler, super is not fully solved.
-    if python_version >= "3.4" and \
-       filename == "test_super.py":
+    if python_version >= "3.4" and filename == "test_super.py":
         my_print("Skipping (due to compilation issue)", filename)
         return
 
@@ -115,10 +124,15 @@ def checkPath(dirname, filename):
         return
 
     if python_version < "3.4":
-        if filename in ("test_contextlib.py", "test_format.py",
-                        "test_poplib.py", "test_pickle.py",
-                        "test_exceptions.py", "test_unicode.py",
-                        "test_winreg.py"):
+        if filename in (
+            "test_contextlib.py",
+            "test_format.py",
+            "test_poplib.py",
+            "test_pickle.py",
+            "test_exceptions.py",
+            "test_unicode.py",
+            "test_winreg.py",
+        ):
             my_print("Skipped, triggers CPython bug in old versions.")
             return
 
@@ -218,15 +232,15 @@ def checkPath(dirname, filename):
 
     if os.name != "nt" and "arm" in os.uname()[-1]:  # @UndefinedVariable
         if filename == "test_futures.py":
-                my_print("Skipped, ARM compiled Nuitka segfaults in openssl init.")
-                return
+            my_print("Skipped, ARM compiled Nuitka segfaults in openssl init.")
+            return
 
     compareWithCPython(
-        dirname     = dirname,
-        filename    = filename,
-        extra_flags = extra_flags,
-        search_mode = search_mode,
-        needs_2to3  = False
+        dirname=dirname,
+        filename=filename,
+        extra_flags=extra_flags,
+        search_mode=search_mode,
+        needs_2to3=False,
     )
 
 
@@ -257,6 +271,12 @@ def checkDir(dirname):
             checkPath(dirname, filename)
         else:
             my_print("Skipping", os.path.join(dirname, filename))
+
+
+python_version = setup(suite="CPython34", needs_io_encoding=True)
+setupCacheHashSalt(".")
+
+search_mode = createSearchMode()
 
 checkDir("test")
 checkDir("doctest_generated")
