@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.2
+#!/usr/bin/env python3.3
 
 """ Runner for CPython 3.2 test suite comparing against Nuitka.
 
