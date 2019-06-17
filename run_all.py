@@ -49,11 +49,6 @@ def checkPath(dirname, filename):
         "cpython_cache",
     ]
 
-    # TODO: Segfaulting due to reference counting issue.
-    if filename == "test_asyncgen.py":
-        my_print("Skipping (KNOWN BUGGY)", filename)
-        return
-
     # TODO: This deadlocks, likely a threading problem.
     if python_version >= "3.4" and filename == "test_concurrent_futures.py":
         reportSkip("Skipping (due to threading issue)", dirname, filename)
@@ -79,13 +74,8 @@ def checkPath(dirname, filename):
 
                 return
 
-    if filename in ("test_platform.py", "test_dataclasses.py"):
+    if filename in ("test_platform.py", "test_dataclasses.py", "test_asyncgen.py"):
         extra_flags.append("ignore_stderr")
-
-    # TODO: Get it to work!
-    if filename == "test_asyncgen.py":
-        reportSkip("KNOWN BUGGY", dirname, filename)
-        return
 
     # TODO: Delayed, get it to work.
     if filename == "test_exceptions.py":
