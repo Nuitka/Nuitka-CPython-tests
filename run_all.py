@@ -29,8 +29,9 @@ from nuitka.tools.testing.Common import (
     setupCacheHashSalt,
 )
 
+
 def checkPath(dirname, filename):
-    # Complex stuff, pylint: disable=too-many-branches,too-many-statements,too-many-return-statements
+    # Complex stuff, pylint: disable=too-many-branches,too-many-return-statements,too-many-statements
     extra_flags = [
         "remove_output",
         # Import test_support which won't be included and potentially others.
