@@ -29,6 +29,7 @@ from nuitka.tools.testing.Common import (
     setupCacheHashSalt,
 )
 
+
 def checkPath(dirname, filename):
     extra_flags = [
         "remove_output",
