@@ -31,7 +31,7 @@ from nuitka.tools.testing.Common import (
 
 
 def checkPath(dirname, filename):
-    # Many cases to deal with, pylint:disable=too-many-branches
+    # Many cases to deal with, pylint: disable=too-many-branches
 
     extra_flags = [
         "remove_output",
