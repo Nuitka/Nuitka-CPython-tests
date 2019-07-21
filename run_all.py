@@ -86,12 +86,12 @@ def checkPath(dirname, filename):
         reportSkip("Bug in CPython 3.7.0 affects gc.", dirname, filename)
         return
 
-    if filename == "test_datetime.py" and python_version == "3.7.0":
-        # TODO: Use this for actual coverage.
+    if filename == "test_datetime.py":
         extra_flags.append("recurse_to:test.datetimetester")
 
-        reportSkip("Bug in CPython 3.7.0 affects test.", dirname, filename)
-        return
+        if python_version == "3.7.0":
+            reportSkip("Bug in CPython 3.7.0 affects test.", dirname, filename)
+            return
 
     if python_version < "3.7":
         if filename in ("test_abc.py", "test_os.py"):
@@ -133,6 +133,10 @@ def checkPath(dirname, filename):
                 filename,
             )
             return
+
+        if filename == "test_asyncgen.py":
+            # SyntaxError.
+            extra_flags.append("expect_failure")
 
     if python_version >= "3.8":
         if filename == "test_ast.py":
