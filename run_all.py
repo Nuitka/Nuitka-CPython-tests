@@ -77,6 +77,10 @@ def checkPath(dirname, filename):
     if filename in ("test_pkgutil.py", "test_threaded_import.py"):
         extra_flags.append("ignore_warnings")
 
+    if filename in ("test_concurrent_futures.py", "test_logging"):
+        # Plugins not needed.
+        extra_flags.append("ignore_warnings")
+
     if os.name == "nt" and filename == "test_univnewlines.py":
         reportSkip("this causes MemoryError for unknown reasons.", dirname, filename)
         return
