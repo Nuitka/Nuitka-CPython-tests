@@ -47,6 +47,8 @@ def checkPath(dirname, filename):
         "original_file",
         # Cache the CPython results for re-use, they will normally not change.
         "cpython_cache",
+        # Never use multiprocessing plugin, these are false alarms.
+        "plugin_disable:multiprocessing",
     ]
 
     # Avoid memory runaway of CPython2.
