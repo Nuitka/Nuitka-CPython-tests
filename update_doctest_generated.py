@@ -53,7 +53,7 @@ def saveAsGeneratedDoctest(name, value, line_filter = None, prefix = ""):
 
 
 import test.test_cmd
-saveAsGeneratedDoctest("test_cmd.py", test.test_cmd.samplecmdclass.__doc__, prefix = "from test.test_cmd import samplecmdclass") # @UndefinedVariable
+saveAsGeneratedDoctest("test_cmd.py", test.test_cmd.samplecmdclass.__doc__, prefix = "from test.test_cmd import samplecmdclass")
 
 import test.test_deque
 saveAsGeneratedDoctest("test_deque.py", test.test_deque.libreftest)
@@ -62,7 +62,7 @@ import test.test_descrtut
 saveAsGeneratedDoctest("test_descrtut.py", tuple(sorted(test.test_descrtut.__test__.values())), prefix = "from test.test_descrtut import defaultdict,defaultdict2,sortdict\nimport pprint")
 
 import test.test_extcall
-saveAsGeneratedDoctest("test_extcall.py", test.test_extcall.__doc__, prefix = "import test.support as support") # @UndefinedVariable
+saveAsGeneratedDoctest("test_extcall.py", test.test_extcall.__doc__, prefix = "import test.support as support")
 
 import test.test_generators
 
