@@ -7,6 +7,7 @@ matrix:
       python: 3.7
       dist: xenial
       sudo: required
+      cache: ccache
 
 # disable submodules from git
 git:
