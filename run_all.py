@@ -21,6 +21,7 @@ sys.path.insert(
 # isort:start
 
 from nuitka.tools.testing.Common import (
+    addToPythonPath,
     compareWithCPython,
     createSearchMode,
     my_print,
@@ -194,6 +195,8 @@ python_version = setup(suite="CPython37", needs_io_encoding=True)
 setupCacheHashSalt(".")
 
 search_mode = createSearchMode()
+
+addToPythonPath(os.path.abspath("."), in_front=True)
 
 checkDir("test")
 checkDir("doctest_generated")
