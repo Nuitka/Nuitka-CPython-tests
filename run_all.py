@@ -92,6 +92,11 @@ def checkPath(dirname, filename):
         if filename in ("test_abc.py", "test_os.py", "test_ast.py"):
             reportSkip("Not useful with older Python", dirname, filename)
             return
+
+        if filename == "test_collections.py":
+            reportSkip("Hangs with older Python", dirname, filename)
+            return
+
     else:
         # Put 3.8 specific stuff here.
         pass
