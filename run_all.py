@@ -97,6 +97,15 @@ def checkPath(dirname, filename):
             reportSkip("Hangs with older Python", dirname, filename)
             return
 
+        # Traceback differences
+        if filename == "test_dict.py":
+            extra_flags.append("ignore_stderr")
+        if filename == "test_dictcomps.py":
+            extra_flags.append("ignore_stderr")
+
+        # Outputs dict versions which are different.
+        if filename == "test_dict_version.py":
+            extra_flags.append("ignore_stderr")
     else:
         # Put 3.8 specific stuff here.
         pass
