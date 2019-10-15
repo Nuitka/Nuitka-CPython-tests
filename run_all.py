@@ -88,6 +88,10 @@ def checkPath(dirname, filename):
     if filename == "test_datetime.py":
         extra_flags.append("recurse_to:test.datetimetester")
 
+    if filename == "test_contextlib_async.py":
+        # Task warnings
+        extra_flags.append("ignore_stderr")
+
     if python_version < "3.8":
         if filename in ("test_abc.py", "test_os.py", "test_ast.py"):
             reportSkip("Not useful with older Python", dirname, filename)
@@ -96,6 +100,7 @@ def checkPath(dirname, filename):
         if filename == "test_collections.py":
             reportSkip("Hangs with older Python", dirname, filename)
             return
+
 
         # Traceback differences
         if filename == "test_dict.py":
