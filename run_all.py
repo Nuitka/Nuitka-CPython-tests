@@ -166,6 +166,15 @@ def checkPath(dirname, filename):
             )
             return
 
+        if filename in ("test_asyncgen.py", "test_xmlrpc.py"):
+            reportSkip(
+                "Hangs with newer Python.",
+                dirname,
+                filename,
+            )
+            return
+
+
     compareWithCPython(
         dirname=dirname,
         filename=filename,
