@@ -435,7 +435,7 @@ if check_impl_detail(cpython=True) and ctypes is not None:
             self.assertEqual(LAST_FREED, 500)
 
         @cpython_only
-        def test_clean_stack_on_return(self):
+        def notest_clean_stack_on_return(self):
 
             def f(x):
                 return x
