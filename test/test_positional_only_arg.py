@@ -210,7 +210,8 @@ class PositionalOnlyTestCase(unittest.TestCase):
         with self.assertRaises(TypeError):
             f(1, b=2, c=3)
 
-    def test_change_default_pos_only(self):
+    # Nuitka: We don't allow defaults changes
+    def notest_change_default_pos_only(self):
         def f(a, b=2, /, c=3):
             return a + b + c
 
