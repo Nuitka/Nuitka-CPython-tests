@@ -32,7 +32,7 @@ from nuitka.tools.testing.Common import (
 
 
 def checkPath(dirname, filename):
-    # Complex stuff, pylint: disable=too-many-branches,too-many-return-statements
+    # Complex stuff, pylint: disable=too-many-branches
 
     extra_flags = [
         "remove_output",
@@ -101,7 +101,6 @@ def checkPath(dirname, filename):
             reportSkip("Hangs with older Python", dirname, filename)
             return
 
-
         # Traceback differences
         if filename == "test_dict.py":
             extra_flags.append("ignore_stderr")
@@ -114,7 +113,6 @@ def checkPath(dirname, filename):
     else:
         # Put 3.8 specific stuff here.
         pass
-
 
     compareWithCPython(
         dirname=dirname,
