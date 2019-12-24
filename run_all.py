@@ -233,6 +233,11 @@ def checkPath(dirname, filename):
         if filename == "test_buffer.py":
             extra_flags.append("ignore_stderr")
 
+    if python_version >= "3.7":
+        if filename == "test_base_events.py":
+            reportSkip("syntax error with newer Python", filename, dirname)
+            return
+
     if os.name != "nt" and "arm" in os.uname()[-1]:
         if filename == "test_futures.py":
             my_print("Skipped, ARM compiled Nuitka segfaults in openssl init.")
