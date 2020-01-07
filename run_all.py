@@ -234,7 +234,7 @@ def checkPath(dirname, filename):
             extra_flags.append("ignore_stderr")
 
     if python_version >= "3.7":
-        if filename == "test_base_events.py":
+        if filename in ("test_base_events.py", "test_tasks.py"):
             reportSkip("syntax error with newer Python", filename, dirname)
             return
 
