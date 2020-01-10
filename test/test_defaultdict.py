@@ -166,6 +166,7 @@ class TestDefaultDict(unittest.TestCase):
             or
             repr(d).startswith(
             "defaultdict(<bound compiled_method sub._factory of defaultdict(...")
+            or sys.version_info >= (3,2)
         )
 
         # NOTE: printing a subclass of a builtin type does not call its
