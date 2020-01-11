@@ -101,10 +101,13 @@ def checkPath(dirname, filename):
         reportSkip("doesn't work properly with CPython already", dirname, filename)
         return
 
+    if python_version >= "3.3" and filename in ("test_signal.py",):
+        reportSkip("Timings are not strictly the same", dirname, filename)
+        return
+
     if python_version >= "3.3" and filename in ("test_pickle.py",):
         reportSkip("Recursion errors are not strictly the same", dirname, filename)
         return
-
 
     if dirname == "doctest_generated":
         if python_version >= "3":
