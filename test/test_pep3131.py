@@ -20,7 +20,8 @@ class PEP3131Test(unittest.TestCase):
         # On wide builds, this is normalized, but on narrow ones it is not. See
         # #12746.
         try:
-            self.assertIn("𝔘𝔫𝔦𝔠𝔬𝔡𝔢", dir())
+            # Nuitka: Make sure dir is sorted, which it doesn't have to be.
+            self.assertIn("𝔘𝔫𝔦𝔠𝔬𝔡𝔢", list(sorted(dir())))
         except AssertionError:
             raise unittest.case._ExpectedFailure(sys.exc_info())
 
