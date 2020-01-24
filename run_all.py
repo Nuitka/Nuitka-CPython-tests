@@ -224,6 +224,12 @@ def checkPath(dirname, filename):
             my_print("Too fragile to be used with CPython 3.6", filename)
             return
 
+    if python_version >= "3.7":
+        if filename in ("test_coroutines.py", "test_grammar.py"):
+            reportSkip("syntax error with newer Python", filename, dirname)
+            return
+
+
     compareWithCPython(
         dirname=dirname,
         filename=filename,
