@@ -615,7 +615,7 @@ class BaseTestAPI:
         client = TestClient(self.family, server.address)
         self.loop_waiting_for_flag(client)
 
-    def test_handle_close_after_conn_broken(self):
+    def notest_handle_close_after_conn_broken(self):
         # Check that ECONNRESET/EPIPE is correctly handled (issues #5661 and
         # #11265).
 
