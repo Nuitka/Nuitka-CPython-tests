@@ -1,6 +1,6 @@
 #!/usr/bin/env python3.6
 
-""" Runner for CPython 3.5 test suite comparing against Nuitka.
+""" Runner for CPython 3.6 test suite comparing against Nuitka.
 
 Not every test of CPython has to pass, but instead it should fail just
 the same with Nuitka.
@@ -199,6 +199,10 @@ def checkPath(dirname, filename):
 
         if filename == "test_os.py":
             my_print("Too fragile to be used with CPython 3.7", filename)
+            return
+
+        if filename == "test_capi.py":
+            reportSkip("Fails with random addresses in output", dirname, filename)
             return
 
     compareWithCPython(
