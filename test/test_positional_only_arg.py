@@ -132,7 +132,9 @@ class PositionalOnlyTestCase(unittest.TestCase):
 
         def f(a, b, /):
             pass
-        expected = r"f\(\) got some positional-only arguments passed as keyword arguments: 'a, b'"
+        # Nuitka: We only give one of them, the code to first determine all is not important
+        # to us.
+        expected = r"f\(\) got some positional-only arguments passed as keyword arguments: '.*'"
         with self.assertRaisesRegex(TypeError, expected):
             f(a=1, b=2)
 
@@ -344,8 +346,10 @@ class PositionalOnlyTestCase(unittest.TestCase):
         unpickled_defaults = pickle.loads(pickled_defaults)
 
         self.assertEqual(unpickled_posonly(1,2), (1,2))
+        # Nuitka: We only give one of them, the code to first determine all is not important
+        # to us.
         expected = r"global_pos_only_f\(\) got some positional-only arguments "\
-                   r"passed as keyword arguments: 'a, b'"
+                   r"passed as keyword arguments: '.*'"
         with self.assertRaisesRegex(TypeError, expected):
             unpickled_posonly(a=1,b=2)
 
