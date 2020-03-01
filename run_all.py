@@ -24,7 +24,6 @@ from nuitka.tools.testing.Common import (
     addToPythonPath,
     compareWithCPython,
     createSearchMode,
-    my_print,
     reportSkip,
     setup,
     setupCacheHashSalt,
@@ -116,8 +115,6 @@ def checkDir(dirname):
 
         if active:
             checkPath(dirname, filename)
-        else:
-            my_print("Skipping", os.path.join(dirname, filename))
 
 
 python_version = setup(suite="CPython27", needs_io_encoding=True)
