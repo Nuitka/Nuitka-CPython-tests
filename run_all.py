@@ -229,7 +229,6 @@ def checkPath(dirname, filename):
             reportSkip("syntax error with newer Python", filename, dirname)
             return
 
-
     compareWithCPython(
         dirname=dirname,
         filename=filename,
@@ -251,8 +250,6 @@ def checkDir(dirname):
 
         if active:
             checkPath(dirname, filename)
-        else:
-            my_print("Skipping", os.path.join(dirname, filename))
 
 
 python_version = setup(suite="CPython35", needs_io_encoding=True)
