@@ -105,6 +105,7 @@ def checkPath(dirname, filename):
             "test_compile.py",
             "test_codeccallbacks.py",
             "test_datetime.py",
+            "test_random.py",
         ):
             reportSkip("Crashes with older Python", dirname, filename)
             return
