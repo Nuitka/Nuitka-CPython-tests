@@ -268,7 +268,8 @@ class TestTracebackType(unittest.TestCase):
         tb.tb_next = new_tb
         self.assertIs(tb.tb_next, new_tb)
 
-    def test_constructor(self):
+    # Nuitka: This won't work with compiled frames.
+    def notest_constructor(self):
         other_tb = get_tb()
         frame = sys._getframe()
 
