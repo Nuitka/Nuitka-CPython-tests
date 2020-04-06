@@ -1250,7 +1250,8 @@ class StressTest(unittest.TestCase):
 
 class RaiseSignalTest(unittest.TestCase):
 
-    def test_sigint(self):
+    # Nuitka: We only check for signals while in a loop.
+    def notest_sigint(self):
         with self.assertRaises(KeyboardInterrupt):
             signal.raise_signal(signal.SIGINT)
 
@@ -1266,7 +1267,8 @@ class RaiseSignalTest(unittest.TestCase):
             else:
                 raise
 
-    def test_handler(self):
+    # Nuitka: We only check for signals while in a loop, so raise_signal won't be immediate.
+    def notest_handler(self):
         is_ok = False
         def handler(a, b):
             nonlocal is_ok
