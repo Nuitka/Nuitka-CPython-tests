@@ -487,7 +487,8 @@ class TimeTestCase(unittest.TestCase):
     def test_perf_counter(self):
         time.perf_counter()
 
-    def test_process_time(self):
+    # Nuitka: Disable test that sporadically can fail on systems under load.
+    def notest_process_time(self):
         # process_time() should not include time spend during a sleep
         start = time.process_time()
         time.sleep(0.100)
