@@ -599,6 +599,9 @@ class WakeupSocketSignalTests(unittest.TestCase):
 class SiginterruptTest(unittest.TestCase):
 
     def readpipe_interrupted(self, interrupt):
+        # Nuitka: This test requires signal checking outside of loops and is slow
+        # while not really using Nuitka compiled code.
+        return
         """Perform a read during which a signal will arrive.  Return True if the
         read is interrupted by the signal and raises an exception.  Return False
         if it returns normally.
@@ -1250,7 +1253,8 @@ class StressTest(unittest.TestCase):
 
 class RaiseSignalTest(unittest.TestCase):
 
-    def test_sigint(self):
+    # Nuitka: We only check for signals while in a loop.
+    def notest_sigint(self):
         with self.assertRaises(KeyboardInterrupt):
             signal.raise_signal(signal.SIGINT)
 
@@ -1266,7 +1270,8 @@ class RaiseSignalTest(unittest.TestCase):
             else:
                 raise
 
-    def test_handler(self):
+    # Nuitka: We only check for signals while in a loop, so raise_signal won't be immediate.
+    def notest_handler(self):
         is_ok = False
         def handler(a, b):
             nonlocal is_ok
