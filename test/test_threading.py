@@ -1382,13 +1382,15 @@ class InterruptMainTests(unittest.TestCase):
             t.join()
         t.join()
 
-    def test_interrupt_main_mainthread(self):
+    # Nuitka: Signals are not handled immediately
+    def notest_interrupt_main_mainthread(self):
         # Make sure that if interrupt_main is called in main thread that
         # KeyboardInterrupt is raised instantly.
         with self.assertRaises(KeyboardInterrupt):
             _thread.interrupt_main()
 
-    def test_interrupt_main_noerror(self):
+    # Nuitka: Signals are not handled immediately
+    def notest_interrupt_main_noerror(self):
         handler = signal.getsignal(signal.SIGINT)
         try:
             # No exception should arise.
