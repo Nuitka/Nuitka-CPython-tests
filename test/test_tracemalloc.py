@@ -112,7 +112,8 @@ class TestTracemallocEnabled(unittest.TestCase):
         traceback = tracemalloc.get_object_traceback(obj)
         self.assertEqual(traceback, obj_traceback)
 
-    def test_new_reference(self):
+    # Nuitka: We don't update line numbers without exceptions
+    def notest_new_reference(self):
         tracemalloc.clear_traces()
         # gc.collect() indirectly calls PyList_ClearFreeList()
         support.gc_collect()
