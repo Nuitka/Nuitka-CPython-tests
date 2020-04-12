@@ -952,7 +952,9 @@ class UnraisableHookTest(unittest.TestCase):
                     self.assertIn(f'Exception ignored {err_msg}: {obj!r}\n', err)
                 else:
                     self.assertIn(f'Exception ignored in: {obj!r}\n', err)
-                self.assertIn('Traceback (most recent call last):\n', err)
+                # Nuitka: we don't have the traceback of write_unraisable_exc which
+                # is not good anyway.
+                # self.assertIn('Traceback (most recent call last):\n', err)
                 self.assertIn('ValueError: 42\n', err)
 
     def test_original_unraisablehook_err(self):
