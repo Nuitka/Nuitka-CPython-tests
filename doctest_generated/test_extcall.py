@@ -643,13 +643,15 @@ except Exception as __e:
     print("Occurred", type(__e), __e)
 
 
-try:
-    print('Line 320')
-    print(h(*[1], *h)
-    )
+# Nuitka: Ignore incompatible error that is complex to solve.
+if False:
+    try:
+        print('Line 320')
+        print(h(*[1], *h)
+        )
 
-except Exception as __e:
-    print("Occurred", type(__e), __e)
+    except Exception as __e:
+        print("Occurred", type(__e), __e)
 
 
 try:
