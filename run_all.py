@@ -93,7 +93,16 @@ def checkPath(dirname, filename):
         extra_flags.append("ignore_stderr")
 
     if python_version < "3.8":
-        if filename in ("test_abc.py", "test_os.py", "test_ast.py", "test_fstring.py"):
+        if filename in (
+            "test_abc.py",
+            "test_os.py",
+            "test_ast.py",
+            "test_fstring.py",
+            "test_functools.py",
+            "test_grammar.py",
+            "test_named_expressions.py",
+            "test_positional_only_arg.py",
+        ):
             reportSkip("Not useful with older Python", dirname, filename)
             return
 
