@@ -1525,71 +1525,6 @@ try:
 except Exception as __e:
     print("Occurred", type(__e), __e)
 
-
-try:
-    class Leaker:
-        def __del__(self):
-            def invoke(message):
-                raise RuntimeError(message)
-            invoke("del failed")
-except Exception as __e:
-    print("Occurred", type(__e), __e)
-
-
-try:
-    with support.catch_unraisable_exception() as cm:
-except Exception as __e:
-    print("Occurred", type(__e), __e)
-
-
-try:
-        l = Leaker()
-except Exception as __e:
-    print("Occurred", type(__e), __e)
-
-
-try:
-        del l
-except Exception as __e:
-    print("Occurred", type(__e), __e)
-
-
-
-try:
-        print('Line 55')
-        print(    cm.unraisable.object == Leaker.__del__
-    )
-
-except Exception as __e:
-    print("Occurred", type(__e), __e)
-
-
-try:
-        print('Line 56')
-        print(    cm.unraisable.exc_type == RuntimeError
-    )
-
-except Exception as __e:
-    print("Occurred", type(__e), __e)
-
-
-try:
-        print('Line 57')
-        print(    str(cm.unraisable.exc_value) == "del failed"
-    )
-
-except Exception as __e:
-    print("Occurred", type(__e), __e)
-
-
-try:
-        print('Line 58')
-        print(    cm.unraisable.exc_traceback is not None
-    )
-
-except Exception as __e:
-    print("Occurred", type(__e), __e)
-
 ################################################################################
 
 try:
@@ -2264,60 +2199,20 @@ except Exception as __e:
 
 try:
     with support.catch_unraisable_exception() as cm:
-except Exception as __e:
-    print("Occurred", type(__e), __e)
-
-
-try:
         g = f()
-except Exception as __e:
-    print("Occurred", type(__e), __e)
-
-
-try:
-        print('Line 295')
-        print(    next(g)
-    )
-
-except Exception as __e:
-    print("Occurred", type(__e), __e)
-
-
-try:
+        next(g)
         del g
-except Exception as __e:
-    print("Occurred", type(__e), __e)
 
-
-
-try:
-        print('Line 298')
-        print(    cm.unraisable.exc_type == RuntimeError
-    )
-
-except Exception as __e:
-    print("Occurred", type(__e), __e)
-
-
-try:
-        print('Line 299')
-        print(    "generator ignored GeneratorExit" in str(cm.unraisable.exc_value)
-    )
-
-except Exception as __e:
-    print("Occurred", type(__e), __e)
-
-
-try:
-        print('Line 300')
-        print(    cm.unraisable.exc_traceback is not None
-    )
-
-except Exception as __e:
-    print("Occurred", type(__e), __e)
-
-
-try:
+        cm.unraisable.exc_type == RuntimeError
+        "generator ignored GeneratorExit" in str(cm.unraisable.exc_value)
+        cm.unraisable.exc_traceback is not None
+    # Expected:
+    ## True
+    ## True
+    ## True
+    #
+    # And errors thrown during closing should propagate:
+    #
     def f():
         try: yield
         except GeneratorExit:
