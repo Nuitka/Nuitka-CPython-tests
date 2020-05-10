@@ -1072,4 +1072,15 @@ class AsyncGenAsyncioTest(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    unittest.main()
+    import sys
+    # verify reference counting
+    if hasattr(sys, "gettotalrefcount"):
+        import gc
+        counts = [None] * 5
+        for i in range(len(counts)):
+            unittest.main(exit=False)
+            gc.collect()
+            counts[i] = sys.gettotalrefcount()
+        print("REFCOUNTS", counts)
+    else:
+        unittest.main()
