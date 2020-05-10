@@ -2214,9 +2214,21 @@ __test__ = {"tut":      tutorial_tests,
 # Note that doctest and regrtest both look in sys.argv for a "-v" argument,
 # so this works as expected in both ways of running regrtest.
 def test_main(verbose=None):
-    from test import support, test_generators
-    support.run_unittest(__name__)
-    support.run_doctest(test_generators, verbose)
+    from test import support
+
+    import sys
+    # verify reference counting
+    if hasattr(sys, "gettotalrefcount"):
+        import gc
+        counts = [None] * 5
+        for i in range(len(counts)):
+            support.run_unittest(__name__)
+            gc.collect()
+            counts[i] = sys.gettotalrefcount()
+        print("REFCOUNTS", counts)
+    else:
+        support.run_unittest(__name__)
+
 
 # This part isn't needed for regrtest, but for running the test directly.
 if __name__ == "__main__":
