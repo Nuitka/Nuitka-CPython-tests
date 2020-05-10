@@ -2292,27 +2292,6 @@ class OriginTrackingTest(unittest.TestCase):
         finally:
             warnings._warn_unawaited_coroutine = orig_wuc
 
-
-class UnawaitedWarningDuringShutdownTest(unittest.TestCase):
-    # https://bugs.python.org/issue32591#msg310726
-    def test_unawaited_warning_during_shutdown(self):
-        code = ("import asyncio\n"
-                "async def f(): pass\n"
-                "asyncio.gather(f())\n")
-        assert_python_ok("-c", code)
-
-        code = ("import sys\n"
-                "async def f(): pass\n"
-                "sys.coro = f()\n")
-        assert_python_ok("-c", code)
-
-        code = ("import sys\n"
-                "async def f(): pass\n"
-                "sys.corocycle = [f()]\n"
-                "sys.corocycle.append(sys.corocycle)\n")
-        assert_python_ok("-c", code)
-
-
 @support.cpython_only
 class CAPITest(unittest.TestCase):
 
@@ -2344,4 +2323,15 @@ class CAPITest(unittest.TestCase):
 
 
 if __name__=="__main__":
-    unittest.main()
+    import sys
+    # verify reference counting
+    if hasattr(sys, "gettotalrefcount"):
+        import gc
+        counts = [None] * 10
+        for i in range(len(counts)):
+            unittest.main(exit=False)
+            gc.collect()
+            counts[i] = sys.gettotalrefcount()
+        print("REFCOUNTS", counts)
+    else:
+        unittest.main()
