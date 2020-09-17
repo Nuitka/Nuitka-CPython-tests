@@ -16,6 +16,7 @@
 *.bin
 *.build
 *.dist
+*.inclusion.log
 *.optimization.log
 .mypy_cache
 Nuitka.egg-info
