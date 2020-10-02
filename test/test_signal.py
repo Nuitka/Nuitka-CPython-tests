@@ -599,6 +599,9 @@ class WakeupSocketSignalTests(unittest.TestCase):
 class SiginterruptTest(unittest.TestCase):
 
     def readpipe_interrupted(self, interrupt):
+        # Nuitka: This test requires signal checking outside of loops and is slow
+        # while not really using Nuitka compiled code.
+        return
         """Perform a read during which a signal will arrive.  Return True if the
         read is interrupted by the signal and raises an exception.  Return False
         if it returns normally.
