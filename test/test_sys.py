@@ -211,7 +211,8 @@ class SysModuleTest(unittest.TestCase):
         self.assertEqual(sys.getrecursionlimit(), 10000)
         sys.setrecursionlimit(oldlimit)
 
-    def test_recursionlimit_recovery(self):
+    # Nuitka: THis is not going to be fully compatible due to implementation details.
+    def notest_recursionlimit_recovery(self):
         if hasattr(sys, 'gettrace') and sys.gettrace():
             self.skipTest('fatal error if run with a trace function')
 
