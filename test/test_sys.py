@@ -199,7 +199,8 @@ class SysModuleTest(unittest.TestCase):
 
     @unittest.skipIf(hasattr(sys, 'gettrace') and sys.gettrace(),
                      'fatal error if run with a trace function')
-    def test_recursionlimit_recovery(self):
+    # Nuitka: THis is not going to be fully compatible due to implementation details.
+    def notest_recursionlimit_recovery(self):
         # NOTE: this test is slightly fragile in that it depends on the current
         # recursion count when executing the test being low enough so as to
         # trigger the recursion recovery detection in the _Py_MakeEndRecCheck
