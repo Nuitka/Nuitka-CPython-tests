@@ -32,7 +32,7 @@ from nuitka.tools.testing.Common import (
 
 
 def checkPath(dirname, filename):
-    # Complex stuff, pylint: disable=too-many-branches
+    # Complex stuff, pylint: disable=too-many-branches,too-many-return-statements
 
     extra_flags = [
         "remove_output",
@@ -122,6 +122,15 @@ def checkPath(dirname, filename):
     else:
         # Put 3.8 specific stuff here.
         pass
+
+    if python_version >= "3.9":
+        if filename == "test_capi.py":
+            reportSkip(
+                "Many details mismatch due to CPython 3.9 checking C stacks",
+                dirname,
+                filename,
+            )
+            return
 
     compareWithCPython(
         dirname=dirname,
