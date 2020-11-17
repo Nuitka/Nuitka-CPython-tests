@@ -973,7 +973,8 @@ if hasattr(socket, "AF_UNIX"):
 class SMTPHandlerTest(BaseTest):
     TIMEOUT = 8.0
 
-    def test_basic(self):
+    # Nuitka: Avoid using the network for this test.
+    def notest_basic(self):
         sockmap = {}
         server = TestSMTPServer((support.HOST, 0), self.process_message, 0.001,
                                 sockmap)
