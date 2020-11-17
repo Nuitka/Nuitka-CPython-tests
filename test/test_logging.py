@@ -1061,7 +1061,8 @@ class SMTPHandlerTest(BaseTest):
     # bpo-14314, bpo-19665, bpo-34092: don't wait forever
     TIMEOUT = support.LONG_TIMEOUT
 
-    def test_basic(self):
+    # Nuitka: Avoid using the network for this test.
+    def notest_basic(self):
         sockmap = {}
         server = TestSMTPServer((socket_helper.HOST, 0), self.process_message, 0.001,
                                 sockmap)
