@@ -964,7 +964,8 @@ if threading:
 
 @unittest.skipUnless(threading, 'Threading required for this test.')
 class SMTPHandlerTest(BaseTest):
-    def test_basic(self):
+    # Nuitka: Avoid using the network for this test.
+    def notest_basic(self):
         sockmap = {}
         server = TestSMTPServer(('localhost', 0), self.process_message, 0.001,
                                 sockmap)
