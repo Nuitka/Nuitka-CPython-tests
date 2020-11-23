@@ -61,6 +61,12 @@ def checkPath(dirname, filename):
 
         return
 
+    if python_version >= "2.7":
+        if filename == "test_zip.py":
+            reportSkip("Varying error output with newer Python", dirname, filename)
+
+            return
+
     if "doctest_generated" in dirname and python_version < "3":
         extra_flags.append("expect_success")
 
