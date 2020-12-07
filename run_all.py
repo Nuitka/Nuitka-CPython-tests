@@ -44,9 +44,9 @@ def checkPath(dirname, filename):
         "cpython_cache",
     ]
 
-    if python_version < "2.7" and filename in ("test_strop.py", "test_cpickle.py"):
+    if python_version < (2, 7) and filename in ("test_strop.py", "test_cpickle.py"):
         extra_flags.append("ignore_stderr")
-    elif python_version >= "2.7" and filename in (
+    elif python_version >= (2, 7) and filename in (
         "test_xml_etree.py",
         "test_xml_etree_c.py",
         "test_zipfile.py",
@@ -56,18 +56,18 @@ def checkPath(dirname, filename):
         extra_flags.append("ignore_stderr")
 
     # This crashes CPython2.7.exe on Windows, so avoid it.
-    if os.name == "nt" and python_version >= "2.7" and filename == "test_time.py":
+    if os.name == "nt" and python_version >= (2, 7) and filename == "test_time.py":
         reportSkip("crashes CPython2.7 on Windows", dirname, filename)
 
         return
 
-    if python_version >= "2.7":
+    if python_version >= (2, 7):
         if filename == "test_zip.py":
             reportSkip("Varying error output with newer Python", dirname, filename)
 
             return
 
-    if "doctest_generated" in dirname and python_version < "3":
+    if "doctest_generated" in dirname and python_version < (3,):
         extra_flags.append("expect_success")
 
         if filename == "test_generators.py":
@@ -84,7 +84,7 @@ def checkPath(dirname, filename):
         filename=filename,
         extra_flags=extra_flags,
         search_mode=search_mode,
-        needs_2to3=python_version >= "3",
+        needs_2to3=python_version >= (3,),
     )
 
 
