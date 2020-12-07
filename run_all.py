@@ -56,13 +56,13 @@ def checkPath(dirname, filename):
     if (
         dirname == "doctest_generated"
         and filename == "test_itertools.py"
-        and python_version < "3"
+        and python_version < (3,)
     ):
         reportSkip("This triggers memory error with CPython2.x", dirname, filename)
         return
 
     if dirname == "doctest_generated":
-        if python_version >= "3.6":
+        if python_version >= (3, 6):
             extra_flags.append("expect_success")
 
         if filename == "test_generators.py":
@@ -85,12 +85,12 @@ def checkPath(dirname, filename):
         extra_flags.append("ignore_warnings")
 
     # TODO: This deadlocks, likely a threading problem.
-    if python_version >= "3.4" and filename == "test_concurrent_futures.py":
+    if python_version >= (3, 4) and filename == "test_concurrent_futures.py":
         my_print("Skipping (due to threading issue)", filename)
         return
 
     # TODO: This fails to compiler, super is not fully solved.
-    if python_version >= "3.4" and filename == "test_super.py":
+    if python_version >= (3, 4) and filename == "test_super.py":
         my_print("Skipping (due to compilation issue)", filename)
         return
 
@@ -100,7 +100,7 @@ def checkPath(dirname, filename):
         my_print("Skipping (due to traceback issue)", filename)
         return
 
-    if python_version < "3.6":
+    if python_version < (3, 6):
         if filename in (
             "test_asyncgen.py",
             "test_collections.py",
@@ -176,7 +176,7 @@ def checkPath(dirname, filename):
             my_print("Skipping (Windows only)", filename)
             return
 
-    if python_version >= "3.7":
+    if python_version >= (3, 7):
         if filename == "test_logging.py":
             reportSkip("This test hangs with CPython3.7", dirname, filename)
             return
