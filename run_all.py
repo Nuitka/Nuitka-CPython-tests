@@ -56,12 +56,12 @@ def checkPath(dirname, filename):
     if (
         dirname == "doctest_generated"
         and filename == "test_itertools.py"
-        and python_version < "3"
+        and python_version < (3,)
     ):
         reportSkip("This triggers memory error with CPython2.x", dirname, filename)
         return
 
-    if python_version < "3":
+    if python_version < (3,):
         # Order of syntax errors found is not the same. Encoding errors often
         # overtake print function despite it being statement in Python2 errors-
         if filename in ("test_locale.py", "test_xml_etree.py"):
@@ -87,7 +87,7 @@ def checkPath(dirname, filename):
         return
 
     if dirname == "doctest_generated":
-        if python_version >= "3.3":
+        if python_version >= (3, 3):
             extra_flags.append("expect_success")
 
         if filename == "test_generators.py":
@@ -101,7 +101,7 @@ def checkPath(dirname, filename):
 
                 return
 
-    if python_version >= "3.4":
+    if python_version >= (3, 4):
         if filename == "test_argparse.py":
             my_print("Skipped, compilation takes too long for unknown reasons.")
             return
@@ -118,12 +118,12 @@ def checkPath(dirname, filename):
             my_print("Skipped, older CPython fails to remove files after test.")
             return
 
-    if python_version < "3.3":
+    if python_version < (3, 3):
         # Can output warnings in debug mode on older CPython at least.
         if filename == "test_sax.py":
             extra_flags.append("ignore_stderr")
 
-    if python_version < "2.7":
+    if python_version < (2, 7):
         # Different syntax errors are OK.
         if filename == "test_configparser.py":
             extra_flags.append("ignore_stderr")
