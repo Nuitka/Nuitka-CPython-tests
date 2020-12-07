@@ -61,7 +61,7 @@ def checkPath(dirname, filename):
     if filename == "test_threaded_import.py":
         extra_flags.append("ignore_warnings")
 
-    if python_version < "3" and filename in (
+    if python_version < (3,) and filename in (
         "test_locale.py",
         "test_nntplib.py",
         "test_sys_settrace.py",
@@ -72,7 +72,7 @@ def checkPath(dirname, filename):
 
     # This goes havoc on memory consumption.
     if (
-        python_version < "3"
+        python_version < (3,)
         and dirname == "doctest_generated"
         and filename == "test_itertools.py"
     ):
@@ -84,11 +84,11 @@ def checkPath(dirname, filename):
         return
 
     # Deprecation warnings on wrong lines.
-    if python_version >= "3.3" and filename in ("test_smtpd.py", "test_unicode.py"):
+    if python_version >= (3, 3) and filename in ("test_smtpd.py", "test_unicode.py"):
         reportSkip("warning output with wrong line", dirname, filename)
         return
 
-    if python_version >= "3.4" and filename in (
+    if python_version >= (3, 4) and filename in (
         "test_ast.py",
         "test_base64.py",
         "test_cmd_line_script.py",
@@ -96,20 +96,20 @@ def checkPath(dirname, filename):
         reportSkip("undocumented reason", dirname, filename)
         return
 
-    if python_version >= "3.3" and filename == "test_shutil.py":
+    if python_version >= (3, 3) and filename == "test_shutil.py":
         reportSkip("doesn't work properly with CPython already", dirname, filename)
         return
 
-    if python_version >= "3.3" and filename in ("test_signal.py",):
+    if python_version >= (3, 3) and filename in ("test_signal.py",):
         reportSkip("Timings are not strictly the same", dirname, filename)
         return
 
-    if python_version >= "3.3" and filename in ("test_pickle.py",):
+    if python_version >= (3, 3) and filename in ("test_pickle.py",):
         reportSkip("Recursion errors are not strictly the same", dirname, filename)
         return
 
     if dirname == "doctest_generated":
-        if python_version >= "3":
+        if python_version >= (3,):
             extra_flags.append("expect_success")
 
         if filename == "test_generators.py":
