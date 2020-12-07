@@ -53,17 +53,17 @@ def checkPath(dirname, filename):
     ]
 
     # TODO: This deadlocks, likely a threading problem.
-    if python_version >= "3.4" and filename == "test_concurrent_futures.py":
+    if python_version >= (3, 4) and filename == "test_concurrent_futures.py":
         reportSkip("Skipping (due to threading issue)", dirname, filename)
         return
 
     # TODO: This fails to compile, super is not fully solved.
-    if python_version >= "3.4" and filename == "test_super.py":
+    if python_version >= (3, 4) and filename == "test_super.py":
         my_print("Skipping (due to compilation issue)", filename)
         return
 
     if dirname == "doctest_generated":
-        if python_version >= "3.7":
+        if python_version >= (3, 7):
             extra_flags.append("expect_success")
 
         if filename == "test_generators.py":
@@ -85,18 +85,18 @@ def checkPath(dirname, filename):
         reportSkip("KNOWN BUGGY", dirname, filename)
         return
 
-    if filename == "test_gc.py" and python_version == "3.7.0":
+    if filename == "test_gc.py" and python_version == (3, 7, 0):
         reportSkip("Bug in CPython 3.7.0 affects gc.", dirname, filename)
         return
 
     if filename == "test_datetime.py":
         extra_flags.append("recurse_to:test.datetimetester")
 
-        if python_version == "3.7.0":
+        if python_version == (3, 7, 0):
             reportSkip("Bug in CPython 3.7.0 affects test.", dirname, filename)
             return
 
-    if python_version < "3.7":
+    if python_version < (3, 7):
         if filename in ("test_abc.py", "test_os.py"):
             reportSkip("Not useful with older Python", dirname, filename)
             return
@@ -142,7 +142,7 @@ def checkPath(dirname, filename):
             # SyntaxError.
             extra_flags.append("expect_failure")
 
-    if python_version >= "3.8":
+    if python_version >= (3, 8):
         if filename == "test_ast.py":
             reportSkip(
                 "Fails due ast module changes of newer Python.", dirname, filename
