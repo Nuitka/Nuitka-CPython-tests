@@ -54,12 +54,12 @@ def checkPath(dirname, filename):
     if (
         dirname == "doctest_generated"
         and filename == "test_itertools.py"
-        and python_version < "3"
+        and python_version < (3,)
     ):
         reportSkip("This triggers memory error with CPython2.x", dirname, filename)
         return
 
-    if python_version < "3":
+    if python_version < (3,):
         # Order of syntax errors found is not the same. Encoding errors often
         # overtake print function despite it being statement in Python2 errors-
         if filename in (
@@ -77,7 +77,7 @@ def checkPath(dirname, filename):
         return
 
     if dirname == "doctest_generated":
-        if python_version >= "3.4":
+        if python_version >= (3, 4):
             extra_flags.append("expect_success")
 
         if filename == "test_generators.py":
@@ -111,12 +111,12 @@ def checkPath(dirname, filename):
         extra_flags.append("ignore_stderr")
 
     # TODO: This deadlocks, likely a threading problem.
-    if python_version >= "3.4" and filename == "test_concurrent_futures.py":
+    if python_version >= (3, 4) and filename == "test_concurrent_futures.py":
         my_print("Skipping (due to threading issue)", filename)
         return
 
     # TODO: This fails to compiler, super is not fully solved.
-    if python_version >= "3.4" and filename == "test_super.py":
+    if python_version >= (3, 4) and filename == "test_super.py":
         my_print("Skipping (due to compilation issue)", filename)
         return
 
@@ -126,7 +126,7 @@ def checkPath(dirname, filename):
         my_print("Skipping (due to traceback issue)", filename)
         return
 
-    if python_version < "3.4":
+    if python_version < (3, 4):
         if filename in (
             "test_contextlib.py",
             "test_format.py",
@@ -207,7 +207,7 @@ def checkPath(dirname, filename):
             my_print("Skipped, fails on Windows for technical reasons.")
             return
 
-    if python_version < "3.4.3":
+    if python_version < (3, 4, 3):
         if filename == "test_multibytecodec.py":
             my_print("Skipped, older CPython runs into MemoryError.")
             return
@@ -225,7 +225,7 @@ def checkPath(dirname, filename):
             my_print("Skipped, CPython crashes.")
             return
 
-    if python_version >= "3.5":
+    if python_version >= (3, 5):
         if filename == "test_poplib.py":
             my_print("Skipped, newer CPython hangs in test.")
             return
@@ -233,7 +233,7 @@ def checkPath(dirname, filename):
         if filename == "test_buffer.py":
             extra_flags.append("ignore_stderr")
 
-    if python_version >= "3.7":
+    if python_version >= (3, 7):
         if filename in (
             "test_base_events.py",
             "test_tasks.py",
