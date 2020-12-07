@@ -53,17 +53,17 @@ def checkPath(dirname, filename):
     ]
 
     # TODO: This deadlocks, likely a threading problem.
-    if python_version >= "3.4" and filename == "test_concurrent_futures.py":
+    if python_version >= (3, 4) and filename == "test_concurrent_futures.py":
         reportSkip("Skipping (due to threading issue)", dirname, filename)
         return
 
     # TODO: This fails to compile, super is not fully solved.
-    if python_version >= "3.4" and filename == "test_super.py":
+    if python_version >= (3, 4) and filename == "test_super.py":
         my_print("Skipping (due to compilation issue)", filename)
         return
 
     if dirname == "doctest_generated":
-        if python_version >= "3.8":
+        if python_version >= (3, 8):
             extra_flags.append("expect_success")
 
         if filename == "test_generators.py":
@@ -92,7 +92,7 @@ def checkPath(dirname, filename):
         # Task warnings
         extra_flags.append("ignore_stderr")
 
-    if python_version < "3.8":
+    if python_version < (3, 8):
         if filename in (
             "test_abc.py",
             "test_os.py",
@@ -123,7 +123,7 @@ def checkPath(dirname, filename):
         # Put 3.8 specific stuff here.
         pass
 
-    if python_version >= "3.9":
+    if python_version >= (3, 9):
         if filename == "test_capi.py":
             reportSkip(
                 "Many details mismatch due to CPython 3.9 checking C stacks",
