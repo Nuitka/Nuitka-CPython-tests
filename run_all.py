@@ -75,7 +75,7 @@ def checkPath(dirname, filename):
 
         return
 
-    if python_version < "2.7":
+    if python_version < (2, 7):
         if filename == "test_scope.py":
             reportSkip("we do not emulate bugs on old Python", dirname, filename)
 
@@ -87,7 +87,7 @@ def checkPath(dirname, filename):
             return
 
     if dirname == "doctest_generated":
-        if "2.7" <= python_version < "3":
+        if (2, 7) <= python_version < (3,):
             extra_flags.append("expect_success")
 
         if filename == "test_generators.py":
@@ -104,7 +104,7 @@ def checkPath(dirname, filename):
         filename=filename,
         extra_flags=extra_flags,
         search_mode=search_mode,
-        needs_2to3=python_version >= "3",
+        needs_2to3=python_version >= (3,),
     )
 
 
