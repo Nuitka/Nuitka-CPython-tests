@@ -63,7 +63,7 @@ def checkPath(dirname, filename):
         return
 
     if dirname == "doctest_generated":
-        if python_version >= (3, 8):
+        if python_version >= (3, 9):
             extra_flags.append("expect_success")
 
         if filename == "test_generators.py":
@@ -92,7 +92,7 @@ def checkPath(dirname, filename):
         # Task warnings
         extra_flags.append("ignore_stderr")
 
-    if python_version < (3, 8):
+    if python_version < (3, 9):
         if filename in (
             "test_abc.py",
             "test_os.py",
@@ -102,6 +102,7 @@ def checkPath(dirname, filename):
             "test_grammar.py",
             "test_named_expressions.py",
             "test_positional_only_arg.py",
+            "test_inspect.py",
         ):
             reportSkip("Not useful with older Python", dirname, filename)
             return
@@ -120,10 +121,7 @@ def checkPath(dirname, filename):
         if filename == "test_dict_version.py":
             extra_flags.append("ignore_stderr")
     else:
-        # Put 3.8 specific stuff here.
-        pass
-
-    if python_version >= (3, 9):
+        # Put 3.9 specific stuff here.
         if filename == "test_capi.py":
             reportSkip(
                 "Many details mismatch due to CPython 3.9 checking C stacks",
