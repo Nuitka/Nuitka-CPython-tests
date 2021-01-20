@@ -1856,7 +1856,8 @@ class BuiltinTest(unittest.TestCase):
             self.assertRaises(TypeError, tp, 1, 2)
             self.assertRaises(TypeError, tp, a=1, b=2)
 
-    def test_warning_notimplemented(self):
+    # Nuitka: We do not give deprecation warnings.
+    def notest_warning_notimplemented(self):
         # Issue #35712: NotImplemented is a sentinel value that should never
         # be evaluated in a boolean context (virtually all such use cases
         # are a result of accidental misuse implementing rich comparison
