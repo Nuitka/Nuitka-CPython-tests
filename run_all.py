@@ -153,7 +153,7 @@ def checkDir(dirname):
             checkPath(dirname, filename)
 
 
-python_version = setup(suite="CPython38", needs_io_encoding=True)
+python_version = setup(suite="CPython39", needs_io_encoding=True)
 setupCacheHashSalt(".")
 
 search_mode = createSearchMode()
