@@ -132,6 +132,14 @@ def checkPath(dirname, filename):
             )
             return
 
+        if filename == "test_tracemalloc.py":
+            reportSkip(
+                "Many details mismatch in tracemalloc implementation of CPython 3.9",
+                dirname,
+                filename,
+            )
+            return
+
     compareWithCPython(
         dirname=dirname,
         filename=filename,
