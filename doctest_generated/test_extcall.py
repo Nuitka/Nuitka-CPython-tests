@@ -626,18 +626,24 @@ except Exception as __e:
 
 
 try:
-    print('Line 308')
-    print(h(*h)
-    )
+    # Nuitka: Not following worse error message of Python3.9 here.
+    import sys
+    if sys.version_info < (3,9):
+        print('Line 308')
+        print(h(*h)
+        )
 
 except Exception as __e:
     print("Occurred", type(__e), __e)
 
 
 try:
-    print('Line 314')
-    print(h(1, *h)
-    )
+    # Nuitka: Not following worse error message of Python3.9 here.
+    import sys
+    if sys.version_info < (3,9):
+        print('Line 314')
+        print(h(1, *h)
+        )
 
 except Exception as __e:
     print("Occurred", type(__e), __e)
