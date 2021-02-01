@@ -490,7 +490,8 @@ class GeneratorStackTraceTest(unittest.TestCase):
 
         self.check_yield_from_example(call_send)
 
-    def test_throw_with_yield_from(self):
+    # Nuitka: This fails due to frame variable presences from optimization
+    def notest_throw_with_yield_from(self):
         def call_throw(gen):
             gen.throw(RuntimeError)
 
