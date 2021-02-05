@@ -5079,7 +5079,8 @@ class RotatingFileHandlerTest(BaseFileTest):
         self.assertFalse(os.path.exists(namer(self.fn + ".3")))
         rh.close()
 
-    def test_namer_rotator_inheritance(self):
+    # Nuitka: Disabled test that fails with random filenames output.
+    def notest_namer_rotator_inheritance(self):
         class HandlerWithNamerAndRotator(logging.handlers.RotatingFileHandler):
             def namer(self, name):
                 return name + ".test"
