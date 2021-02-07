@@ -494,9 +494,12 @@ except Exception as __e:
 
 
 try:
-    print('Line 286')
-    print(f(**{1: 3}, **{1: 5})
-    )
+    # Nuitka: Not following worse error message of Python3.9 here.
+    import sys
+    if sys.version_info < (3,9):
+        print('Line 286')
+        print(f(**{1: 3}, **{1: 5})
+        )
 
 except Exception as __e:
     print("Occurred", type(__e), __e)
