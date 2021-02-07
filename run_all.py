@@ -56,8 +56,7 @@ def checkPath(dirname, filename):
     if filename == "test_pep3120.py":
         extra_flags.append("ignore_warnings")
 
-    # This imports "A" and "B". Not whitelisting that, so allow for warnings
-    # for this case.
+    # This imports "A" and "B" and warns about it.
     if filename == "test_threaded_import.py":
         extra_flags.append("ignore_warnings")
 
