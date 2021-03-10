@@ -98,11 +98,13 @@ class RangeTest(unittest.TestCase):
         ):
             range()
 
-        with self.assertRaisesRegex(
-                TypeError,
-                "range expected at most 3 arguments, got 6"
-        ):
-            range(1, 2, 3, 4, 5, 6)
+        # Nuitka: We give a more standard error message for this case.
+        if False:
+            with self.assertRaisesRegex(
+                    TypeError,
+                    "range expected at most 3 arguments, got 6"
+            ):
+                range(1, 2, 3, 4, 5, 6)
 
     def test_large_operands(self):
         x = range(10**20, 10**20+10, 3)
