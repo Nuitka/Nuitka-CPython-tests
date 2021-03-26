@@ -6,6 +6,8 @@ from functools import cmp_to_key
 verbose = support.verbose
 nerrors = 0
 
+import random
+random.seed(27)
 
 def check(tag, expected, raw, compare=None):
     global nerrors
