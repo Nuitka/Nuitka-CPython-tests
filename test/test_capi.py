@@ -202,9 +202,10 @@ class CAPITest(unittest.TestCase):
         else:
             with self.assertRaises(SystemError) as cm:
                 _testcapi.return_null_without_error()
+
+            # Nuitka: Our error message is giving less information.
             self.assertRegex(str(cm.exception),
-                             'return_null_without_error.* '
-                             'returned NULL without setting an error')
+                             'without.*error')
 
     def test_return_result_with_error(self):
         # Issue #23571: A function must not return a result with an error set
@@ -234,9 +235,9 @@ class CAPITest(unittest.TestCase):
         else:
             with self.assertRaises(SystemError) as cm:
                 _testcapi.return_result_with_error()
+            # Nuitka: Our error message is giving less information.
             self.assertRegex(str(cm.exception),
-                             'return_result_with_error.* '
-                             'returned a result with an error set')
+                             'result.*error set')
 
     def test_buildvalue_N(self):
         _testcapi.test_buildvalue_N()
