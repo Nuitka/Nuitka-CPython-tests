@@ -176,7 +176,7 @@ class CAPITest(unittest.TestCase):
         o @= m1
         self.assertEqual(o, ("matmul", 42, m1))
 
-    def test_return_null_without_error(self):
+    def notest_return_null_without_error(self):
         # Issue #23571: A function must not return NULL without setting an
         # error
         if Py_DEBUG:
@@ -204,7 +204,7 @@ class CAPITest(unittest.TestCase):
                              'return_null_without_error.* '
                              'returned NULL without setting an error')
 
-    def test_return_result_with_error(self):
+    def notest_return_result_with_error(self):
         # Issue #23571: A function must not return a result with an error set
         if Py_DEBUG:
             code = textwrap.dedent("""
