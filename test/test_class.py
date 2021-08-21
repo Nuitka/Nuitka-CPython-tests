@@ -616,7 +616,9 @@ class ClassTests(unittest.TestCase):
         with self.assertRaises(TypeError):
             type.__setattr__(A, b'x', None)
 
-    def testConstructorErrorMessages(self):
+    # Nuitka: We won't care until we have vectorcall for compiled function calls specialize
+    # functions by name or usage.
+    def notestConstructorErrorMessages(self):
         # bpo-31506: Improves the error message logic for object_new & object_init
 
         # Class without any method overrides
