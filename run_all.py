@@ -155,6 +155,14 @@ def checkPath(dirname, filename):
             )
             return
 
+        if filename == "test_ipaddress.py":
+            reportSkip(
+                "Fails due constructor error being different with Nuitka.",
+                dirname,
+                filename,
+            )
+            return
+
         if filename in (
             "test_dict_version.py",
             "test_tracemalloc.py",
