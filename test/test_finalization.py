@@ -131,7 +131,7 @@ class TestBase:
         # Nuitka: When using this with old CPython, it will fail and output
         # run time pointer values, lets no do that.
         import sys
-        if sys.version_info() < (3, 4):
+        if sys.version_info < (3, 4):
             self.assertEqual(len(SimpleBase.del_calls), len(ids))
         else:
             self.assertEqual(sorted(SimpleBase.del_calls), sorted(ids))
