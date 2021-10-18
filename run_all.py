@@ -120,6 +120,13 @@ def checkPath(dirname, filename):
         # Outputs dict versions which are different.
         if filename == "test_dict_version.py":
             extra_flags.append("ignore_stderr")
+    elif python_version >= (3, 10):
+        if filename in (
+            "test_ast.py",
+            "test_code.py"
+        ):
+            reportSkip("Not useful with newer Python", dirname, filename)
+            return
     else:
         # Put 3.9 specific stuff here.
         if filename == "test_capi.py":
