@@ -1083,7 +1083,8 @@ class URandomFDTests(unittest.TestCase):
             """
         assert_python_ok('-c', code)
 
-    def test_urandom_fd_closed(self):
+    # Nuitka: Do not fork Python processes, no point.
+    def notest_urandom_fd_closed(self):
         # Issue #21207: urandom() should reopen its fd to /dev/urandom if
         # closed.
         code = """if 1:
@@ -1095,7 +1096,8 @@ class URandomFDTests(unittest.TestCase):
             """
         rc, out, err = assert_python_ok('-Sc', code)
 
-    def test_urandom_fd_reopened(self):
+    # Nuitka: Do not fork Python processes, no point.
+    def notest_urandom_fd_reopened(self):
         # Issue #21207: urandom() should detect its fd to /dev/urandom
         # changed to something else, and reopen it.
         with open(support.TESTFN, 'wb') as f:
