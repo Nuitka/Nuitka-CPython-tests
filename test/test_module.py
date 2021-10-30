@@ -265,7 +265,8 @@ a = A(destroyed)"""
         self.assertEqual(r[-len(ends_with):], ends_with,
                          '{!r} does not end with {!r}'.format(r, ends_with))
 
-    def test_module_finalization_at_shutdown(self):
+    # Nuitka: Do not fork Python processes, no point.
+    def notest_module_finalization_at_shutdown(self):
         # Module globals and builtins should still be available during shutdown
         rc, out, err = assert_python_ok("-c", "from test import final_a")
         self.assertFalse(err)
