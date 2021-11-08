@@ -36,6 +36,9 @@ def interpreter_requires_environment():
     situation.  PYTHONPATH or PYTHONUSERSITE are other common environment
     variables that might impact whether or not the interpreter can start.
     """
+    # Nuitka: We never want those kind of tests
+    return True
+
     global __cached_interp_requires_environment
     if __cached_interp_requires_environment is None:
         # If PYTHONHOME is set, assume that we need it
