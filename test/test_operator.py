@@ -319,7 +319,8 @@ class OperatorTestCase:
         c = a[:3] + b[3:]
         self.assertRaises(TypeError, operator.is_)
         self.assertTrue(operator.is_(a, b))
-        self.assertFalse(operator.is_(a,c))
+        # Nuitka: We statically optimize this into the same string.
+        # self.assertFalse(operator.is_(a,c))
 
     def test_is_not(self):
         operator = self.module
@@ -327,7 +328,8 @@ class OperatorTestCase:
         c = a[:3] + b[3:]
         self.assertRaises(TypeError, operator.is_not)
         self.assertFalse(operator.is_not(a, b))
-        self.assertTrue(operator.is_not(a,c))
+        # Nuitka: We statically optimize this into the same string.
+        # self.assertTrue(operator.is_not(a,c))
 
     def test_attrgetter(self):
         operator = self.module
