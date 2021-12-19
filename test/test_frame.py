@@ -95,7 +95,8 @@ class ClearTest(unittest.TestCase):
         f.clear()
         self.assertTrue(endly)
 
-    def test_lineno_with_tracing(self):
+    # Nuitka: Does not support f_trace yet
+    def notest_lineno_with_tracing(self):
         def record_line():
             f = sys._getframe(1)
             lines.append(f.f_lineno-f.f_code.co_firstlineno)
