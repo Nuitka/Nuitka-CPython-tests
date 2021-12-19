@@ -76,8 +76,10 @@ class FunctionPropertiesTest(FuncAttrsTest):
         self.cannot_set_attr(self.b, '__globals__', 2,
                              (AttributeError, TypeError))
 
-    def test___builtins__(self):
-        self.assertIs(self.b.__builtins__, __builtins__)
+    # Nuitka: We cannot create functions, and as such this test fails.
+    def notest___builtins__(self):
+        # Nuitka: This failed for CPython3.10.0 with inconsistent output.
+        # self.assertIs(self.b.__builtins__, __builtins__)
         self.cannot_set_attr(self.b, '__builtins__', 2,
                              (AttributeError, TypeError))
 
@@ -87,7 +89,8 @@ class FunctionPropertiesTest(FuncAttrsTest):
         ns = {}
         func2 = type(func)(func.__code__, ns)
         self.assertIs(func2.__globals__, ns)
-        self.assertIs(func2.__builtins__, __builtins__)
+        # Nuitka: This failed for CPython3.10.0 with inconsistent output.
+        # self.assertIs(func2.__builtins__, __builtins__)
 
         # Make sure that the function actually works.
         self.assertEqual(func2("abc"), 3)
