@@ -140,7 +140,8 @@ class FunctionPropertiesTest(FuncAttrsTest):
             self.fail("shouldn't be able to read an empty cell")
         a = 12
 
-    def test_set_cell(self):
+    # Nuitka: We do not support deletion of local variables through cells.
+    def notest_set_cell(self):
         a = 12
         def f(): return a
         c = f.__closure__
