@@ -133,6 +133,15 @@ def checkPath(dirname, filename):
             )
             return
 
+        # Put 3.10 specific stuff here.
+        if filename in ("test_grammar.py",):
+            reportSkip(
+                "Many details mismatch due to CPython 3.9 checking C stacks",
+                dirname,
+                filename,
+            )
+            return
+
     compareWithCPython(
         dirname=dirname,
         filename=filename,
