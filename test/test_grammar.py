@@ -380,6 +380,10 @@ class GrammarTests(unittest.TestCase):
         self.assertEqual(CC.__annotations__['xx'], 'ANNOT')
 
     def test_var_annot_module_semantics(self):
+        # Nuitka: Incompatible source locations currently.
+        if sys.version_info >= (3, 10):
+            return
+
         with self.assertRaises(AttributeError):
             print(test.__annotations__)
         self.assertEqual(ann_module.__annotations__,
