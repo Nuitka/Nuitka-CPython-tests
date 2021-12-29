@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2.7
 
 """ Runner for CPython 2.7 test suite comparing against Nuitka.
 
