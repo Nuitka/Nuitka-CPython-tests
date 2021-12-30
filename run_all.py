@@ -127,15 +127,6 @@ def checkPath(dirname, filename):
         ):
             reportSkip("Not useful with newer Python", dirname, filename)
             return
-    else:
-        # Put 3.9 specific stuff here.
-        if filename == "test_capi.py":
-            reportSkip(
-                "Many details mismatch due to CPython 3.9 checking C stacks",
-                dirname,
-                filename,
-            )
-            return
 
     compareWithCPython(
         dirname=dirname,
