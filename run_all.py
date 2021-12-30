@@ -121,10 +121,7 @@ def checkPath(dirname, filename):
         if filename == "test_dict_version.py":
             extra_flags.append("ignore_stderr")
     elif python_version >= (3, 10):
-        if filename in (
-            "test_ast.py",
-            "test_code.py"
-        ):
+        if filename in ("test_ast.py", "test_code.py", "test_capi.py"):
             reportSkip("Not useful with newer Python", dirname, filename)
             return
 
