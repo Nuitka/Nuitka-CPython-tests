@@ -676,6 +676,11 @@ class TestFrozenSet(TestJointOps, unittest.TestCase):
         self.assertEqual(s, set(self.word))
 
     def test_singleton_empty_frozenset(self):
+        # CPython 3.10 fails on this, but Nuitka does not.
+        import sys
+        if sys.version_info >= (3, 10):
+            return
+
         f = frozenset()
         efs = [frozenset(), frozenset([]), frozenset(()), frozenset(''),
                frozenset(), frozenset([]), frozenset(()), frozenset(''),
