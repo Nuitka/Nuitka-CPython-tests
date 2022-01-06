@@ -108,6 +108,7 @@ def checkPath(dirname, filename):
             "test_named_expressions.py",
             "test_positional_only_arg.py",
             "test_inspect.py",
+            "test_call.py"
         ):
             reportSkip("Not useful with older Python", dirname, filename)
             return
