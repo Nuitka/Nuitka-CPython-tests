@@ -4328,7 +4328,7 @@ class ModuleLevelMiscTest(BaseTest):
             h.close()
             logging.setLoggerClass(logging.Logger)
 
-    def test_logging_at_shutdown(self):
+    def notest_logging_at_shutdown(self):
         # bpo-20037: Doing text I/O late at interpreter shutdown must not crash
         code = textwrap.dedent("""
             import logging
@@ -4347,7 +4347,7 @@ class ModuleLevelMiscTest(BaseTest):
         self.assertIn("exception in __del__", err)
         self.assertIn("ValueError: some error", err)
 
-    def test_logging_at_shutdown_open(self):
+    def notest_logging_at_shutdown_open(self):
         # bpo-26789: FileHandler keeps a reference to the builtin open()
         # function to be able to open or reopen the file during Python
         # finalization.
@@ -4378,7 +4378,7 @@ class ModuleLevelMiscTest(BaseTest):
         with open(filename, encoding="utf-8") as fp:
             self.assertEqual(fp.read().rstrip(), "ERROR:root:log in __del__")
 
-    def test_recursion_error(self):
+    def notest_recursion_error(self):
         # Issue 36272
         code = textwrap.dedent("""
             import logging
