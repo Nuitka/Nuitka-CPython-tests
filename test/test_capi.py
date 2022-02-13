@@ -601,7 +601,8 @@ class PyMemDebugTests(unittest.TestCase):
         stderr = out.err
         return stderr.decode('ascii', 'replace')
 
-    def test_buffer_overflow(self):
+    # Nuitka: This outputs variable addresses
+    def notest_buffer_overflow(self):
         out = self.check('import _testcapi; _testcapi.pymem_buffer_overflow()')
         regex = (r"Debug memory block at address p={ptr}: API 'm'\n"
                  r"    16 bytes originally requested\n"
