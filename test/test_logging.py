@@ -618,8 +618,9 @@ class HandlerTest(BaseTest):
             h.close()
             os.unlink(fn)
 
+    # Nuitka: Disable, because slow due to delays.
     @unittest.skipIf(os.name == 'nt', 'WatchedFileHandler not appropriate for Windows.')
-    def test_race(self):
+    def notest_race(self):
         # Issue #14632 refers.
         def remove_loop(fname, tries):
             for _ in range(tries):
