@@ -46,6 +46,9 @@ def assert_python_ok(*args, **env_vars):
     Assert that running the interpreter with `args` and optional environment
     variables `env_vars` is ok and return a (return code, stdout, stderr) tuple.
     """
+    # Nuitka: These don't do anything for us, so ignore it
+    return 0, b"", b""
+
     return _assert_python(True, *args, **env_vars)
 
 def assert_python_failure(*args, **env_vars):
@@ -55,7 +58,13 @@ def assert_python_failure(*args, **env_vars):
     """
     return _assert_python(False, *args, **env_vars)
 
+    # Nuitka: These don't do anything for us, so ignore it
+    return 1, b"", b""
+
 def python_exit_code(*args):
+    # Nuitka: These don't do anything for us, so ignore it
+    return 0, b"", b""
+
     cmd_line = [sys.executable, '-E']
     cmd_line.extend(args)
     with open(os.devnull, 'w') as devnull:
@@ -63,6 +72,10 @@ def python_exit_code(*args):
                                 stderr=subprocess.STDOUT)
 
 def spawn_python(*args, **kwargs):
+    # Nuitka: These don't do anything for us, so disable it, may cause failures
+    # for CPython.
+    return None
+
     cmd_line = [sys.executable, '-E']
     cmd_line.extend(args)
     return subprocess.Popen(cmd_line, stdin=subprocess.PIPE,
