@@ -91,6 +91,9 @@ class _PythonRunResult(collections.namedtuple("_PythonRunResult",
 
 # Executing the interpreter in a subprocess
 def run_python_until_end(*args, **env_vars):
+    # Nuitka: These don't do anything for us, so disable it, may cause failures
+    # for CPython.
+    return None
     env_required = interpreter_requires_environment()
     cwd = env_vars.pop('__cwd', None)
     if '__isolated' in env_vars:
@@ -160,6 +163,9 @@ def assert_python_ok(*args, **env_vars):
     Python is started in isolated mode (command line option -I),
     except if the __isolated keyword is set to False.
     """
+    # Nuitka: These don't do anything for us, so ignore it
+    return 0, b"", b""
+
     return _assert_python(True, *args, **env_vars)
 
 
@@ -171,6 +177,10 @@ def assert_python_failure(*args, **env_vars):
 
     See assert_python_ok() for more options.
     """
+
+    # Nuitka: These don't do anything for us, so ignore it
+    return 1, b"", b""
+
     return _assert_python(False, *args, **env_vars)
 
 
@@ -180,6 +190,10 @@ def spawn_python(*args, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, **kw):
     kw is extra keyword args to pass to subprocess.Popen. Returns a Popen
     object.
     """
+    # Nuitka: These don't do anything for us, so disable it, may cause failures
+    # for CPython.
+    return None
+
     cmd_line = [sys.executable]
     if not interpreter_requires_environment():
         cmd_line.append('-E')
