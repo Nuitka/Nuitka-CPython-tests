@@ -516,7 +516,7 @@ class BaseStrTest:
         self.assertEqual(s[len(s) - 10], SUBSTR[0])
         self.assertEqual(s[-sublen], SUBSTR[0])
         self.assertEqual(s[len(s):], _(''))
-        self.assertEqual(s[len(s) - 1:], SUBSTR[-1:])
+        self.assertEqual(s[-1:], SUBSTR[-1:])
         self.assertEqual(s[-1:], SUBSTR[-1:])
         self.assertEqual(s[len(s) - sublen:], SUBSTR)
         self.assertEqual(s[-sublen:], SUBSTR)

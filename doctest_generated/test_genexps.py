@@ -10,8 +10,7 @@ except Exception as __e:
 
 try:
     print('Line 8')
-    print(list((i,j) for i in range(3) for j in range(4) )
-    )
+    print([(i,j) for i in range(3) for j in range(4)])
 
 except Exception as __e:
     print("Occurred", type(__e), __e)
@@ -19,8 +18,7 @@ except Exception as __e:
 
 try:
     print('Line 14')
-    print(list((i,j) for i in range(4) for j in range(i) )
-    )
+    print([(i,j) for i in range(4) for j in range(i)])
 
 except Exception as __e:
     print("Occurred", type(__e), __e)
@@ -34,8 +32,7 @@ except Exception as __e:
 
 try:
     print('Line 21')
-    print(sum(i*i for i in range(100))
-    )
+    print(sum(i**2 for i in range(100)))
 
 except Exception as __e:
     print("Occurred", type(__e), __e)
@@ -51,7 +48,7 @@ except Exception as __e:
 
 
 try:
-    g = (i*i for i in range(4))
+    g = (i**2 for i in range(4))
 except Exception as __e:
     print("Occurred", type(__e), __e)
 
@@ -75,7 +72,7 @@ except Exception as __e:
 
 
 try:
-    g = (i*i for i in range(3))
+    g = (i**2 for i in range(3))
 except Exception as __e:
     print("Occurred", type(__e), __e)
 
@@ -338,8 +335,7 @@ except Exception as __e:
 
 try:
     def zrange(n):
-        for i in yrange(n):
-            yield i
+        yield from yrange(n)
 except Exception as __e:
     print("Occurred", type(__e), __e)
 

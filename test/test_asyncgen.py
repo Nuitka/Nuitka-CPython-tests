@@ -343,7 +343,6 @@ class AsyncGenAsyncioTest(unittest.TestCase):
             yield 2
             await asyncio.sleep(0.01, loop=self.loop)
             return
-            yield 3
 
         res = self.loop.run_until_complete(self.to_list(gen()))
         self.assertEqual(res, [1, 2])

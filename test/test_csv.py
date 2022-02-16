@@ -1058,7 +1058,7 @@ class TestLeaks(unittest.TestCase):
     def test_create_read(self):
         delta = 0
         lastrc = sys.gettotalrefcount()
-        for i in range(20):
+        for _ in range(20):
             gc.collect()
             self.assertEqual(gc.garbage, [])
             rc = sys.gettotalrefcount()
@@ -1074,7 +1074,7 @@ class TestLeaks(unittest.TestCase):
         delta = 0
         lastrc = sys.gettotalrefcount()
         s = NUL()
-        for i in range(20):
+        for _ in range(20):
             gc.collect()
             self.assertEqual(gc.garbage, [])
             rc = sys.gettotalrefcount()
@@ -1090,13 +1090,11 @@ class TestLeaks(unittest.TestCase):
         delta = 0
         rows = ["a,b,c\r\n"]*5
         lastrc = sys.gettotalrefcount()
-        for i in range(20):
+        for _ in range(20):
             gc.collect()
             self.assertEqual(gc.garbage, [])
             rc = sys.gettotalrefcount()
             rdr = csv.reader(rows)
-            for row in rdr:
-                pass
             delta = rc-lastrc
             lastrc = rc
         # if reader leaks during read, delta should be 5 or more
@@ -1107,7 +1105,7 @@ class TestLeaks(unittest.TestCase):
         rows = [[1,2,3]]*5
         s = NUL()
         lastrc = sys.gettotalrefcount()
-        for i in range(20):
+        for _ in range(20):
             gc.collect()
             self.assertEqual(gc.garbage, [])
             rc = sys.gettotalrefcount()

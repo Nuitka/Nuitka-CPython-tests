@@ -41,7 +41,7 @@ class Squares:
         if not 0 <= i < self.max: raise IndexError
         n = len(self.sofar)
         while n <= i:
-            self.sofar.append(n*n)
+            self.sofar.append(n**2)
             n += 1
         return self.sofar[i]
 
@@ -59,7 +59,7 @@ class StrSquares:
             raise IndexError
         n = len(self.sofar)
         while n <= i:
-            self.sofar.append(str(n*n))
+            self.sofar.append(str(n**2))
             n += 1
         return self.sofar[i]
 
@@ -510,9 +510,7 @@ class BuiltinTest(unittest.TestCase):
         # Verify that dict subclasses work as well
         class D(dict):
             def __getitem__(self, key):
-                if key == 'a':
-                    return 12
-                return dict.__getitem__(self, key)
+                return 12 if key == 'a' else dict.__getitem__(self, key)
             def keys(self):
                 return list('xyz')
 
@@ -813,9 +811,7 @@ class BuiltinTest(unittest.TestCase):
         )
 
         def plus(*v):
-            accu = 0
-            for i in v: accu = accu + i
-            return accu
+            return sum(v)
         self.assertEqual(
             list(map(plus, [1, 3, 7])),
             [1, 3, 7]
@@ -847,7 +843,6 @@ class BuiltinTest(unittest.TestCase):
         class BadSeq:
             def __iter__(self):
                 raise ValueError
-                yield None
         self.assertRaises(ValueError, list, map(lambda x: x, BadSeq()))
         def badfunc(x):
             raise RuntimeError

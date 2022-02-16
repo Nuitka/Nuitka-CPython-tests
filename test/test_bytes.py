@@ -71,7 +71,7 @@ class BaseBytesTest:
 
     def test_from_list(self):
         ints = list(range(256))
-        b = self.type2test(i for i in ints)
+        b = self.type2test(iter(ints))
         self.assertEqual(len(b), 256)
         self.assertEqual(list(b), ints)
 
@@ -256,8 +256,8 @@ class BaseBytesTest:
         self.assertEqual(b1 + b2, b"abcdef")
         self.assertEqual(b1 + bytes(b"def"), b"abcdef")
         self.assertEqual(bytes(b"def") + b1, b"defabc")
-        self.assertRaises(TypeError, lambda: b1 + "def")
-        self.assertRaises(TypeError, lambda: "abc" + b2)
+        self.assertRaises(TypeError, lambda: f'{b1}def')
+        self.assertRaises(TypeError, lambda: f'abc{b2}')
 
     def test_repeat(self):
         for b in b"abc", self.type2test(b"abc"):
@@ -1224,7 +1224,7 @@ class ByteArrayTest(BaseBytesTest, unittest.TestCase):
         alloc = b.__alloc__()
         self.assertGreaterEqual(alloc, 0)
         seq = [alloc]
-        for i in range(100):
+        for _ in range(100):
             b += b"x"
             alloc = b.__alloc__()
             self.assertGreater(alloc, len(b))  # including trailing null byte
@@ -1344,7 +1344,7 @@ class ByteArrayTest(BaseBytesTest, unittest.TestCase):
         b = bytearray(b'abc')
         self.assertIsNot(b, b.replace(b'abc', b'cde', 0))
 
-        t = bytearray([i for i in range(256)])
+        t = bytearray(list(range(256)))
         x = bytearray(b'')
         self.assertIsNot(x, x.translate(t))
 
@@ -1427,7 +1427,7 @@ class ByteArrayTest(BaseBytesTest, unittest.TestCase):
             self.assertEqual(list(it), data[1:])
 
             # empty iterator
-            for i in range(1, len(orig)):
+            for _ in range(1, len(orig)):
                 next(itorig)
             d = pickle.dumps((itorig, orig), proto)
             it, b = pickle.loads(d)
@@ -1480,15 +1480,15 @@ class AssortedBytesTest(unittest.TestCase):
                 format(b, 's')
 
     def test_compare_bytes_to_bytearray(self):
-        self.assertEqual(b"abc" == bytes(b"abc"), True)
-        self.assertEqual(b"ab" != bytes(b"abc"), True)
+        self.assertEqual(bytes(b"abc") == b"abc", True)
+        self.assertEqual(bytes(b"abc") != b"ab", True)
         self.assertEqual(b"ab" <= bytes(b"abc"), True)
         self.assertEqual(b"ab" < bytes(b"abc"), True)
         self.assertEqual(b"abc" >= bytes(b"ab"), True)
         self.assertEqual(b"abc" > bytes(b"ab"), True)
 
-        self.assertEqual(b"abc" != bytes(b"abc"), False)
-        self.assertEqual(b"ab" == bytes(b"abc"), False)
+        self.assertEqual(bytes(b"abc") != b"abc", False)
+        self.assertEqual(bytes(b"abc") == b"ab", False)
         self.assertEqual(b"ab" > bytes(b"abc"), False)
         self.assertEqual(b"ab" >= bytes(b"abc"), False)
         self.assertEqual(b"abc" < bytes(b"ab"), False)
@@ -1611,15 +1611,13 @@ class BytearrayPEP3137Test(unittest.TestCase):
             method = getattr(val, methname)
             newval = method(3)
             self.assertEqual(val, newval)
-            self.assertIsNot(val, newval,
-                            methname+' returned self on a mutable object')
+            self.assertIsNot(val, newval, f'{methname} returned self on a mutable object')
         for expr in ('val.split()[0]', 'val.rsplit()[0]',
                      'val.partition(b".")[0]', 'val.rpartition(b".")[2]',
                      'val.splitlines()[0]', 'val.replace(b"", b"")'):
             newval = eval(expr)
             self.assertEqual(val, newval)
-            self.assertIsNot(val, newval,
-                            expr+' returned val on a mutable object')
+            self.assertIsNot(val, newval, f'{expr} returned val on a mutable object')
         sep = self.marshal(b'')
         newval = sep.join([val])
         self.assertEqual(val, newval)

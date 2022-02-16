@@ -113,11 +113,10 @@ def gen_result(data, environ):
     fake_stdin.seek(0)
     form = cgi.FieldStorage(fp=fake_stdin, environ=environ, encoding=encoding)
 
-    result = {}
-    for k, v in dict(form).items():
-        result[k] = isinstance(v, list) and form.getlist(k) or v.value
-
-    return result
+    return {
+        k: isinstance(v, list) and form.getlist(k) or v.value
+        for k, v in dict(form).items()
+    }
 
 class CgiTests(unittest.TestCase):
 
@@ -224,10 +223,7 @@ Content-Length: 3
 
             def readline(self, size=None):
                 self.numcalls += 1
-                if size:
-                    return self.file.readline(size)
-                else:
-                    return self.file.readline()
+                return self.file.readline(size) if size else self.file.readline()
 
             def __getattr__(self, name):
                 file = self.__dict__['file']

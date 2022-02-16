@@ -91,11 +91,7 @@ LOG_LEVEL = util.SUBWARNING
 #LOG_LEVEL = logging.DEBUG
 
 DELTA = 0.1
-CHECK_TIMINGS = False     # making true makes tests take a lot longer
-                          # and can sometimes cause some non-serious
-                          # failures because some calls block a bit
-                          # longer than expected
-if CHECK_TIMINGS:
+if CHECK_TIMINGS := False:
     TIMEOUT1, TIMEOUT2, TIMEOUT3 = 0.82, 0.35, 1.4
 else:
     TIMEOUT1, TIMEOUT2, TIMEOUT3 = 0.1, 0.1, 0.1
@@ -356,13 +352,13 @@ class _TestProcess(BaseTestCase):
         return p.exitcode
 
     def test_terminate(self):
-        exitcode = self._kill_process(multiprocessing.Process.terminate)
         if os.name != 'nt':
+            exitcode = self._kill_process(multiprocessing.Process.terminate)
             self.assertEqual(exitcode, -signal.SIGTERM)
 
     def test_kill(self):
-        exitcode = self._kill_process(multiprocessing.Process.kill)
         if os.name != 'nt':
+            exitcode = self._kill_process(multiprocessing.Process.kill)
             self.assertEqual(exitcode, -signal.SIGKILL)
 
     def test_cpu_count(self):
@@ -483,8 +479,7 @@ class _TestProcess(BaseTestCase):
         N = 5 if sm == 'spawn' else 100
 
         # Try to overwhelm the forkserver loop with events
-        procs = [self.Process(target=self._test_sleep, args=(0.01,))
-                 for i in range(N)]
+        procs = [self.Process(target=self._test_sleep, args=(0.01,)) for _ in range(N)]
         for p in procs:
             p.start()
         for p in procs:
@@ -492,8 +487,7 @@ class _TestProcess(BaseTestCase):
         for p in procs:
             self.assertEqual(p.exitcode, 0)
 
-        procs = [self.Process(target=self._sleep_some)
-                 for i in range(N)]
+        procs = [self.Process(target=self._sleep_some) for _ in range(N)]
         for p in procs:
             p.start()
         time.sleep(0.001)  # let the children start...
@@ -543,13 +537,16 @@ class _TestProcess(BaseTestCase):
         evt = self.Event()
         q = self.Queue()
 
-        procs = [self.Process(target=self._test_child_fd_inflation, args=(evt, q))
-                 for i in range(N)]
+        procs = [
+            self.Process(target=self._test_child_fd_inflation, args=(evt, q))
+            for _ in range(N)
+        ]
+
         for p in procs:
             p.start()
 
         try:
-            fd_counts = [q.get() for i in range(N)]
+            fd_counts = [q.get() for _ in range(N)]
             self.assertEqual(len(set(fd_counts)), 1, fd_counts)
 
         finally:
@@ -785,16 +782,10 @@ class _TestSubclassingProcess(BaseTestCase):
 #
 
 def queue_empty(q):
-    if hasattr(q, 'empty'):
-        return q.empty()
-    else:
-        return q.qsize() == 0
+    return q.empty() if hasattr(q, 'empty') else q.qsize() == 0
 
 def queue_full(q, maxsize):
-    if hasattr(q, 'full'):
-        return q.full()
-    else:
-        return q.qsize() == maxsize
+    return q.full() if hasattr(q, 'full') else q.qsize() == maxsize
 
 
 class _TestQueue(BaseTestCase):
@@ -803,7 +794,7 @@ class _TestQueue(BaseTestCase):
     @classmethod
     def _test_put(cls, queue, child_can_start, parent_can_continue):
         child_can_start.wait()
-        for i in range(6):
+        for _ in range(6):
             queue.get()
         parent_can_continue.set()
 
@@ -983,15 +974,18 @@ class _TestQueue(BaseTestCase):
 
     @classmethod
     def _test_task_done(cls, q):
-        for obj in iter(q.get, None):
+        for _ in iter(q.get, None):
             time.sleep(DELTA)
             q.task_done()
 
     def test_task_done(self):
         queue = self.JoinableQueue()
 
-        workers = [self.Process(target=self._test_task_done, args=(queue,))
-                   for i in range(4)]
+        workers = [
+            self.Process(target=self._test_task_done, args=(queue,))
+            for _ in range(4)
+        ]
+
 
         for p in workers:
             p.daemon = True
@@ -1012,7 +1006,7 @@ class _TestQueue(BaseTestCase):
     def test_no_import_lock_contention(self):
         with test.support.temp_cwd():
             module_name = 'imported_by_an_imported_module'
-            with open(module_name + '.py', 'w') as f:
+            with open(f'{module_name}.py', 'w') as f:
                 f.write("""if 1:
                     import multiprocessing
 
@@ -1204,7 +1198,7 @@ class _TestCondition(BaseTestCase):
         cond.release()
 
     def assertReachesEventually(self, func, value):
-        for i in range(10):
+        for _ in range(10):
             try:
                 if func() == value:
                     break
@@ -1276,7 +1270,7 @@ class _TestCondition(BaseTestCase):
         woken = self.Semaphore(0)
 
         # start some threads/processes which will timeout
-        for i in range(3):
+        for _ in range(3):
             p = self.Process(target=self.f,
                              args=(cond, sleeping, woken, TIMEOUT1))
             p.daemon = True
@@ -1290,11 +1284,11 @@ class _TestCondition(BaseTestCase):
             self.addCleanup(t.join)
 
         # wait for them all to sleep
-        for i in range(6):
+        for _ in range(6):
             sleeping.acquire()
 
         # check they have all timed out
-        for i in range(6):
+        for _ in range(6):
             woken.acquire()
         self.assertReturnsIfImplemented(0, get_value, woken)
 
@@ -1302,7 +1296,7 @@ class _TestCondition(BaseTestCase):
         self.check_invariant(cond)
 
         # start some more threads/processes
-        for i in range(3):
+        for _ in range(3):
             p = self.Process(target=self.f, args=(cond, sleeping, woken))
             p.daemon = True
             p.start()
@@ -1314,7 +1308,7 @@ class _TestCondition(BaseTestCase):
             self.addCleanup(t.join)
 
         # wait for them to all sleep
-        for i in range(6):
+        for _ in range(6):
             sleeping.acquire()
 
         # check no process/thread has woken up
@@ -1338,7 +1332,7 @@ class _TestCondition(BaseTestCase):
         woken = self.Semaphore(0)
 
         # start some threads/processes
-        for i in range(3):
+        for _ in range(3):
             p = self.Process(target=self.f, args=(cond, sleeping, woken))
             p.daemon = True
             p.start()
@@ -1350,7 +1344,7 @@ class _TestCondition(BaseTestCase):
             self.addCleanup(t.join)
 
         # wait for them to all sleep
-        for i in range(6):
+        for _ in range(6):
             sleeping.acquire()
 
         # check no process/thread has woken up
@@ -1415,7 +1409,7 @@ class _TestCondition(BaseTestCase):
             self.assertTrue(result)
             self.assertEqual(state.value, 0)
 
-        for i in range(4):
+        for _ in range(4):
             time.sleep(0.01)
             with cond:
                 state.value += 1
@@ -1451,7 +1445,7 @@ class _TestCondition(BaseTestCase):
         self.assertTrue(sem.acquire(timeout=TIMEOUT))
 
         # Only increment 3 times, so state == 4 is never reached.
-        for i in range(3):
+        for _ in range(3):
             time.sleep(0.01)
             with cond:
                 state.value += 1
@@ -1703,7 +1697,7 @@ class _TestBarrier(BaseTestCase):
         """
         queue = self.Queue()
         self.run_threads(self._test_wait_return_f, (self.barrier, queue))
-        results = [queue.get() for i in range(self.N)]
+        results = [queue.get() for _ in range(self.N)]
         self.assertEqual(results.count(0), 1)
         close_queue(queue)
 
@@ -1872,14 +1866,14 @@ class _TestBarrier(BaseTestCase):
         passes = 1000
         lock = self.Lock()
         conn, child_conn = self.Pipe(False)
-        for j in range(self.N):
+        for _ in range(self.N):
             p = self.Process(target=self._test_thousand_f,
                            args=(self.barrier, passes, child_conn, lock))
             p.start()
             self.addCleanup(p.join)
 
         for i in range(passes):
-            for j in range(self.N):
+            for _ in range(self.N):
                 self.assertEqual(conn.recv(), i)
 
 #
@@ -1968,11 +1962,7 @@ class _TestArray(BaseTestCase):
     @unittest.skipIf(c_int is None, "requires _ctypes")
     def test_array(self, raw=False):
         seq = [680, 626, 934, 821, 150, 233, 548, 982, 714, 831]
-        if raw:
-            arr = self.RawArray('i', seq)
-        else:
-            arr = self.Array('i', seq)
-
+        arr = self.RawArray('i', seq) if raw else self.Array('i', seq)
         self.assertEqual(len(arr), len(seq))
         self.assertEqual(arr[3], seq[3])
         self.assertEqual(list(arr[2:7]), list(seq[2:7]))
@@ -2099,7 +2089,7 @@ class _TestContainers(BaseTestCase):
         indices = list(range(65, 70))
         for i in indices:
             d[i] = chr(i)
-        self.assertEqual(d.copy(), dict((i, chr(i)) for i in indices))
+        self.assertEqual(d.copy(), {i: chr(i) for i in indices})
         self.assertEqual(sorted(d.keys()), indices)
         self.assertEqual(sorted(d.values()), [chr(i) for i in indices])
         self.assertEqual(sorted(d.items()), [(i, chr(i)) for i in indices])
@@ -2378,7 +2368,7 @@ class _TestPool(BaseTestCase):
         expected_values = list(map(sqr, list(range(10))))
         with self.assertRaises(SayWhenError):
             # imap_unordered makes it difficult to anticipate the SayWhenError
-            for i in range(10):
+            for _ in range(10):
                 value = next(it)
                 self.assertIn(value, expected_values)
                 expected_values.remove(value)
@@ -2388,7 +2378,7 @@ class _TestPool(BaseTestCase):
                                       2)
         expected_values = list(map(sqr, list(range(20))))
         with self.assertRaises(SayWhenError):
-            for i in range(20):
+            for _ in range(20):
                 value = next(it)
                 self.assertIn(value, expected_values)
                 expected_values.remove(value)
@@ -2410,8 +2400,9 @@ class _TestPool(BaseTestCase):
 
     def test_terminate(self):
         result = self.pool.map_async(
-            time.sleep, [0.1 for i in range(10000)], chunksize=1
-            )
+            time.sleep, [0.1 for _ in range(10000)], chunksize=1
+        )
+
         self.pool.terminate()
         join = TimingWrapper(self.pool.join)
         join()
@@ -2446,38 +2437,39 @@ class _TestPool(BaseTestCase):
     def test_traceback(self):
         # We want ensure that the traceback from the child process is
         # contained in the traceback raised in the main process.
-        if self.TYPE == 'processes':
-            with self.Pool(1) as p:
-                try:
-                    p.apply(self._test_traceback)
-                except Exception as e:
-                    exc = e
-                else:
-                    self.fail('expected RuntimeError')
-            self.assertIs(type(exc), RuntimeError)
-            self.assertEqual(exc.args, (123,))
-            cause = exc.__cause__
-            self.assertIs(type(cause), multiprocessing.pool.RemoteTraceback)
-            self.assertIn('raise RuntimeError(123) # some comment', cause.tb)
+        if self.TYPE != 'processes':
+            return
+        with self.Pool(1) as p:
+            try:
+                p.apply(self._test_traceback)
+            except Exception as e:
+                exc = e
+            else:
+                self.fail('expected RuntimeError')
+        self.assertIs(type(exc), RuntimeError)
+        self.assertEqual(exc.args, (123,))
+        cause = exc.__cause__
+        self.assertIs(type(cause), multiprocessing.pool.RemoteTraceback)
+        self.assertIn('raise RuntimeError(123) # some comment', cause.tb)
 
-            with test.support.captured_stderr() as f1:
-                try:
-                    raise exc
-                except RuntimeError:
-                    sys.excepthook(*sys.exc_info())
-            self.assertIn('raise RuntimeError(123) # some comment',
-                          f1.getvalue())
-            # _helper_reraises_exception should not make the error
-            # a remote exception
-            with self.Pool(1) as p:
-                try:
-                    p.map(sqr, exception_throwing_generator(1, -1), 1)
-                except Exception as e:
-                    exc = e
-                else:
-                    self.fail('expected SayWhenError')
-                self.assertIs(type(exc), SayWhenError)
-                self.assertIs(exc.__cause__, None)
+        with test.support.captured_stderr() as f1:
+            try:
+                raise exc
+            except RuntimeError:
+                sys.excepthook(*sys.exc_info())
+        self.assertIn('raise RuntimeError(123) # some comment',
+                      f1.getvalue())
+        # _helper_reraises_exception should not make the error
+        # a remote exception
+        with self.Pool(1) as p:
+            try:
+                p.map(sqr, exception_throwing_generator(1, -1), 1)
+            except Exception as e:
+                exc = e
+            else:
+                self.fail('expected SayWhenError')
+            self.assertIs(type(exc), SayWhenError)
+            self.assertIs(exc.__cause__, None)
 
     @classmethod
     def _test_wrapped_exception(cls):
@@ -2512,13 +2504,13 @@ class _TestPool(BaseTestCase):
     def test_release_task_refs(self):
         # Issue #29861: task arguments and results should not be kept
         # alive after we are done with them.
-        objs = [CountedObject() for i in range(10)]
+        objs = [CountedObject() for _ in range(10)]
         refs = [weakref.ref(o) for o in objs]
         self.pool.map(identity, objs)
 
         del objs
         time.sleep(DELTA)  # let threaded cleanup code run
-        self.assertEqual(set(wr() for wr in refs), {None})
+        self.assertEqual({wr() for wr in refs}, {None})
         # With a process pool, copies of the objects are returned, check
         # they were released too.
         self.assertEqual(CountedObject.n_instances, 0)
@@ -2578,9 +2570,7 @@ class _TestPoolWorkerLifetime(BaseTestCase):
         self.assertEqual(3, len(p._pool))
         origworkerpids = [w.pid for w in p._pool]
         # Run many tasks so each worker gets replaced (hopefully)
-        results = []
-        for i in range(100):
-            results.append(p.apply_async(sqr, (i, )))
+        results = [p.apply_async(sqr, (i, )) for i in range(100)]
         # Fetch the results and verify we got the right answers,
         # also ensuring all the tasks have completed.
         for (j, res) in enumerate(results):
@@ -2606,9 +2596,7 @@ class _TestPoolWorkerLifetime(BaseTestCase):
         # Issue #10332: closing a pool whose workers have limited lifetimes
         # before all the tasks completed would make join() hang.
         p = multiprocessing.Pool(3, maxtasksperchild=1)
-        results = []
-        for i in range(6):
-            results.append(p.apply_async(sqr, (i, 0.3)))
+        results = [p.apply_async(sqr, (i, 0.3)) for i in range(6)]
         p.close()
         p.join()
         # check the results
@@ -2984,7 +2972,7 @@ class _TestConnection(BaseTestCase):
     @classmethod
     def _writefd(cls, conn, data, create_dummy_fds=False):
         if create_dummy_fds:
-            for i in range(0, 256):
+            for i in range(256):
                 if not cls._is_fd_assigned(i):
                     os.dup2(conn.fileno(), i)
         fd = reduction.recv_handle(conn)
@@ -3174,7 +3162,7 @@ class _TestPoll(BaseTestCase):
         p.start()
 
         for s in strings:
-            for i in range(200):
+            for _ in range(200):
                 if a.poll(0.01):
                     break
             x = a.recv_bytes()
@@ -3395,9 +3383,8 @@ class _TestHeap(BaseTestCase):
         heap._lock.acquire()
         self.addCleanup(heap._lock.release)
         for L in list(heap._len_to_seq.values()):
-            for arena, start, stop in L:
-                all.append((heap._arenas.index(arena), start, stop,
-                            stop-start, 'free'))
+            all.extend((heap._arenas.index(arena), start, stop,
+                            stop-start, 'free') for arena, start, stop in L)
         for arena, start, stop in heap._allocated_blocks:
             all.append((heap._arenas.index(arena), start, stop,
                         stop-start, 'occupied'))
@@ -3426,7 +3413,7 @@ class _TestHeap(BaseTestCase):
 
         # perform numerous block allocations, with cyclic references to make
         # sure objects are collected asynchronously by the gc
-        for i in range(5000):
+        for _ in range(5000):
             a = multiprocessing.heap.BufferWrapper(1)
             b = multiprocessing.heap.BufferWrapper(1)
             # circular references
@@ -3561,7 +3548,7 @@ class _TestFinalize(BaseTestCase):
         p.start()
         p.join()
 
-        result = [obj for obj in iter(conn.recv, 'STOP')]
+        result = list(iter(conn.recv, 'STOP'))
         self.assertEqual(result, ['a', 'b', 'd10', 'd03', 'd02', 'd01', 'e'])
 
     def test_thread_safety(self):
@@ -3596,7 +3583,7 @@ class _TestFinalize(BaseTestCase):
                 try:
                     # Old Foo's get gradually replaced and later
                     # collected by the GC (because of the cyclic ref)
-                    d[random.getrandbits(5)] = {Foo() for i in range(10)}
+                    d[random.getrandbits(5)] = {Foo() for _ in range(10)}
                 except Exception as e:
                     exc = e
                     d.clear()
@@ -3631,7 +3618,7 @@ class _TestImportStar(unittest.TestCase):
         pattern = os.path.join(folder, '*.py')
         files = glob.glob(pattern)
         modules = [os.path.splitext(os.path.split(f)[1])[0] for f in files]
-        modules = ['multiprocessing.' + m for m in modules]
+        modules = [f'multiprocessing.{m}' for m in modules]
         modules.remove('multiprocessing.__init__')
         modules.append('multiprocessing')
         return modules
@@ -3934,7 +3921,7 @@ class TestWait(unittest.TestCase):
         procs = []
         messages = []
 
-        for i in range(4):
+        for _ in range(4):
             r, w = multiprocessing.Pipe(duplex=False)
             p = multiprocessing.Process(target=self._child_test_wait, args=(w, slow))
             p.daemon = True
@@ -3978,7 +3965,7 @@ class TestWait(unittest.TestCase):
         procs = []
         dic = {}
 
-        for i in range(4):
+        for _ in range(4):
             p = multiprocessing.Process(target=self._child_test_wait_socket,
                                         args=(addr, slow))
             p.daemon = True
@@ -3986,7 +3973,7 @@ class TestWait(unittest.TestCase):
             procs.append(p)
             self.addCleanup(p.join)
 
-        for i in range(4):
+        for _ in range(4):
             r, _ = l.accept()
             readers.append(r)
             dic[r] = []
@@ -3994,13 +3981,12 @@ class TestWait(unittest.TestCase):
 
         while readers:
             for r in wait(readers):
-                msg = r.recv(32)
-                if not msg:
-                    readers.remove(r)
-                    r.close()
-                else:
+                if msg := r.recv(32):
                     dic[r].append(msg)
 
+                else:
+                    readers.remove(r)
+                    r.close()
         expected = ''.join('%s\n' % i for i in range(10)).encode('ascii')
         for v in dic.values():
             self.assertEqual(b''.join(v), expected)
@@ -4235,17 +4221,16 @@ class TestCloseFds(unittest.TestCase):
             # calling socket.fromfd() should produce WSAENOTSOCK even
             # if there is a handle of the same number.
             return socket.socket().detach()
-        else:
-            # We want to produce a socket with an fd high enough that a
-            # freshly created child process will not have any fds as high.
-            fd = socket.socket().detach()
-            to_close = []
-            while fd < 50:
-                to_close.append(fd)
-                fd = os.dup(fd)
-            for x in to_close:
-                os.close(x)
-            return fd
+        # We want to produce a socket with an fd high enough that a
+        # freshly created child process will not have any fds as high.
+        fd = socket.socket().detach()
+        to_close = []
+        while fd < 50:
+            to_close.append(fd)
+            fd = os.dup(fd)
+        for x in to_close:
+            os.close(x)
+        return fd
 
     def close(self, fd):
         if WIN32:
@@ -4414,8 +4399,9 @@ class TestStartMethod(unittest.TestCase):
         if sys.platform == 'win32':
             self.assertEqual(methods, ['spawn'])
         else:
-            self.assertTrue(methods == ['fork', 'spawn'] or
-                            methods == ['fork', 'spawn', 'forkserver'])
+            self.assertTrue(
+                methods in [['fork', 'spawn'], ['fork', 'spawn', 'forkserver']]
+            )
 
     def test_preload_resources(self):
         if multiprocessing.get_start_method() != 'forkserver':
@@ -4557,15 +4543,15 @@ class BaseMixin(object):
         # cycles. Trigger a garbage collection to break these cycles.
         test.support.gc_collect()
 
-        processes = set(multiprocessing.process._dangling) - set(cls.dangling[0])
-        if processes:
+        if processes := set(multiprocessing.process._dangling) - set(
+            cls.dangling[0]
+        ):
             test.support.environment_altered = True
             print('Warning -- Dangling processes: %s' % processes,
                   file=sys.stderr)
         processes = None
 
-        threads = set(threading._dangling) - set(cls.dangling[1])
-        if threads:
+        if threads := set(threading._dangling) - set(cls.dangling[1]):
             test.support.environment_altered = True
             print('Warning -- Dangling threads: %s' % threads,
                   file=sys.stderr)
@@ -4741,17 +4727,14 @@ def install_tests_in_module_dict(remote_globs, start_method):
         test.support.gc_collect()
 
         multiprocessing.set_start_method(old_start_method[0], force=True)
-        # pause a bit so we don't get warning about dangling threads/processes
-        processes = set(multiprocessing.process._dangling) - set(dangling[0])
-        if processes:
+        if processes := set(multiprocessing.process._dangling) - set(dangling[0]):
             need_sleep = True
             test.support.environment_altered = True
             print('Warning -- Dangling processes: %s' % processes,
                   file=sys.stderr)
         processes = None
 
-        threads = set(threading._dangling) - set(dangling[1])
-        if threads:
+        if threads := set(threading._dangling) - set(dangling[1]):
             need_sleep = True
             test.support.environment_altered = True
             print('Warning -- Dangling threads: %s' % threads,

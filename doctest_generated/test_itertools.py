@@ -216,13 +216,12 @@ try:
         # unique_everseen('ABBCcAD', str.lower) --> A B C D
         seen = set()
         seen_add = seen.add
-        if key is None:
-            for element in iterable:
+        for element in iterable:
+            if key is None:
                 if element not in seen:
                     seen_add(element)
                     yield element
-        else:
-            for element in iterable:
+            else:
                 k = key(element)
                 if k not in seen:
                     seen_add(k)

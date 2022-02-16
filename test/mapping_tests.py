@@ -136,8 +136,8 @@ class BasicTestMappingProtocol(unittest.TestCase):
     def test_bool(self):
         self.assertTrue(not self._empty_mapping())
         self.assertTrue(self.reference)
-        self.assertTrue(bool(self._empty_mapping()) is False)
-        self.assertTrue(bool(self.reference) is True)
+        self.assertTrue(not bool(self._empty_mapping()))
+        self.assertTrue(bool(self.reference))
 
     def test_keys(self):
         d = self._empty_mapping()
@@ -312,8 +312,8 @@ class TestMappingProtocol(BasicTestMappingProtocol):
         BasicTestMappingProtocol.test_bool(self)
         self.assertTrue(not self._empty_mapping())
         self.assertTrue(self._full_mapping({"x": "y"}))
-        self.assertTrue(bool(self._empty_mapping()) is False)
-        self.assertTrue(bool(self._full_mapping({"x": "y"})) is True)
+        self.assertTrue(not bool(self._empty_mapping()))
+        self.assertTrue(bool(self._full_mapping({"x": "y"})))
 
     def test_keys(self):
         BasicTestMappingProtocol.test_keys(self)
@@ -339,7 +339,7 @@ class TestMappingProtocol(BasicTestMappingProtocol):
     def test_contains(self):
         d = self._empty_mapping()
         self.assertNotIn('a', d)
-        self.assertTrue(not ('a' in d))
+        self.assertTrue('a' not in d)
         self.assertTrue('a' not in d)
         d = self._full_mapping({'a': 1, 'b': 2})
         self.assertIn('a', d)
@@ -512,12 +512,12 @@ class TestMappingProtocol(BasicTestMappingProtocol):
                         b[repr(i)] = i
                 if copymode > 0:
                     b = a.copy()
-                for i in range(size):
+                for _ in range(size):
                     ka, va = ta = a.popitem()
                     self.assertEqual(va, int(ka))
                     kb, vb = tb = b.popitem()
                     self.assertEqual(vb, int(kb))
-                    self.assertTrue(not(copymode < 0 and ta != tb))
+                    self.assertTrue(copymode >= 0 or ta == tb)
                 self.assertTrue(not a)
                 self.assertTrue(not b)
 
@@ -622,7 +622,7 @@ class TestHashMappingProtocol(TestMappingProtocol):
 
     def test_repr_deep(self):
         d = self._empty_mapping()
-        for i in range(sys.getrecursionlimit() + 100):
+        for _ in range(sys.getrecursionlimit() + 100):
             d0 = d
             d = self._empty_mapping()
             d[1] = d0

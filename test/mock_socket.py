@@ -50,17 +50,13 @@ class MockSocket:
         self.lines.append(line)
 
     def recv(self, bufsize, flags=None):
-        data = self.lines.pop(0) + b'\r\n'
-        return data
+        return self.lines.pop(0) + b'\r\n'
 
     def fileno(self):
         return 0
 
     def settimeout(self, timeout):
-        if timeout is None:
-            self.timeout = _defaulttimeout
-        else:
-            self.timeout = timeout
+        self.timeout = _defaulttimeout if timeout is None else timeout
 
     def gettimeout(self):
         return self.timeout
@@ -88,8 +84,7 @@ class MockSocket:
         pass
 
     def makefile(self, mode='r', bufsize=-1):
-        handle = MockFile(self.lines)
-        return handle
+        return MockFile(self.lines)
 
     def sendall(self, buffer, flags=None):
         self.last = data

@@ -16,10 +16,7 @@ def isint(x):
 
 def isnum(x):
     """Test whether an object is an instance of a built-in numeric type."""
-    for T in int, float, complex:
-        if isinstance(x, T):
-            return 1
-    return 0
+    return next((1 for T in (int, float, complex) if isinstance(x, T)), 0)
 
 def isRat(x):
     """Test whether an object is an instance of the Rat class."""
@@ -311,10 +308,7 @@ def op_sequence(op, *classes):
     """Return the sequence of operations that results from applying
     the operation `op` to instances of the given classes."""
     log = []
-    instances = []
-    for c in classes:
-        instances.append(c(log.append))
-
+    instances = [c(log.append) for c in classes]
     try:
         op(*instances)
     except TypeError:

@@ -118,14 +118,11 @@ def collect_sys(info_add):
         encoding = getattr(stream, 'encoding', None)
         if not encoding:
             continue
-        errors = getattr(stream, 'errors', None)
-        if errors:
+        if errors := getattr(stream, 'errors', None):
             encoding = '%s/%s' % (encoding, errors)
         info_add('sys.%s.encoding' % name, encoding)
 
-    # Were we compiled --with-pydebug or with #define Py_DEBUG?
-    Py_DEBUG = hasattr(sys, 'gettotalrefcount')
-    if Py_DEBUG:
+    if Py_DEBUG := hasattr(sys, 'gettotalrefcount'):
         text = 'Yes (sys.gettotalrefcount() present)'
     else:
         text = 'No (sys.gettotalrefcount() missing)'
@@ -262,10 +259,7 @@ def collect_readline(info_add):
         return
 
     def format_attr(attr, value):
-        if isinstance(value, int):
-            return "%#x" % value
-        else:
-            return value
+        return "%#x" % value if isinstance(value, int) else value
 
     attributes = (
         "_READLINE_VERSION",
@@ -387,10 +381,7 @@ def collect_ssl(info_add):
         return
 
     def format_attr(attr, value):
-        if attr.startswith('OP_'):
-            return '%#8x' % value
-        else:
-            return value
+        return '%#8x' % value if attr.startswith('OP_') else value
 
     attributes = (
         'OPENSSL_VERSION',

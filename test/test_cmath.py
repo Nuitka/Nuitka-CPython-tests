@@ -125,10 +125,9 @@ class CMathTests(unittest.TestCase):
         # (in theory there are examples where it would be legitimate for a
         # and b to have opposite signs; in practice these hardly ever
         # occur).
-        if not a and not b:
-            if math.copysign(1., a) != math.copysign(1., b):
-                self.fail(msg or 'zero has wrong sign: expected {!r}, '
-                          'got {!r}'.format(a, b))
+        if not a and not b and math.copysign(1.0, a) != math.copysign(1.0, b):
+            self.fail(msg or 'zero has wrong sign: expected {!r}, '
+                      'got {!r}'.format(a, b))
 
         # if a-b overflows, or b is infinite, return False.  Again, in
         # theory there are examples where a is within a few ulps of the

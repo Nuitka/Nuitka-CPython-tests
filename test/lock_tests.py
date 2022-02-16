@@ -844,7 +844,6 @@ class BarrierTests(BaseTestCase):
                 results2.append(True)
             except RuntimeError:
                 self.barrier.abort()
-                pass
 
         self.run_threads(f)
         self.assertEqual(len(results1), 0)
@@ -900,7 +899,6 @@ class BarrierTests(BaseTestCase):
                 results2.append(True)
             except RuntimeError:
                 self.barrier.abort()
-                pass
             # Synchronize and reset the barrier.  Must synchronize first so
             # that everyone has left it when we reset, and after so that no
             # one enters it before the reset.

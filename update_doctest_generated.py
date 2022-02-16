@@ -86,12 +86,17 @@ saveAsGeneratedDoctest("test_generators.py", tuple(sorted(test.test_generators._
 
 
 def filter_genexps(line):
-    if line.find("set(attr for attr in dir(g) if not attr.startswith('__')) >= expected") != -1:
-        return True
-    elif line.find("isinstance(g, types.GeneratorType)") != -1:
-        return True
-    else:
-        return False
+    return (
+        line.find(
+            "set(attr for attr in dir(g) if not attr.startswith('__')) >= expected"
+        )
+        != -1
+        or line.find(
+            "set(attr for attr in dir(g) if not attr.startswith('__')) >= expected"
+        )
+        == -1
+        and line.find("isinstance(g, types.GeneratorType)") != -1
+    )
 
 import test.test_genexps
 saveAsGeneratedDoctest("test_genexps.py", test.test_genexps.doctests, line_filter = filter_genexps)

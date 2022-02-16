@@ -582,23 +582,16 @@ class TestCase(unittest.TestCase):
                     class Point:
                         y: typ = non_empty
 
-                # Check subtypes also fail.
                 class Subclass(typ): pass
-
-                with self.assertRaisesRegex(ValueError,
-                                            f"mutable default .*Subclass'>"
-                                            ' for field z is not allowed'
-                                            ):
+                with self.assertRaisesRegex(ValueError, "mutable default .*Subclass'> for field z is not allowed"):
                     @dataclass
                     class Point:
                         z: typ = Subclass()
 
-                # Because this is a ClassVar, it can be mutable.
                 @dataclass
                 class C:
                     z: ClassVar[typ] = typ()
 
-                # Because this is a ClassVar, it can be mutable.
                 @dataclass
                 class C:
                     x: ClassVar[typ] = Subclass()
@@ -1639,9 +1632,7 @@ class TestCase(unittest.TestCase):
                 self.__dict__.update(kw)
 
             def __getitem__(self, item):
-                if item == 'xyzzy':
-                    return 'plugh'
-                return getattr(self, item)
+                return 'plugh' if item == 'xyzzy' else getattr(self, item)
 
             def __len__(self):
                 return self.__dict__.__len__()
@@ -1871,7 +1862,6 @@ class TestInit(unittest.TestCase):
         class B:
             def __init__(self):
                 self.z = 100
-                pass
 
         # Make sure that declaring this class doesn't raise an error.
         #  The issue is that we can't override __init__ in our class,
@@ -2545,11 +2535,9 @@ class TestDescriptors(unittest.TestCase):
         # Create a descriptor.
         class D:
             def __set_name__(self, owner, name):
-                self.name = name + 'x'
+                self.name = f'{name}x'
             def __get__(self, instance, owner):
-                if instance is not None:
-                    return 1
-                return self
+                return 1 if instance is not None else self
 
         # This is the case of just normal descriptor behavior, no
         #  dataclass code is involved in initializing the descriptor.
@@ -2573,7 +2561,7 @@ class TestDescriptors(unittest.TestCase):
 
         class D:
             def __set_name__(self, owner, name):
-                self.name = name + 'x'
+                self.name = f'{name}x'
 
         @dataclass
         class C:
@@ -2725,10 +2713,7 @@ class TestStringAnnotations(unittest.TestCase):
                 # There's a difference in how the ClassVars are
                 # interpreted when using string annotations or
                 # not. See the imported modules for details.
-                if m.USING_STRINGS:
-                    c = m.CV(10)
-                else:
-                    c = m.CV()
+                c = m.CV(10) if m.USING_STRINGS else m.CV()
                 self.assertEqual(c.cv0, 20)
 
 

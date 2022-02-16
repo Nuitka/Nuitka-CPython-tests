@@ -360,21 +360,19 @@ class LockContextTestCase(unittest.TestCase):
     def testWithSemaphore(self):
         lock = threading.Semaphore()
         def locked():
-            if lock.acquire(False):
-                lock.release()
-                return False
-            else:
+            if not lock.acquire(False):
                 return True
+            lock.release()
+            return False
         self.boilerPlate(lock, locked)
 
     def testWithBoundedSemaphore(self):
         lock = threading.BoundedSemaphore()
         def locked():
-            if lock.acquire(False):
-                lock.release()
-                return False
-            else:
+            if not lock.acquire(False):
                 return True
+            lock.release()
+            return False
         self.boilerPlate(lock, locked)
 
 
@@ -869,7 +867,7 @@ class TestBaseExitStack:
     def test_excessive_nesting(self):
         # The original implementation would die with RecursionError here
         with self.exit_stack() as stack:
-            for i in range(10000):
+            for _ in range(10000):
                 stack.callback(int)
 
     def test_instance_bypass(self):

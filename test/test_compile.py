@@ -96,9 +96,7 @@ class TestSpecifics(unittest.TestCase):
         # Verify that dict subclasses work as well
         class D(dict):
             def __getitem__(self, key):
-                if key == 'a':
-                    return 12
-                return dict.__getitem__(self, key)
+                return 12 if key == 'a' else dict.__getitem__(self, key)
         d = D()
         exec('z = a', g, d)
         self.assertEqual(d['z'], 12)
@@ -194,12 +192,12 @@ if 1:
             # 32-bit machine
             all_one_bits = '0xffffffff'
             self.assertEqual(eval(all_one_bits), 4294967295)
-            self.assertEqual(eval("-" + all_one_bits), -4294967295)
+            self.assertEqual(eval(f'-{all_one_bits}'), -4294967295)
         elif sys.maxsize == 9223372036854775807:
             # 64-bit machine
             all_one_bits = '0xffffffffffffffff'
             self.assertEqual(eval(all_one_bits), 18446744073709551615)
-            self.assertEqual(eval("-" + all_one_bits), -18446744073709551615)
+            self.assertEqual(eval(f'-{all_one_bits}'), -18446744073709551615)
         else:
             self.fail("How many bits *does* this machine have???")
         # Verify treatment of constant folding on -(sys.maxsize+1)
@@ -572,20 +570,13 @@ if 1:
 
         # Also test when eval() and exec() do the compilation step
         self.assertEqual(eval(memoryview(b"1234")[1:-1]), 23)
-        namespace = dict()
+        namespace = {}
         exec(memoryview(b"ax = 123")[1:-1], namespace)
         self.assertEqual(namespace['x'], 12)
 
     def check_constant(self, func, expected):
         # Nuitka: Our co_const is not used for storing or accessing constants.
         return True
-
-        for const in func.__code__.co_consts:
-            if repr(const) == repr(expected):
-                break
-        else:
-            self.fail("unable to find constant %r in %r"
-                      % (expected, func.__code__.co_consts))
 
     # Merging equal constants is not a strict requirement for the Python
     # semantics, it's a more an implementation detail.
@@ -723,7 +714,7 @@ class TestStackSizeStability(unittest.TestCase):
             ns = {}
             script = """def func():\n""" + i * snippet
             if async_:
-                script = "async " + script
+                script = f'async {script}'
             code = compile(script, "<script>", "exec")
             exec(code, ns, ns)
             return ns['func'].__code__

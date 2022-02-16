@@ -128,7 +128,7 @@ def dump(co):
     """Print out a text representation of a code object."""
     for attr in ["name", "argcount", "kwonlyargcount", "names", "varnames",
                  "cellvars", "freevars", "nlocals", "flags"]:
-        print("%s: %s" % (attr, getattr(co, "co_" + attr)))
+        print("%s: %s" % (attr, getattr(co, f'co_{attr}')))
     print("consts:", tuple(consts(co.co_consts)))
 
 # Needed for test_closure_injection below
@@ -190,7 +190,7 @@ class CodeTest(unittest.TestCase):
         self.assertEqual(obj[0], "Foreign getitem: 1")
 
 def isinterned(s):
-    return s is sys.intern(('_' + s + '_')[1:-1])
+    return s is sys.intern(f'_{s}_'[1:-1])
 
 class CodeConstsTest(unittest.TestCase):
 

@@ -518,7 +518,7 @@ class CalendarTestCase(unittest.TestCase):
     def test_enumerate_weekdays(self):
         self.assertRaises(IndexError, calendar.day_abbr.__getitem__, -10)
         self.assertRaises(IndexError, calendar.day_name.__getitem__, 10)
-        self.assertEqual(len([d for d in calendar.day_abbr]), 7)
+        self.assertEqual(len(list(calendar.day_abbr)), 7)
 
     def test_days(self):
         for attr in "day_name", "day_abbr":
@@ -922,15 +922,19 @@ class TestSubClassingCase(unittest.TestCase):
 
     def setUp(self):
 
+
+
+
         class CustomHTMLCal(calendar.HTMLCalendar):
-            cssclasses = [style + " text-nowrap" for style in
-                          calendar.HTMLCalendar.cssclasses]
+            cssclasses = [f'{style} text-nowrap' for style in
+                                  calendar.HTMLCalendar.cssclasses]
             cssclasses_weekday_head = ["red", "blue", "green", "lilac",
                                        "yellow", "orange", "pink"]
             cssclass_month_head = "text-center month-head"
             cssclass_month = "text-center month"
             cssclass_year = "text-italic "
             cssclass_year_head = "lead "
+
 
         self.cal = CustomHTMLCal()
 

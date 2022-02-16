@@ -24,12 +24,11 @@ def randfloats(n):
         fp = open(fn, "rb")
     except OSError:
         r = random.random
-        result = [r() for i in range(n)]
+        result = [r() for _ in range(n)]
         try:
             try:
-                fp = open(fn, "wb")
-                marshal.dump(result, fp)
-                fp.close()
+                with open(fn, "wb") as fp:
+                    marshal.dump(result, fp)
                 fp = None
             finally:
                 if fp:
@@ -82,7 +81,7 @@ def tabulate(r):
     !sort: worst case scenario
 
     """
-    cases = tuple([ch + "sort" for ch in r"*\/3+%~=!"])
+    cases = tuple(f'{ch}sort' for ch in r"*\/3+%~=!")
     fmt = ("%2s %7s" + " %6s"*len(cases))
     print(fmt % (("i", "2**i") + cases))
     for i in r:
@@ -96,7 +95,7 @@ def tabulate(r):
         doit(L) # /sort
 
         # Do 3 random exchanges.
-        for dummy in range(3):
+        for _ in range(3):
             i1 = random.randrange(n)
             i2 = random.randrange(n)
             L[i1], L[i2] = L[i2], L[i1]
@@ -104,11 +103,11 @@ def tabulate(r):
 
         # Replace the last 10 with random floats.
         if n >= 10:
-            L[-10:] = [random.random() for dummy in range(10)]
+            L[-10:] = [random.random() for _ in range(10)]
         doit(L) # +sort
 
         # Replace 1% of the elements at random.
-        for dummy in range(n // 100):
+        for _ in range(n // 100):
             L[random.randrange(n)] = random.random()
         doit(L) # %sort
 

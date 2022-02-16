@@ -483,9 +483,7 @@ class AsyncBadSyntaxTest(unittest.TestCase):
 class TokenizerRegrTest(unittest.TestCase):
 
     def test_oneline_defs(self):
-        buf = []
-        for i in range(500):
-            buf.append('def i{i}(): return {i}'.format(i=i))
+        buf = ['def i{i}(): return {i}'.format(i=i) for i in range(500)]
         buf = '\n'.join(buf)
 
         # Test that 500 consequent, one-line defs is OK
@@ -1174,13 +1172,11 @@ class CoroutineTest(unittest.TestCase):
                 self.name = name
 
             async def __aenter__(self):
-                await AsyncYieldFrom(['enter-1-' + self.name,
-                                      'enter-2-' + self.name])
+                await AsyncYieldFrom([f'enter-1-{self.name}', f'enter-2-{self.name}'])
                 return self
 
             async def __aexit__(self, *args):
-                await AsyncYieldFrom(['exit-1-' + self.name,
-                                      'exit-2-' + self.name])
+                await AsyncYieldFrom([f'exit-1-{self.name}', f'exit-2-{self.name}'])
 
                 if self.name == 'B':
                     return True
@@ -1336,7 +1332,7 @@ class CoroutineTest(unittest.TestCase):
         # Exit with 'break'
         async def foo():
             nonlocal CNT
-            for i in range(2):
+            for _ in range(2):
                 async with CM():
                     CNT += 1
                     break
@@ -1350,7 +1346,7 @@ class CoroutineTest(unittest.TestCase):
         # Exit with 'continue'
         async def foo():
             nonlocal CNT
-            for i in range(2):
+            for _ in range(2):
                 async with CM():
                     CNT += 1
                     continue
@@ -1986,7 +1982,7 @@ class CoroutineTest(unittest.TestCase):
 
     def test_comp_8(self):
         async def f():
-            return [i for i in [1, 2, 3]]
+            return list([1, 2, 3])
 
         self.assertEqual(
             run_async(f()),
@@ -1998,7 +1994,7 @@ class CoroutineTest(unittest.TestCase):
             yield 2
         async def f():
             l = [i async for i in gen()]
-            return [i for i in l]
+            return list(l)
 
         self.assertEqual(
             run_async(f()),
@@ -2006,7 +2002,7 @@ class CoroutineTest(unittest.TestCase):
 
     def test_comp_10(self):
         async def f():
-            xx = {i for i in [1, 2, 3]}
+            xx = set([1, 2, 3])
             return {x: x for x in xx}
 
         self.assertEqual(

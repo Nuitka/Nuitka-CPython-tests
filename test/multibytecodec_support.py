@@ -49,10 +49,7 @@ class TestBase:
 
     def test_errorhandle(self):
         for source, scheme, expected in self.codectests:
-            if isinstance(source, bytes):
-                func = self.decode
-            else:
-                func = self.encode
+            func = self.decode if isinstance(source, bytes) else self.encode
             if expected:
                 result = func(source, scheme)[0]
                 if func is self.decode:
@@ -145,11 +142,10 @@ class TestBase:
 
     def test_callback_backward_index(self):
         def myreplace(exc):
-            if myreplace.limit > 0:
-                myreplace.limit -= 1
-                return ('REPLACED', 0)
-            else:
+            if myreplace.limit <= 0:
                 return ('TERMINAL', exc.end)
+            myreplace.limit -= 1
+            return ('REPLACED', 0)
         myreplace.limit = 3
         codecs.register_error("test.cjktest", myreplace)
         self.assertEqual(self.encode('abcd' + self.unmappedunicode + 'efgh',
@@ -178,11 +174,7 @@ class TestBase:
             ostream = BytesIO()
             encoder = self.incrementalencoder()
             while 1:
-                if sizehint is not None:
-                    data = istream.read(sizehint)
-                else:
-                    data = istream.read()
-
+                data = istream.read(sizehint) if sizehint is not None else istream.read()
                 if not data:
                     break
                 e = encoder.encode(data)
@@ -198,13 +190,12 @@ class TestBase:
             ostream = UTF8Writer(BytesIO())
             decoder = self.incrementaldecoder()
             while 1:
-                data = istream.read(sizehint)
-                if not data:
-                    break
-                else:
+                if data := istream.read(sizehint):
                     u = decoder.decode(data)
                     ostream.write(u)
 
+                else:
+                    break
             self.assertEqual(ostream.getvalue(), self.tstring[1])
 
     def test_incrementalencoder_error_callback(self):
@@ -256,11 +247,7 @@ class TestBase:
                 ostream = self.writer(BytesIO())
                 func = getattr(istream, name)
                 while 1:
-                    if sizehint is not None:
-                        data = func(sizehint)
-                    else:
-                        data = func()
-
+                    data = func(sizehint) if sizehint is not None else func()
                     if not data:
                         break
                     if name == "readlines":
@@ -288,7 +275,7 @@ class TestBase_Mapping(unittest.TestCase):
         try:
             self.open_mapping_file().close() # test it to report the error early
         except (OSError, HTTPException):
-            self.skipTest("Could not retrieve "+self.mapfileurl)
+            self.skipTest(f'Could not retrieve {self.mapfileurl}')
 
     def open_mapping_file(self):
         return support.open_urlresource(self.mapfileurl)
@@ -353,10 +340,7 @@ class TestBase_Mapping(unittest.TestCase):
 
     def test_errorhandle(self):
         for source, scheme, expected in self.codectests:
-            if isinstance(source, bytes):
-                func = source.decode
-            else:
-                func = source.encode
+            func = source.decode if isinstance(source, bytes) else source.encode
             if expected:
                 if isinstance(source, bytes):
                     result = func(self.encoding, scheme)
@@ -377,8 +361,8 @@ class TestBase_Mapping(unittest.TestCase):
 
 def load_teststring(name):
     dir = os.path.join(os.path.dirname(__file__), 'cjkencodings')
-    with open(os.path.join(dir, name + '.txt'), 'rb') as f:
+    with open(os.path.join(dir, f'{name}.txt'), 'rb') as f:
         encoded = f.read()
-    with open(os.path.join(dir, name + '-utf8.txt'), 'rb') as f:
+    with open(os.path.join(dir, f'{name}-utf8.txt'), 'rb') as f:
         utf8 = f.read()
     return encoded, utf8

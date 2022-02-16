@@ -77,8 +77,7 @@ def helper1():
     TICKS += 10
     hasattr(C(), "foo")                 # 1
     TICKS += 19
-    lst = []
-    lst.append(42)                      # 0
+    lst = [42]
     sys.exc_info()                      # 0
 
 def helper2_indirect():
@@ -100,7 +99,7 @@ def subhelper():
     # 10 ticks total: 8 ticks local, 2 ticks in subfunctions
     global TICKS
     TICKS += 2
-    for i in range(2):                  # 0
+    for _ in range(2):
         try:
             C().foo                     # 1 x 2
         except AttributeError:

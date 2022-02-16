@@ -223,7 +223,7 @@ class TestDecorators(unittest.TestCase):
         def make_decorator(tag):
             actions.append('makedec' + tag)
             def decorate(func):
-                actions.append('calldec' + tag)
+                actions.append(f'calldec{tag}')
                 return func
             return decorate
 
