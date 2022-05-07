@@ -106,7 +106,9 @@ def checkPath(dirname, filename):
             "test_named_expressions.py",
             "test_positional_only_arg.py",
             "test_inspect.py",
-            "test_call.py"
+            "test_call.py",
+            "test_dataclasses.py",
+            "test_types.py",
         ):
             reportSkip("Not useful with older Python", dirname, filename)
             return
@@ -121,10 +123,7 @@ def checkPath(dirname, filename):
         if filename == "test_dict_version.py":
             extra_flags.append("ignore_stderr")
     elif python_version >= (3, 11):
-        if filename in (
-            "test_ast.py",
-            "test_code.py"
-        ):
+        if filename in ("test_ast.py", "test_code.py"):
             reportSkip("Not useful with newer Python", dirname, filename)
             return
     else:
