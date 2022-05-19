@@ -105,6 +105,10 @@ def checkPath(dirname, filename):
         reportSkip("Recursion errors are not strictly the same", dirname, filename)
         return
 
+    if python_version >= (3, 3) and filename in ("test_tempfile.py",):
+        reportSkip("Filename errors are random", dirname, filename)
+        return
+
     if dirname == "doctest_generated":
         if python_version >= (3,):
             extra_flags.append("expect_success")
