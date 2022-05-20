@@ -228,6 +228,14 @@ def checkPath(dirname, filename):
             my_print("Skipped, newer CPython hangs in test.")
             return
 
+        if filename == "test_selector_events.py":
+            my_print("Skipped, newer CPython errors with variable output.")
+            return
+
+        if filename == "test_tasks.py":
+            my_print("Skipped, newer CPython gives irrelevant error.")
+            return
+
         if filename == "test_buffer.py":
             extra_flags.append("ignore_stderr")
 
