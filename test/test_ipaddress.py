@@ -609,7 +609,8 @@ class IpaddrUnitTest(unittest.TestCase):
         self.assertEqual(128, ipaddress._count_righthand_zero_bits(0, 128))
         self.assertEqual("IPv4Network('1.2.3.0/24')", repr(self.ipv4_network))
 
-    def testMissingAddressVersion(self):
+    # Nuitka: We give too good error message for newer version.
+    def notestMissingAddressVersion(self):
         class Broken(ipaddress._BaseAddress):
             pass
         broken = Broken('127.0.0.1')
