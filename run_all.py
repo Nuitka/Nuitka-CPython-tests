@@ -113,7 +113,11 @@ def checkPath(dirname, filename):
             return
 
         if filename == "test_gettext.py":
-            my_print("Skipped, older CPython fails to remove files after test.")
+            my_print("Skipped, newer CPython fails to remove files after test.")
+            return
+
+        if filename == "test_tempfile.py":
+            my_print("Skipped, newer CPython fails with longer tracebacks.")
             return
 
     if python_version < (3, 3):
