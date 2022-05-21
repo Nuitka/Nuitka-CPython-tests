@@ -34,7 +34,7 @@ import test.test_unpack
 import test.test_unpack_ex
 import test.test_weakref
 
-from nuitka.tools.quality.autoformat.Autoformat import cleanupWindowsNewlines
+from nuitka.tools.quality.auto_format.AutoFormat import cleanupWindowsNewlines
 from nuitka.tools.testing.Common import convertToPython, goMainDir
 
 goMainDir()
