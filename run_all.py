@@ -240,6 +240,10 @@ def checkPath(dirname, filename):
             my_print("Skipped, newer CPython gives permission error.")
             return
 
+        if filename == "test_tempfile.py":
+            my_print("Skipped, newer CPython fails with longer tracebacks.")
+            return
+
         if filename == "test_buffer.py":
             extra_flags.append("ignore_stderr")
 
