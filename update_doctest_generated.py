@@ -22,7 +22,7 @@ from nuitka.tools.testing.Common import (
     goMainDir
 
 )
-from nuitka.tools.quality.autoformat.Autoformat import (
+from nuitka.tools.quality.auto_format.AutoFormat import (
     cleanupWindowsNewlines,
 )
 
