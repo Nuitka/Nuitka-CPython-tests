@@ -236,6 +236,10 @@ def checkPath(dirname, filename):
             my_print("Skipped, newer CPython gives irrelevant error.")
             return
 
+        if filename == "test_tarfile.py":
+            my_print("Skipped, newer CPython gives permission error.")
+            return
+
         if filename == "test_buffer.py":
             extra_flags.append("ignore_stderr")
 
