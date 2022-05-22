@@ -1822,7 +1822,10 @@ def _run_suite(suite):
         else:
             err = "multiple errors occurred"
             if not verbose: err += "; run in verbose mode for details"
-        raise TestFailed(err)
+
+        # Nuitka: Quick way to make test failurs not spoil reference couting repitition.
+        if not hasattr(sys, "gettotalrefcount"):
+            raise TestFailed(err)
 
 
 # By default, don't filter tests
