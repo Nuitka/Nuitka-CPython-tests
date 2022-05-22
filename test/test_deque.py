@@ -1051,9 +1051,5 @@ def test_main(verbose=None):
             counts[i] = sys.gettotalrefcount()
         print("REFCOUNTS", counts)
 
-    # doctests
-    from test import test_deque
-    support.run_doctest(test_deque, verbose)
-
 if __name__ == "__main__":
     test_main(verbose=True)

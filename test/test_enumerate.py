@@ -270,7 +270,7 @@ def test_main(verbose=None):
 
     # verify reference counting
     if verbose and hasattr(sys, "gettotalrefcount"):
-        counts = [None] * 5
+        counts = [None] * 7
         for i in range(len(counts)):
             support.run_unittest(__name__)
             counts[i] = sys.gettotalrefcount()
