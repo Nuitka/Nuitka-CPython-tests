@@ -1658,6 +1658,10 @@ def bigmemtest(size, memuse, dry_run=True):
 def bigaddrspacetest(f):
     """Decorator for tests that fill the address space."""
     def wrapper(self):
+        # Nuitka: Spare the CI from these tests, not important enough to
+        # warrent extreme memory usages.
+        raise unittest.SkipTest("Nuitka: Avoiding large memory using test")
+
         if max_memuse < MAX_Py_ssize_t:
             if MAX_Py_ssize_t >= 2**63 - 1 and max_memuse >= 2**31:
                 raise unittest.SkipTest(
