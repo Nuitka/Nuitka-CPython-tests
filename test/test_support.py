@@ -775,7 +775,9 @@ def precisionbigmemtest(size, memuse, overhead=5*_1M):
 def bigaddrspacetest(f):
     """Decorator for tests that fill the address space."""
     def wrapper(self):
-        if max_memuse < MAX_Py_ssize_t:
+        # Nuitka: Spare the CI from these tests, not important enough to
+        # warrent extreme memory usages.
+        if True or max_memuse < MAX_Py_ssize_t:
             if verbose:
                 sys.stderr.write("Skipping %s because of memory "
                                  "constraint\n" % (f.__name__,))
