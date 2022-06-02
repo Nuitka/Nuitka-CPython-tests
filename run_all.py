@@ -32,7 +32,7 @@ from nuitka.tools.testing.Common import (
 
 
 def checkPath(dirname, filename):
-    # Complex stuff, pylint: disable=too-many-branches,too-many-return-statements
+    # Complex stuff, pylint: disable=too-many-branches,too-many-return-statements,too-many-statements
 
     extra_flags = [
         "remove_output",
