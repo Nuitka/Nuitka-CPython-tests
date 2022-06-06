@@ -2522,7 +2522,7 @@ def test_main(verbose=None):
 
     # verify reference counting
     # Nuitka: CPython looses(?!) references already.
-    if hasattr(sys, "gettotalrefcount"):
+    if False and hasattr(sys, "gettotalrefcount"):
         import gc
         counts = [None] * 5
         for i in range(len(counts)):
