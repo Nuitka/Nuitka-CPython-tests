@@ -24,7 +24,6 @@ from nuitka.tools.testing.Common import (
     addToPythonPath,
     compareWithCPython,
     createSearchMode,
-    my_print,
     reportSkip,
     setup,
     setupCacheHashSalt,
@@ -32,7 +31,7 @@ from nuitka.tools.testing.Common import (
 
 
 def checkPath(dirname, filename):
-    # Complex stuff, pylint: disable=too-many-branches,too-many-return-statements
+    # Complex stuff, pylint: disable=too-many-branches
 
     extra_flags = [
         "remove_output",
@@ -53,11 +52,6 @@ def checkPath(dirname, filename):
     # TODO: This deadlocks, likely a threading problem.
     if python_version >= (3, 4) and filename == "test_concurrent_futures.py":
         reportSkip("Skipping (due to threading issue)", dirname, filename)
-        return
-
-    # TODO: This fails to compile, super is not fully solved.
-    if python_version >= (3, 4) and filename == "test_super.py":
-        my_print("Skipping (due to compilation issue)", filename)
         return
 
     if dirname == "doctest_generated":
