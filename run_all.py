@@ -55,11 +55,6 @@ def checkPath(dirname, filename):
         reportSkip("Skipping (due to threading issue)", dirname, filename)
         return
 
-    # TODO: This fails to compile, super is not fully solved.
-    if python_version >= (3, 4) and filename == "test_super.py":
-        my_print("Skipping (due to compilation issue)", filename)
-        return
-
     # TODO: This is a problem, we are not complete with | assignments yet
     if filename == "test_patma.py":
         my_print("Skipping (due to INCOMPLETE implementation)", filename)
