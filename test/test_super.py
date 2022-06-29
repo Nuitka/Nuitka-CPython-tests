@@ -84,7 +84,8 @@ class TestSuper(unittest.TestCase):
 
         self.assertEqual(E().f(), 'AE')
 
-    def test_various___class___pathologies(self):
+    # Nuitka: We do not use cells for __class__ at all.
+    def notest_various___class___pathologies(self):
         # See issue #12370
         class X(A):
             def f(self):
@@ -142,7 +143,8 @@ class TestSuper(unittest.TestCase):
                 return __class__
         self.assertIs(X.f(), X)
 
-    def test___class___new(self):
+    # Nuitka: We do not use cells for __class__ at all.
+    def notest___class___new(self):
         # See issue #23722
         # Ensure zero-arg super() works as soon as type.__new__() is completed
         test_class = None
@@ -161,7 +163,8 @@ class TestSuper(unittest.TestCase):
 
         self.assertIs(test_class, A)
 
-    def test___class___delayed(self):
+    # Nuitka: We do not use cells for __class__ at all.
+    def notest___class___delayed(self):
         # See issue #23722
         test_namespace = None
 
@@ -181,7 +184,8 @@ class TestSuper(unittest.TestCase):
         B = type("B", (), test_namespace)
         self.assertIs(B.f(), B)
 
-    def test___class___mro(self):
+    # Nuitka: We do not use cells for __class__ at all.
+    def notest___class___mro(self):
         # See issue #23722
         test_class = None
 
@@ -198,7 +202,8 @@ class TestSuper(unittest.TestCase):
 
         self.assertIs(test_class, A)
 
-    def test___classcell___expected_behaviour(self):
+    # Nuitka: We do not use cells for __class__ at all.
+    def notest___classcell___expected_behaviour(self):
         # See issue #23722
         class Meta(type):
             def __new__(cls, name, bases, namespace):
@@ -229,7 +234,8 @@ class TestSuper(unittest.TestCase):
         with self.assertRaises(AttributeError):
             WithClassRef.__classcell__
 
-    def test___classcell___missing(self):
+    # Nuitka: We do not use cells for __class__ at all.
+    def notest___classcell___missing(self):
         # See issue #23722
         # Some metaclasses may not pass the original namespace to type.__new__
         # We test that case here by forcibly deleting __classcell__
@@ -266,7 +272,8 @@ class TestSuper(unittest.TestCase):
                     class A(metaclass=Meta, cell=bad_cell):
                         pass
 
-    def test___classcell___wrong_cell(self):
+    # Nuitka: We do not use cells for __class__ at all.
+    def notest___classcell___wrong_cell(self):
         # See issue #23722
         # Pointing the cell reference at the wrong class is also prohibited
         class Meta(type):
@@ -280,7 +287,8 @@ class TestSuper(unittest.TestCase):
                 def f(self):
                     return __class__
 
-    def test_obscure_super_errors(self):
+    # Nuitka: We do not use cells for __class__ at all.
+    def notest_obscure_super_errors(self):
         def f():
             super()
         self.assertRaises(RuntimeError, f)
