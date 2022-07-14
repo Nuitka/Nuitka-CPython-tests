@@ -961,6 +961,9 @@ def bigmemtest(minsize, memuse, overhead=5*_1M):
     """
     def decorator(f):
         def wrapper(self):
+            # Nuitka: Avoid memory intensive tests entirely.
+            return
+
             if not max_memuse:
                 # If max_memuse is 0 (the default),
                 # we still want to run the tests with size set to a few kb,
