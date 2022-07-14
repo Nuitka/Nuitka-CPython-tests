@@ -1112,6 +1112,9 @@ def bigmemtest(size, memuse, dry_run=True):
     """
     def decorator(f):
         def wrapper(self):
+            # Nuitka: Avoid memory intensive tests entirely.
+            raise unittest.SkipTest("not doing memory intensive tests")
+
             size = wrapper.size
             memuse = wrapper.memuse
             if not real_max_memuse:
