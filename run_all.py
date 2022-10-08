@@ -132,6 +132,15 @@ def checkPath(dirname, filename):
             )
             return
 
+        if filename == "test_logging.py":
+            reportSkip(
+                "Usage of 'pywintypes' without following wouldn't work with CPython 3.9",
+                dirname,
+                filename,
+            )
+            return
+
+
     compareWithCPython(
         dirname=dirname,
         filename=filename,
