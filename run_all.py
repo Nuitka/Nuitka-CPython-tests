@@ -87,6 +87,10 @@ def checkPath(dirname, filename):
         reportSkip("Bug in CPython 3.7.0 affects gc.", dirname, filename)
         return
 
+    if filename == "test_os.py" and os.name == "nt":
+        reportSkip("Bug in CPython 3.7.x causes spurious segfaults to CPython.", dirname, filename)
+        return
+
     if filename == "test_datetime.py":
         extra_flags.append("recurse_to:test.datetimetester")
 
