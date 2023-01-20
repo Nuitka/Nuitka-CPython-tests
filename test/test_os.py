@@ -712,8 +712,9 @@ class StatAttributeTests(unittest.TestCase):
             result.st_file_attributes & stat.FILE_ATTRIBUTE_DIRECTORY,
             stat.FILE_ATTRIBUTE_DIRECTORY)
 
+    # Nuitka: Avoid test that forks a binary.
     @unittest.skipUnless(sys.platform == "win32", "Win32 specific tests")
-    def test_access_denied(self):
+    def notest_access_denied(self):
         # Default to FindFirstFile WIN32_FIND_DATA when access is
         # denied. See issue 28075.
         # os.environ['TEMP'] should be located on a volume that
