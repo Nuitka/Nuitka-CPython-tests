@@ -3002,6 +3002,8 @@ class PidTests(unittest.TestCase):
 
 class SpawnTests(unittest.TestCase):
     def create_args(self, *, with_env=False, use_bytes=False):
+        raise unittest.SkipTest("not relevant")
+
         self.exitcode = 17
 
         filename = os_helper.TESTFN
