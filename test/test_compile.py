@@ -602,6 +602,10 @@ if 1:
         # Issue #25843: compile() must merge constants which are equal
         # and have the same type.
 
+        # This outputs code object pointers that are random in the error message.
+        if sys.version_info >= (3, 11):
+            return
+
         def check_same_constant(const):
             ns = {}
             code = "f1, f2 = lambda: %r, lambda: %r" % (const, const)
@@ -646,6 +650,11 @@ if 1:
     # for the Python semantics, it's a more an implementation detail.
     @support.cpython_only
     def test_merge_code_attrs(self):
+        # This fails with CPython 3.11 but not Nuitka
+        if sys.version_info >= (3, 11):
+            return
+
+
         # See https://bugs.python.org/issue42217
         f1 = lambda x: x.y.z
         f2 = lambda a: a.b.c
