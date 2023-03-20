@@ -61,7 +61,7 @@ def checkPath(dirname, filename):
         return
 
     if dirname == "doctest_generated":
-        if python_version >= (3, 10):
+        if python_version >= (3, 11):
             extra_flags.append("expect_success")
 
         if filename == "test_generators.py":
@@ -90,7 +90,7 @@ def checkPath(dirname, filename):
         # Task warnings
         extra_flags.append("ignore_stderr")
 
-    if python_version < (3, 10):
+    if python_version < (3, 11):
         if filename in (
             "test_abc.py",
             "test_os.py",
@@ -108,16 +108,10 @@ def checkPath(dirname, filename):
             reportSkip("Not useful with older Python", dirname, filename)
             return
 
-        # Traceback differences
-        if filename == "test_dict.py":
-            extra_flags.append("ignore_stderr")
-        if filename == "test_dictcomps.py":
-            extra_flags.append("ignore_stderr")
-
         # Outputs dict versions which are different.
         if filename == "test_dict_version.py":
             extra_flags.append("ignore_stderr")
-    elif python_version >= (3, 11):
+    elif python_version >= (3, 12):
         if filename in (
             "test_ast.py",
             "test_code.py",
@@ -133,23 +127,8 @@ def checkPath(dirname, filename):
             reportSkip("Not useful with newer Python", dirname, filename)
             return
     else:
-        # Put 3.10 specific stuff here.
-        if filename == "test_capi.py":
-            reportSkip(
-                "Many details mismatch due to CPython 3.9 checking C stacks",
-                dirname,
-                filename,
-            )
-            return
-
-        # Put 3.10 specific stuff here.
-        if filename in ("test_grammar.py",):
-            reportSkip(
-                "Many details mismatch due to CPython 3.9 checking C stacks",
-                dirname,
-                filename,
-            )
-            return
+        # Put 3.11 specific stuff here.
+        pass
 
     compareWithCPython(
         dirname=dirname,
