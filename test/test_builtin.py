@@ -1964,8 +1964,10 @@ class BuiltinTest(unittest.TestCase):
         self.assertWarns(DeprecationWarning, bool, NotImplemented)
         with self.assertWarns(DeprecationWarning):
             self.assertTrue(NotImplemented)
-        with self.assertWarns(DeprecationWarning):
-            self.assertFalse(not NotImplemented)
+        # Nuitka: We do not give that warning, because we compile time optimize
+        # that.
+        # with self.assertWarns(DeprecationWarning):
+        #    self.assertFalse(not NotImplemented)
 
 
 class TestBreakpoint(unittest.TestCase):
