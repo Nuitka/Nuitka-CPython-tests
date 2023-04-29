@@ -1180,7 +1180,8 @@ class Test_FrameAPI(unittest.TestCase):
 
 SUFFICIENT_TO_DEOPT_AND_SPECIALIZE = 100
 
-class Test_Pep523API(unittest.TestCase):
+# Nuitka: This won't work for compiled functions
+class Test_Pep523API:
 
     def do_test(self, func):
         calls = []
