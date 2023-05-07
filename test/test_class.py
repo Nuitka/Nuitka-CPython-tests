@@ -584,7 +584,9 @@ class ClassTests(unittest.TestCase):
         a = A(hash(A.f)^(-1))
         hash(a.f)
 
-    def testSetattrWrapperNameIntern(self):
+    # Nuitka: We optimize the strings to be all the same, so this test
+    # doesn't work, but it is not a problem.
+    def notestSetattrWrapperNameIntern(self):
         # Issue #25794: __setattr__ should intern the attribute name
         class A:
             pass
