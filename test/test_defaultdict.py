@@ -136,7 +136,7 @@ class TestDefaultDict(unittest.TestCase):
                 return []
         d = sub()
         self.assertRegex(repr(d),
-            r"sub\(<bound method .*sub\._factory "
+            r"sub\(<bound (compiled_)?method .*sub\._factory "
             r"of sub\(\.\.\., \{\}\)>, \{\}\)")
 
     def test_callable_arg(self):
