@@ -1568,9 +1568,10 @@ class SizeofTest(unittest.TestCase):
         check(re.finditer('',''), size('2P'))
         # list
         check(list([]), vsize('Pn'))
-        check(list([1]), vsize('Pn') + 2*self.P)
+        # Nuitka: Our list capacity for copies is more exact than CPython's.
+        # check(list([1]), vsize('Pn') + 2*self.P)
         check(list([1, 2]), vsize('Pn') + 2*self.P)
-        check(list([1, 2, 3]), vsize('Pn') + 4*self.P)
+        # check(list([1, 2, 3]), vsize('Pn') + 4*self.P)
         # sortwrapper (list)
         # XXX
         # cmpwrapper (list)
