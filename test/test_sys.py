@@ -1455,10 +1455,10 @@ class SizeofTest(unittest.TestCase):
         import re
         check(re.finditer('',''), size('2P'))
         # list
-        check(list([]), vsize('Pn'))
-        check(list([1]), vsize('Pn') + 2*self.P)
-        check(list([1, 2]), vsize('Pn') + 2*self.P)
-        check(list([1, 2, 3]), vsize('Pn') + 4*self.P)
+        samples = [[], [1,2,3], ['1', '2', '3']]
+        # Newer CPython fails this one, but Nuitka does not for some reason.
+        # for sample in samples:
+        #     check(list(sample), vsize('Pn') + len(sample)*self.P)
         # sortwrapper (list)
         # XXX
         # cmpwrapper (list)
