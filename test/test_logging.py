@@ -4330,6 +4330,8 @@ class LogRecordTest(BaseTest):
         r.removeHandler(h)
         h.close()
 
+    # Nuitka: Disabled because it uses a mode of multiprocessing that does not
+    # work yet, and maybe never will as it's only used in tests.
     def test_multiprocessing(self):
         r = logging.makeLogRecord({})
         self.assertEqual(r.processName, 'MainProcess')
