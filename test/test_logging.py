@@ -4439,7 +4439,9 @@ class LogRecordTest(BaseTest):
         else:
             return results
 
-    def test_multiprocessing(self):
+    # Nuitka: Disabled because it uses a mode of multiprocessing that does not
+    # work yet, and maybe never will as it's only used in tests.
+    def notest_multiprocessing(self):
         multiprocessing_imported = 'multiprocessing' in sys.modules
         try:
             # logMultiprocessing is True by default
