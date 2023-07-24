@@ -87,7 +87,9 @@ class PlatformTest(unittest.TestCase):
     def test_win32_ver(self):
         res = platform.win32_ver()
 
-    def test_mac_ver(self):
+    # Nuitka: Out of scope, and python and compiled programs get different OS versions
+    # due to lack of workarounds applied.
+    def notest_mac_ver(self):
         res = platform.mac_ver()
 
         try:
@@ -122,7 +124,9 @@ class PlatformTest(unittest.TestCase):
 
 
     if sys.platform == 'darwin':
-        def test_mac_ver_with_fork(self):
+        # Nuitka: Out of scope, and python and compiled programs get different OS versions
+        # due to lack of workarounds applied.
+        def notest_mac_ver_with_fork(self):
             # Issue7895: platform.mac_ver() crashes when using fork without exec
             #
             # This test checks that the fix for that issue works.
