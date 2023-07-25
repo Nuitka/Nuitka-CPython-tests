@@ -140,6 +140,15 @@ def checkPath(dirname, filename):
             )
             return
 
+        if filename == "test_xml_etree.py":
+            reportSkip(
+                "Traceback of CPython 3.9 shows <listcomp> but Nuitka doesn't have those",
+                dirname,
+                filename,
+            )
+            return
+
+
 
     compareWithCPython(
         dirname=dirname,
