@@ -98,6 +98,7 @@ def checkPath(dirname, filename):
             "test_fstring.py",
             "test_functools.py",
             "test_grammar.py",
+            "test_gc.py,"
             "test_named_expressions.py",
             "test_positional_only_arg.py",
             "test_inspect.py",
