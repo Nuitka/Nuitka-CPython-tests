@@ -11,6 +11,8 @@ import importlib.util
 import unittest
 
 from test.support import verbose
+# Nuitka: Avoid variable outputs
+verbose=False
 from test.support.os_helper import create_empty_file
 from reprlib import repr as r # Don't shadow builtin repr
 from reprlib import Repr
