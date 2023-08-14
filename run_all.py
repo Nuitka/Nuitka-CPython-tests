@@ -132,6 +132,14 @@ def checkPath(dirname, filename):
         ):
             reportSkip("Not useful with newer Python", dirname, filename)
             return
+
+        if filename == "test_gc.py":
+            reportSkip(
+                "Nuitka passes more tests with compiled 3.11 than CPython 3.11",
+                dirname,
+                filename,
+            )
+            return
     else:
         # Put 3.10 specific stuff here.
         if filename == "test_capi.py":
@@ -142,7 +150,6 @@ def checkPath(dirname, filename):
             )
             return
 
-        # Put 3.10 specific stuff here.
         if filename in ("test_grammar.py",):
             reportSkip(
                 "Many details mismatch due to CPython 3.9 checking C stacks",
@@ -150,6 +157,8 @@ def checkPath(dirname, filename):
                 filename,
             )
             return
+
+
 
     compareWithCPython(
         dirname=dirname,
