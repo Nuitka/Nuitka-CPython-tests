@@ -90,6 +90,15 @@ def checkPath(dirname, filename):
         # Task warnings
         extra_flags.append("ignore_stderr")
 
+    if python_version < (3, 10):
+        if filename in ("test_embed.py", "test_pow.py",):
+            reportSkip("Using assignment expressions not supported on older Python", dirname, filename)
+            return
+
+        if filename == "test_genericalias.py":
+            reportSkip("Generic alias not supported on older Python", dirname, filename)
+            return
+
     if python_version < (3, 11):
         if filename in (
             "test_abc.py",
@@ -99,12 +108,19 @@ def checkPath(dirname, filename):
             "test_functools.py",
             "test_grammar.py",
             "test_gc.py,"
-            "test_named_expressions.py",
-            "test_positional_only_arg.py",
             "test_inspect.py",
             "test_call.py",
             "test_dataclasses.py",
             "test_types.py",
+            "test_typing.py",
+            # 3.8 only syntax
+            "test_positional_only_arg.py",
+            # 3.10 only syntax
+            "test_named_expressions.py",
+            # 3.11 only syntax
+            "test_exception_variations.py",
+            "test_except_star.py",
+            "test_strftime.py",
         ):
             reportSkip("Not useful with older Python", dirname, filename)
             return
