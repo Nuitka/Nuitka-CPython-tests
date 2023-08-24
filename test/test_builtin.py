@@ -857,7 +857,8 @@ class BuiltinTest(unittest.TestCase):
         finally:
             sys.stdout = savestdout
 
-    def test_exec_closure(self):
+    # Nuitka: Cannot use exec on compiled functions, would need uncompiled samples.
+    def notest_exec_closure(self):
         def function_without_closures():
             return 3 * 5
 
@@ -2670,4 +2671,4 @@ def load_tests(loader, tests, pattern):
     return tests
 
 if __name__ == "__main__":
-    unittest.main()
+    unittest.main(verbosity=2)
