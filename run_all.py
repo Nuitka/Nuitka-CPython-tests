@@ -148,6 +148,14 @@ def checkPath(dirname, filename):
             )
             return
 
+        if filename == "test_sys.py":
+            reportSkip(
+                "Newer Python can hang with old test here",
+                dirname,
+                filename,
+            )
+            return
+
 
 
     compareWithCPython(
