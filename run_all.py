@@ -42,7 +42,7 @@ def checkPath(dirname, filename):
         # Use the original __file__ value, at least one case warns about things
         # with filename included.
         "original_file",
-        # Cache the CPython results for re-use, they will normally not change.
+        # Cache the CPython results for reuse, they will normally not change.
         "cpython_cache",
     ]
 
