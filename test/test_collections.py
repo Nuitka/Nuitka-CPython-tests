@@ -386,8 +386,13 @@ class TestNamedTuple(unittest.TestCase):
         self.assertEqual(Dot(1)._fields, ('d',))
 
         n = 5000
-        names = list(set(''.join([choice(string.ascii_letters)
-                                  for j in range(10)]) for i in range(n)))
+        names = list(
+            {
+                ''.join([choice(string.ascii_letters) for _ in range(10)])
+                for _ in range(n)
+            }
+        )
+
         n = len(names)
         Big = namedtuple('Big', names)
         b = Big(*range(n))
@@ -1122,10 +1127,7 @@ class TestOneTrickPonyABCs(ABCTestCase):
             run_async(IgnoreGeneratorExit().aclose())
 
     def test_Sized(self):
-        non_samples = [None, 42, 3.14, 1j,
-                       _test_gen(),
-                       (x for x in []),
-                       ]
+        non_samples = [None, 42, 3.14, 1j, _test_gen(), iter([])]
         for x in non_samples:
             self.assertNotIsInstance(x, Sized)
             self.assertFalse(issubclass(type(x), Sized), repr(type(x)))
@@ -1140,10 +1142,7 @@ class TestOneTrickPonyABCs(ABCTestCase):
         self.validate_isinstance(Sized, '__len__')
 
     def test_Container(self):
-        non_samples = [None, 42, 3.14, 1j,
-                       _test_gen(),
-                       (x for x in []),
-                       ]
+        non_samples = [None, 42, 3.14, 1j, _test_gen(), iter([])]
         for x in non_samples:
             self.assertNotIsInstance(x, Container)
             self.assertFalse(issubclass(type(x), Container), repr(type(x)))
@@ -1158,11 +1157,21 @@ class TestOneTrickPonyABCs(ABCTestCase):
         self.validate_isinstance(Container, '__contains__')
 
     def test_Callable(self):
-        non_samples = [None, 42, 3.14, 1j,
-                       "", b"", (), [], {}, set(),
-                       _test_gen(),
-                       (x for x in []),
-                       ]
+        non_samples = [
+            None,
+            42,
+            3.14,
+            1j,
+            "",
+            b"",
+            (),
+            [],
+            {},
+            set(),
+            _test_gen(),
+            iter([]),
+        ]
+
         for x in non_samples:
             self.assertNotIsInstance(x, Callable)
             self.assertFalse(issubclass(type(x), Callable), repr(type(x)))
@@ -1256,7 +1265,7 @@ class TestCollectionABCs(ABCTestCase):
             def __iter__(self):
                 return iter(self.contents)
             def __len__(self):
-                return len([x for x in self.contents])
+                return len(list(self.contents))
         s1 = MySet((1, 2, 3))
         s2 = MySet((4, 5, 6))
         s3 = MySet((1, 5, 6))
@@ -1272,7 +1281,7 @@ class TestCollectionABCs(ABCTestCase):
             def __iter__(self):
                 return iter(self.contents)
             def __len__(self):
-                return len([x for x in self.contents])
+                return len(list(self.contents))
         s1 = MySet((1,))
         s2 = MySet((1, 2))
         s3 = MySet((3, 4))
@@ -1294,7 +1303,7 @@ class TestCollectionABCs(ABCTestCase):
             def __iter__(self):
                 return iter(self.contents)
             def __len__(self):
-                return len([x for x in self.contents])
+                return len(list(self.contents))
         s1 = MySet((1, 2, 3))
         s2 = MySet((3, 4, 5))
         s3 = s1 & s2
@@ -1788,7 +1797,7 @@ class TestCounter(unittest.TestCase):
         self.assertEqual(''.join(sorted(c.elements())), 'aaaaffff')
         self.assertEqual(c.pop('f'), 4)
         self.assertNotIn('f', c)
-        for i in range(3):
+        for _ in range(3):
             elem, cnt = c.popitem()
             self.assertNotIn(elem, c)
         c.clear()
@@ -1880,11 +1889,11 @@ class TestCounter(unittest.TestCase):
         self.assertEqual(dict(c), dict(a=10))
 
         elements = 'abcd'
-        for i in range(1000):
+        for _ in range(1000):
             # test random pairs of multisets
-            p = Counter(dict((elem, randrange(-2,4)) for elem in elements))
+            p = Counter({elem: randrange(-2,4) for elem in elements})
             p.update(e=1, f=-1, g=0)
-            q = Counter(dict((elem, randrange(-2,4)) for elem in elements))
+            q = Counter({elem: randrange(-2,4) for elem in elements})
             q.update(h=1, i=-1, j=0)
             for counterop, numberop in [
                 (Counter.__add__, lambda x, y: max(0, x+y)),
@@ -1900,10 +1909,10 @@ class TestCounter(unittest.TestCase):
                 self.assertTrue(x>0 for x in result.values())
 
         elements = 'abcdef'
-        for i in range(100):
+        for _ in range(100):
             # verify that random multisets with no repeats are exactly like sets
-            p = Counter(dict((elem, randrange(0, 2)) for elem in elements))
-            q = Counter(dict((elem, randrange(0, 2)) for elem in elements))
+            p = Counter({elem: randrange(0, 2) for elem in elements})
+            q = Counter({elem: randrange(0, 2) for elem in elements})
             for counterop, setop in [
                 (Counter.__sub__, set.__sub__),
                 (Counter.__or__, set.__or__),
@@ -1915,11 +1924,11 @@ class TestCounter(unittest.TestCase):
 
     def test_inplace_operations(self):
         elements = 'abcd'
-        for i in range(1000):
+        for _ in range(1000):
             # test random pairs of multisets
-            p = Counter(dict((elem, randrange(-2,4)) for elem in elements))
+            p = Counter({elem: randrange(-2,4) for elem in elements})
             p.update(e=1, f=-1, g=0)
-            q = Counter(dict((elem, randrange(-2,4)) for elem in elements))
+            q = Counter({elem: randrange(-2,4) for elem in elements})
             q.update(h=1, i=-1, j=0)
             for inplace_op, regular_op in [
                 (Counter.__iadd__, Counter.__add__),
@@ -1970,7 +1979,7 @@ class TestCounter(unittest.TestCase):
         # two paths, one for real dicts and one for other mappings
         elems = list('abracadabra')
 
-        d = dict()
+        d = {}
         _count_elements(d, elems)
         self.assertEqual(d, {'a': 5, 'r': 2, 'b': 2, 'c': 1, 'd': 1})
 

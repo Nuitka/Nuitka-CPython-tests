@@ -399,19 +399,19 @@ class ClassTests(unittest.TestCase):
         self.assertCallStack([('__ne__', (testme, 1))])
 
         callLst[:] = []
-        1 == testme
+        testme == 1
         self.assertCallStack([('__eq__', (1, testme))])
 
         callLst[:] = []
-        1 < testme
+        testme > 1
         self.assertCallStack([('__gt__', (1, testme))])
 
         callLst[:] = []
-        1 > testme
+        testme < 1
         self.assertCallStack([('__lt__', (1, testme))])
 
         callLst[:] = []
-        1 != testme
+        testme != 1
         self.assertCallStack([('__ne__', (1, testme))])
 
 

@@ -87,13 +87,13 @@ STANDARD = {
 def native_type_range(fmt):
     """Return range of a native type."""
     if fmt == 'c':
-        lh = (0, 256)
+        return 0, 256
     elif fmt == '?':
-        lh = (0, 2)
+        return 0, 2
     elif fmt == 'f':
-        lh = (-(1<<63), 1<<63)
+        return -(1<<63), 1<<63
     elif fmt == 'd':
-        lh = (-(1<<1023), 1<<1023)
+        return -(1<<1023), 1<<1023
     else:
         for exp in (128, 127, 64, 63, 32, 31, 16, 15, 8, 7):
             try:
@@ -101,8 +101,7 @@ def native_type_range(fmt):
                 break
             except struct.error:
                 pass
-        lh = (-(1<<exp), 1<<exp) if exp & 1 else (0, 1<<exp)
-    return lh
+        return (-(1<<exp), 1<<exp) if exp & 1 else (0, 1<<exp)
 
 fmtdict = {
     '':NATIVE,
@@ -120,12 +119,12 @@ if struct:
 MEMORYVIEW = NATIVE.copy()
 ARRAY = NATIVE.copy()
 for k in NATIVE:
-    if not k in "bBhHiIlLfd":
+    if k not in "bBhHiIlLfd":
         del ARRAY[k]
 
 BYTEFMT = NATIVE.copy()
 for k in NATIVE:
-    if not k in "Bbc":
+    if k not in "Bbc":
         del BYTEFMT[k]
 
 fmtdict['m']  = MEMORYVIEW
@@ -156,7 +155,7 @@ def randrange_fmt(mode, char, obj):
             x = b'\x01'
     if char == '?':
         x = bool(x)
-    if char == 'f' or char == 'd':
+    if char in ['f', 'd']:
         x = struct.pack(char, x)
         x = struct.unpack(char, x)[0]
     return x
@@ -164,9 +163,7 @@ def randrange_fmt(mode, char, obj):
 def gen_item(fmt, obj):
     """Return single random item."""
     mode, chars = fmt.split('#')
-    x = []
-    for c in chars:
-        x.append(randrange_fmt(mode, c, obj))
+    x = [randrange_fmt(mode, c, obj) for c in chars]
     return x[0] if len(x) == 1 else tuple(x)
 
 def gen_items(n, fmt, obj):
@@ -180,13 +177,13 @@ def gen_items(n, fmt, obj):
 
 def struct_items(n, obj):
     mode = choice(cap[obj][MODE])
-    xfmt = mode + '#'
+    xfmt = f'{mode}#'
     fmt = mode.strip('amb')
     nmemb = randrange(2, 10) # number of struct members
     for _ in range(nmemb):
         char = choice(tuple(fmtdict[mode]))
         multiplier = choice(cap[obj][MULT])
-        xfmt += (char * int(multiplier if multiplier else 1))
+        xfmt += char * int(multiplier or 1)
         fmt += (multiplier + char)
     items = gen_items(n, xfmt, obj)
     item = gen_item(xfmt, obj)
@@ -199,7 +196,7 @@ def randitems(n, obj='ndarray', mode=None, char=None):
     if char is None:
         char = choice(tuple(fmtdict[mode]))
     multiplier = choice(cap[obj][MULT])
-    fmt = mode + '#' + char * int(multiplier if multiplier else 1)
+    fmt = f'{mode}#' + char * int(multiplier or 1)
     items = gen_items(n, fmt, obj)
     item = gen_item(fmt, obj)
     fmt = mode.strip('amb') + multiplier + char
@@ -214,8 +211,7 @@ def iter_mode(n, obj='ndarray'):
 def iter_format(nitems, testobj='ndarray'):
     """Yield (format, items, item) for all possible modes and format
        characters plus one random compound format string."""
-    for t in iter_mode(nitems, testobj):
-        yield t
+    yield from iter_mode(nitems, testobj)
     if testobj != 'ndarray':
         return
     yield struct_items(nitems, testobj)
@@ -291,17 +287,17 @@ def _fa(items, s):
         return items[0]
     lst = [0] * s[0]
     stride = s[0]
-    for i in range(s[0]):
+    for i in range(stride):
         lst[i] = _fa(items[i::stride], s[1:])
     return lst
 
 def carray(items, shape):
-    if listp(items) and not 0 in shape and prod(shape) != len(items):
+    if listp(items) and 0 not in shape and prod(shape) != len(items):
         raise ValueError("prod(shape) != len(items)")
     return _ca(items, shape)
 
 def farray(items, shape):
-    if listp(items) and not 0 in shape and prod(shape) != len(items):
+    if listp(items) and 0 not in shape and prod(shape) != len(items):
         raise ValueError("prod(shape) != len(items)")
     return _fa(items, shape)
 
@@ -312,10 +308,7 @@ def indices(shape):
 
 def getindex(ndim, ind, strides):
     """Convert multi-dimensional index to the position in the flat list."""
-    ret = 0
-    for i in range(ndim):
-        ret += strides[i] * ind[i]
-    return ret
+    return sum(strides[i] * ind[i] for i in range(ndim))
 
 def transpose(src, shape):
     """Transpose flat item list that is regarded as a multi-dimensional
@@ -342,9 +335,7 @@ def _flatten(lst):
 
 def flatten(lst):
     """flatten list or return scalar"""
-    if atomp(lst): # scalar
-        return lst
-    return _flatten(lst)
+    return lst if atomp(lst) else _flatten(lst)
 
 def slice_shape(lst, slices):
     """Get the shape of lst after slicing: slices is a list of slice
@@ -488,11 +479,10 @@ def rand_structure(itemsize, valid, maxdim=5, maxshape=16, shape=()):
         if (ndim == 0):
             if valid:
                 return itemsize, itemsize, ndim, (), (), 0
-            else:
-                nitems = randrange(1, 16+1)
-                memlen = nitems * itemsize
-                offset = -itemsize if randrange(2) == 0 else memlen
-                return memlen, itemsize, ndim, (), (), offset
+            nitems = randrange(1, 16+1)
+            memlen = nitems * itemsize
+            offset = -itemsize if randrange(2) == 0 else memlen
+            return memlen, itemsize, ndim, (), (), offset
 
         minshape = 2
         n = randrange(100)
@@ -509,7 +499,7 @@ def rand_structure(itemsize, valid, maxdim=5, maxshape=16, shape=()):
 
     maxstride = 5
     n = randrange(100)
-    zero_stride = True if n >= 95 and n & 1 else False
+    zero_stride = bool(n >= 95 and n & 1)
 
     strides = [0] * ndim
     strides[ndim-1] = itemsize * randrange(-maxstride, maxstride+1)
@@ -517,7 +507,7 @@ def rand_structure(itemsize, valid, maxdim=5, maxshape=16, shape=()):
         strides[ndim-1] = itemsize
 
     for i in range(ndim-2, -1, -1):
-        maxstride *= shape[i+1] if shape[i+1] else 1
+        maxstride *= shape[i+1] or 1
         if zero_stride:
             strides[i] = itemsize * randrange(-maxstride, maxstride+1)
         else:
@@ -525,7 +515,7 @@ def rand_structure(itemsize, valid, maxdim=5, maxshape=16, shape=()):
                           itemsize * randrange(1, maxstride+1))
 
     imin = imax = 0
-    if not 0 in shape:
+    if 0 not in shape:
         imin = sum(strides[j]*(shape[j]-1) for j in range(ndim)
                    if strides[j] <= 0)
         imax = sum(strides[j]*(shape[j]-1) for j in range(ndim)
@@ -576,9 +566,11 @@ def rand_aligned_slices(maxdim=5, maxshape=16):
         minshape = 0
     elif n >= 90:
         minshape = 1
-    all_random = True if randrange(100) >= 80 else False
-    lshape = [0]*ndim; rshape = [0]*ndim
-    lslices = [0]*ndim; rslices = [0]*ndim
+    all_random = randrange(100) >= 80
+    lshape = [0]*ndim
+    rshape = [0]*ndim
+    lslices = [0]*ndim
+    rslices = [0]*ndim
 
     for n in range(ndim):
         small = randrange(minshape, maxshape+1)
@@ -612,7 +604,7 @@ def randitems_from_structure(fmt, t):
     """Return a list of random items for structure 't' with format
        'fmtchar'."""
     memlen, itemsize, _, _, _, _ = t
-    return gen_items(memlen//itemsize, '#'+fmt, 'numpy')
+    return gen_items(memlen//itemsize, f'#{fmt}', 'numpy')
 
 def ndarray_from_structure(items, fmt, t, flags=0):
     """Return ndarray from the tuple returned by rand_structure()"""

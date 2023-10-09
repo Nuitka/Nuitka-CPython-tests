@@ -57,7 +57,7 @@ def setUpModule():
     if "MSC v.1200" in sys.version:
         def accept(loc):
             a = loc.split(".")
-            return not(len(a) == 2 and len(a[-1]) >= 9)
+            return len(a) != 2 or len(a[-1]) < 9
         candidate_locales = [loc for loc in candidate_locales if accept(loc)]
 
 # List known locale values to test against when available.
@@ -145,6 +145,7 @@ class _LocaleTests(unittest.TestCase):
                 setlocale(LC_CTYPE, loc)
             except Error:
                 continue
+            tested = True
             for li, lc in ((RADIXCHAR, "decimal_point"),
                             (THOUSEP, "thousands_sep")):
                 nl_radixchar = nl_langinfo(li)
@@ -158,7 +159,6 @@ class _LocaleTests(unittest.TestCase):
                                 "(set to %s, using %s)" % (
                                                 nl_radixchar, li_radixchar,
                                                 loc, set_locale))
-                tested = True
         if not tested:
             self.skipTest('no suitable locales')
 

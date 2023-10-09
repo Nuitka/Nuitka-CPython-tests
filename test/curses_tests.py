@@ -13,11 +13,7 @@ from curses import textpad
 def test_textpad(stdscr, insert_mode=False):
     ncols, nlines = 8, 3
     uly, ulx = 3, 2
-    if insert_mode:
-        mode = 'insert mode'
-    else:
-        mode = 'overwrite mode'
-
+    mode = 'insert mode' if insert_mode else 'overwrite mode'
     stdscr.addstr(uly-3, ulx, "Use Ctrl-G to end editing (%s)." % mode)
     stdscr.addstr(uly-2, ulx, "Be sure to try typing in the lower-right corner.")
     win = curses.newwin(nlines, ncols, uly, ulx)

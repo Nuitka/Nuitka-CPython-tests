@@ -31,9 +31,11 @@ class Test_OSXSupport(unittest.TestCase):
     def add_expected_saved_initial_values(self, config_vars, expected_vars):
         # Ensure that the initial values for all modified config vars
         # are also saved with modified keys.
-        expected_vars.update(('_OSX_SUPPORT_INITIAL_'+ k,
-                config_vars[k]) for k in config_vars
-                    if config_vars[k] != expected_vars[k])
+        expected_vars.update(
+            (f'_OSX_SUPPORT_INITIAL_{k}', config_vars[k])
+            for k in config_vars
+            if config_vars[k] != expected_vars[k]
+        )
 
     def test__find_executable(self):
         if self.env['PATH']:
@@ -108,8 +110,7 @@ class Test_OSXSupport(unittest.TestCase):
 
     def test__supports_universal_builds(self):
         import platform
-        mac_ver_tuple = tuple(int(i) for i in
-                            platform.mac_ver()[0].split('.')[0:2])
+        mac_ver_tuple = tuple(int(i) for i in platform.mac_ver()[0].split('.')[:2])
         self.assertEqual(mac_ver_tuple >= (10, 4),
                             _osx_support._supports_universal_builds())
 

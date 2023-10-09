@@ -198,9 +198,7 @@ def checkDir(dirname):
         if filename == "test_support.py":
             continue
 
-        active = search_mode.consider(dirname, filename)
-
-        if active:
+        if active := search_mode.consider(dirname, filename):
             checkPath(dirname, filename)
 
 

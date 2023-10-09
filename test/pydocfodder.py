@@ -212,5 +212,7 @@ class FunkyProperties(object):
     x = property(get_desc('x'), set_desc('x'), del_desc('x'), 'prop x')
 
 
-submodule = types.ModuleType(__name__ + '.submodule',
-    """A submodule, which should appear in its parent's summary""")
+submodule = types.ModuleType(
+    f'{__name__}.submodule',
+    """A submodule, which should appear in its parent's summary""",
+)

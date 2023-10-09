@@ -17,8 +17,7 @@ def to_tuple(t):
         result.append((t.lineno, t.col_offset))
     if t._fields is None:
         return tuple(result)
-    for f in t._fields:
-        result.append(to_tuple(getattr(t, f)))
+    result.extend(to_tuple(getattr(t, f)) for f in t._fields)
     return tuple(result)
 
 
@@ -1039,7 +1038,7 @@ class ConstantTests(unittest.TestCase):
     def test_values(self):
         nested_tuple = (1,)
         nested_frozenset = frozenset({1})
-        for level in range(3):
+        for _ in range(3):
             nested_tuple = (nested_tuple, 2)
             nested_frozenset = frozenset({nested_frozenset, 2})
         values = (123, 123.0, 123j,
@@ -1073,11 +1072,11 @@ class ConstantTests(unittest.TestCase):
         # Compile to bytecode, disassemble and get parameter of LOAD_CONST
         # instructions
         co = compile(tree, '<string>', 'exec')
-        consts = []
-        for instr in dis.get_instructions(co):
-            if instr.opname == 'LOAD_CONST':
-                consts.append(instr.argval)
-        return consts
+        return [
+            instr.argval
+            for instr in dis.get_instructions(co)
+            if instr.opname == 'LOAD_CONST'
+        ]
 
     @support.cpython_only
     def test_load_const(self):
@@ -1129,7 +1128,7 @@ def main():
     if sys.argv[1:] == ['-g']:
         for statements, kind in ((exec_tests, "exec"), (single_tests, "single"),
                                  (eval_tests, "eval")):
-            print(kind+"_results = [")
+            print(f'{kind}_results = [')
             for statement in statements:
                 tree = ast.parse(statement, "?", kind)
                 print("%r," % (to_tuple(tree),))

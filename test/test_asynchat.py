@@ -42,7 +42,7 @@ class echo_server(threading.Thread):
             data = conn.recv(1)
             if not data:
                 break
-            self.buffer = self.buffer + data
+            self.buffer += data
 
         # remove the SERVER_QUIT message
         self.buffer = self.buffer.replace(SERVER_QUIT, b'')

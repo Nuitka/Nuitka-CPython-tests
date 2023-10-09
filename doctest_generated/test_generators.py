@@ -4,7 +4,7 @@ from test.test_generators import Knights
 
 try:
     def firstn(g, n):
-        return [next(g) for i in range(n)]
+        return [next(g) for _ in range(n)]
     #
     def intsfrom(i):
         while 1:
@@ -48,8 +48,7 @@ try:
         prime = next(ints)
         yield prime
         not_divisible_by_prime = exclude_multiples(prime, ints)
-        for p in sieve(not_divisible_by_prime):
-            yield p
+        yield from sieve(not_divisible_by_prime)
     #
 except Exception as __e:
     print("Occurred", type(__e), __e)
@@ -114,10 +113,9 @@ try:
         me_times2 = times(2, m235())
         me_times3 = times(3, m235())
         me_times5 = times(5, m235())
-        for i in merge(merge(me_times2,
+        yield from merge(merge(me_times2,
                              me_times3),
-                       me_times5):
-            yield i
+                       me_times5)
     #
     # Don't print "too many" of these -- the implementation above is extremely
     # inefficient:  each call of m235() leads to 3 recursive calls, and in
@@ -167,10 +165,9 @@ try:
         me_times2 = times(2, m235)
         me_times3 = times(3, m235)
         me_times5 = times(5, m235)
-        for i in merge(merge(me_times2,
+        yield from merge(merge(me_times2,
                              me_times3),
-                       me_times5):
-            yield i
+                       me_times5)
     #
     # Print as many of these as you like -- *this* implementation is memory-
     # efficient.
@@ -205,8 +202,7 @@ try:
 
         def tail(g):
             next(g)    # throw first away
-            for x in g:
-                yield x
+            yield from g
 
         yield a
         yield b
@@ -243,10 +239,9 @@ try:
     def m235():
         def _m235():
             yield 1
-            for n in merge(times(2, m2),
+            yield from merge(times(2, m2),
                            merge(times(3, m3),
-                                 times(5, m5))):
-                yield n
+                                 times(5, m5)))
         m1 = _m235()
         m2, m3, m5, mRes = tee(m1, 4)
         return mRes
@@ -291,8 +286,7 @@ try:
             yield 1
             yield 2
             next(fibTail) # throw first away
-            for res in _isum(fibHead, fibTail):
-                yield res
+            yield from _isum(fibHead, fibTail)
 
         realfib = _fib()
         fibHead, fibTail, fibRes = tee(realfib, 3)
@@ -450,8 +444,7 @@ except Exception as __e:
 
 try:
     def g():
-        i = next(me)
-        yield i
+        yield next(me)
 except Exception as __e:
     print("Occurred", type(__e), __e)
 
@@ -618,11 +611,9 @@ except Exception as __e:
 try:
     def inorder(t):
         if t:
-            for x in inorder(t.left):
-                yield x
+            yield from inorder(t.left)
             yield t.label
-            for x in inorder(t.right):
-                yield x
+            yield from inorder(t.right)
     #
 except Exception as __e:
     print("Occurred", type(__e), __e)
@@ -637,7 +628,7 @@ except Exception as __e:
 
 try:
     def g():
-        for i in range(3):
+        for _ in range(3):
             yield None
         yield None
         return
@@ -691,8 +682,7 @@ try:
                 c.insert(0, first)
                 yield c
             # If it doesn't contain first, it's a k comb of rest.
-            for c in gcomb(rest, k):
-                yield c
+            yield from gcomb(rest, k)
     #
 except Exception as __e:
     print("Occurred", type(__e), __e)
@@ -860,8 +850,7 @@ try:
         def generate(self):
             while not self.parent:
                 yield self
-            for x in self.parent.generator:
-                yield x
+            yield from self.parent.generator
 
         def find(self):
             return next(self.generator)
@@ -922,12 +911,11 @@ try:
     #
     def f():
         try:
-            try:
-                1//0
-            except ZeroDivisionError:
-                yield 666
-            except:
-                pass
+            1//0
+        except ZeroDivisionError:
+            yield 666
+        except:
+            pass
         finally:
             pass
     #
@@ -976,8 +964,7 @@ except Exception as __e:
 
 try:
     def f():
-       if 0:
-           yield
+        pass
 except Exception as __e:
     print("Occurred", type(__e), __e)
 
@@ -993,8 +980,7 @@ except Exception as __e:
 
 try:
     def f():
-        if 0:
-            yield 1
+        pass
 except Exception as __e:
     print("Occurred", type(__e), __e)
 
@@ -1010,8 +996,7 @@ except Exception as __e:
 
 try:
     def f():
-       if "":
-           yield None
+        pass
 except Exception as __e:
     print("Occurred", type(__e), __e)
 
@@ -1027,25 +1012,6 @@ except Exception as __e:
 
 try:
     def f():
-        return
-        try:
-            if x==4:
-                pass
-            elif 0:
-                try:
-                    1//0
-                except SyntaxError:
-                    pass
-                else:
-                    if 0:
-                        while 12:
-                            x += 1
-                            yield 2 # don't blink
-                            f(a, b, c, d, e)
-            else:
-                pass
-        except:
-            x = 1
         return
 except Exception as __e:
     print("Occurred", type(__e), __e)
@@ -1101,10 +1067,7 @@ except Exception as __e:
 
 try:
     def f():
-        if 0:
-            return
-        if 0:
-            yield 2
+        pass
 except Exception as __e:
     print("Occurred", type(__e), __e)
 
@@ -1315,7 +1278,6 @@ try:
     def f():
         yield 1
         return
-        yield 2 # never reached
 except Exception as __e:
     print("Occurred", type(__e), __e)
 
@@ -1412,8 +1374,7 @@ except Exception as __e:
 
 try:
     def yrange(n):
-        for i in range(n):
-            yield i
+        yield from range(n)
 except Exception as __e:
     print("Occurred", type(__e), __e)
 
@@ -1451,8 +1412,7 @@ except Exception as __e:
 
 try:
     def zrange(n):
-        for i in yrange(n):
-            yield i
+        yield from yrange(n)
 except Exception as __e:
     print("Occurred", type(__e), __e)
 
@@ -1661,7 +1621,8 @@ except Exception as __e:
 
 
 try:
-    def f(): list(i for i in [(yield 26)])
+    def f():
+        list([(yield 26)])
 except Exception as __e:
     print("Occurred", type(__e), __e)
 

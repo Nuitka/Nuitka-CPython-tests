@@ -222,9 +222,9 @@ class AIFCLowLevelTest(unittest.TestCase):
     def test_read_written(self):
         def read_written(self, what):
             f = io.BytesIO()
-            getattr(aifc, '_write_' + what)(f, x)
+            getattr(aifc, f'_write_{what}')(f, x)
             f.seek(0)
-            return getattr(aifc, '_read_' + what)(f)
+            return getattr(aifc, f'_read_{what}')(f)
         for x in (-1, 0, 0.1, 1):
             self.assertEqual(read_written(x, 'float'), x)
         for x in (float('NaN'), float('Inf')):
@@ -419,7 +419,7 @@ class AIFCLowLevelTest(unittest.TestCase):
 
     def test_write_aiff_by_extension(self):
         sampwidth = 2
-        filename = TESTFN + '.aiff'
+        filename = f'{TESTFN}.aiff'
         fout = self.fout = aifc.open(filename, 'wb')
         self.addCleanup(unlink, filename)
         fout.setparams((1, sampwidth, 1, 1, b'ULAW', b''))

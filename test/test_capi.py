@@ -338,11 +338,6 @@ class TestPendingCalls(unittest.TestCase):
         #now, stick around until l[0] has grown to 10
         count = 0;
         while len(l) != n:
-            #this busy loop is where we expect to be interrupted to
-            #run our callbacks.  Note that callbacks are only run on the
-            #main thread
-            if False and support.verbose:
-                print("(%i)"%(len(l),),)
             for i in range(1000):
                 a = i*i
             if context and not context.event.is_set():
@@ -350,8 +345,6 @@ class TestPendingCalls(unittest.TestCase):
             count += 1
             self.assertTrue(count < 10000,
                 "timeout waiting for %i callbacks, got %i"%(n, len(l)))
-        if False and support.verbose:
-            print("(%i)"%(len(l),))
 
     def test_pendingcalls_threaded(self):
 
@@ -368,8 +361,7 @@ class TestPendingCalls(unittest.TestCase):
         context.event = threading.Event()
 
         threads = [threading.Thread(target=self.pendingcalls_thread,
-                                    args=(context,))
-                   for i in range(context.nThreads)]
+                                    args=(context,)) for _ in range(context.nThreads)]
         with support.start_threads(threads):
             self.pendingcalls_wait(context.l, n, context)
 
@@ -380,8 +372,6 @@ class TestPendingCalls(unittest.TestCase):
             with context.lock:
                 context.nFinished += 1
                 nFinished = context.nFinished
-                if False and support.verbose:
-                    print("finished threads: ", nFinished)
             if nFinished == context.nThreads:
                 context.event.set()
 
@@ -463,7 +453,7 @@ class SkipitemTest(unittest.TestCase):
                 continue
 
             # test the format unit when not skipped
-            format = c + "i"
+            format = f'{c}i'
             try:
                 _testcapi.parse_tuple_and_keywords(tuple_1, dict_b,
                     format, keywords)
@@ -475,7 +465,7 @@ class SkipitemTest(unittest.TestCase):
                 when_not_skipped = False
 
             # test the format unit when skipped
-            optional_format = "|" + format
+            optional_format = f'|{format}'
             try:
                 _testcapi.parse_tuple_and_keywords(empty_tuple, dict_b,
                     optional_format, keywords)

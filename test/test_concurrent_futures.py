@@ -354,8 +354,10 @@ class ThreadPoolShutdownTest(ThreadPoolMixin, ExecutorShutdownTest, BaseTestCase
     def test_context_manager_shutdown(self):
         with futures.ThreadPoolExecutor(max_workers=5) as e:
             executor = e
-            self.assertEqual(list(e.map(abs, range(-5, 5))),
-                             [5, 4, 3, 2, 1, 0, 1, 2, 3, 4])
+            self.assertEqual(
+                list(executor.map(abs, range(-5, 5))),
+                [5, 4, 3, 2, 1, 0, 1, 2, 3, 4],
+            )
 
         for t in executor._threads:
             t.join()
@@ -607,9 +609,7 @@ class AsCompletedTests:
         # duplicate responses.
         # Issue #31641: accept arbitrary iterables.
         future1 = self.executor.submit(time.sleep, 2)
-        completed = [
-            f for f in futures.as_completed(itertools.repeat(future1, 3))
-        ]
+        completed = list(futures.as_completed(itertools.repeat(future1, 3)))
         self.assertEqual(len(completed), 1)
 
     def test_free_reference_yielded_future(self):
@@ -677,10 +677,9 @@ class ExecutorTest:
     def test_map_timeout(self):
         results = []
         try:
-            for i in self.executor.map(time.sleep,
+            results.extend(iter(self.executor.map(time.sleep,
                                        [0, 0, 6],
-                                       timeout=5):
-                results.append(i)
+                                       timeout=5)))
         except futures.TimeoutError:
             pass
         else:

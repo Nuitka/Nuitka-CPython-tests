@@ -37,7 +37,7 @@ class ComparisonTest(unittest.TestCase):
     def test_id_comparisons(self):
         # Ensure default comparison compares id() of args
         L = []
-        for i in range(10):
+        for _ in range(10):
             L.insert(len(L)//2, Empty())
         for a in L:
             for b in L:

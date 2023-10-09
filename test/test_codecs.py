@@ -37,11 +37,11 @@ class Queue(object):
         if size<0:
             s = self._buffer
             self._buffer = self._buffer[:0] # make empty
-            return s
         else:
             s = self._buffer[:size]
             self._buffer = self._buffer[size:]
-            return s
+
+        return s
 
 
 class MixInCheckStateHandling:
@@ -425,7 +425,7 @@ class UTF32Test(ReadTest, unittest.TestCase):
         f.write("spam")
         d = s.getvalue()
         # check whether there is exactly one BOM in it
-        self.assertTrue(d == self.spamle or d == self.spambe)
+        self.assertTrue(d in [self.spamle, self.spambe])
         # try to read it back
         s = io.BytesIO(d)
         f = reader(s)
@@ -609,7 +609,7 @@ class UTF16Test(ReadTest, unittest.TestCase):
         f.write("spam")
         d = s.getvalue()
         # check whether there is exactly one BOM in it
-        self.assertTrue(d == self.spamle or d == self.spambe)
+        self.assertTrue(d in [self.spamle, self.spambe])
         # try to read it back
         s = io.BytesIO(d)
         f = reader(s)
@@ -1138,11 +1138,7 @@ class UTF8SigTest(UTF8Test, unittest.TestCase):
             istream = reader(io.BytesIO(bytestring))
             ostream = io.StringIO()
             while 1:
-                if sizehint is not None:
-                    data = istream.read(sizehint)
-                else:
-                    data = istream.read()
-
+                data = istream.read(sizehint) if sizehint is not None else istream.read()
                 if not data:
                     break
                 ostream.write(data)
@@ -1160,11 +1156,7 @@ class UTF8SigTest(UTF8Test, unittest.TestCase):
             istream = reader(io.BytesIO(bytestring))
             ostream = io.StringIO()
             while 1:
-                if sizehint is not None:
-                    data = istream.read(sizehint)
-                else:
-                    data = istream.read()
-
+                data = istream.read(sizehint) if sizehint is not None else istream.read()
                 if not data:
                     break
                 ostream.write(data)
@@ -2017,9 +2009,7 @@ class BasicUnicodeTest(unittest.TestCase, MixInCheckStateHandling):
                         encodedresult += encoder.encode(c)
                     encodedresult += encoder.encode("", True)
                     decoder = codecs.getincrementaldecoder(encoding)()
-                    decodedresult = ""
-                    for c in encodedresult:
-                        decodedresult += decoder.decode(bytes([c]))
+                    decodedresult = "".join(decoder.decode(bytes([c])) for c in encodedresult)
                     decodedresult += decoder.decode(b"", True)
                     self.assertEqual(decodedresult, s,
                                      "encoding=%r" % encoding)
@@ -2066,9 +2056,7 @@ class BasicUnicodeTest(unittest.TestCase, MixInCheckStateHandling):
                         encodedresult += cencoder.encode(c)
                     encodedresult += cencoder.encode("", True)
                     cdecoder = codec_incrementaldecoder(encoding)
-                    decodedresult = ""
-                    for c in encodedresult:
-                        decodedresult += cdecoder.decode(bytes([c]))
+                    decodedresult = "".join(cdecoder.decode(bytes([c])) for c in encodedresult)
                     decodedresult += cdecoder.decode(b"", True)
                     self.assertEqual(decodedresult, s,
                                      "encoding=%r" % encoding)
@@ -2096,7 +2084,7 @@ class BasicUnicodeTest(unittest.TestCase, MixInCheckStateHandling):
             if encoding in broken_unicode_with_stateful:
                 continue
             reader = codecs.getreader(encoding)(io.BytesIO(s.encode(encoding)))
-            for t in range(5):
+            for _ in range(5):
                 # Test that calling seek resets the internal codec state and buffers
                 reader.seek(0, 0)
                 data = reader.read()
@@ -2310,10 +2298,12 @@ class CharmapTest(unittest.TestCase):
         )
 
         self.assertEqual(
-            codecs.charmap_decode(b"\x00\x01\x02", "strict",
-                                  {0: sys.maxunicode, 1: b, 2: c}),
-            (chr(sys.maxunicode) + "bc", 3)
+            codecs.charmap_decode(
+                b"\x00\x01\x02", "strict", {0: sys.maxunicode, 1: b, 2: c}
+            ),
+            (f'{chr(sys.maxunicode)}bc', 3),
         )
+
 
         self.assertRaises(TypeError,
             codecs.charmap_decode, b"\x00\x01\x02", "strict",
@@ -2438,7 +2428,7 @@ class UnicodeEscapeTest(unittest.TestCase):
         decode = codecs.unicode_escape_decode
         for b in range(256):
             if b != b'\\'[0]:
-                self.assertEqual(decode(bytes([b]) + b'0'), (chr(b) + '0', 2))
+                self.assertEqual(decode(bytes([b]) + b'0'), (f'{chr(b)}0', 2))
 
     def test_escape_encode(self):
         encode = codecs.unicode_escape_encode
@@ -2483,10 +2473,10 @@ class UnicodeEscapeTest(unittest.TestCase):
             b = bytes([i])
             if b not in b'abfnrtuvx':
                 with self.assertWarns(DeprecationWarning):
-                    check(b"\\" + b, "\\" + chr(i))
+                    check(b"\\" + b, f'\\{chr(i)}')
             if b.upper() not in b'UN':
                 with self.assertWarns(DeprecationWarning):
-                    check(b"\\" + b.upper(), "\\" + chr(i-32))
+                    check(b"\\" + b.upper(), f'\\{chr(i-32)}')
         with self.assertWarns(DeprecationWarning):
             check(br"\8", "\\8")
         with self.assertWarns(DeprecationWarning):
@@ -2524,14 +2514,14 @@ class RawUnicodeEscapeTest(unittest.TestCase):
     def test_raw_decode(self):
         decode = codecs.raw_unicode_escape_decode
         for b in range(256):
-            self.assertEqual(decode(bytes([b]) + b'0'), (chr(b) + '0', 2))
+            self.assertEqual(decode(bytes([b]) + b'0'), (f'{chr(b)}0', 2))
 
     def test_escape_encode(self):
         encode = codecs.raw_unicode_escape_encode
         check = coding_checker(self, encode)
         for b in range(256):
             if b not in b'uU':
-                check('\\' + chr(b), b'\\' + bytes([b]))
+                check(f'\\{chr(b)}', b'\\' + bytes([b]))
         check('\u20ac', br'\u20ac')
         check('\U0001d120', br'\U0001d120')
 
@@ -2540,7 +2530,7 @@ class RawUnicodeEscapeTest(unittest.TestCase):
         check = coding_checker(self, decode)
         for b in range(256):
             if b not in b'uU':
-                check(b'\\' + bytes([b]), '\\' + chr(b))
+                check(b'\\' + bytes([b]), f'\\{chr(b)}')
         check(br"\u20ac", "\u20ac")
         check(br"\U0001d120", "\U0001d120")
 

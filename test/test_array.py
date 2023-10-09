@@ -214,10 +214,7 @@ class BaseTest:
         self.assertEqual(bi[1], len(a))
 
     def test_byteswap(self):
-        if self.typecode == 'u':
-            example = '\U00100100'
-        else:
-            example = self.example
+        example = '\U00100100' if self.typecode == 'u' else self.example
         a = array.array(self.typecode, example)
         self.assertRaises(TypeError, a.byteswap, 42)
         if a.itemsize in (1, 2, 4, 8):
@@ -303,7 +300,7 @@ class BaseTest:
             self.assertEqual(list(it), data[1:] + data2)
 
             # empty iterator
-            for i in range(1, len(data)):
+            for _ in range(1, len(data)):
                 next(itorig)
             d = pickle.dumps((itorig, orig), proto)
             it, a = pickle.loads(d)
@@ -372,14 +369,13 @@ class BaseTest:
             a.tofile(f)
             f.close()
             b = array.array(self.typecode)
-            f = open(support.TESTFN, 'rb')
-            self.assertRaises(TypeError, b.fromfile)
-            b.fromfile(f, len(self.example))
-            self.assertEqual(b, array.array(self.typecode, self.example))
-            self.assertNotEqual(a, b)
-            self.assertRaises(EOFError, b.fromfile, f, len(self.example)+1)
-            self.assertEqual(a, b)
-            f.close()
+            with open(support.TESTFN, 'rb') as f:
+                self.assertRaises(TypeError, b.fromfile)
+                b.fromfile(f, len(self.example))
+                self.assertEqual(b, array.array(self.typecode, self.example))
+                self.assertNotEqual(a, b)
+                self.assertRaises(EOFError, b.fromfile, f, len(self.example)+1)
+                self.assertEqual(a, b)
         finally:
             if not f.closed:
                 f.close()
@@ -403,13 +399,12 @@ class BaseTest:
             f.write(a)
             f.close()
             b = array.array(self.typecode)
-            f = open(support.TESTFN, 'rb')
-            b.fromfile(f, len(self.example))
-            self.assertEqual(b, array.array(self.typecode, self.example))
-            self.assertNotEqual(a, b)
-            b.fromfile(f, len(self.example))
-            self.assertEqual(a, b)
-            f.close()
+            with open(support.TESTFN, 'rb') as f:
+                b.fromfile(f, len(self.example))
+                self.assertEqual(b, array.array(self.typecode, self.example))
+                self.assertNotEqual(a, b)
+                b.fromfile(f, len(self.example))
+                self.assertEqual(a, b)
         finally:
             if not f.closed:
                 f.close()
@@ -973,7 +968,6 @@ class BaseTest:
         # pass through errors raised in next()
         def B():
             raise UnicodeError
-            yield None
         self.assertRaises(UnicodeError, array.array, self.typecode, B())
 
     def test_coveritertraverse(self):
@@ -997,7 +991,7 @@ class BaseTest:
         # the array was not modified.
         self.assertRaises(BufferError, a.append, a[0])
         self.assertEqual(m.tobytes(), expected)
-        self.assertRaises(BufferError, a.extend, a[0:1])
+        self.assertRaises(BufferError, a.extend, a[:1])
         self.assertEqual(m.tobytes(), expected)
         self.assertRaises(BufferError, a.remove, a[0])
         self.assertEqual(m.tobytes(), expected)
@@ -1031,10 +1025,10 @@ class BaseTest:
     @unittest.skipUnless(hasattr(sys, 'getrefcount'),
                          'test needs sys.getrefcount()')
     def test_bug_782369(self):
-        for i in range(10):
+        for _ in range(10):
             b = array.array('B', range(64))
         rc = sys.getrefcount(10)
-        for i in range(10):
+        for _ in range(10):
             b = array.array('B', range(64))
         self.assertEqual(rc, sys.getrefcount(10))
 

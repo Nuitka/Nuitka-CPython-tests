@@ -42,7 +42,7 @@ class BaseTest:
         elif isinstance(obj, list):
             return [self.fixtype(x) for x in obj]
         elif isinstance(obj, tuple):
-            return tuple([self.fixtype(x) for x in obj])
+            return tuple(self.fixtype(x) for x in obj)
         elif isinstance(obj, dict):
             return dict([
                (self.fixtype(key), self.fixtype(value))
@@ -138,7 +138,7 @@ class BaseTest:
         teststrings = set()
         for i in range(base ** digits):
             entry = []
-            for j in range(digits):
+            for _ in range(digits):
                 i, m = divmod(i, base)
                 entry.append(charset[m])
             teststrings.add(''.join(entry))
@@ -199,7 +199,7 @@ class BaseTest:
         teststrings = set()
         for i in range(base ** digits):
             entry = []
-            for j in range(digits):
+            for _ in range(digits):
                 i, m = divmod(i, base)
                 entry.append(charset[m])
             teststrings.add(''.join(entry))
@@ -246,7 +246,7 @@ class BaseTest:
         teststrings = set()
         for i in range(base ** digits):
             entry = []
-            for j in range(digits):
+            for _ in range(digits):
                 i, m = divmod(i, base)
                 entry.append(charset[m])
             teststrings.add(''.join(entry))
@@ -1263,7 +1263,7 @@ class MixinStrUnicodeUserStringTest:
         for prec in range(100):
             format = '%%.%if' % prec
             value = 0.01
-            for x in range(60):
+            for _ in range(60):
                 value = value * 3.14159265359 / 3.0 * 10.0
                 self.checkcall(format, "__mod__", value)
 

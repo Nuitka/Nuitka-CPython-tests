@@ -30,18 +30,17 @@ protocols = range(pickle.HIGHEST_PROTOCOL + 1)
 
 # Return True if opcode code appears in the pickle, else False.
 def opcode_in_pickle(code, pickle):
-    for op, dummy, dummy in pickletools.genops(pickle):
-        if op.code == code.decode("latin-1"):
-            return True
-    return False
+    return any(
+        op.code == code.decode("latin-1")
+        for op, dummy, dummy in pickletools.genops(pickle)
+    )
 
 # Return the number of times opcode code appears in pickle.
 def count_opcode(code, pickle):
-    n = 0
-    for op, dummy, dummy in pickletools.genops(pickle):
-        if op.code == code.decode("latin-1"):
-            n += 1
-    return n
+    return sum(
+        op.code == code.decode("latin-1")
+        for op, dummy, dummy in pickletools.genops(pickle)
+    )
 
 
 class UnseekableIO(io.BytesIO):
@@ -638,22 +637,19 @@ DATA_UEERR = (b'\x80\x02cexceptions\nUnicodeEncodeError\n'
 
 def create_data():
     c = C()
-    c.foo = 1
-    c.bar = 2
-    x = [0, 1, 2.0, 3.0+0j]
     # Append some integer test cases at cPickle.c's internal size
     # cutoffs.
     uint1max = 0xff
     uint2max = 0xffff
     int4max = 0x7fffffff
-    x.extend([1, -1,
+    x = [0, 1, 2.0, 3.0 + 0j, *[1, -1,
               uint1max, -uint1max, -uint1max-1,
               uint2max, -uint2max, -uint2max-1,
-               int4max,  -int4max,  -int4max-1])
+               int4max,  -int4max,  -int4max-1]]
+    c.foo = 1
+    c.bar = 2
     y = ('abc', 'abc', c, c)
-    x.append(y)
-    x.append(y)
-    x.append(5)
+    x.extend((y, y, 5))
     return x
 
 
@@ -1452,7 +1448,7 @@ class AbstractPickleTests(unittest.TestCase):
     def test_float(self):
         test_values = [0.0, 4.94e-324, 1e-310, 7e-308, 6.626e-34, 0.1, 0.5,
                        3.14, 263.44582062374053, 6.022e23, 1e30]
-        test_values = test_values + [-x for x in test_values]
+        test_values += [-x for x in test_values]
         for proto in protocols:
             for value in test_values:
                 pickle = self.dumps(value, proto)
@@ -1462,7 +1458,7 @@ class AbstractPickleTests(unittest.TestCase):
     @run_with_locale('LC_ALL', 'de_DE', 'fr_FR')
     def test_float_format(self):
         # make sure that floats are formatted locale independent with proto 0
-        self.assertEqual(self.dumps(1.2, 0)[0:3], b'F1.')
+        self.assertEqual(self.dumps(1.2, 0)[:3], b'F1.')
 
     def test_reduce(self):
         for proto in protocols:
@@ -1824,8 +1820,7 @@ class AbstractPickleTests(unittest.TestCase):
                     self.assertIn(b'\nI64206', s)  # INT
                 else:
                     self.assertIn(b'M\xce\xfa', s)  # BININT2
-                self.assertEqual(opcode_in_pickle(pickle.NEWOBJ, s),
-                                 2 <= proto)
+                self.assertEqual(opcode_in_pickle(pickle.NEWOBJ, s), proto >= 2)
                 self.assertFalse(opcode_in_pickle(pickle.NEWOBJ_EX, s))
                 y = self.loads(s)   # will raise TypeError if __init__ called
                 self.assert_is_copy(x, y)
@@ -1844,8 +1839,7 @@ class AbstractPickleTests(unittest.TestCase):
                     self.assertIn(b'X\x04\x00\x00\x00FACE', s)  # BINUNICODE
                 else:
                     self.assertIn(b'\x8c\x04FACE', s)  # SHORT_BINUNICODE
-                self.assertEqual(opcode_in_pickle(pickle.NEWOBJ, s),
-                                 2 <= proto)
+                self.assertEqual(opcode_in_pickle(pickle.NEWOBJ, s), proto >= 2)
                 self.assertFalse(opcode_in_pickle(pickle.NEWOBJ_EX, s))
                 y = self.loads(s)   # will raise TypeError if __init__ called
                 self.assert_is_copy(x, y)
@@ -1865,8 +1859,7 @@ class AbstractPickleTests(unittest.TestCase):
                 else:
                     self.assertIn(b'\x8c\x04FACE', s)  # SHORT_BINUNICODE
                 self.assertFalse(opcode_in_pickle(pickle.NEWOBJ, s))
-                self.assertEqual(opcode_in_pickle(pickle.NEWOBJ_EX, s),
-                                 4 <= proto)
+                self.assertEqual(opcode_in_pickle(pickle.NEWOBJ_EX, s), proto >= 4)
                 y = self.loads(s)   # will raise TypeError if __init__ called
                 self.assert_is_copy(x, y)
 
@@ -1956,8 +1949,8 @@ class AbstractPickleTests(unittest.TestCase):
     def test_many_puts_and_gets(self):
         # Test that internal data structures correctly deal with lots of
         # puts/gets.
-        keys = ("aaa" + str(i) for i in range(100))
-        large_dict = dict((k, [4, 5, 6]) for k in keys)
+        keys = (f'aaa{str(i)}' for i in range(100))
+        large_dict = {k: [4, 5, 6] for k in keys}
         obj = [dict(large_dict), dict(large_dict), dict(large_dict)]
 
         for proto in protocols:
@@ -2063,18 +2056,17 @@ class AbstractPickleTests(unittest.TestCase):
                     # in a frame
                     self.assertLessEqual(len(arg), self.FRAME_SIZE_TARGET)
 
-            else:  # not framed
-                if (op.name == 'FRAME' or
+            elif (op.name == 'FRAME' or
                     (op.name in frameless_opcodes and
                      len(arg) > self.FRAME_SIZE_TARGET)):
-                    # Frame or large bytes or str object
-                    if frameless_start is not None:
-                        # Only short data should be written outside of a frame
-                        self.assertLess(pos - frameless_start,
-                                        self.FRAME_SIZE_MIN)
-                        frameless_start = None
-                elif frameless_start is None and op.name != 'PROTO':
-                    frameless_start = pos
+                # Frame or large bytes or str object
+                if frameless_start is not None:
+                    # Only short data should be written outside of a frame
+                    self.assertLess(pos - frameless_start,
+                                    self.FRAME_SIZE_MIN)
+                    frameless_start = None
+            elif frameless_start is None and op.name != 'PROTO':
+                frameless_start = pos
 
             if op.name == 'FRAME':
                 self.assertGreaterEqual(arg, self.FRAME_SIZE_MIN)
@@ -2139,12 +2131,13 @@ class AbstractPickleTests(unittest.TestCase):
 
         def remove_frames(pickled, keep_frame=None):
             """Remove frame opcodes from the given pickle."""
-            frame_starts = []
             # 1 byte for the opcode and 8 for the argument
             frame_opcode_size = 9
-            for opcode, _, pos in pickletools.genops(pickled):
-                if opcode.name == 'FRAME':
-                    frame_starts.append(pos)
+            frame_starts = [
+                pos
+                for opcode, _, pos in pickletools.genops(pickled)
+                if opcode.name == 'FRAME'
+            ]
 
             newpickle = bytearray()
             last_frame_end = 0
@@ -2891,7 +2884,7 @@ class AbstractPicklerUnpicklerObjectTests(unittest.TestCase):
                 N = 5
                 f = ioclass(pickled * N)
                 unpickler = self.unpickler_class(f)
-                for i in range(N):
+                for _ in range(N):
                     if f.seekable():
                         pos = f.tell()
                     self.assertEqual(unpickler.load(), data1)

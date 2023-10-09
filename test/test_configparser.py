@@ -57,8 +57,7 @@ class CfgParserTestCaseClass:
             default_section=self.default_section,
             interpolation=self.interpolation,
         )
-        instance = self.config_class(**arguments)
-        return instance
+        return self.config_class(**arguments)
 
     def fromstring(self, string, defaults=None):
         cf = self.newconfig(defaults)
@@ -94,9 +93,7 @@ class BasicTestCase(CfgParserTestCaseClass):
         L.sort()
         eq(L, F)
 
-        # mapping access
-        L = [section for section in cf]
-        L.sort()
+        L = sorted(cf)
         E.append(self.default_section)
         E.sort()
         eq(L, E)
@@ -395,11 +392,9 @@ boolean {0[0]} NO
             },
         }
         if self.allow_no_value:
-            config.update({
-                "NoValue": {
+            config["NoValue"] = {
                     "option-without-value": None,
                 }
-            })
         cf = self.newconfig()
         cf.read_dict(config)
         self.basic_test(cf)
@@ -475,8 +470,7 @@ boolean {0[0]} NO
         cf["A"] = {}
         cf["a"] = {"B": "value"}
         cf["B"] = {}
-        L = [section for section in cf]
-        L.sort()
+        L = sorted(cf)
         eq = self.assertEqual
         elem_eq = self.assertCountEqual
         eq(L, sorted(["A", "B", self.default_section, "a"]))
@@ -549,10 +543,7 @@ boolean {0[0]} NO
             self.assertEqual(e.args, expected)
 
     def parse_error(self, cf, exc, src):
-        if hasattr(src, 'readline'):
-            sio = src
-        else:
-            sio = io.StringIO(src)
+        sio = src if hasattr(src, 'readline') else io.StringIO(src)
         with self.assertRaises(exc) as cm:
             cf.read_file(sio)
         return cm.exception
@@ -792,8 +783,7 @@ boolean {0[0]} NO
             key{0[1]} |%(name)s|
             getdefault{0[1]} |%(default)s|
         """.format(self.delimiters), defaults={"default": "<default>"})
-        L = list(cf.items("section", vars={'value': 'value'}))
-        L.sort()
+        L = sorted(cf.items("section", vars={'value': 'value'}))
         self.assertEqual(L, expected)
         with self.assertRaises(configparser.NoSectionError):
             cf.items("no such section")
@@ -890,10 +880,9 @@ class ConfigParserTestCase(BasicTestCase, unittest.TestCase):
         eq(cf.get("Foo", "bar10"),
            "something with lots of interpolation (10 steps)")
         e = self.get_error(cf, configparser.InterpolationDepthError, "Foo", "bar11")
-        if self.interpolation == configparser._UNSET:
-            self.assertEqual(e.args, ("bar11", "Foo",
-                "something %(with11)s lots of interpolation (11 steps)"))
-        elif isinstance(self.interpolation, configparser.LegacyInterpolation):
+        if self.interpolation == configparser._UNSET or isinstance(
+            self.interpolation, configparser.LegacyInterpolation
+        ):
             self.assertEqual(e.args, ("bar11", "Foo",
                 "something %(with11)s lots of interpolation (11 steps)"))
 
@@ -904,10 +893,9 @@ class ConfigParserTestCase(BasicTestCase, unittest.TestCase):
         self.assertEqual(e.reference, "reference")
         self.assertEqual(e.section, "Interpolation Error")
         self.assertEqual(e.option, "name")
-        if self.interpolation == configparser._UNSET:
-            self.assertEqual(e.args, ('name', 'Interpolation Error',
-                                    '%(reference)s', 'reference'))
-        elif isinstance(self.interpolation, configparser.LegacyInterpolation):
+        if self.interpolation == configparser._UNSET or isinstance(
+            self.interpolation, configparser.LegacyInterpolation
+        ):
             self.assertEqual(e.args, ('name', 'Interpolation Error',
                                     '%(reference)s', 'reference'))
 
@@ -1473,17 +1461,13 @@ class FakeFile:
             self.lines.reverse()
 
     def readline(self):
-        if len(self.lines):
-            return self.lines.pop()
-        return ''
+        return self.lines.pop() if len(self.lines) else ''
 
 
 def readline_generator(f):
     """As advised in Doc/library/configparser.rst."""
-    line = f.readline()
-    while line:
+    while line := f.readline():
         yield line
-        line = f.readline()
 
 
 class ReadFileTestCase(unittest.TestCase):

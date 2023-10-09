@@ -43,8 +43,7 @@ except Exception as __e:
 
 try:
     print('Line 29')
-    print(sum({i*i for i in range(100)})
-    )
+    print(sum({i**2 for i in range(100)}))
 
 except Exception as __e:
     print("Occurred", type(__e), __e)
@@ -61,7 +60,7 @@ except Exception as __e:
 
 try:
     def srange(n):
-        return {i for i in range(n)}
+        return set(range(n))
 except Exception as __e:
     print("Occurred", type(__e), __e)
 
@@ -92,8 +91,7 @@ except Exception as __e:
 
 try:
     def grange(n):
-        for x in {i for i in range(n)}:
-            yield x
+        yield from set(range(n))
 except Exception as __e:
     print("Occurred", type(__e), __e)
 
@@ -242,7 +240,7 @@ except Exception as __e:
 
 try:
     def test_func():
-        items = {(lambda: y) for i in range(5)}
+        items = {lambda: y for _ in range(5)}
         y = 2
         return {x() for x in items}
 except Exception as __e:

@@ -103,10 +103,7 @@ def init(m):
     m.setcontext(DefaultTestContext)
 
 TESTDATADIR = 'decimaltestdata'
-if __name__ == '__main__':
-    file = sys.argv[0]
-else:
-    file = __file__
+file = sys.argv[0] if __name__ == '__main__' else __file__
 testdir = os.path.dirname(file) or os.curdir
 directory = testdir + os.sep + TESTDATADIR + os.sep
 
@@ -114,7 +111,7 @@ directory = testdir + os.sep + TESTDATADIR + os.sep
 # directory, due to our environment choice. It could be there, but it is not,
 # and so we use the local path directly.
 
-directory = "test" + os.sep + TESTDATADIR + os.sep
+directory = f'test{os.sep}{TESTDATADIR}{os.sep}'
 skip_expected = not os.path.isdir(directory)
 
 # Make sure it actually raises errors when not expected and caught in flags
@@ -122,7 +119,7 @@ skip_expected = not os.path.isdir(directory)
 EXTENDEDERRORTEST = False
 
 # Test extra functionality in the C version (-DEXTRA_FUNCTIONALITY).
-EXTRA_FUNCTIONALITY = True if hasattr(C, 'DecClamped') else False
+EXTRA_FUNCTIONALITY = bool(hasattr(C, 'DecClamped'))
 requires_extra_functionality = unittest.skipUnless(
   EXTRA_FUNCTIONALITY, "test requires build with -DEXTRA_FUNCTIONALITY")
 skip_if_extra_functionality = unittest.skipIf(
@@ -279,13 +276,12 @@ class IBMTestCases(unittest.TestCase):
            but higher values usually work, except for rare corner cases.
            In particular, all of the IBM tests pass with maximum values
            of 1070000000."""
-        if self.decimal == C and self.decimal.MAX_EMAX == 425000000:
-            self.readcontext._unsafe_setprec(1070000000)
-            self.readcontext._unsafe_setemax(1070000000)
-            self.readcontext._unsafe_setemin(-1070000000)
-            return self.readcontext.create_decimal(v)
-        else:
+        if self.decimal != C or self.decimal.MAX_EMAX != 425000000:
             return self.decimal.Decimal(v, context)
+        self.readcontext._unsafe_setprec(1070000000)
+        self.readcontext._unsafe_setemax(1070000000)
+        self.readcontext._unsafe_setemin(-1070000000)
+        return self.readcontext.create_decimal(v)
 
     def eval_file(self, file):
         global skip_expected
@@ -522,7 +518,7 @@ class ExplicitConstructionTest(unittest.TestCase):
         self.assertEqual(str(d), '0')
 
         # single word longs
-        for n in range(0, 32):
+        for n in range(32):
             for sign in (-1, 1):
                 for x in range(-5, 5):
                     i = sign * (2**n + x)
@@ -561,8 +557,7 @@ class ExplicitConstructionTest(unittest.TestCase):
         # unicode whitespace
         for lead in ["", ' ', '\u00a0', '\u205f']:
             for trail in ["", ' ', '\u00a0', '\u205f']:
-                self.assertEqual(str(Decimal(lead + '9.311E+28' + trail)),
-                                 '9.311E+28')
+                self.assertEqual(str(Decimal(f'{lead}9.311E+28{trail}')), '9.311E+28')
 
         with localcontext() as c:
             c.traps[InvalidOperation] = True
@@ -704,7 +699,7 @@ class ExplicitConstructionTest(unittest.TestCase):
                          str(Decimal('-Infinity')))
         self.assertEqual(str(Decimal(float('-0.0'))),
                          str(Decimal('-0')))
-        for i in range(200):
+        for _ in range(200):
             x = random.expovariate(0.01) * (random.random() * 2.0 - 1.0)
             self.assertEqual(x, float(Decimal(x))) # roundtrip
 
@@ -817,7 +812,7 @@ class ExplicitConstructionTest(unittest.TestCase):
         self.assertEqual(str(nc.create_decimal(float('-0.0'))),
                          str(nc.create_decimal('-0')))
         nc.prec = 100
-        for i in range(200):
+        for _ in range(200):
             x = random.expovariate(0.01) * (random.random() * 2.0 - 1.0)
             self.assertEqual(x, float(nc.create_decimal(x))) # roundtrip
 
@@ -870,21 +865,21 @@ class ImplicitConstructionTest(unittest.TestCase):
         # Allow other classes to be trained to interact with Decimals
         class E:
             def __divmod__(self, other):
-                return 'divmod ' + str(other)
+                return f'divmod {str(other)}'
             def __rdivmod__(self, other):
-                return str(other) + ' rdivmod'
+                return f'{str(other)} rdivmod'
             def __lt__(self, other):
-                return 'lt ' + str(other)
+                return f'lt {str(other)}'
             def __gt__(self, other):
-                return 'gt ' + str(other)
+                return f'gt {str(other)}'
             def __le__(self, other):
-                return 'le ' + str(other)
+                return f'le {str(other)}'
             def __ge__(self, other):
-                return 'ge ' + str(other)
+                return f'ge {str(other)}'
             def __eq__(self, other):
-                return 'eq ' + str(other)
+                return f'eq {str(other)}'
             def __ne__(self, other):
-                return 'ne ' + str(other)
+                return f'ne {str(other)}'
 
         self.assertEqual(divmod(E(), Decimal(10)), 'divmod 10')
         self.assertEqual(divmod(Decimal(10), E()), '10 rdivmod')
@@ -1460,7 +1455,7 @@ class ArithmeticOperatorsTest(unittest.TestCase):
         for x, y in qnan_pairs + snan_pairs:
             for op in order_ops + equality_ops:
                 got = op(x, y)
-                expected = True if op is operator.ne else False
+                expected = op is operator.ne
                 self.assertIs(expected, got,
                               "expected {0!r} for operator.{1}({2!r}, {3!r}); "
                               "got {4!r}".format(
@@ -1473,7 +1468,7 @@ class ArithmeticOperatorsTest(unittest.TestCase):
             for x, y in qnan_pairs:
                 for op in equality_ops:
                     got = op(x, y)
-                    expected = True if op is operator.ne else False
+                    expected = op is operator.ne
                     self.assertIs(expected, got,
                                   "expected {0!r} for "
                                   "operator.{1}({2!r}, {3!r}); "
@@ -1732,10 +1727,10 @@ class UsabilityTest(unittest.TestCase):
             c.prec = emax
             self.assertLess(D(0), F(1,9999999999999999999999999999999999999))
             self.assertLess(F(-1,9999999999999999999999999999999999999), D(0))
-            self.assertLess(F(0,1), D("1e" + str(etiny)))
-            self.assertLess(D("-1e" + str(etiny)), F(0,1))
-            self.assertLess(F(0,9999999999999999999999999), D("1e" + str(etiny)))
-            self.assertLess(D("-1e" + str(etiny)), F(0,9999999999999999999999999))
+            self.assertLess(F(0,1), D(f'1e{str(etiny)}'))
+            self.assertLess(D(f'-1e{str(etiny)}'), F(0,1))
+            self.assertLess(F(0,9999999999999999999999999), D(f'1e{str(etiny)}'))
+            self.assertLess(D(f'-1e{str(etiny)}'), F(0,9999999999999999999999999))
 
             self.assertEqual(D("0.1"), F(1,10))
             self.assertEqual(F(1,10), D("0.1"))
@@ -1744,8 +1739,8 @@ class UsabilityTest(unittest.TestCase):
             self.assertNotEqual(D(1)/3, F(1,3))
             self.assertNotEqual(F(1,3), D(1)/3)
 
-            self.assertLessEqual(F(120984237, 9999999999), D("9e" + str(emax)))
-            self.assertGreaterEqual(D("9e" + str(emax)), F(120984237, 9999999999))
+            self.assertLessEqual(F(120984237, 9999999999), D(f'9e{str(emax)}'))
+            self.assertGreaterEqual(D(f'9e{str(emax)}'), F(120984237, 9999999999))
 
             self.assertGreater(D('inf'), F(99999999999,123))
             self.assertGreater(D('inf'), F(-99999999999,123))

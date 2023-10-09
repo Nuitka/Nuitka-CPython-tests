@@ -130,8 +130,7 @@ class AsyncContextManagerTestCase(unittest.TestCase):
     async def test_contextmanager_trap_no_yield(self):
         @asynccontextmanager
         async def whoo():
-            if False:
-                yield
+            pass
         ctx = whoo()
         with self.assertRaises(RuntimeError):
             await ctx.__aenter__()
@@ -267,18 +266,15 @@ class TestAsyncExitStack(TestBaseExitStack, unittest.TestCase):
             f.add_done_callback(lambda f: loop.stop())
             loop.run_forever()
 
-            exc = f.exception()
-
-            if not exc:
+            if not (exc := f.exception()):
                 return f.result()
-            else:
-                context = exc.__context__
+            context = exc.__context__
 
-                try:
-                    raise exc
-                except:
-                    exc.__context__ = context
-                    raise exc
+            try:
+                raise exc
+            except:
+                exc.__context__ = context
+                raise exc
 
         def close(self):
             return self.run_coroutine(self.aclose())

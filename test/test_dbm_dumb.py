@@ -49,16 +49,11 @@ class DumbDBMTestCase(unittest.TestCase):
         finally:
             os.umask(old_umask)
 
-        expected_mode = 0o635
-        if os.name != 'posix':
-            # Windows only supports setting the read-only attribute.
-            # This shouldn't fail, but doesn't work like Unix either.
-            expected_mode = 0o666
-
+        expected_mode = 0o666 if os.name != 'posix' else 0o635
         import stat
-        st = os.stat(_fname + '.dat')
+        st = os.stat(f'{_fname}.dat')
         self.assertEqual(stat.S_IMODE(st.st_mode), expected_mode)
-        st = os.stat(_fname + '.dir')
+        st = os.stat(f'{_fname}.dir')
         self.assertEqual(stat.S_IMODE(st.st_mode), expected_mode)
 
     def test_close_twice(self):
@@ -144,13 +139,13 @@ class DumbDBMTestCase(unittest.TestCase):
         f.close()
 
         # Mangle the file by changing the line separator to Windows or Unix
-        with io.open(_fname + '.dir', 'rb') as file:
+        with io.open(f'{_fname}.dir', 'rb') as file:
             data = file.read()
         if os.linesep == '\n':
             data = data.replace(b'\n', b'\r\n')
         else:
             data = data.replace(b'\r\n', b'\n')
-        with io.open(_fname + '.dir', 'wb') as file:
+        with io.open(f'{_fname}.dir', 'wb') as file:
             file.write(data)
 
         f = dumbdbm.open(_fname)
@@ -180,9 +175,9 @@ class DumbDBMTestCase(unittest.TestCase):
     def test_random(self):
         import random
         d = {}  # mirror the database
-        for dummy in range(5):
+        for _ in range(5):
             f = dumbdbm.open(_fname)
-            for dummy in range(100):
+            for _ in range(100):
                 k = random.choice('abcdefghijklm')
                 if random.random() < 0.2:
                     if k in d:
@@ -242,7 +237,7 @@ class DumbDBMTestCase(unittest.TestCase):
             self.assertEqual(f.keys(), [])
 
     def test_eval(self):
-        with open(_fname + '.dir', 'w') as stream:
+        with open(f'{_fname}.dir', 'w') as stream:
             stream.write("str(print('Hacked!')), 0\n")
         with support.captured_stdout() as stdout:
             with self.assertRaises(ValueError):
@@ -263,7 +258,7 @@ class DumbDBMTestCase(unittest.TestCase):
     def test_missing_index(self):
         with dumbdbm.open(_fname, 'n') as f:
             pass
-        os.unlink(_fname + '.dir')
+        os.unlink(f'{_fname}.dir')
         for value in ('r', 'w'):
             with self.assertWarnsRegex(DeprecationWarning,
                                        "The index file is missing, the "
@@ -271,8 +266,8 @@ class DumbDBMTestCase(unittest.TestCase):
                                        "be used."):
                 f = dumbdbm.open(_fname, value)
             f.close()
-            self.assertEqual(os.path.exists(_fname + '.dir'), value == 'w')
-            self.assertFalse(os.path.exists(_fname + '.bak'))
+            self.assertEqual(os.path.exists(f'{_fname}.dir'), value == 'w')
+            self.assertFalse(os.path.exists(f'{_fname}.bak'))
 
     def test_invalid_flag(self):
         for flag in ('x', 'rf', None):
@@ -290,8 +285,8 @@ class DumbDBMTestCase(unittest.TestCase):
                 self.assertEqual(list(f.keys()), [])
                 for key in self._dict:
                     f[key] = self._dict[key]
-            os.chmod(fname + ".dir", stat.S_IRUSR)
-            os.chmod(fname + ".dat", stat.S_IRUSR)
+            os.chmod(f'{fname}.dir', stat.S_IRUSR)
+            os.chmod(f'{fname}.dat', stat.S_IRUSR)
             os.chmod(dir, stat.S_IRUSR|stat.S_IXUSR)
             with dumbdbm.open(fname, 'r') as f:
                 self.assertEqual(sorted(f.keys()), sorted(self._dict))
@@ -305,8 +300,8 @@ class DumbDBMTestCase(unittest.TestCase):
             self.addCleanup(support.unlink, filename + suffix)
         with dumbdbm.open(filename, 'c') as db:
             db[b'key'] = b'value'
-        self.assertTrue(os.path.exists(filename + '.dat'))
-        self.assertTrue(os.path.exists(filename + '.dir'))
+        self.assertTrue(os.path.exists(f'{filename}.dat'))
+        self.assertTrue(os.path.exists(f'{filename}.dir'))
         with dumbdbm.open(filename, 'r') as db:
             self.assertEqual(list(db.keys()), [b'key'])
             self.assertTrue(b'key' in db)
