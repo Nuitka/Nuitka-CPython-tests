@@ -48,6 +48,8 @@ def checkPath(dirname, filename):
         "original_file",
         # Cache the CPython results for reuse, they will normally not change.
         "cpython_cache",
+        # Need to provide version, to know if to disable frozen modules.
+        "--python-version=%s" % ".".join(str(d) for d in python_version),
     ]
 
     # TODO: This deadlocks, likely a threading problem.
@@ -91,8 +93,15 @@ def checkPath(dirname, filename):
         extra_flags.append("ignore_stderr")
 
     if python_version < (3, 10):
-        if filename in ("test_embed.py", "test_pow.py",):
-            reportSkip("Using assignment expressions not supported on older Python", dirname, filename)
+        if filename in (
+            "test_embed.py",
+            "test_pow.py",
+        ):
+            reportSkip(
+                "Using assignment expressions not supported on older Python",
+                dirname,
+                filename,
+            )
             return
 
         if filename == "test_genericalias.py":
@@ -107,7 +116,7 @@ def checkPath(dirname, filename):
             "test_fstring.py",
             "test_functools.py",
             "test_grammar.py",
-            "test_gc.py,"
+            "test_gc.py",
             "test_inspect.py",
             "test_call.py",
             "test_dataclasses.py",
