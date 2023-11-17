@@ -48,6 +48,8 @@ def checkPath(dirname, filename):
         "original_file",
         # Cache the CPython results for reuse, they will normally not change.
         "cpython_cache",
+        # Need to provide version, to know if to disable frozen modules.
+        "--python-version=%s" % ".".join(str(d) for d in python_version),
     ]
 
     # TODO: This deadlocks, likely a threading problem.
