@@ -665,7 +665,8 @@ class ClassTests(unittest.TestCase):
 
         error_msg = r'C.__init__\(\) takes exactly one argument \(the instance to initialize\)'
 
-        with self.assertRaisesRegex(TypeError, r'C\(\) takes no arguments'):
+        # Nuitka: We don't do the improved error message.
+        with self.assertRaisesRegex(TypeError, r'(C\(\) takes no arguments)|C.__init__\(\) takes exactly one argument'):
             C(42)
 
         with self.assertRaisesRegex(TypeError, r'C\(\) takes no arguments'):
