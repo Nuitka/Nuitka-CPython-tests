@@ -453,7 +453,8 @@ class CodeTest(unittest.TestCase):
             self.assertIsNone(line)
             self.assertEqual(end_line, new_code.co_firstlineno + 1)
 
-    def test_code_equality(self):
+    # Nuitka: We don't have those code object work with like that.
+    def notest_code_equality(self):
         def f():
             try:
                 a()
