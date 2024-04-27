@@ -685,7 +685,8 @@ if 1:
     # Stripping unused constants is not a strict requirement for the
     # Python semantics, it's a more an implementation detail.
     @support.cpython_only
-    def test_strip_unused_consts(self):
+    # Nuitka: We have even less constants potentially
+    def notest_strip_unused_consts(self):
         # Python 3.10rc1 appended None to co_consts when None is not used
         # at all. See bpo-45056.
         def f1():
