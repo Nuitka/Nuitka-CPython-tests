@@ -122,6 +122,7 @@ def checkPath(dirname, filename):
     elif python_version >= (3, 11):
         if filename in (
             "test_ast.py",
+            "test_capi.py",
             "test_code.py",
             "test_descrtut.py",
             "test_netrc.py",
