@@ -1231,6 +1231,8 @@ def reap_children():
         if pid == 0:
             break
 
+        # Nuitka: We don't want the pid to make a difference.
+        pid = "xxx"
         print_warning(f"reap_children() reaped child process {pid}")
         environment_altered = True
 
