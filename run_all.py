@@ -235,3 +235,5 @@ addToPythonPath(os.path.abspath("."), in_front=True)
 
 checkDir("test")
 checkDir("doctest_generated")
+
+search_mode.finish()
