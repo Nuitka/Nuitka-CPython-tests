@@ -1024,6 +1024,10 @@ class BytesTest(BaseBytesTest, unittest.TestCase):
 
     # Test PyBytes_FromFormat()
     def test_from_format(self):
+        # CPython crashes on this already.
+        if os.name == "posix" and os.uname()[0] == "Darwin":
+            return
+
         ctypes = test.support.import_module('ctypes')
         _testcapi = test.support.import_module('_testcapi')
         from ctypes import pythonapi, py_object
