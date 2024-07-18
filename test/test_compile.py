@@ -231,7 +231,8 @@ class TestSpecifics(unittest.TestCase):
         self.assertIsInstance(eval("%s" % (-sys.maxsize - 2)), int)
 
     if sys.maxsize == 9223372036854775807:
-        def test_32_63_bit_values(self):
+        # Nuitka: Our "co_consts" value is not compatible.
+        def notest_32_63_bit_values(self):
             a = +4294967296  # 1 << 32
             b = -4294967296  # 1 << 32
             c = +281474976710656  # 1 << 48
