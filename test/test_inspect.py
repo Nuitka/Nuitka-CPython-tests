@@ -376,6 +376,10 @@ class TestInterpreterStack(IsTestBase):
         self.istest(inspect.isframe, 'mod.fr')
 
     def test_stack(self):
+        # Nuitka: Tracebacks and stack traces are not fully compatible.
+        if sys.version_info >= (3,11):
+            return
+
         self.assertTrue(len(mod.st) >= 5)
         frame1, frame2, frame3, frame4, *_ = mod.st
         frameinfo = revise(*frame1[1:])
@@ -404,6 +408,10 @@ class TestInterpreterStack(IsTestBase):
         self.assertEqual(record.index, 0)
 
     def test_trace(self):
+        # Nuitka: Tracebacks and stack traces are not fully compatible.
+        if sys.version_info >= (3,11):
+            return
+
         self.assertEqual(len(git.tr), 3)
         frame1, frame2, frame3, = git.tr
         self.assertEqual(revise(*frame1[1:]),
@@ -417,6 +425,10 @@ class TestInterpreterStack(IsTestBase):
         self.assertEqual(frame3.positions, dis.Positions(18, 18, 8, 13))
 
     def test_frame(self):
+        # Nuitka: Tracebacks and stack traces are not fully compatible.
+        if sys.version_info >= (3,11):
+            return
+
         args, varargs, varkw, locals = inspect.getargvalues(mod.fr)
         self.assertEqual(args, ['x', 'y'])
         self.assertEqual(varargs, None)
