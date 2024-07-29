@@ -133,6 +133,9 @@ def checkPath(dirname, filename):
             "test_threading.py",
             "test_traceback.py",
             "test_tracemalloc.py",
+            "test_shelve.py",
+            "test_sqlite.py",
+            "test_wsgiref.py",
             "test_sys.py",
         ):
             reportSkip("Not useful with newer Python", dirname, filename)
