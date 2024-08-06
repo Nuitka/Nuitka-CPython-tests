@@ -748,7 +748,8 @@ class TestBaseExitStack:
             stack.push(lambda *exc: True)
             1/0
 
-    def test_exit_exception_traceback(self):
+    # Nuitka: Disabled test where we give a slightly more verbose traceback
+    def notest_exit_exception_traceback(self):
         # This test captures the current behavior of ExitStack so that we know
         # if we ever unintendedly change it. It is not a statement of what the
         # desired behavior is (for instance, we may want to remove some of the
