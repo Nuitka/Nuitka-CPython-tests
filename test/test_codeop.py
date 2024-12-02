@@ -309,10 +309,7 @@ class CodeopTests(unittest.TestCase):
 
     def test_warning(self):
         # Test that the warning is only returned once.
-        with warnings_helper.check_warnings(
-                (".*literal", SyntaxWarning),
-                (".*invalid", DeprecationWarning),
-                ) as w:
+        with warnings_helper.check_warnings((".*literal", SyntaxWarning), (".*invalid", DeprecationWarning),) as w:
             compile_command(r"'\e' is 0")
             self.assertEqual(len(w.warnings), 2)
 
