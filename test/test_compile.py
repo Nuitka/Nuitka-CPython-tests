@@ -1117,9 +1117,7 @@ class TestSourcePositions(unittest.TestCase):
     def assertOpcodeSourcePositionIs(self, code, opcode,
             line, end_line, column, end_column, occurrence=1):
 
-        for instr, position in zip(
-            dis.Bytecode(code, show_caches=True), code.co_positions(), strict=True
-        ):
+        for instr, position in zip(dis.Bytecode(code, show_caches=True), code.co_positions(), strict=True):
             if instr.opname == opcode:
                 occurrence -= 1
                 if not occurrence:
@@ -1148,9 +1146,7 @@ class TestSourcePositions(unittest.TestCase):
 
         compiled_code, _ = self.check_positions_against_ast(snippet)
 
-        self.assertOpcodeSourcePositionIs(compiled_code, 'BINARY_OP',
-            line=10_000 + 2, end_line=10_000 + 2,
-            column=2, end_column=8, occurrence=1)
+        self.assertOpcodeSourcePositionIs(compiled_code, 'BINARY_OP', line=10_000 + 2, end_line=10_000 + 2, column=2, end_column=8, occurrence=1)
         self.assertOpcodeSourcePositionIs(compiled_code, 'BINARY_OP',
             line=10_000 + 4, end_line=10_000 + 4,
             column=2, end_column=9, occurrence=2)
@@ -1181,8 +1177,7 @@ f(
         compiled_code, _ = self.check_positions_against_ast(snippet)
         self.assertOpcodeSourcePositionIs(compiled_code, 'BINARY_SUBSCR',
             line=1, end_line=1, column=13, end_column=21)
-        self.assertOpcodeSourcePositionIs(compiled_code, 'BINARY_OP',
-            line=1, end_line=1, column=9, end_column=21, occurrence=1)
+        self.assertOpcodeSourcePositionIs(compiled_code, 'BINARY_OP', line=1, end_line=1, column=9, end_column=21, occurrence=1)
         self.assertOpcodeSourcePositionIs(compiled_code, 'BINARY_OP',
             line=1, end_line=1, column=9, end_column=26, occurrence=2)
         self.assertOpcodeSourcePositionIs(compiled_code, 'BINARY_OP',
@@ -1283,9 +1278,7 @@ f(
     def test_method_call(self):
         source = "(\n lhs  \n   .    \n     rhs      \n       )()"
         code = compile(source, "<test>", "exec")
-        self.assertOpcodeSourcePositionIs(
-            code, "LOAD_METHOD", line=4, end_line=4, column=5, end_column=8
-        )
+        self.assertOpcodeSourcePositionIs(code, "LOAD_METHOD", line=4, end_line=4, column=5, end_column=8)
         self.assertOpcodeSourcePositionIs(
             code, "CALL", line=4, end_line=5, column=5, end_column=10
         )
