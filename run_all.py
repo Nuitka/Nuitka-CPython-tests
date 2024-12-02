@@ -139,6 +139,12 @@ def checkPath(dirname, filename):
             extra_flags.append("ignore_stderr")
     elif python_version >= (3, 12):
         if filename in (
+            "test_configparser.py",
+        ):
+            reportSkip("Not useful with newer Python", dirname, filename)
+            return
+    elif python_version >= (3, 12):
+        if filename in (
             "test_ast.py",
             "test_code.py",
             "test_descrtut.py",
