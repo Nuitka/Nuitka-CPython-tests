@@ -1014,10 +1014,7 @@ class TestBufferProtocol(unittest.TestCase):
         strides = orig_ex.strides if match(req, PyBUF_STRIDES) else ()
 
         nd = ndarray(ex, getbuf=req)
-        self.verify(nd, obj=ex,
-                    itemsize=itemsize, fmt=fmt, readonly=ro,
-                    ndim=ndim, shape=shape, strides=strides,
-                    lst=lst, sliced=sliced)
+        self.verify(nd, obj=ex, itemsize=itemsize, fmt=fmt, readonly=ro, ndim=ndim, shape=shape, strides=strides, lst=lst, sliced=sliced)
 
     def test_ndarray_getbuf(self):
         requests = (
@@ -1303,10 +1300,7 @@ class TestBufferProtocol(unittest.TestCase):
         for fmt, scalar, _ in iter_format(0):
             itemsize = struct.calcsize(fmt)
             nd = ndarray(scalar, shape=(), format=fmt)
-            self.verify(nd, obj=None,
-                        itemsize=itemsize, fmt=fmt, readonly=True,
-                        ndim=0, shape=(), strides=(),
-                        lst=scalar)
+            self.verify(nd, obj=None, itemsize=itemsize, fmt=fmt, readonly=True, ndim=0, shape=(), strides=(), lst=scalar)
 
     def test_ndarray_format_shape(self):
         # ndim = 1, shape = [n]
@@ -2377,10 +2371,7 @@ class TestBufferProtocol(unittest.TestCase):
             strides = strides_from_shape(ndim, shape, 1, 'C')
             lst = carray(items, shape)
 
-            self.verify(m, obj=ex,
-                        itemsize=1, fmt='B', readonly=True,
-                        ndim=ndim, shape=shape, strides=strides,
-                        lst=lst)
+            self.verify(m, obj=ex, itemsize=1, fmt='B', readonly=True, ndim=ndim, shape=shape, strides=strides, lst=lst)
 
             # From memoryview:
             m2 = memoryview(m)
@@ -2733,10 +2724,7 @@ class TestBufferProtocol(unittest.TestCase):
         destitems, destshape = cast_items(ex, 'I', destsize, shape=[])
         m = memoryview(ex)
         m2 = m.cast('I', shape=[])
-        self.verify(m2, obj=ex,
-                    itemsize=destsize, fmt='I', readonly=True,
-                    ndim=0, shape=(), strides=(),
-                    lst=destitems, cast=True)
+        self.verify(m2, obj=ex, itemsize=destsize, fmt='I', readonly=True, ndim=0, shape=(), strides=(), lst=destitems, cast=True)
 
         # array.array: roundtrip to/from bytes
         for fmt, items, _ in iter_format(31, 'array'):
