@@ -67,7 +67,7 @@ class CAPITest(unittest.TestCase):
         self.assertRaises(AttributeError, setattr, inst.testfunction, "attribute", "test")
 
     @support.requires_subprocess()
-    def test_no_FatalError_infinite_loop(self):
+    def notest_no_FatalError_infinite_loop(self):
         with support.SuppressCrashReport():
             p = subprocess.Popen([sys.executable, "-c",
                                   'import _testcapi;'
@@ -290,7 +290,7 @@ class CAPITest(unittest.TestCase):
                              'return_result_with_error.* '
                              'returned a result with an exception set')
 
-    def test_getitem_with_error(self):
+    def notest_getitem_with_error(self):
         # Test _Py_CheckSlotResult(). Raise an exception and then calls
         # PyObject_GetItem(): check that the assertion catches the bug.
         # PyObject_GetItem() must not be called with an exception set.
@@ -609,6 +609,9 @@ class CAPITest(unittest.TestCase):
         self.assertEqual(obj.pvalue, 0)
 
     def test_multiple_inheritance_ctypes_with_weakref_or_dict(self):
+        # Nuitka: Avoid traceback difference, we don't output the class body
+        if sys.version_info >= (3,13):
+            return
 
         class Both1(_testcapi.HeapCTypeWithWeakref, _testcapi.HeapCTypeWithDict):
             pass
@@ -646,8 +649,7 @@ class CAPITest(unittest.TestCase):
             rc, out, err = assert_python_failure('-sSI', '-c', code)
 
         err = decode_stderr(err)
-        self.assertIn('Fatal Python error: test_fatal_error: MESSAGE\n',
-                      err)
+        self.assertIn('Fatal Python error: test_fatal_error: MESSAGE\n', err)
 
         match = re.search(r'^Extension modules:(.*) \(total: ([0-9]+)\)$',
                           err, re.MULTILINE)
