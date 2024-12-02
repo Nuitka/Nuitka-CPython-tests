@@ -140,8 +140,7 @@ class CFunctionCallsErrorMessages(unittest.TestCase):
 
     def test_varargs15_kw(self):
         msg = r"^ImportError\(\) takes at most 2 keyword arguments \(3 given\)$"
-        self.assertRaisesRegex(TypeError, msg,
-                               ImportError, 0, name=1, path=2, foo=3)
+        self.assertRaisesRegex(TypeError, msg, ImportError, 0, name=1, path=2, foo=3)
 
     def test_varargs16_kw(self):
         msg = r"^min\(\) takes at most 2 keyword arguments \(3 given\)$"
@@ -150,8 +149,7 @@ class CFunctionCallsErrorMessages(unittest.TestCase):
 
     def test_varargs17_kw(self):
         msg = r"'foo' is an invalid keyword argument for print\(\)$"
-        self.assertRaisesRegex(TypeError, msg,
-                               print, 0, sep=1, end=2, file=3, flush=4, foo=5)
+        self.assertRaisesRegex(TypeError, msg, print, 0, sep=1, end=2, file=3, flush=4, foo=5)
 
     def test_varargs18_kw(self):
         # _PyArg_UnpackKeywordsWithVararg()
