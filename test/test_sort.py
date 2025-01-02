@@ -394,12 +394,17 @@ def test_main(verbose=None):
     import sys
     if verbose and hasattr(sys, "gettotalrefcount"):
         import gc
-        counts = [None] * 5
+        counts = [None] * 10
         for i in range(len(counts)):
-            support.run_unittest(*test_classes)
+            unittest.main(exit=False)
             gc.collect()
             counts[i] = sys.gettotalrefcount()
-        print("REFCOUNTS", counts)
+
+            if i>=2 and counts[i] in counts[:i]:
+                print("REFCOUNTS stabilized.")
+                break
+        else:
+            print("REFCOUNTS", counts)
 
 if __name__ == "__main__":
     test_main(verbose=True)
