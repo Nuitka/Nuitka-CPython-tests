@@ -719,7 +719,8 @@ class CAPITest(unittest.TestCase):
         # - PyWinFreeze_ExeInit
         # - PyWinFreeze_ExeTerm
         # - PyInitFrozenExtensions
-        if os.name != 'nt':
+        # Nuitka: Out binaries not do have to export this.
+        if os.name != 'nt' and False:
             names.append('Py_FrozenMain')
 
         for name in names:
@@ -1212,4 +1213,4 @@ class Test_Pep523API:
 
 
 if __name__ == "__main__":
-    unittest.main()
+    unittest.main(verbosity=1)
