@@ -1068,11 +1068,13 @@ def test_main(verbose=None):
         import gc
         counts = [None] * 10
         for i in range(len(counts)):
-            unittest.main(exit=False)
+            unittest.main(exit=False, verbosity=1)
             gc.collect()
             counts[i] = sys.gettotalrefcount()
 
-            if i>=2 and counts[i] in counts[:i]:
+            # For Python3.7, an extra round is needed for
+            # the stabilization to happen.
+            if i>=3 and counts[i] in counts[:i]:
                 print("REFCOUNTS stabilized.")
                 break
         else:
