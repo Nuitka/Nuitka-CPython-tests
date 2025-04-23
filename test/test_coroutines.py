@@ -2210,7 +2210,8 @@ class CoroutineTest(unittest.TestCase):
             return 'end'
         self.assertEqual(run_async(run_gen()), ([], 'end'))
 
-    def test_bpo_45813_1(self):
+    # Nuitka: We don't give that warning, pointless to us.
+    def notest_bpo_45813_1(self):
         'This would crash the interpreter in 3.11a2'
         async def f():
             pass
@@ -2218,7 +2219,8 @@ class CoroutineTest(unittest.TestCase):
             frame = f().cr_frame
         frame.clear()
 
-    def test_bpo_45813_2(self):
+    # Nuitka: We don't have a frame unless it's required really
+    def notest_bpo_45813_2(self):
         'This would crash the interpreter in 3.11a2'
         async def f():
             pass
