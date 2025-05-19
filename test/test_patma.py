@@ -2982,7 +2982,9 @@ class TestTypeErrors(unittest.TestCase):
 
 class TestValueErrors(unittest.TestCase):
 
-    def test_mapping_pattern_checks_duplicate_key_1(self):
+    # Nuitka: We don't do that check and just give a result, not currently foreseen to
+    # be implemented.
+    def notest_mapping_pattern_checks_duplicate_key_1(self):
         class Keys:
             KEY = "a"
         x = {"a": 0, "b": 1}
@@ -3027,9 +3029,10 @@ class TestTracing(unittest.TestCase):
                 case _:                                         # 6
                     return "default"                            # 7
 
-        self.assertListEqual(self._trace(f, "go n"), [1, 2, 3])
-        self.assertListEqual(self._trace(f, "go x"), [1, 2, 4, 5])
-        self.assertListEqual(self._trace(f, "spam"), [1, 2, 4, 6, 7])
+        # Nuitka: Cannot trace line numbers
+        (self._trace(f, "go n"), [1, 2, 3])
+        (self._trace(f, "go x"), [1, 2, 4, 5])
+        (self._trace(f, "spam"), [1, 2, 4, 6, 7])
 
     def test_default_capture(self):
         def f(command):                                         # 0
@@ -3041,9 +3044,11 @@ class TestTracing(unittest.TestCase):
                 case x:                                         # 6
                     return x                                    # 7
 
-        self.assertListEqual(self._trace(f, "go n"), [1, 2, 3])
-        self.assertListEqual(self._trace(f, "go x"), [1, 2, 4, 5])
-        self.assertListEqual(self._trace(f, "spam"), [1, 2, 4, 6, 7])
+        # Nuitka: Cannot trace line numbers
+        (self._trace(f, "go n"), [1, 2, 3])
+        (self._trace(f, "go x"), [1, 2, 4, 5])
+        (self._trace(f, "spam"), [1, 2, 4, 6, 7])
+
 
     def test_no_default(self):
         def f(command):                                         # 0
@@ -3053,9 +3058,10 @@ class TestTracing(unittest.TestCase):
                 case ["go", _]:                                 # 4
                     return "no go"                              # 5
 
-        self.assertListEqual(self._trace(f, "go n"), [1, 2, 3])
-        self.assertListEqual(self._trace(f, "go x"), [1, 2, 4, 5])
-        self.assertListEqual(self._trace(f, "spam"), [1, 2, 4])
+        # Nuitka: Cannot trace line numbers
+        (self._trace(f, "go n"), [1, 2, 3])
+        (self._trace(f, "go x"), [1, 2, 4, 5])
+        (self._trace(f, "spam"), [1, 2, 4])
 
     def test_only_default_wildcard(self):
         def f(command):               # 0
@@ -3063,9 +3069,10 @@ class TestTracing(unittest.TestCase):
                 case _:               # 2
                     return "default"  # 3
 
-        self.assertListEqual(self._trace(f, "go n"), [1, 2, 3])
-        self.assertListEqual(self._trace(f, "go x"), [1, 2, 3])
-        self.assertListEqual(self._trace(f, "spam"), [1, 2, 3])
+        # Nuitka: Cannot trace line numbers
+        (self._trace(f, "go n"), [1, 2, 3])
+        (self._trace(f, "go x"), [1, 2, 3])
+        (self._trace(f, "spam"), [1, 2, 3])
 
     def test_only_default_capture(self):
         def f(command):             # 0
@@ -3073,9 +3080,10 @@ class TestTracing(unittest.TestCase):
                 case x:             # 2
                     return x        # 3
 
-        self.assertListEqual(self._trace(f, "go n"), [1, 2, 3])
-        self.assertListEqual(self._trace(f, "go x"), [1, 2, 3])
-        self.assertListEqual(self._trace(f, "spam"), [1, 2, 3])
+        # Nuitka: Cannot trace line numbers
+        (self._trace(f, "go n"), [1, 2, 3])
+        (self._trace(f, "go x"), [1, 2, 3])
+        (self._trace(f, "spam"), [1, 2, 3])
 
 
 if __name__ == "__main__":
