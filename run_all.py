@@ -24,7 +24,6 @@ from nuitka.tools.testing.Common import (
     addToPythonPath,
     compareWithCPython,
     createSearchMode,
-    my_print,
     reportSkip,
     setup,
     setupCacheHashSalt,
