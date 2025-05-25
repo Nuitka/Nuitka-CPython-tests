@@ -20,6 +20,7 @@ sys.path.insert(
 )
 
 # isort:start
+
 import test.test_cmd
 import test.test_deque
 import test.test_descrtut
@@ -35,7 +36,8 @@ import test.test_unpack_ex
 import test.test_weakref
 
 from nuitka.tools.quality.auto_format.AutoFormat import cleanupWindowsNewlines
-from nuitka.tools.testing.Common import convertToPython, goMainDir
+from nuitka.tools.testing.Common import goMainDir
+from nuitka.tools.testing.DocTests import convertToPython
 
 goMainDir()
 
