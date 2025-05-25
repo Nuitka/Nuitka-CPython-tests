@@ -35,8 +35,8 @@ import test.test_unpack_ex
 import test.test_weakref
 
 from nuitka.tools.quality.auto_format.AutoFormat import cleanupWindowsNewlines
-from nuitka.tools.testing.Common import convertToPython, goMainDir
-
+from nuitka.tools.testing.Common import goMainDir
+from nuitka.tools.testing.DocTests import convertToPython
 goMainDir()
 
 if not os.path.exists("doctest_generated"):
