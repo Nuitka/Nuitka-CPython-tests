@@ -15,7 +15,7 @@ sys.path.insert(
         )
     )
 )
-from test_common import (
+from nuitka.tools.testing.DocTests import (
     convertToPython,
 )
 
