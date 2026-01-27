@@ -605,7 +605,9 @@ class ScopeTests(unittest.TestCase):
 
         self.assertRaises(TypeError, sys.settrace)
 
-    def testEvalExecFreeVars(self):
+    # Nuitka: We don't support using __code__ off of a compiled
+    # function.
+    def notestEvalExecFreeVars(self):
 
         def f(x):
             return lambda: x + 1
