@@ -429,7 +429,8 @@ class PositionalOnlyTestCase(unittest.TestCase):
 
         self.assertEqual(C().method(), sentinel)
 
-    def test_annotations_constant_fold(self):
+    # Nuitka: This tests for CPython-specific bytecode
+    def notest_annotations_constant_fold(self):
         def g():
             def f(x: not (int is int), /): ...
 
