@@ -3,7 +3,8 @@ import random
 import unittest
 from functools import cmp_to_key
 
-verbose = support.verbose
+# Nuitka: Verbosity breaks our output comparison
+verbose = False#support.verbose
 nerrors = 0
 
 
