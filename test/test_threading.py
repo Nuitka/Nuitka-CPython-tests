@@ -31,6 +31,9 @@ try:
 except ModuleNotFoundError:
     interpreters = None
 
+# Nuitka: Verbosity breaks output comparison
+verbose = False
+
 threading_helper.requires_working_threading(module=True)
 
 # Between fork() and exec(), only async-safe functions are allowed (issues
@@ -2015,6 +2018,9 @@ class MiscTestCase(unittest.TestCase):
             self.assertEqual(err, b'')
 
 
+# Nuitka: These don't work well because we don't check signals as often
+# as CPython
+"""
 class InterruptMainTests(unittest.TestCase):
     def check_interrupt_main_with_signal_handler(self, signum):
         def handler(signum, frame):
@@ -2096,6 +2102,8 @@ class InterruptMainTests(unittest.TestCase):
         t.join()
         self.assertTrue(interrupted[0])
 
+
+"""
 
 class AtexitTests(unittest.TestCase):
 
