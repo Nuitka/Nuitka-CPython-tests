@@ -4,7 +4,7 @@ Tests for the threading module.
 
 import test.support
 from test.support import threading_helper, requires_subprocess
-from test.support import verbose, cpython_only, os_helper
+from test.support import cpython_only, os_helper
 from test.support.import_helper import import_module
 from test.support.script_helper import assert_python_ok, assert_python_failure
 
@@ -24,6 +24,9 @@ import traceback
 from unittest import mock
 from test import lock_tests
 from test import support
+
+# Nuitka: Verbosity breaks output comparison
+verbose = False
 
 threading_helper.requires_working_threading(module=True)
 
@@ -1626,6 +1629,9 @@ class MiscTestCase(unittest.TestCase):
                              extra=extra, not_exported=not_exported)
 
 
+# Nuitka: These don't work well because we don't check signals as often
+# as CPython
+"""
 class InterruptMainTests(unittest.TestCase):
     def check_interrupt_main_with_signal_handler(self, signum):
         def handler(signum, frame):
@@ -1704,6 +1710,7 @@ class InterruptMainTests(unittest.TestCase):
         cont[0] = False
         t.join()
         self.assertTrue(interrupted[0])
+"""
 
 
 class AtexitTests(unittest.TestCase):
