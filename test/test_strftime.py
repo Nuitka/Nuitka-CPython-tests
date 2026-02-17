@@ -28,6 +28,9 @@ def escapestr(text, ampm):
     new_text = new_text.replace(r'\?', '?')
     return new_text
 
+# Nuitka: Verbosity breaks output comparison, so we override print to shut it up
+def print(*_):
+    pass
 
 class StrftimeTest(unittest.TestCase):
 
