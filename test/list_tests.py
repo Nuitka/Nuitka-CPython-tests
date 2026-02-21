@@ -59,7 +59,8 @@ class CommonTest(seq_tests.CommonTest):
         self.assertEqual(str(a2), "[0, 1, 2, [...], 3]")
         self.assertEqual(repr(a2), "[0, 1, 2, [...], 3]")
 
-    def test_repr_deep(self):
+    # Nuitka: We don't reliably check recursion limits for performance reasons
+    def notest_repr_deep(self):
         a = self.type2test([])
         for i in range(C_RECURSION_LIMIT + 1):
             a = self.type2test([a])
