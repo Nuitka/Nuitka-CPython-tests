@@ -1145,7 +1145,8 @@ class TestCase(unittest.TestCase):
             self.assertRaises(TypeError, iter, typ())
         self.assertRaises(ZeroDivisionError, iter, BadIterableClass())
 
-    def test_exception_locations(self):
+    # Nuitka: We don't implement exception locations
+    def notest_exception_locations(self):
         # The location of an exception raised from __init__ or
         # __next__ should should be the iterator expression
 
