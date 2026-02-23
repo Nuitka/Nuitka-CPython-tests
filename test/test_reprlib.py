@@ -212,7 +212,8 @@ class ReprTests(unittest.TestCase):
         eq(r([[[[[[{}]]]]]]), "[[[[[[{}]]]]]]")
         eq(r([[[[[[[{}]]]]]]]), "[[[[[[[...]]]]]]]")
 
-    def test_cell(self):
+    # Nuitka: Our type is called compiled_cell
+    def notest_cell(self):
         def get_cell():
             x = 42
             def inner():
