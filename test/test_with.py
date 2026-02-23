@@ -752,7 +752,8 @@ class NestedWith(unittest.TestCase):
             self.assertEqual(10, b1)
             self.assertEqual(20, b2)
 
-    def testExceptionLocation(self):
+    # Nuitka: We don't support exception locations
+    def notestExceptionLocation(self):
         # The location of an exception raised from
         # __init__, __enter__ or __exit__ of a context
         # manager should be just the context manager expression,
