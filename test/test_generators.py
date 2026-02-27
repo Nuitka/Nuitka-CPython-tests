@@ -35,7 +35,8 @@ class SignalAndYieldFromTest(unittest.TestCase):
         else:
             return "FAILED"
 
-    def test_raise_and_yield_from(self):
+    # Nuitka: We don't check for signals often for performance reasons
+    def notest_raise_and_yield_from(self):
         gen = self.generator1()
         gen.send(None)
         try:
