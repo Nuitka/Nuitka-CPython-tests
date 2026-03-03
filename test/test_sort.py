@@ -6,6 +6,10 @@ from functools import cmp_to_key
 verbose = support.verbose
 nerrors = 0
 
+# Nuitka: This breaks output comparison
+def print(_*):
+    pass
+
 
 def check(tag, expected, raw, compare=None):
     global nerrors
