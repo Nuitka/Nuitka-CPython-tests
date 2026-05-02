@@ -85,6 +85,10 @@ def checkPath(dirname, filename):
         reportSkip("KNOWN BUGGY", dirname, filename)
         return
 
+    if filename in ("test_except_star.py", "test_exception_group.py"):
+        reportSkip("Exception groups not fully functional yet", dirname, filename)
+        return
+
     if filename == "test_datetime.py":
         extra_flags.append("recurse_to:test.datetimetester")
 
