@@ -952,6 +952,7 @@ class TestExceptStarExceptionGroupSubclass(ExceptStarTest):
         self.assertExceptionIsLike(tes, FalsyEG("eg", [TypeError(1)]))
         self.assertExceptionIsLike(ves, FalsyEG("eg", [ValueError(2)]))
 
+    @unittest.skipIf(sys.version_info < (3, 13), "Causes segfault on CPython < 3.13")
     def test_exception_group_subclass_with_bad_split_func(self):
         # see gh-128049.
         class BadEG1(ExceptionGroup):

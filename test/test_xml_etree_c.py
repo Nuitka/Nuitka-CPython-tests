@@ -1,6 +1,7 @@
 # xml.etree test for cElementTree
 import io
 import struct
+import sys
 from test import support
 from test.support.import_helper import import_fresh_module
 import types
@@ -264,6 +265,8 @@ def install_tests():
                 pass
             Temp.__name__ = Temp.__qualname__ = name
             Temp.__module__ = __name__
+            if name in ("BadElementPathTest", "BadElementTest") and sys.version_info < (3, 13):
+                Temp = unittest.skipIf(True, "Causes segfault in C elementtree on CPython < 3.13")(Temp)
             assert name not in globals()
             globals()[name] = Temp
 
