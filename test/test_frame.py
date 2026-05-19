@@ -275,7 +275,8 @@ class TestIncompleteFrameAreInvisible(unittest.TestCase):
         assert_python_ok("-c", code)
 
     @support.cpython_only
-    def test_sneaky_frame_object(self):
+    # Nuitka: We handle frame timing differently, so this test is not applicable.
+    def notest_sneaky_frame_object(self):
 
         def trace(frame, event, arg):
             """
