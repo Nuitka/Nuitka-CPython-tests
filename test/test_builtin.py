@@ -838,7 +838,9 @@ class BuiltinTest(unittest.TestCase):
         exec(code, ns)
         self.assertEqual(ns['foo'], ('foo.bar', ns, ns, None, 0))
 
-    def test_eval_builtins_mapping_reduce(self):
+    # Nuitka: Our constant list is lowered to tuple for iteration,
+    # so list_iterator.__reduce__() returns tuple instead of list.
+    def notest_eval_builtins_mapping_reduce(self):
         # list_iterator.__reduce__() calls _PyEval_GetBuiltin("iter")
         code = compile("x.__reduce__()", "test", "eval")
         ns = {'__builtins__': types.MappingProxyType({}), 'x': iter([1, 2])}
