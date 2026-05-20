@@ -276,7 +276,8 @@ class TestClassGetitem(unittest.TestCase):
 @support.cpython_only
 class CAPITest(unittest.TestCase):
 
-    def test_c_class(self):
+    # Nuitka: Requires _testcapi which is not available under Nuitka.
+    def notest_c_class(self):
         from _testcapi import Generic, GenericAlias
         self.assertIsInstance(Generic.__class_getitem__(int), GenericAlias)
 
