@@ -213,20 +213,26 @@ class GeneratorTest(unittest.TestCase):
         finally:
             gc.set_threshold(*thresholds)
 
-    def test_ag_frame_f_back(self):
+    def notest_ag_frame_f_back(self):
+        # Nuitka: Compiled generators don't eagerly create frames, so
+        # ag_frame is None for unstarted async generators.
         async def f():
             yield
         ag = f()
         self.assertIsNone(ag.ag_frame.f_back)
 
-    def test_cr_frame_f_back(self):
+    def notest_cr_frame_f_back(self):
+        # Nuitka: Compiled generators don't eagerly create frames, so
+        # cr_frame is None for unstarted coroutines.
         async def f():
             pass
         cr = f()
         self.assertIsNone(cr.cr_frame.f_back)
         cr.close()  # Suppress RuntimeWarning.
 
-    def test_gi_frame_f_back(self):
+    def notest_gi_frame_f_back(self):
+        # Nuitka: Compiled generators don't eagerly create frames, so
+        # gi_frame is None for unstarted generators.
         def f():
             yield
         gi = f()
