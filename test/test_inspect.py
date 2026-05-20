@@ -110,7 +110,9 @@ class IsTestBase(unittest.TestCase):
                 continue
             self.assertFalse(other(obj), 'not %s(%s)' % (other.__name__, exp))
 
-    def test__all__(self):
+    # Nuitka: inspect.__all__ differs due to Nuitka's inspect patching,
+    # causing element count mismatches.
+    def notest__all__(self):
         support.check__all__(self, inspect, not_exported=("modulesbyfile",))
 
 def generator_function_example(self):
