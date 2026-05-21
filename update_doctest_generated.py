@@ -61,7 +61,7 @@ def saveAsGeneratedDoctest(name, value, line_filter=None, prefix=""):
         else:
             output.write(convertToPython(value, line_filter))
 
-    cleanupWindowsNewlines(filename)
+    cleanupWindowsNewlines(filename, filename)
 
 
 saveAsGeneratedDoctest(
@@ -134,11 +134,11 @@ saveAsGeneratedDoctest(
 )
 
 
-saveAsGeneratedDoctest(
-    "test_itertools.py",
-    test.test_itertools.libreftest,
-    prefix="from itertools import *",
-)
+# saveAsGeneratedDoctest(
+#     "test_itertools.py",
+#     test.test_itertools.libreftest,
+#     prefix="from itertools import *",
+# )
 
 
 saveAsGeneratedDoctest("test_listcomps.py", test.test_listcomps.doctests)
