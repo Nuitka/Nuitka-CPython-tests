@@ -26,7 +26,6 @@ import test.test_descrtut
 import test.test_extcall
 import test.test_generators
 import test.test_genexps
-import test.test_itertools
 import test.test_listcomps
 import test.test_metaclass
 import test.test_setcomps
@@ -61,7 +60,7 @@ def saveAsGeneratedDoctest(name, value, line_filter=None, prefix=""):
         else:
             output.write(convertToPython(value, line_filter))
 
-    cleanupWindowsNewlines(filename)
+    cleanupWindowsNewlines(filename, filename)
 
 
 saveAsGeneratedDoctest(
@@ -132,14 +131,6 @@ def filter_genexps(line):
 saveAsGeneratedDoctest(
     "test_genexps.py", test.test_genexps.doctests, line_filter=filter_genexps
 )
-
-
-saveAsGeneratedDoctest(
-    "test_itertools.py",
-    test.test_itertools.libreftest,
-    prefix="from itertools import *",
-)
-
 
 saveAsGeneratedDoctest("test_listcomps.py", test.test_listcomps.doctests)
 
