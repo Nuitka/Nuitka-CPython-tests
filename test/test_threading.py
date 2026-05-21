@@ -1174,7 +1174,8 @@ class SubinterpThreadingTests(BaseTestCase):
             os.set_blocking(r, False)
         return (r, w)
 
-    def test_threads_join(self):
+    # Nuitka: Subintrepreters not supported, causing hangs.
+    def notest_threads_join(self):
         # Non-daemon threads should be joined at subinterpreter shutdown
         # (issue #18808)
         r, w = self.pipe()
@@ -1766,4 +1767,4 @@ class AtexitTests(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    unittest.main()
+    unittest.main(verbosity=2)
