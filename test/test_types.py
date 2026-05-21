@@ -2100,7 +2100,8 @@ class CoroutineTests(unittest.TestCase):
         self.assertTrue(g.gi_code.co_flags & inspect.CO_ITERABLE_COROUTINE)
         self.assertFalse(g.gi_code.co_flags & inspect.CO_COROUTINE)
 
-        self.assertIs(types.coroutine(gen), gen)
+        # Nuitka: Our compiled generator type will be wrapped.
+        # self.assertIs(types.coroutine(gen), gen)
 
     def test_wrapper_object(self):
         def gen():
