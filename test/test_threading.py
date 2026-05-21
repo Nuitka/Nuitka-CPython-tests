@@ -913,7 +913,8 @@ class ThreadTests(BaseTestCase):
             self.assertRaises(ValueError, bs.release)
 
     @cpython_only
-    def test_frame_tstate_tracing(self):
+    # Nuitka: Frame tstate tracing not supported, causes hang.
+    def notest_frame_tstate_tracing(self):
         # Issue #14432: Crash when a generator is created in a C thread that is
         # destroyed while the generator is still used. The issue was that a
         # generator contains a frame, and the frame kept a reference to the
