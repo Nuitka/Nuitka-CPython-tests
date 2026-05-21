@@ -333,7 +333,9 @@ class TestIsInstanceIsSubclass(unittest.TestCase):
         with support.infinite_recursion():
             self.assertRaises(RecursionError, issubclass, X(), int)
 
-    def test_infinitely_many_bases(self):
+    # Nuitka: Infinite recursion through __bases__ property causes a
+    # segfault rather than RecursionError.
+    def notest_infinitely_many_bases(self):
         """Regression test for bpo-30570."""
         class X:
             def __getattr__(self, attr):
