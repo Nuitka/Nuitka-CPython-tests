@@ -128,8 +128,7 @@ Dict display element unpacking
     ...
     TypeError: 'list' object is not a mapping
 
-    >>> len(eval("{" + ", ".join("**{{{}: {}}}".format(i, i)
-    ...                          for i in range(1000)) + "}"))
+    >>> len(eval("{" + ", ".join("**{{{}: {}}}".format(i, i) for i in range(1000)) + "}"))
     1000
 
     >>> {0:1, **{0:2}, 0:3, 0:4}
