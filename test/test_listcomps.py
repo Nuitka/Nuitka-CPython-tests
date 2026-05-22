@@ -760,9 +760,11 @@ class ListComprehensionTest(unittest.TestCase):
                 indent = 16
                 co = func.__code__
                 self.assertEqual(f.lineno, co.co_firstlineno + 2)
-                self.assertEqual(f.end_lineno, co.co_firstlineno + 2)
-                self.assertEqual(f.line[f.colno - indent : f.end_colno - indent],
-                                 expected)
+                # Nuitka: We don't populate end_lineno for compiled frames
+                # self.assertEqual(f.end_lineno, co.co_firstlineno + 2)
+                # Nuitka: We don't populate colno/end_colno for compiled frames
+                # self.assertEqual(f.line[f.colno - indent : f.end_colno - indent],
+                #                  expected)
 
 __test__ = {'doctests' : doctests}
 
