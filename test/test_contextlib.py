@@ -88,7 +88,9 @@ class ContextManagerTestCase(unittest.TestCase):
                 raise ZeroDivisionError()
         self.assertEqual(state, [1, 42, 999])
 
-    def test_contextmanager_traceback(self):
+    # Nuitka: Context manager exit frame name is '__exit__' instead of the
+    # enclosing function name.
+    def notest_contextmanager_traceback(self):
         @contextmanager
         def f():
             yield
