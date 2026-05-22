@@ -92,10 +92,6 @@ def checkPath(dirname, filename):
     if filename == "test_datetime.py":
         extra_flags.append("recurse_to:test.datetimetester")
 
-    if filename == "test_contextlib_async.py":
-        # Task warnings
-        extra_flags.append("ignore_stderr")
-
     if python_version < (3, 10):
         if filename in (
             "test_embed.py",
