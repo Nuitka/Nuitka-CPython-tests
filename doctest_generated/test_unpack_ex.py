@@ -488,15 +488,6 @@ except Exception as __e:
 
 
 try:
-    print('Line 292')
-    print(f(**{1: 3}, **{1: 5})
-    )
-
-except Exception as __e:
-    print("Occurred", type(__e), __e)
-
-
-try:
     a, *b = 7
 except Exception as __e:
     print("Occurred", type(__e), __e)
