@@ -2237,7 +2237,8 @@ class CoroutineTest(unittest.TestCase):
             gen.cr_frame.clear()
         gen.close()
 
-    def test_cr_frame_after_close(self):
+    # Nuitka: We don't have a frame unless it's required really
+    def notest_cr_frame_after_close(self):
         async def f():
             pass
         gen = f()
