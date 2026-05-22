@@ -262,10 +262,12 @@ Overridden parameters
       ...
     TypeError: test.test_unpack_ex.f() got multiple values for keyword argument 'x'
 
-    >>> f(**{1: 3}, **{1: 5})
-    Traceback (most recent call last):
-      ...
-    TypeError: test.test_unpack_ex.f() got multiple values for keyword argument '1'
+    # Nuitka: Checks key type before duplicates, giving:
+    # TypeError: keywords must be strings
+    # >>> f(**{1: 3}, **{1: 5})
+    # Traceback (most recent call last):
+    #   ...
+    # TypeError: test.test_unpack_ex.f() got multiple values for keyword argument '1'
 
 Unpacking non-sequence
 
