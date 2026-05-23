@@ -1677,7 +1677,8 @@ print(f'''{{
         self.assertEqual(stdout.decode('utf-8').strip().replace('\r\n', '\n').replace('\r', '\n'),
                          "3\n=3")
 
-    def test_syntax_warning_infinite_recursion_in_file(self):
+    # Nuitka: Uses assert_python_ok which is stubbed out for compiled tests
+    def notest_syntax_warning_infinite_recursion_in_file(self):
         with temp_cwd():
             script = 'script.py'
             with open(script, 'w') as f:
