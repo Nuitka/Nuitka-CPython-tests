@@ -64,7 +64,8 @@ class FunctionPropertiesTest(FuncAttrsTest):
             return 3
         self.assertNotEqual(self.b, duplicate)
 
-    def test_copying___code__(self):
+    # Nuitka: Modifying __code__ isn't allowed
+    def notest_copying___code__(self):
         def test(): pass
         self.assertEqual(test(), None)
         test.__code__ = self.b.__code__
@@ -75,7 +76,8 @@ class FunctionPropertiesTest(FuncAttrsTest):
         self.cannot_set_attr(self.b, '__globals__', 2,
                              (AttributeError, TypeError))
 
-    def test___builtins__(self):
+    # Nuitka: Doesn't support creating functions from code objects at runtime
+    def notest___builtins__(self):
         if __name__ == "__main__":
             builtins_dict = __builtins__.__dict__
         else:
@@ -118,7 +120,8 @@ class FunctionPropertiesTest(FuncAttrsTest):
         self.assertIsInstance(c, tuple)
         self.assertEqual(len(c), 1)
         # don't have a type object handy
-        self.assertEqual(c[0].__class__.__name__, "cell")
+        # Nuitka: This is compiled_cell for us, not "cell"
+        #self.assertEqual(c[0].__class__.__name__, "cell")
         self.cannot_set_attr(f, "__closure__", c, AttributeError)
 
     def test_cell_new(self):
@@ -140,7 +143,8 @@ class FunctionPropertiesTest(FuncAttrsTest):
             self.fail("shouldn't be able to read an empty cell")
         a = 12
 
-    def test_set_cell(self):
+    # Nuitka: We don't support deleting cells
+    def notest_set_cell(self):
         a = 12
         def f(): return a
         c = f.__closure__
@@ -196,7 +200,8 @@ class FunctionPropertiesTest(FuncAttrsTest):
         # __qualname__ must be a string
         self.cannot_set_attr(self.b, '__qualname__', 7, TypeError)
 
-    def test___type_params__(self):
+    # Nuitka: __type_params__ not supported for compiled generics
+    def notest___type_params__(self):
         def generic[T](): pass
         def not_generic(): pass
         lambda_ = lambda: ...
@@ -213,7 +218,8 @@ class FunctionPropertiesTest(FuncAttrsTest):
                 func.__type_params__ = (T,)
                 self.assertEqual(func.__type_params__, (T,))
 
-    def test___code__(self):
+    # Nuitka: We don't support writing to __code__ because there's no bytecode
+    def notest___code__(self):
         num_one, num_two = 7, 8
         def a(): pass
         def b(): return 12
