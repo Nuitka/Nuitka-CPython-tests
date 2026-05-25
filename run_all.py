@@ -66,6 +66,10 @@ def checkPath(dirname, filename):
         reportSkip("Hangs even with CPython", dirname, filename)
         return
 
+    if filename == "test_interpreters.py":
+        reportSkip("No subinterpreter support", dirname, filename)
+        return
+
     if dirname == "doctest_generated":
         if python_version >= (3, 11):
             extra_flags.append("expect_success")
