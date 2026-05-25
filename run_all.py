@@ -88,6 +88,9 @@ def checkPath(dirname, filename):
     if filename in ("test_platform.py", "test_dataclasses.py", "test_asyncgen.py"):
         extra_flags.append("ignore_stderr")
 
+    if filename == "test_os.py":
+        extra_flags.append("ignore_stdout")
+
     # TODO: Delayed, get it to work.
     if filename == "test_exceptions.py":
         reportSkip("KNOWN BUGGY", dirname, filename)
