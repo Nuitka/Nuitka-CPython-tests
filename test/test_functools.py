@@ -2786,9 +2786,10 @@ class TestSingleDispatch(unittest.TestCase):
             @i.register
             def _(arg):
                 return "I forgot to annotate"
-        self.assertTrue(str(exc.exception).startswith(msg_prefix +
-            "<function TestSingleDispatch.test_invalid_registrations.<locals>._"
-        ))
+        # Nuitka: We use compiled_function, not function, so the message breaks
+        # self.assertTrue(str(exc.exception).startswith(msg_prefix +
+        #    "<function TestSingleDispatch.test_invalid_registrations.<locals>._"
+        # ))
         self.assertTrue(str(exc.exception).endswith(msg_suffix))
 
         with self.assertRaises(TypeError) as exc:
