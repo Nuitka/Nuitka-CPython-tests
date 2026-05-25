@@ -282,8 +282,7 @@ class StrptimeTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, message):
                     _strptime._strptime(data_string, format)
 
-    # Nuitka: Time data in traceback differs between CPython and Nuitka runs
-    def notest_strptime_exception_context(self):
+    def test_strptime_exception_context(self):
         # check that this doesn't chain exceptions needlessly (see #17572)
         with self.assertRaises(ValueError) as e:
             _strptime._strptime_time('', '%D')
@@ -497,7 +496,8 @@ class StrptimeTests(unittest.TestCase):
         loc = locale.getlocale(locale.LC_TIME)[0]
         if glibc_ver and glibc_ver < (2, 31) and loc == 'br_FR':
             self.skipTest('%c in locale br_FR does not include time')
-        now = time.time()
+        # Nuitka: Use fixed timestamp to avoid time-dependent output
+        now = 1719700000
         self.roundtrip('%c', slice(0, 6), time.localtime(now))
         # 1 hour 20 minutes 30 seconds ago
         self.roundtrip('%c', slice(0, 6), time.localtime(now - 4830))
@@ -537,7 +537,8 @@ class StrptimeTests(unittest.TestCase):
                       'az_IR', 'my_MM', 'or_IN', 'shn_MM')
     def test_date_locale(self):
         # Test %x directive
-        now = time.time()
+        # Nuitka: Use fixed timestamp to avoid time-dependent output
+        now = 1719700000
         self.roundtrip('%x', slice(0, 3), time.localtime(now))
         # different days of the week
         for i in range(1, 7):
@@ -585,7 +586,8 @@ class StrptimeTests(unittest.TestCase):
             # Hours are in 12-hour notation without AM/PM indication.
             # Ignore hours.
             pos = slice(4, 6)
-        now = time.time()
+        # Nuitka: Use fixed timestamp to avoid time-dependent output
+        now = 1719700000
         self.roundtrip('%X', pos, time.localtime(now))
         # 1 hour 20 minutes 30 seconds ago
         self.roundtrip('%X', pos, time.localtime(now - 4830))
