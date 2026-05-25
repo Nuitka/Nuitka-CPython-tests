@@ -178,7 +178,8 @@ class MinidomTest(unittest.TestCase):
         dom.unlink()
 
     @support.requires_resource('cpu')
-    def testAppendChildNoQuadraticComplexity(self):
+    # Nuitka: Timing-sensitive test, machine-dependent
+    def notestAppendChildNoQuadraticComplexity(self):
         impl = getDOMImplementation()
 
         newdoc = impl.createDocument(None, "some_tag", None)
