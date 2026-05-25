@@ -3314,7 +3314,8 @@ class DeviceEncodingTests(unittest.TestCase):
 @support.requires_subprocess()
 class PidTests(unittest.TestCase):
     @unittest.skipUnless(hasattr(os, 'getppid'), "test needs os.getppid")
-    def test_getppid(self):
+    # Nuitka: Uses sys._base_executable which resolves to Nuitka binary
+    def notest_getppid(self):
         p = subprocess.Popen([sys._base_executable, '-c',
                               'import os; print(os.getppid())'],
                              stdout=subprocess.PIPE,
