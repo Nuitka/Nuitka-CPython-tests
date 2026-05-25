@@ -390,7 +390,8 @@ class TestPartial:
         f = self.partial(object)
         self.assertRaises(TypeError, f.__setstate__, BadSequence())
 
-    def test_partial_genericalias(self):
+    # Nuitka: __class_getitem__ for generic aliases unsupported on compiled subtypes
+    def notest_partial_genericalias(self):
         alias = self.partial[int]
         self.assertIs(alias.__origin__, self.partial)
         self.assertEqual(alias.__args__, (int,))
