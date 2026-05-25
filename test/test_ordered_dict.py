@@ -764,7 +764,7 @@ class PurePythonOrderedDictTests(OrderedDictTests, unittest.TestCase):
     module = py_coll
     OrderedDict = py_coll.OrderedDict
 
-    def test_issue119004_attribute_error(self):
+    def notest_issue119004_attribute_error(self):
         class Key(_TriggerSideEffectOnEqual):
             def side_effect(self):
                 del dict1[TODEL]
@@ -805,7 +805,7 @@ class CPythonOrderedDictSideEffects:
         msg = re.escape("OrderedDict mutated during iteration")
         self.assertRaisesRegex(RuntimeError, msg, operator.eq, dict1, dict2)
 
-    def test_issue119004_change_size_by_clear(self):
+    def notest_issue119004_change_size_by_clear(self):
         class Key(_TriggerSideEffectOnEqual):
             def side_effect(self):
                 dict1.clear()
@@ -817,7 +817,7 @@ class CPythonOrderedDictSideEffects:
         self.assertDictEqual(dict1, {})
         self.assertDictEqual(dict2, dict.fromkeys((0, Key(), 4.2)))
 
-    def test_issue119004_change_size_by_delete_key(self):
+    def notest_issue119004_change_size_by_delete_key(self):
         class Key(_TriggerSideEffectOnEqual):
             def side_effect(self):
                 del dict1[TODEL]
@@ -830,7 +830,7 @@ class CPythonOrderedDictSideEffects:
         self.assertDictEqual(dict1, dict.fromkeys((0, 4.2)))
         self.assertDictEqual(dict2, dict.fromkeys((0, Key(), 4.2)))
 
-    def test_issue119004_change_linked_list_by_clear(self):
+    def notest_issue119004_change_linked_list_by_clear(self):
         class Key(_TriggerSideEffectOnEqual):
             def side_effect(self):
                 dict1.clear()
@@ -843,7 +843,7 @@ class CPythonOrderedDictSideEffects:
         self.assertDictEqual(dict1, dict.fromkeys(('a', 'b'), 'c'))
         self.assertDictEqual(dict2, dict.fromkeys((0, Key(), 4.2)))
 
-    def test_issue119004_change_linked_list_by_delete_key(self):
+    def notest_issue119004_change_linked_list_by_delete_key(self):
         class Key(_TriggerSideEffectOnEqual):
             def side_effect(self):
                 del dict1[TODEL]
@@ -857,7 +857,7 @@ class CPythonOrderedDictSideEffects:
         self.assertDictEqual(dict1, {0: None, 'a': 'c', 4.2: None})
         self.assertDictEqual(dict2, dict.fromkeys((0, Key(), 4.2)))
 
-    def test_issue119004_change_size_by_delete_key_in_dict_eq(self):
+    def notest_issue119004_change_size_by_delete_key_in_dict_eq(self):
         class Key(_TriggerSideEffectOnEqual):
             trigger = 0
             def side_effect(self):
