@@ -62,6 +62,10 @@ def checkPath(dirname, filename):
         my_print("Skipping (due to INCOMPLETE implementation)", filename)
         return
 
+    if filename == "test_htmlparser.py":
+        reportSkip("Hangs even with CPython", dirname, filename)
+        return
+
     if dirname == "doctest_generated":
         if python_version >= (3, 11):
             extra_flags.append("expect_success")
