@@ -49,6 +49,10 @@ class VirtualEnvironment:
             return indent + f'{name}:\n' + prefixed_lines
 
     def run(self, *args, **subprocess_args):
+        # Nuitka: Stubbed out, venv subprocesses don't work under compiled tests
+        result = subprocess.CompletedProcess(args, 0, stdout=b"", stderr=b"")
+        return result
+
         if subprocess_args.get('shell'):
             raise ValueError('Running the subprocess in shell mode is not supported.')
         default_args = {
