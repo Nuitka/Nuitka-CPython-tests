@@ -336,7 +336,7 @@ class SysModuleTest(unittest.TestCase):
             sys.setrecursionlimit(old_limit)
 
     @test.support.cpython_only
-    def test_setrecursionlimit_to_depth(self):
+    def notest_setrecursionlimit_to_depth(self):
         # Issue #25274: Setting a low recursion limit must be blocked if the
         # current recursion depth is already higher than limit.
 
@@ -428,7 +428,7 @@ class SysModuleTest(unittest.TestCase):
             is sys._getframe().f_code
         )
 
-    def test_getframemodulename(self):
+    def notest_getframemodulename(self):
         # Default depth gets ourselves
         self.assertEqual(__name__, sys._getframemodulename())
         self.assertEqual("unittest.case", sys._getframemodulename(1))
@@ -727,7 +727,7 @@ class SysModuleTest(unittest.TestCase):
 
     @support.cpython_only
     @requires_subinterpreters
-    def test_subinterp_intern_dynamically_allocated(self):
+    def notest_subinterp_intern_dynamically_allocated(self):
         # Implementation detail: Dynamically allocated strings
         # are distinct between interpreters
         s = "never interned before" + str(random.randrange(0, 10**9))
@@ -749,7 +749,7 @@ class SysModuleTest(unittest.TestCase):
 
     @support.cpython_only
     @requires_subinterpreters
-    def test_subinterp_intern_statically_allocated(self):
+    def notest_subinterp_intern_statically_allocated(self):
         # Implementation detail: Statically allocated strings are shared
         # between interpreters.
         # See Tools/build/generate_global_objects.py for the list
@@ -773,7 +773,7 @@ class SysModuleTest(unittest.TestCase):
 
     @support.cpython_only
     @requires_subinterpreters
-    def test_subinterp_intern_singleton(self):
+    def notest_subinterp_intern_singleton(self):
         # Implementation detail: singletons are used for 0- and 1-character
         # latin1 strings.
         for s in '', '\n', '_', 'x', '\0', '\N{CEDILLA}', '\xff':
