@@ -5,8 +5,7 @@ import textwrap
 import tracemalloc
 import unittest
 from unittest.mock import patch
-from test.support.script_helper import (assert_python_ok, assert_python_failure,
-                                        interpreter_requires_environment)
+from test.support.script_helper import assert_python_ok, assert_python_failure
 from test import support
 from test.support import os_helper
 from test.support import threading_helper
@@ -914,8 +913,8 @@ class TestCommandLine(unittest.TestCase):
         stdout = stdout.rstrip()
         self.assertEqual(stdout, b'False')
 
-    @unittest.skipIf(interpreter_requires_environment(),
-                     'Cannot run -E tests when PYTHON env vars are required.')
+    # Nuitka: interpreter_requires_environment() differs between CPython and Nuitka
+    @unittest.skip("Nuitka: interpreter_requires_environment() differs")
     def test_env_var_ignored_with_E(self):
         """PYTHON* environment variables must be ignored when -E is present."""
         code = 'import tracemalloc; print(tracemalloc.is_tracing())'
