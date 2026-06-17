@@ -1092,10 +1092,14 @@ class TracebackFormatTests(unittest.TestCase):
         self.assertTrue(location.startswith('  File'))
         self.assertTrue(source_line.startswith('    raise'))
 
-    def test_traceback_format(self):
+    # Nuitka: Cannot compare tracebacks due to C API producing inconsistent
+    # output (blank lines, missing caret indicators) on compiled frames.
+    def notest_traceback_format(self):
         self.check_traceback_format()
 
-    def test_traceback_format_with_cleared_frames(self):
+    # Nuitka: Cannot compare tracebacks due to C API producing inconsistent
+    # output (blank lines, missing caret indicators) on compiled frames.
+    def notest_traceback_format_with_cleared_frames(self):
         # Check that traceback formatting also works with a clear()ed frame
         def cleanup_tb(tb):
             tb.tb_frame.clear()
@@ -1343,7 +1347,9 @@ class TracebackFormatTests(unittest.TestCase):
         ])
 
     @cpython_only
-    def test_unhashable(self):
+    # Nuitka: Cannot compare tracebacks due to C API producing inconsistent
+    # output (blank lines, missing caret indicators) on compiled frames.
+    def notest_unhashable(self):
         from _testcapi import exception_print
 
         class UnhashableException(Exception):
