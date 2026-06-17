@@ -505,7 +505,9 @@ def has_no_debug_ranges():
     return not bool(config['code_debug_ranges'])
 
 def requires_debug_ranges(reason='requires co_positions / debug_ranges'):
-    return unittest.skipIf(has_no_debug_ranges(), reason)
+    # Nuitka: Debug range output differs between Nuitka and CPython,
+    # skip unconditionally so both test the same set.
+    return unittest.skipIf(True, "different between Nuitka and CPython")
 
 requires_legacy_unicode_capi = unittest.skipUnless(unicode_legacy_string,
                         'requires legacy Unicode C API')
