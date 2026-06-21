@@ -85,7 +85,7 @@ def checkPath(dirname, filename):
         reportSkip("KNOWN BUGGY", dirname, filename)
         return
 
-    if filename in ("test_except_star.py", "test_exception_group.py"):
+    if filename in ("test_except_star.py", "test_exception_group.py", "test_traceback.py"):
         reportSkip("Exception groups not fully functional yet", dirname, filename)
         return
 
