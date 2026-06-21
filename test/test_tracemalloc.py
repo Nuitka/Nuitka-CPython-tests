@@ -1045,8 +1045,10 @@ class TestCAPI(unittest.TestCase):
         size = tracemalloc.get_traced_memory()[0]
 
         frames = self.track(release_gil, nframe)
-        self.assertEqual(self.get_traceback(),
-                         tracemalloc.Traceback(frames))
+        # Nuitka: C-API tracemalloc_get_traceback line numbers differ from
+        # compiled Python frames.
+        # self.assertEqual(self.get_traceback(),
+        #                  tracemalloc.Traceback(frames))
 
         self.assertEqual(self.get_traced_memory(), self.size)
 
@@ -1068,8 +1070,10 @@ class TestCAPI(unittest.TestCase):
         # calling _PyTraceMalloc_Track() must remove the old trace and add
         # a new trace with the new traceback
         frames = self.track(nframe=nframe)
-        self.assertEqual(self.get_traceback(),
-                         tracemalloc.Traceback(frames))
+        # Nuitka: C-API tracemalloc_get_traceback line numbers differ from
+        # compiled Python frames.
+        # self.assertEqual(self.get_traceback(),
+        #                  tracemalloc.Traceback(frames))
 
     def check_untrack(self, release_gil):
         tracemalloc.start()
