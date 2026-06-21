@@ -795,7 +795,8 @@ class TestPEP590(unittest.TestCase):
                 self.assertEqual(expected, meth(*args1, **kwargs))
                 self.assertEqual(expected, wrapped(*args, **kwargs))
 
-    def test_setvectorcall(self):
+    # Nuitka: Compiled functions cannot be made vectorcall functions.
+    def notest_setvectorcall(self):
         from _testcapi import function_setvectorcall
         def f(num): return num + 1
         assert_equal = self.assertEqual
@@ -806,7 +807,8 @@ class TestPEP590(unittest.TestCase):
         for _ in range(10 * ADAPTIVE_WARMUP_DELAY):
             assert_equal("overridden", f(num))
 
-    def test_setvectorcall_load_attr_specialization_skip(self):
+    # Nuitka: Compiled functions cannot be made vectorcall functions.
+    def notest_setvectorcall_load_attr_specialization_skip(self):
         from _testcapi import function_setvectorcall
 
         class X:
@@ -822,7 +824,8 @@ class TestPEP590(unittest.TestCase):
         for _ in range(ADAPTIVE_WARMUP_DELAY):
             assert_equal("overridden", x.a)
 
-    def test_setvectorcall_load_attr_specialization_deopt(self):
+    # Nuitka: Compiled functions cannot be made vectorcall functions.
+    def notest_setvectorcall_load_attr_specialization_deopt(self):
         from _testcapi import function_setvectorcall
 
         class X:
@@ -933,7 +936,8 @@ class TestRecursion(unittest.TestCase):
 
     @skip_on_s390x
     @unittest.skipIf(is_wasi and Py_DEBUG, "requires deep stack")
-    def test_super_deep(self):
+    # Nuitka: Different recursion depth behavior with compiled functions.
+    def notest_super_deep(self):
 
         def recurse(n):
             if n:
