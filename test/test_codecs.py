@@ -2522,9 +2522,14 @@ class UnicodeEscapeTest(ReadTest, unittest.TestCase):
                     r"invalid octal escape sequence '\\%o'" % i):
                 check(rb'\%o' % i, chr(i))
 
-        with self.assertWarnsRegex(DeprecationWarning,
-                r"invalid escape sequence '\\z'"):
-            self.assertEqual(decode(br'\x\z', 'ignore'), ('\\z', 4))
+        # Nuitka: Disabled, on older CPython 3.12 minor versions (e.g. 3.12.2
+        # on Windows x86) the `unicode_escape_decode` codec reads an undefined
+        # offending-escape byte for the `\x` + errors=ignore edge case, causing
+        # garbage warning text that differs between the interpreter and the
+        # Nuitka-compiled binary due to differing heap layout.
+        # with self.assertWarnsRegex(DeprecationWarning,
+        #         r"invalid escape sequence '\\z'"):
+        #     self.assertEqual(decode(br'\x\z', 'ignore'), ('\\z', 4))
         with self.assertWarnsRegex(DeprecationWarning,
                 r"invalid octal escape sequence '\\501'"):
             self.assertEqual(decode(br'\x\501', 'ignore'), ('\u0141', 6))
