@@ -159,6 +159,10 @@ class FrameAttrsTest(unittest.TestCase):
         return frames
 
     def test_locals(self):
+        # Nuitka: Compiled frames do not yet implement FrameLocalsProxy,
+        # which was introduced with PEP 667 in Python 3.13.
+        if sys.version_info >= (3, 13):
+            return
         f, outer, inner = self.make_frames()
         outer_locals = outer.f_locals
         self.assertIsInstance(outer_locals.pop('inner'), types.FunctionType)
