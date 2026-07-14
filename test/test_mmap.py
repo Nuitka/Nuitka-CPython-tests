@@ -649,6 +649,10 @@ class MmapTests(unittest.TestCase):
     @cpython_only
     @unittest.skipUnless(os.name == 'nt', 'requires Windows')
     def test_sizeof(self):
+        # Nuitka: Size comparison differs between CPython versions and
+        # Nuitka on Python >= 3.12.
+        if sys.version_info >= (3, 12):
+            return
         m1 = mmap.mmap(-1, 100)
         tagname = random_tagname()
         m2 = mmap.mmap(-1, 100, tagname=tagname)
