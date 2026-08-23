@@ -728,7 +728,8 @@ class TestSpecifics(unittest.TestCase):
         self.assertIs(f1.__code__.co_linetable, f2.__code__.co_linetable)
 
     @support.cpython_only
-    def test_remove_unused_consts(self):
+    # Nuitka: We have even less constants potentially
+    def notest_remove_unused_consts(self):
         def f():
             "docstring"
             if True:
@@ -740,7 +741,8 @@ class TestSpecifics(unittest.TestCase):
                          (f.__doc__, "used"))
 
     @support.cpython_only
-    def test_remove_unused_consts_no_docstring(self):
+    # Nuitka: We have even less constants potentially
+    def notest_remove_unused_consts_no_docstring(self):
         # the first item (None for no docstring in this case) is
         # always retained.
         def f():
@@ -1113,7 +1115,8 @@ class TestSpecifics(unittest.TestCase):
         code_lines = self.get_code_lines(test.__code__)
         self.assertEqual(expected_lines, code_lines)
 
-    def test_lineno_of_backward_jump(self):
+    # Nuitka: We do not have co_lines of compiled functions
+    def notest_lineno_of_backward_jump(self):
         # Issue gh-107901
         def f():
             for i in x:
@@ -1177,7 +1180,8 @@ class TestSpecifics(unittest.TestCase):
             self.assertNotEqual(instr.opname, "EXTENDED_ARG")
 
     @support.cpython_only
-    def test_uses_slice_instructions(self):
+    # Nuitka: We do not have BINARY_SLICE instructions in compiled code
+    def notest_uses_slice_instructions(self):
 
         def check_op_count(func, op, expected):
             actual = 0
@@ -1883,7 +1887,8 @@ class TestSourcePositions(unittest.TestCase):
                         self.assertGreaterEqual(end_col, start_col)
                         self.assertLessEqual(end_col, code_end)
 
-    def test_return_in_with_positions(self):
+    # Nuitka: We do not have co_positions of compiled functions
+    def notest_return_in_with_positions(self):
         # See gh-98442
         def f():
             with xyz:
