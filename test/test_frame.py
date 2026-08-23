@@ -410,14 +410,16 @@ class TestCAPI(unittest.TestCase):
     def getframe(self):
         return sys._getframe()
 
-    def test_frame_getters(self):
+    # Nuitka: Compiled frames are not accepted by the _testcapi check.
+    def notest_frame_getters(self):
         frame = self.getframe()
         self.assertEqual(frame.f_locals, _testcapi.frame_getlocals(frame))
         self.assertIs(frame.f_globals, _testcapi.frame_getglobals(frame))
         self.assertIs(frame.f_builtins, _testcapi.frame_getbuiltins(frame))
         self.assertEqual(frame.f_lasti, _testcapi.frame_getlasti(frame))
 
-    def test_getvar(self):
+    # Nuitka: Compiled frames are not accepted by the _testcapi check.
+    def notest_getvar(self):
         current_frame = sys._getframe()
         x = 1
         self.assertEqual(_testcapi.frame_getvar(current_frame, "x"), 1)
@@ -436,7 +438,8 @@ class TestCAPI(unittest.TestCase):
     def getgenframe(self):
         yield sys._getframe()
 
-    def test_frame_get_generator(self):
+    # Nuitka: Compiled frames are not accepted by the _testcapi check.
+    def notest_frame_get_generator(self):
         gen = self.getgenframe()
         frame = next(gen)
         self.assertIs(gen, _testcapi.frame_getgenerator(frame))
