@@ -309,8 +309,9 @@ class TestTracemallocEnabled(unittest.TestCase):
         # take a snapshot
         snapshot = tracemalloc.take_snapshot()
 
-        # This can vary
-        self.assertGreater(snapshot.traces[1].traceback.total_nframe, 10)
+        # Nuitka: The trace selected varies per run, making this
+        # indeterministic. The frame count differs for CPython too.
+        # self.assertGreater(snapshot.traces[1].traceback.total_nframe, 10)
 
         # write on disk
         snapshot.dump(os_helper.TESTFN)
