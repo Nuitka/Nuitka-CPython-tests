@@ -1609,7 +1609,7 @@ class LargeArrayTest(unittest.TestCase):
         self.assertEqual(ls[:8], list(example[:8]))
         self.assertEqual(ls[-8:], list(example[-8:]))
 
-    @unittest.skipIf(sys.version_info < (3, 13), "Causes segfault on CPython < 3.13")
+    @unittest.skipIf(sys.version_info < (3, 13, 2), "Causes segfault on CPython < 3.13.2 (gh-128961)")
     def test_gh_128961(self):
         a = array.array('i')
         it = iter(a)
