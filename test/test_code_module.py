@@ -59,6 +59,10 @@ class TestInteractiveConsole(unittest.TestCase):
         else:
             raise AssertionError("no console stdout")
 
+    @unittest.skipIf(
+        sys.version_info < (3, 12, 6),
+        "CPython 3.12.0-3.12.5 show internal 'code.py' frames (gh-122478)",
+    )
     def test_syntax_error(self):
         self.infunc.side_effect = ["def f():",
                                    "    x = ?",
@@ -79,6 +83,10 @@ class TestInteractiveConsole(unittest.TestCase):
         self.assertIsNone(self.sysmod.last_value.__traceback__)
         self.assertIs(self.sysmod.last_exc, self.sysmod.last_value)
 
+    @unittest.skipIf(
+        sys.version_info < (3, 12, 6),
+        "CPython 3.12.0-3.12.5 show internal 'code.py' frames (gh-122478)",
+    )
     def test_indentation_error(self):
         self.infunc.side_effect = ["  1", EOFError('Finished')]
         self.console.interact()
@@ -95,6 +103,10 @@ class TestInteractiveConsole(unittest.TestCase):
         self.assertIsNone(self.sysmod.last_value.__traceback__)
         self.assertIs(self.sysmod.last_exc, self.sysmod.last_value)
 
+    @unittest.skipIf(
+        sys.version_info < (3, 12, 6),
+        "CPython 3.12.0-3.12.5 show internal 'code.py' frames (gh-122478)",
+    )
     def test_unicode_error(self):
         self.infunc.side_effect = ["'\ud800'", EOFError('Finished')]
         self.console.interact()
@@ -108,6 +120,10 @@ class TestInteractiveConsole(unittest.TestCase):
         self.assertIsNone(self.sysmod.last_value.__traceback__)
         self.assertIs(self.sysmod.last_exc, self.sysmod.last_value)
 
+    @unittest.skipIf(
+        sys.version_info < (3, 12, 6),
+        "CPython 3.12.0-3.12.5 show internal 'code.py' frames (gh-122478)",
+    )
     def test_sysexcepthook(self):
         self.infunc.side_effect = ["def f():",
                                    "    raise ValueError('BOOM!')",
@@ -131,6 +147,10 @@ class TestInteractiveConsole(unittest.TestCase):
             '  File "<console>", line 2, in f\n',
             'ValueError: BOOM!\n'])
 
+    @unittest.skipIf(
+        sys.version_info < (3, 12, 6),
+        "CPython 3.12.0-3.12.5 show internal 'code.py' frames (gh-122478)",
+    )
     def test_sysexcepthook_syntax_error(self):
         self.infunc.side_effect = ["def f():",
                                    "    x = ?",
@@ -154,6 +174,10 @@ class TestInteractiveConsole(unittest.TestCase):
             '        ^\n',
             'SyntaxError: invalid syntax\n'])
 
+    @unittest.skipIf(
+        sys.version_info < (3, 12, 6),
+        "CPython 3.12.0-3.12.5 show internal 'code.py' frames (gh-122478)",
+    )
     def test_sysexcepthook_indentation_error(self):
         self.infunc.side_effect = ["  1", EOFError('Finished')]
         hook = mock.Mock()
@@ -173,6 +197,10 @@ class TestInteractiveConsole(unittest.TestCase):
             '    1\n',
             'IndentationError: unexpected indent\n'])
 
+    @unittest.skipIf(
+        sys.version_info < (3, 12, 6),
+        "CPython 3.12.0-3.12.5 show internal 'code.py' frames (gh-122478)",
+    )
     def test_sysexcepthook_crashing_doesnt_close_repl(self):
         self.infunc.side_effect = ["1/0", "a = 123", "print(a)", EOFError('Finished')]
         self.sysmod.excepthook = 1
@@ -184,6 +212,10 @@ class TestInteractiveConsole(unittest.TestCase):
         self.assertIn("Original exception was:", error)
         self.assertIn("division by zero", error)
 
+    @unittest.skipIf(
+        sys.version_info < (3, 12, 6),
+        "CPython 3.12.0-3.12.5 show internal 'code.py' frames (gh-122478)",
+    )
     def test_sysexcepthook_raising_BaseException(self):
         self.infunc.side_effect = ["1/0", "a = 123", "print(a)", EOFError('Finished')]
         s = "not so fast"
@@ -248,6 +280,10 @@ class TestInteractiveConsole(unittest.TestCase):
         self.assertEqual(err_msg, ['write', (expected,), {}])
 
 
+    @unittest.skipIf(
+        sys.version_info < (3, 12, 6),
+        "CPython 3.12.0-3.12.5 show internal 'code.py' frames (gh-122478)",
+    )
     def test_cause_tb(self):
         self.infunc.side_effect = ["raise ValueError('') from AttributeError",
                                     EOFError('Finished')]
@@ -269,6 +305,10 @@ class TestInteractiveConsole(unittest.TestCase):
         self.assertIsNotNone(self.sysmod.last_traceback)
         self.assertIs(self.sysmod.last_exc, self.sysmod.last_value)
 
+    @unittest.skipIf(
+        sys.version_info < (3, 12, 6),
+        "CPython 3.12.0-3.12.5 show internal 'code.py' frames (gh-122478)",
+    )
     def test_context_tb(self):
         self.infunc.side_effect = ["try: ham\nexcept: eggs\n",
                                     EOFError('Finished')]
