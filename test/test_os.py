@@ -4131,6 +4131,10 @@ class TestScandir(unittest.TestCase):
                 if attr in ("st_dev", "st_ino", "st_nlink", "st_ctime",
                             "st_ctime_ns"):
                     continue
+                if attr == "st_file_attributes" and sys.version_info >= (3, 14):
+                    # On Python 3.14, DirEntry.stat() can reports indetermistic
+                    # st_file_attributes than os.stat() on Windows.
+                    continue
                 self.assertEqual(getattr(stat1, attr),
                                  getattr(stat2, attr),
                                  (stat1, stat2, attr))
