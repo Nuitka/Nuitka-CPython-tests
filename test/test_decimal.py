@@ -4714,6 +4714,8 @@ class PyFunctionality(unittest.TestCase):
 class PyWhitebox(unittest.TestCase):
     """White box testing for decimal.py"""
 
+    @unittest.skipIf(sys.version_info < (3, 12, 4),
+                     "gh-118027: _pydecimal hangs computing 10**MAX_PREC before Python 3.12.4")
     def test_py_exact_power(self):
         # Rarely exercised lines in _power_exact.
         Decimal = P.Decimal
