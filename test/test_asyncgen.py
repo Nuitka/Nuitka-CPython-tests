@@ -1118,7 +1118,10 @@ class AsyncGenAsyncioTest(unittest.TestCase):
 
         self.loop.run_until_complete(run())
 
-    @unittest.skipIf(sys.version_info < (3, 13), "Causes segfault on CPython < 3.13")
+    @unittest.skipIf(
+        sys.version_info < (3, 13, 3),
+        "Causes segfault on CPython < 3.13.3 (gh-131670)",
+    )
     def test_sync_anext_raises_exception(self):
         # See: https://github.com/python/cpython/issues/131670
         msg = 'custom'
