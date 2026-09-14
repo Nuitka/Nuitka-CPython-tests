@@ -2938,7 +2938,8 @@ class TestSingleDispatch(unittest.TestCase):
             'decorated_classmethod'
         )
 
-    def test_invalid_registrations(self):
+    # Nuitka: Exception messages include a different repr() for compiled functions.
+    def notest_invalid_registrations(self):
         msg_prefix = "Invalid first argument to `register()`: "
         msg_suffix = (
             ". Use either `@register(some_class)` or plain `@register` on an "

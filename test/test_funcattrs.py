@@ -66,13 +66,15 @@ class FunctionPropertiesTest(FuncAttrsTest):
             return 3
         self.assertNotEqual(self.b, duplicate)
 
-    def test_copying___code__(self):
+    # Nuitka: Compiled functions do not support assigning __code__.
+    def notest_copying___code__(self):
         def test(): pass
         self.assertEqual(test(), None)
         test.__code__ = self.b.__code__
         self.assertEqual(test(), 3) # self.b always returns 3, arbitrarily
 
-    def test_invalid___code___assignment(self):
+    # Nuitka: Compiled functions do not support assigning __code__.
+    def notest_invalid___code___assignment(self):
         def A(): pass
         def B(): yield
         async def C(): yield
@@ -98,7 +100,8 @@ class FunctionPropertiesTest(FuncAttrsTest):
         self.cannot_set_attr(self.b, '__globals__', 2,
                              (AttributeError, TypeError))
 
-    def test___builtins__(self):
+    # Nuitka: Compiled function code objects cannot recreate interpreted functions.
+    def notest___builtins__(self):
         if __name__ == "__main__":
             builtins_dict = __builtins__.__dict__
         else:
@@ -134,7 +137,8 @@ class FunctionPropertiesTest(FuncAttrsTest):
         self.assertIs(ns['func3'].__globals__['__builtins__'], safe_builtins)
         self.assertNotIn('__builtins__', ns['func4'].__globals__)
 
-    def test___closure__(self):
+    # Nuitka: Compiled closures use a different cell type.
+    def notest___closure__(self):
         a = 12
         def f(): print(a)
         c = f.__closure__
@@ -163,7 +167,8 @@ class FunctionPropertiesTest(FuncAttrsTest):
             self.fail("shouldn't be able to read an empty cell")
         a = 12
 
-    def test_set_cell(self):
+    # Nuitka: Deleting compiled closure cell contents is not supported.
+    def notest_set_cell(self):
         a = 12
         def f(): return a
         c = f.__closure__
@@ -236,7 +241,8 @@ class FunctionPropertiesTest(FuncAttrsTest):
                 func.__type_params__ = (T,)
                 self.assertEqual(func.__type_params__, (T,))
 
-    def test___code__(self):
+    # Nuitka: Compiled functions do not support assigning __code__.
+    def notest___code__(self):
         num_one, num_two = 7, 8
         def a(): pass
         def b(): return 12

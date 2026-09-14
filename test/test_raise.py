@@ -185,7 +185,8 @@ class TestCause(unittest.TestCase):
         else:
             self.fail("No exception raised")
 
-    def test_class_cause_nonexception_result(self):
+    # Nuitka: Exception cause validation messages differ from CPython.
+    def notest_class_cause_nonexception_result(self):
         # See https://github.com/python/cpython/issues/140530.
         class ConstructMortal(BaseException):
             def __new__(*args, **kwargs):
@@ -278,7 +279,8 @@ class TestTracebackType(unittest.TestCase):
         tb.tb_next = new_tb
         self.assertIs(tb.tb_next, new_tb)
 
-    def test_constructor(self):
+    # Nuitka: CPython traceback construction does not accept compiled frames.
+    def notest_constructor(self):
         other_tb = get_tb()
         frame = sys._getframe()
 

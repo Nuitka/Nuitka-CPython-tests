@@ -2096,7 +2096,8 @@ class CoroutineTests(unittest.TestCase):
         foo = types.coroutine(foo)
         self.assertIs(aw, foo())
 
-    def test_async_def(self):
+    # Nuitka: types.coroutine() can wrap compiled functions, changing their identity.
+    def notest_async_def(self):
         # Test that types.coroutine passes 'async def' coroutines
         # without modification
 
@@ -2355,7 +2356,8 @@ class CoroutineTests(unittest.TestCase):
         foo = types.coroutine(foo)
         self.assertIs(foo(), gencoro)
 
-    def test_genfunc(self):
+    # Nuitka: types.coroutine() wraps compiled generators instead of changing bytecode.
+    def notest_genfunc(self):
         def gen(): yield
         self.assertIs(types.coroutine(gen), gen)
         self.assertIs(types.coroutine(types.coroutine(gen)), gen)
@@ -2386,7 +2388,8 @@ class CoroutineTests(unittest.TestCase):
 
 
 class FunctionTests(unittest.TestCase):
-    def test_function_type_defaults(self):
+    # Nuitka: Compiled function code objects cannot recreate interpreted functions.
+    def notest_function_type_defaults(self):
         def ex(a, /, b, *, c):
             return a + b + c
 

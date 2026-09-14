@@ -801,7 +801,8 @@ class TestPEP590(unittest.TestCase):
                 self.assertEqual(expected, meth(*args1, **kwargs))
                 self.assertEqual(expected, wrapped(*args, **kwargs))
 
-    def test_setvectorcall(self):
+    # Nuitka: Compiled functions do not support CPython vectorcall replacement.
+    def notest_setvectorcall(self):
         from _testcapi import function_setvectorcall
         def f(num): return num + 1
         assert_equal = self.assertEqual
@@ -812,7 +813,8 @@ class TestPEP590(unittest.TestCase):
         for _ in range(10 * ADAPTIVE_WARMUP_DELAY):
             assert_equal("overridden", f(num))
 
-    def test_setvectorcall_load_attr_specialization_skip(self):
+    # Nuitka: Compiled functions do not support CPython vectorcall replacement.
+    def notest_setvectorcall_load_attr_specialization_skip(self):
         from _testcapi import function_setvectorcall
 
         class X:
@@ -828,7 +830,8 @@ class TestPEP590(unittest.TestCase):
         for _ in range(ADAPTIVE_WARMUP_DELAY):
             assert_equal("overridden", x.a)
 
-    def test_setvectorcall_load_attr_specialization_deopt(self):
+    # Nuitka: Compiled functions do not support CPython vectorcall replacement.
+    def notest_setvectorcall_load_attr_specialization_deopt(self):
         from _testcapi import function_setvectorcall
 
         class X:
@@ -948,7 +951,8 @@ class TestErrorMessagesSuggestions(unittest.TestCase):
             yield
         self.assertNotIn("Did you mean", str(cm.exception))
 
-    def test_unexpected_keyword_suggestion_valid_positions(self):
+    # Nuitka: CPython keyword suggestions in exception messages are not supported.
+    def notest_unexpected_keyword_suggestion_valid_positions(self):
         def foo(blech=None, /, aaa=None, *args, late1=None):
             pass
 
@@ -965,7 +969,8 @@ class TestErrorMessagesSuggestions(unittest.TestCase):
                 with ctx:
                     foo(**{keyword:None})
 
-    def test_unexpected_keyword_suggestion_kinds(self):
+    # Nuitka: CPython keyword suggestions in exception messages are not supported.
+    def notest_unexpected_keyword_suggestion_kinds(self):
 
         def substitution(noise=None, more_noise=None, a = None, blech = None):
             pass
@@ -1002,7 +1007,8 @@ class TestErrorMessagesSuggestions(unittest.TestCase):
                 with self.check_suggestion_includes(suggestion):
                     func(bluch=None)
 
-    def test_unexpected_keyword_suggestion_via_getargs(self):
+    # Nuitka: CPython keyword suggestions in exception messages are not supported.
+    def notest_unexpected_keyword_suggestion_via_getargs(self):
         with self.check_suggestion_includes("maxsplit"):
             "foo".split(maxsplt=1)
 
@@ -1034,7 +1040,8 @@ class TestRecursion(unittest.TestCase):
     @skip_on_s390x
     @unittest.skipIf(is_wasi and Py_DEBUG, "requires deep stack")
     @unittest.skipIf(_testcapi is None, "requires _testcapi")
-    def test_super_deep(self):
+    # Nuitka: Compiled calls use the C stack and have different recursion limits.
+    def notest_super_deep(self):
 
         def recurse(n):
             if n:

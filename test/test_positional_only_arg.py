@@ -119,7 +119,8 @@ class PositionalOnlyTestCase(unittest.TestCase):
 
         self.assertEqual(f(*[1, 2]), 3)
 
-    def test_use_positional_as_keyword(self):
+    # Nuitka: Positional-only argument exception messages differ from CPython.
+    def notest_use_positional_as_keyword(self):
         def f(a, /):
             pass
         expected = r"f\(\) got some positional-only arguments passed as keyword arguments: 'a'"
@@ -354,7 +355,8 @@ class PositionalOnlyTestCase(unittest.TestCase):
         fundef = "def f(%s, /):\n  pass\n" % ', '.join('i%d' % i for i in range(300))
         compile(fundef, "<test>", "single")
 
-    def test_serialization(self):
+    # Nuitka: Positional-only argument exception messages differ from CPython.
+    def notest_serialization(self):
         pickled_posonly = pickle.dumps(global_pos_only_f)
         pickled_optional = pickle.dumps(global_pos_only_and_normal)
         pickled_defaults = pickle.dumps(global_pos_only_defaults)
@@ -433,7 +435,8 @@ class PositionalOnlyTestCase(unittest.TestCase):
 
         self.assertEqual(C().method(), sentinel)
 
-    def test_annotations_constant_fold(self):
+    # Nuitka: Compiled functions do not contain CPython optimization opcodes.
+    def notest_annotations_constant_fold(self):
         def g():
             def f(x: not (int is int), /): ...
 

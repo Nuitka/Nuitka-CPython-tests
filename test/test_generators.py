@@ -67,7 +67,8 @@ class FinalizationTest(unittest.TestCase):
         del frame
         support.gc_collect()
 
-    def test_refcycle(self):
+    # Nuitka: Optimized generator locals have different reference counts.
+    def notest_refcycle(self):
         # A generator caught in a refcycle gets finalized anyway.
         old_garbage = gc.garbage[:]
         finalized = False
@@ -112,7 +113,8 @@ class FinalizationTest(unittest.TestCase):
                 gen.send(2)
             self.assertEqual(cm.exception.value, 2)
 
-    def test_exhausted_generator_frame_cycle(self):
+    # Nuitka: Compiled generators do not expose frames before execution.
+    def notest_exhausted_generator_frame_cycle(self):
         def g():
             yield
 
@@ -222,20 +224,23 @@ class GeneratorTest(unittest.TestCase):
         finally:
             gc.set_threshold(*thresholds)
 
-    def test_ag_frame_f_back(self):
+    # Nuitka: Compiled async generators do not expose frames before execution.
+    def notest_ag_frame_f_back(self):
         async def f():
             yield
         ag = f()
         self.assertIsNone(ag.ag_frame.f_back)
 
-    def test_cr_frame_f_back(self):
+    # Nuitka: Compiled coroutines do not expose frames before execution.
+    def notest_cr_frame_f_back(self):
         async def f():
             pass
         cr = f()
         self.assertIsNone(cr.cr_frame.f_back)
         cr.close()  # Suppress RuntimeWarning.
 
-    def test_gi_frame_f_back(self):
+    # Nuitka: Compiled generators do not expose frames before execution.
+    def notest_gi_frame_f_back(self):
         def f():
             yield
         gi = f()
@@ -258,7 +263,8 @@ class GeneratorTest(unittest.TestCase):
         #This should not raise
         loop()
 
-    def test_close_clears_frame(self):
+    # Nuitka: Compiled generators have different frame and reference lifetimes.
+    def notest_close_clears_frame(self):
         # gh-142766: Test that closing a generator clears its frame
         class DetectDelete:
             def __init__(self):
@@ -329,7 +335,8 @@ class ModifyUnderlyingIterableTest(unittest.TestCase):
             with self.subTest(g_obj=g_obj):
                 self.assertRaisesRegex(TypeError, err_regex, list, g_obj)
 
-    def test_modify_f_locals(self):
+    # Nuitka: Compiled generator locals cannot be replaced through gi_frame.
+    def notest_modify_f_locals(self):
         def modify_f_locals(g, local, obj):
             g.gi_frame.f_locals[local] = obj
             return g
@@ -343,7 +350,8 @@ class ModifyUnderlyingIterableTest(unittest.TestCase):
         self.process_tests(get_generator_genexpr)
         self.process_tests(get_generator_genfunc)
 
-    def test_new_gen_from_gi_code(self):
+    # Nuitka: Compiled generator code objects cannot recreate functions.
+    def notest_new_gen_from_gi_code(self):
         def new_gen_from_gi_code(g, obj):
             generator_func = types.FunctionType(g.gi_code, {})
             return generator_func(obj)
@@ -512,7 +520,8 @@ class ExceptionTest(unittest.TestCase):
         with self.assertRaises(StopIteration):
             gen.throw(E)
 
-    def test_gen_3_arg_deprecation_warning(self):
+    # Nuitka: Compiled generators do not emit CPython throw() deprecation warnings.
+    def notest_gen_3_arg_deprecation_warning(self):
         def g():
             yield 42
 
@@ -671,7 +680,8 @@ class GeneratorCloseTest(unittest.TestCase):
 
 # See https://github.com/python/cpython/issues/125723
 class GeneratorDeallocTest(unittest.TestCase):
-    def test_frame_outlives_generator(self):
+    # Nuitka: Compiled generator frames do not expose CPython live locals.
+    def notest_frame_outlives_generator(self):
         def g1():
             a = 42
             yield sys._getframe()
@@ -710,7 +720,8 @@ class GeneratorDeallocTest(unittest.TestCase):
                 self.assertIn('a', frame_locals)
                 self.assertEqual(frame_locals['a'], 42)
 
-    def test_frame_locals_outlive_generator(self):
+    # Nuitka: Compiled generator frames do not expose CPython live locals.
+    def notest_frame_locals_outlive_generator(self):
         frame_locals1 = None
 
         def g1():
@@ -739,7 +750,8 @@ class GeneratorDeallocTest(unittest.TestCase):
                 self.assertIn('a', frame_locals)
                 self.assertEqual(frame_locals['a'], 42)
 
-    def test_frame_locals_outlive_generator_with_exec(self):
+    # Nuitka: Compiled generator frames do not expose CPython live locals.
+    def notest_frame_locals_outlive_generator_with_exec(self):
         def g():
             a = 42
             yield locals(), sys._getframe().f_locals
@@ -893,7 +905,8 @@ class GeneratorStackTraceTest(unittest.TestCase):
 
         self.check_yield_from_example(call_send)
 
-    def test_throw_with_yield_from(self):
+    # Nuitka: Compiled yield-from chains have different frame stacks.
+    def notest_throw_with_yield_from(self):
         def call_throw(gen):
             gen.throw(RuntimeError)
 

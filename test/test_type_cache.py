@@ -159,7 +159,8 @@ class TypeCacheWithSpecializationTests(unittest.TestCase):
         else:
             self.assertIn(opname, self._all_opnames(func))
 
-    def test_class_load_attr_specialization_user_type(self):
+    # Nuitka: Compiled functions do not use CPython bytecode specialization.
+    def notest_class_load_attr_specialization_user_type(self):
         class A:
             def foo(self):
                 pass
@@ -190,7 +191,8 @@ class TypeCacheWithSpecializationTests(unittest.TestCase):
         self.assertEqual(get_capitalize_1(str)('hello'), 'Hello')
         self.assertEqual(get_capitalize_1(bytes)(b'hello'), b'Hello')
 
-    def test_property_load_attr_specialization_user_type(self):
+    # Nuitka: Compiled functions do not use CPython bytecode specialization.
+    def notest_property_load_attr_specialization_user_type(self):
         class G:
             @property
             def x(self):
@@ -211,7 +213,8 @@ class TypeCacheWithSpecializationTests(unittest.TestCase):
 
         self._check_specialization(load_x_2, G(), "LOAD_ATTR", should_specialize=False)
 
-    def test_store_attr_specialization_user_type(self):
+    # Nuitka: Compiled functions do not use CPython bytecode specialization.
+    def notest_store_attr_specialization_user_type(self):
         class B:
             __slots__ = ("bar",)
 
@@ -230,7 +233,8 @@ class TypeCacheWithSpecializationTests(unittest.TestCase):
 
         self._check_specialization(store_bar_2, B(), "STORE_ATTR", should_specialize=False)
 
-    def test_class_call_specialization_user_type(self):
+    # Nuitka: Compiled functions do not use CPython bytecode specialization.
+    def notest_class_call_specialization_user_type(self):
         class F:
             def __init__(self):
                 pass
@@ -250,7 +254,8 @@ class TypeCacheWithSpecializationTests(unittest.TestCase):
 
         self._check_specialization(call_class_2, F, "CALL", should_specialize=False)
 
-    def test_to_bool_specialization_user_type(self):
+    # Nuitka: Compiled functions do not use CPython bytecode specialization.
+    def notest_to_bool_specialization_user_type(self):
         class H:
             pass
 

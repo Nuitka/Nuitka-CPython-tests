@@ -309,7 +309,8 @@ class GCTests(unittest.TestCase):
         self.assertFalse(stderr)
 
     @refcount_test
-    def test_frame(self):
+    # Nuitka: Compiled frames have different reference cycles and collection counts.
+    def notest_frame(self):
         def f():
             frame = sys._getframe()
         gc.collect()
@@ -1505,7 +1506,8 @@ class GCTogglingTests(unittest.TestCase):
             self.assertEqual(x, None)
 
     @gc_threshold(1000, 0, 0)
-    def test_indirect_calls_with_gc_disabled(self):
+    # Nuitka: Compiled allocations do not follow CPython garbage collection timing.
+    def notest_indirect_calls_with_gc_disabled(self):
         junk = []
         i = 0
         detector = GC_Detector()

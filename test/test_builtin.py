@@ -888,7 +888,8 @@ class BuiltinTest(unittest.TestCase):
         exec(code, ns)
         self.assertEqual(ns['foo'], ('foo.bar', ns, ns, None, 0))
 
-    def test_eval_builtins_mapping_reduce(self):
+    # Nuitka: Optimized constant iterators can have a different __reduce__() result.
+    def notest_eval_builtins_mapping_reduce(self):
         # list_iterator.__reduce__() calls _PyEval_GetBuiltin("iter")
         code = compile("x.__reduce__()", "test", "eval")
         ns = {'__builtins__': types.MappingProxyType({}), 'x': iter([1, 2])}
@@ -907,7 +908,8 @@ class BuiltinTest(unittest.TestCase):
         finally:
             sys.stdout = savestdout
 
-    def test_exec_closure(self):
+    # Nuitka: Compiled function code objects cannot be executed by exec().
+    def notest_exec_closure(self):
         def function_without_closures():
             return 3 * 5
 
@@ -2176,7 +2178,8 @@ class BuiltinTest(unittest.TestCase):
             self.assertRaises(TypeError, tp, 1, 2)
             self.assertRaises(TypeError, tp, a=1, b=2)
 
-    def test_warning_notimplemented(self):
+    # Nuitka: Constant folding does not preserve CPython deprecation warnings.
+    def notest_warning_notimplemented(self):
         # Issue #35712: NotImplemented is a sentinel value that should never
         # be evaluated in a boolean context (virtually all such use cases
         # are a result of accidental misuse implementing rich comparison

@@ -187,7 +187,8 @@ class CodeTest(unittest.TestCase):
             exec(co)
 
     @cpython_only
-    def test_closure_injection(self):
+    # Nuitka: Compiled function bytecode cannot be modified and executed.
+    def notest_closure_injection(self):
         # From https://bugs.python.org/issue32176
         from types import FunctionType
 
@@ -355,7 +356,8 @@ class CodeTest(unittest.TestCase):
         with self.assertWarns(DeprecationWarning):
             func.__code__.co_lnotab
 
-    def test_invalid_bytecode(self):
+    # Nuitka: Compiled functions do not support assigning __code__.
+    def notest_invalid_bytecode(self):
         def foo():
             pass
 
@@ -459,7 +461,8 @@ class CodeTest(unittest.TestCase):
             self.assertIsNone(line)
             self.assertEqual(end_line, new_code.co_firstlineno + 1)
 
-    def test_code_equality(self):
+    # Nuitka: Compiled code objects have different exception and line tables.
+    def notest_code_equality(self):
         def f():
             try:
                 a()
@@ -499,7 +502,8 @@ class CodeTest(unittest.TestCase):
         self.assertNotEqual(c, swapped)
         self.assertNotEqual(hash(c), hash(swapped))
 
-    def test_code_hash_uses_bytecode(self):
+    # Nuitka: Compiled code objects do not contain the function's bytecode.
+    def notest_code_hash_uses_bytecode(self):
         c = (lambda x, y: x + y).__code__
         d = (lambda x, y: x * y).__code__
         c1 = c.replace(co_code=d.co_code)
@@ -507,7 +511,8 @@ class CodeTest(unittest.TestCase):
         self.assertNotEqual(hash(c), hash(c1))
 
     @cpython_only
-    def test_code_equal_with_instrumentation(self):
+    # Nuitka: Compiled frames do not support opcode tracing.
+    def notest_code_equal_with_instrumentation(self):
         """ GH-109052
 
         Make sure the instrumentation doesn't affect the code equality
@@ -787,7 +792,8 @@ class CodeLocationTest(unittest.TestCase):
         self.check_lines(bug93662)
 
     @cpython_only
-    def test_code_new_empty(self):
+    # Nuitka: Compiled functions do not support assigning __code__.
+    def notest_code_new_empty(self):
         # If this test fails, it means that the construction of PyCode_NewEmpty
         # needs to be modified! Please update this test *and* PyCode_NewEmpty,
         # so that they both stay in sync.

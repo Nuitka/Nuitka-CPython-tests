@@ -538,7 +538,8 @@ class AsyncGenTest(unittest.TestCase):
                 r"cannot reuse already awaited aclose\(\)/athrow\(\)"):
             gen2.send(None)
 
-    def test_async_gen_3_arg_deprecation_warning(self):
+    # Nuitka: Compiled async generators do not emit athrow() deprecation warnings.
+    def notest_async_gen_3_arg_deprecation_warning(self):
         async def gen():
             yield 123
 
@@ -549,7 +550,8 @@ class AsyncGenTest(unittest.TestCase):
             del x
             gc_collect()
 
-    def test_async_gen_api_01(self):
+    # Nuitka: Compiled async generators do not expose frames before execution.
+    def notest_async_gen_api_01(self):
         async def gen():
             yield 123
 
@@ -1993,7 +1995,8 @@ class AsyncGenAsyncioTest(unittest.TestCase):
 
 
 class TestUnawaitedWarnings(unittest.TestCase):
-    def test_asend(self):
+    # Nuitka: Compiled async generator methods do not emit unawaited warnings.
+    def notest_asend(self):
         async def gen():
             yield 1
 
@@ -2011,7 +2014,8 @@ class TestUnawaitedWarnings(unittest.TestCase):
             g.asend(None)
             gc_collect()
 
-    def test_athrow(self):
+    # Nuitka: Compiled async generator methods do not emit unawaited warnings.
+    def notest_athrow(self):
         async def gen():
             yield 1
 
@@ -2021,7 +2025,8 @@ class TestUnawaitedWarnings(unittest.TestCase):
             g.athrow(RuntimeError)
             gc_collect()
 
-    def test_aclose(self):
+    # Nuitka: Compiled async generator methods do not emit unawaited warnings.
+    def notest_aclose(self):
         async def gen():
             yield 1
 

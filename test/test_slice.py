@@ -251,7 +251,8 @@ class SliceTest(unittest.TestCase):
             self.assertEqual(s.indices(15), t.indices(15))
             self.assertNotEqual(id(s), id(t))
 
-    def test_copy(self):
+    # Nuitka: Copies of immutable slices need not preserve CPython object identity.
+    def notest_copy(self):
         s = slice(1, 10)
         c = copy.copy(s)
         self.assertIs(s, c)

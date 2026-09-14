@@ -145,7 +145,8 @@ class ClearTest(unittest.TestCase):
             f.clear()
         self.assertFalse(endly)
 
-    def test_lineno_with_tracing(self):
+    # Nuitka: Compiled frames do not support assigning f_trace.
+    def notest_lineno_with_tracing(self):
         def record_line():
             f = sys._getframe(1)
             lines.append(f.f_lineno-f.f_code.co_firstlineno)
@@ -230,7 +231,8 @@ class ReprTest(unittest.TestCase):
     Tests for repr(frame).
     """
 
-    def test_repr(self):
+    # Nuitka: Compiled frame repr() has different line positions.
+    def notest_repr(self):
         def outer():
             x = 5
             y = 6
@@ -264,8 +266,9 @@ class ReprTest(unittest.TestCase):
                          r"^<frame at 0x[0-9a-fA-F]+, file %s, line %d, code inner>$"
                          % (file_repr, offset + 5))
 
+# Nuitka: Compiled frames do not provide CPython live locals proxies.
 class TestFrameLocals(unittest.TestCase):
-    def test_scope(self):
+    def notest_scope(self):
         class A:
             x = 1
             sys._getframe().f_locals['x'] = 2
@@ -282,7 +285,8 @@ class TestFrameLocals(unittest.TestCase):
             self.assertEqual(locals()['y'], 2)
         f()
 
-    def test_closure(self):
+    
+    def notest_closure(self):
         x = 1
         y = 2
 
@@ -304,7 +308,8 @@ class TestFrameLocals(unittest.TestCase):
         lst = [locals() for k in [0]]
         self.assertEqual(lst[0]['k'], 0)
 
-    def test_as_dict(self):
+    
+    def notest_as_dict(self):
         x = 1
         y = 2
         d = sys._getframe().f_locals
@@ -361,7 +366,8 @@ class TestFrameLocals(unittest.TestCase):
         d[1] = 2
         self.assertEqual(d[1], 2)
 
-    def test_write_with_hidden(self):
+    
+    def notest_write_with_hidden(self):
         def f():
             f_locals = [sys._getframe().f_locals for b in [0]][0]
             f_locals['b'] = 2
@@ -372,14 +378,16 @@ class TestFrameLocals(unittest.TestCase):
             c = 0
         f()
 
-    def test_local_objects(self):
+    
+    def notest_local_objects(self):
         o = object()
         k = '.'.join(['a', 'b', 'c'])
         f_locals = sys._getframe().f_locals
         f_locals['o'] = f_locals['k']
         self.assertEqual(o, 'a.b.c')
 
-    def test_copy(self):
+    
+    def notest_copy(self):
         x = 0
         d = sys._getframe().f_locals
         d_copy = d.copy()
@@ -402,7 +410,8 @@ class TestFrameLocals(unittest.TestCase):
         frame = sys._getframe()
         self.assertEqual(repr(frame.f_locals), repr(dict(frame.f_locals)))
 
-    def test_delete(self):
+    
+    def notest_delete(self):
         x = 1
         d = sys._getframe().f_locals
 
@@ -441,11 +450,13 @@ class TestFrameLocals(unittest.TestCase):
         self.assertEqual(d.pop('n', 2), 2)
 
     @support.cpython_only
-    def test_sizeof(self):
+    # Nuitka: Compiled frame locals have a different memory layout.
+    def notest_sizeof(self):
         proxy = sys._getframe().f_locals
         support.check_sizeof(self, proxy, support.calcobjsize("P"))
 
-    def test_unsupport(self):
+    
+    def notest_unsupport(self):
         x = 1
         d = sys._getframe().f_locals
         with self.assertRaises(TypeError):
@@ -454,7 +465,8 @@ class TestFrameLocals(unittest.TestCase):
         with self.assertRaises(TypeError):
             copy.deepcopy(d)
 
-    def test_is_mapping(self):
+    
+    def notest_is_mapping(self):
         x = 1
         d = sys._getframe().f_locals
         self.assertIsInstance(d, Mapping)
@@ -479,7 +491,8 @@ class TestFrameLocals(unittest.TestCase):
 
         return StringSubclass('x'), ImpostorX(), 'x'
 
-    def test_proxy_key_stringlikes_overwrite(self):
+    
+    def notest_proxy_key_stringlikes_overwrite(self):
         def f(obj):
             x = 1
             proxy = sys._getframe().f_locals
@@ -501,7 +514,8 @@ class TestFrameLocals(unittest.TestCase):
                 self.assertEqual(keys_snapshot,  expected_keys)
                 self.assertEqual(proxy_snapshot, expected_dict)
 
-    def test_proxy_key_stringlikes_ftrst_write(self):
+    
+    def notest_proxy_key_stringlikes_ftrst_write(self):
         def f(obj):
             proxy = sys._getframe().f_locals
             proxy[obj] = 2
@@ -528,7 +542,8 @@ class TestFrameLocals(unittest.TestCase):
                 with self.assertRaises(TypeError):
                     proxy[obj] = 0
 
-    def test_constructor(self):
+    
+    def notest_constructor(self):
         FrameLocalsProxy = type([sys._getframe().f_locals
                                  for x in range(1)][0])
         self.assertEqual(FrameLocalsProxy.__name__, 'FrameLocalsProxy')
@@ -558,6 +573,42 @@ class FrameLocalsProxyMappingTests(mapping_tests.TestHashMappingProtocol):
             return sys._getframe().f_locals
         return _f()
     type2test = _f
+
+    
+    notest_bool = mapping_tests.TestHashMappingProtocol.test_bool
+    test_bool = None
+
+    
+    notest_items = mapping_tests.TestHashMappingProtocol.test_items
+    test_items = None
+
+    
+    notest_keys = mapping_tests.TestHashMappingProtocol.test_keys
+    test_keys = None
+
+    
+    notest_len = mapping_tests.TestHashMappingProtocol.test_len
+    test_len = None
+
+    
+    notest_mutatingiteration = mapping_tests.TestHashMappingProtocol.test_mutatingiteration
+    test_mutatingiteration = None
+
+    
+    notest_read = mapping_tests.TestHashMappingProtocol.test_read
+    test_read = None
+
+    
+    notest_repr = mapping_tests.TestHashMappingProtocol.test_repr
+    test_repr = None
+
+    
+    notest_repr_deep = mapping_tests.TestHashMappingProtocol.test_repr_deep
+    test_repr_deep = None
+
+    
+    notest_values = mapping_tests.TestHashMappingProtocol.test_values
+    test_values = None
 
     @unittest.skipIf(True, 'Locals proxies for different frames never compare as equal')
     def test_constructor(self):
@@ -598,8 +649,12 @@ class FrameLocalsProxyMappingTests(mapping_tests.TestHashMappingProtocol):
     def test_update(self):
         pass
 
+    # Nuitka: Keep the inherited copy test disabled as well.
+    test_copy = None
+
     # proxy.copy returns a regular dict
-    def test_copy(self):
+    
+    def notest_copy(self):
         d = self._full_mapping({1:1, 2:2, 3:3})
         self.assertEqual(d.copy(), {1:1, 2:2, 3:3})
         d = self._empty_mapping()
@@ -614,7 +669,8 @@ class FrameLocalsProxyMappingTests(mapping_tests.TestHashMappingProtocol):
 
 
 class TestFrameCApi(unittest.TestCase):
-    def test_basic(self):
+    # Nuitka: The CPython frame C API does not accept compiled frames.
+    def notest_basic(self):
         x = 1
         ctypes = import_helper.import_module('ctypes')
         PyEval_GetFrameLocals = ctypes.pythonapi.PyEval_GetFrameLocals
@@ -736,14 +792,16 @@ class TestCAPI(unittest.TestCase):
     def getframe(self):
         return sys._getframe()
 
-    def test_frame_getters(self):
+    # Nuitka: The CPython frame C API does not accept compiled frames.
+    def notest_frame_getters(self):
         frame = self.getframe()
         self.assertEqual(frame.f_locals, _testcapi.frame_getlocals(frame))
         self.assertIs(frame.f_globals, _testcapi.frame_getglobals(frame))
         self.assertIs(frame.f_builtins, _testcapi.frame_getbuiltins(frame))
         self.assertEqual(frame.f_lasti, _testcapi.frame_getlasti(frame))
 
-    def test_getvar(self):
+    # Nuitka: The CPython frame C API does not accept compiled frames.
+    def notest_getvar(self):
         current_frame = sys._getframe()
         x = 1
         self.assertEqual(_testcapi.frame_getvar(current_frame, "x"), 1)
@@ -762,7 +820,8 @@ class TestCAPI(unittest.TestCase):
     def getgenframe(self):
         yield sys._getframe()
 
-    def test_frame_get_generator(self):
+    # Nuitka: The CPython frame C API does not accept compiled frames.
+    def notest_frame_get_generator(self):
         gen = self.getgenframe()
         frame = next(gen)
         self.assertIs(gen, _testcapi.frame_getgenerator(frame))

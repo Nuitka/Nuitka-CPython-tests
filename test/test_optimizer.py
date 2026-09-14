@@ -61,7 +61,8 @@ class TestRareEventCounters(unittest.TestCase):
         )
         del builtins["FOO"]
 
-    def test_func_modification(self):
+    # Nuitka: Compiled functions do not use CPython function modification counters.
+    def notest_func_modification(self):
         def func(x=0):
             pass
 

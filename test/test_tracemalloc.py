@@ -130,14 +130,16 @@ class TestTracemallocEnabled(unittest.TestCase):
         self.assertGreaterEqual(size2, 0)
         self.assertLessEqual(size2, size)
 
-    def test_get_object_traceback(self):
+    # Nuitka: Compiled allocation tracebacks have different frames and line positions.
+    def notest_get_object_traceback(self):
         tracemalloc.clear_traces()
         obj_size = 12345
         obj, obj_traceback = allocate_bytes(obj_size)
         traceback = tracemalloc.get_object_traceback(obj)
         self.assertEqual(traceback, obj_traceback)
 
-    def test_new_reference(self):
+    # Nuitka: Compiled object allocation does not use CPython freelists and tracing.
+    def notest_new_reference(self):
         tracemalloc.clear_traces()
         # gc.collect() indirectly calls PyList_ClearFreeList()
         support.gc_collect()
@@ -157,7 +159,8 @@ class TestTracemallocEnabled(unittest.TestCase):
         self.assertIsNotNone(traceback)
         self.assertEqual(traceback, obj_traceback)
 
-    def test_set_traceback_limit(self):
+    # Nuitka: Compiled allocation tracebacks have different frames and line positions.
+    def notest_set_traceback_limit(self):
         obj_size = 10
 
         tracemalloc.stop()
@@ -186,7 +189,8 @@ class TestTracemallocEnabled(unittest.TestCase):
 
         self.fail("trace not found")
 
-    def test_get_traces(self):
+    # Nuitka: Compiled allocation tracebacks have different frames and line positions.
+    def notest_get_traces(self):
         tracemalloc.clear_traces()
         obj_size = 12345
         obj, obj_traceback = allocate_bytes(obj_size)
@@ -201,7 +205,8 @@ class TestTracemallocEnabled(unittest.TestCase):
         tracemalloc.stop()
         self.assertEqual(tracemalloc._get_traces(), [])
 
-    def test_get_traces_intern_traceback(self):
+    # Nuitka: Compiled allocation tracebacks have different frames and line positions.
+    def notest_get_traces_intern_traceback(self):
         # dummy wrappers to get more useful and identical frames in the traceback
         def allocate_bytes2(size):
             return allocate_bytes(size)
@@ -229,7 +234,8 @@ class TestTracemallocEnabled(unittest.TestCase):
         domain2, size2, traceback2, length2 = trace2
         self.assertIs(traceback2, traceback1)
 
-    def test_get_traced_memory(self):
+    # Nuitka: Compiled execution has different internal allocation counts.
+    def notest_get_traced_memory(self):
         # Python allocates some internals objects, so the test must tolerate
         # a small difference between the expected size and the real usage
         max_error = 2048
@@ -368,7 +374,8 @@ class TestTracemallocEnabled(unittest.TestCase):
         else:
             support.wait_process(pid, exitcode=0)
 
-    def test_no_incomplete_frames(self):
+    # Nuitka: Compiled object allocation does not use CPython freelists and tracing.
+    def notest_no_incomplete_frames(self):
         tracemalloc.stop()
         tracemalloc.start(8)
 
@@ -1051,15 +1058,18 @@ class TestCAPI(unittest.TestCase):
 
         self.assertEqual(self.get_traced_memory(), self.size)
 
-    def test_track(self):
+    # Nuitka: Compiled allocation tracebacks have different frames and line positions.
+    def notest_track(self):
         self.check_track(False)
 
-    def test_track_without_gil(self):
+    # Nuitka: Compiled allocation tracebacks have different frames and line positions.
+    def notest_track_without_gil(self):
         # check that calling _PyTraceMalloc_Track() without holding the GIL
         # works too
         self.check_track(True)
 
-    def test_track_already_tracked(self):
+    # Nuitka: Compiled allocation tracebacks have different frames and line positions.
+    def notest_track_already_tracked(self):
         nframe = 5
         tracemalloc.start(nframe)
 

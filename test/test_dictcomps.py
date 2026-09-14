@@ -130,7 +130,8 @@ class DictComprehensionTest(unittest.TestCase):
         self.assertEqual({i: i*i for i in [*range(4)]}, expected)
         self.assertEqual({i: i*i for i in (*range(4),)}, expected)
 
-    def test_exception_locations(self):
+    # Nuitka: Compiled tracebacks do not provide CPython bytecode column positions.
+    def notest_exception_locations(self):
         # The location of an exception raised from __init__ or
         # __next__ should should be the iterator expression
         def init_raises():

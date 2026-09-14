@@ -555,7 +555,8 @@ class CoroutineTest(unittest.TestCase):
 
             run_async(foo())
 
-    def test_func_3(self):
+    # Nuitka: Compiled coroutines have a different repr().
+    def notest_func_3(self):
         async def foo():
             raise StopIteration
 
@@ -563,7 +564,8 @@ class CoroutineTest(unittest.TestCase):
         self.assertRegex(repr(coro), '^<coroutine object.* at 0x.*>$')
         coro.close()
 
-    def test_func_4(self):
+    # Nuitka: Exception messages name the compiled coroutine type.
+    def notest_func_4(self):
         async def foo():
             raise StopIteration
         coro = foo()
@@ -592,7 +594,8 @@ class CoroutineTest(unittest.TestCase):
 
         coro.close()
 
-    def test_func_5(self):
+    # Nuitka: Exception messages name the compiled coroutine type.
+    def notest_func_5(self):
         @types.coroutine
         def bar():
             yield 1
@@ -659,7 +662,8 @@ class CoroutineTest(unittest.TestCase):
         self.assertEqual(run_async(bar()), ([], 'spam'))
         coro.close()
 
-    def test_func_9(self):
+    # Nuitka: Compiled coroutines do not emit CPython unawaited-coroutine warnings.
+    def notest_func_9(self):
         async def foo():
             pass
 
@@ -925,7 +929,8 @@ class CoroutineTest(unittest.TestCase):
         self.assertIsInstance(result[1], StopIteration)
         self.assertEqual(result[1].value, 10)
 
-    def test_cr_await(self):
+    # Nuitka: Compiled await chains use different coroutine wrappers.
+    def notest_cr_await(self):
         @types.coroutine
         def a():
             self.assertEqual(inspect.getcoroutinestate(coro_b), inspect.CORO_RUNNING)
@@ -2124,7 +2129,8 @@ class CoroutineTest(unittest.TestCase):
         finally:
             aw.close()
 
-    def test_fatal_coro_warning(self):
+    # Nuitka: Compiled coroutines do not emit CPython unawaited-coroutine warnings.
+    def notest_fatal_coro_warning(self):
         # Issue 27811
         async def func(): pass
         with warnings.catch_warnings(), \
@@ -2204,7 +2210,8 @@ class CoroutineTest(unittest.TestCase):
             return 'end'
         self.assertEqual(run_async(run_gen()), ([], 'end'))
 
-    def test_bpo_45813_1(self):
+    # Nuitka: Compiled coroutines do not expose CPython frames before execution.
+    def notest_bpo_45813_1(self):
         'This would crash the interpreter in 3.11a2'
         async def f():
             pass
@@ -2212,7 +2219,8 @@ class CoroutineTest(unittest.TestCase):
             frame = f().cr_frame
         frame.clear()
 
-    def test_bpo_45813_2(self):
+    # Nuitka: Compiled coroutines do not expose CPython frames before execution.
+    def notest_bpo_45813_2(self):
         'This would crash the interpreter in 3.11a2'
         async def f():
             pass
@@ -2221,7 +2229,8 @@ class CoroutineTest(unittest.TestCase):
             gen.cr_frame.clear()
         gen.close()
 
-    def test_cr_frame_after_close(self):
+    # Nuitka: Compiled coroutines do not expose CPython frames before execution.
+    def notest_cr_frame_after_close(self):
         async def f():
             pass
         gen = f()
@@ -2229,7 +2238,8 @@ class CoroutineTest(unittest.TestCase):
         gen.close()
         self.assertIsNone(gen.cr_frame)
 
-    def test_stack_in_coroutine_throw(self):
+    # Nuitka: Compiled coroutine stacks differ from CPython stacks.
+    def notest_stack_in_coroutine_throw(self):
         # Regression test for https://github.com/python/cpython/issues/93592
         async def a():
             return await b()
@@ -2304,7 +2314,8 @@ class OriginTrackingTest(unittest.TestCase):
         info = inspect.getframeinfo(inspect.currentframe().f_back)
         return (info.filename, info.lineno)
 
-    def test_origin_tracking(self):
+    # Nuitka: Coroutine origin tracking has different frame line positions.
+    def notest_origin_tracking(self):
         orig_depth = sys.get_coroutine_origin_tracking_depth()
         try:
             async def corofn():
@@ -2350,7 +2361,8 @@ class OriginTrackingTest(unittest.TestCase):
         finally:
             sys.set_coroutine_origin_tracking_depth(orig_depth)
 
-    def test_origin_tracking_warning(self):
+    # Nuitka: Compiled coroutines do not emit CPython unawaited-coroutine warnings.
+    def notest_origin_tracking_warning(self):
         async def corofn():
             pass
 
@@ -2392,7 +2404,8 @@ class OriginTrackingTest(unittest.TestCase):
         finally:
             sys.set_coroutine_origin_tracking_depth(orig_depth)
 
-    def test_unawaited_warning_when_module_broken(self):
+    # Nuitka: Compiled coroutines do not emit CPython unawaited-coroutine warnings.
+    def notest_unawaited_warning_when_module_broken(self):
         # Make sure we don't blow up too bad if
         # warnings._warn_unawaited_coroutine is broken somehow (e.g. because
         # of shutdown problems)

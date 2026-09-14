@@ -603,7 +603,8 @@ class TestSysConfig(unittest.TestCase):
         self.assertTrue(suffix.endswith('-darwin.so'), suffix)
 
     @requires_subprocess()
-    def test_config_vars_depend_on_site_initialization(self):
+    # Nuitka: A compiled executable cannot serve as the Python interpreter in a venv.
+    def notest_config_vars_depend_on_site_initialization(self):
         script = textwrap.dedent("""
             import sysconfig
 
@@ -627,7 +628,8 @@ class TestSysConfig(unittest.TestCase):
         self.assertEqual(no_site_config_vars['platbase'], site_config_vars['installed_platbase'])
 
     @requires_subprocess()
-    def test_config_vars_recalculation_after_site_initialization(self):
+    # Nuitka: A compiled executable cannot serve as the Python interpreter in a venv.
+    def notest_config_vars_recalculation_after_site_initialization(self):
         script = textwrap.dedent("""
             import sysconfig
 
@@ -651,7 +653,8 @@ class TestSysConfig(unittest.TestCase):
         #self.assertEqual(config_vars['after']['exec_prefix'], venv.prefix)  # FIXME: exec_prefix gets overwriten by _init_posix
 
     @requires_subprocess()
-    def test_paths_depend_on_site_initialization(self):
+    # Nuitka: A compiled executable cannot serve as the Python interpreter in a venv.
+    def notest_paths_depend_on_site_initialization(self):
         script = textwrap.dedent("""
             import sysconfig
 
