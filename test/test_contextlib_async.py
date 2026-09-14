@@ -120,7 +120,8 @@ class AsyncContextManagerTestCase(unittest.IsolatedAsyncioTestCase):
                 raise ZeroDivisionError()
         self.assertEqual(state, [1, 42, 999])
 
-    async def test_contextmanager_traceback(self):
+    # Nuitka: Compiled async context managers have different traceback frames.
+    async def notest_contextmanager_traceback(self):
         @asynccontextmanager
         async def f():
             yield
@@ -493,6 +494,10 @@ class AclosingTestCase(unittest.IsolatedAsyncioTestCase):
 
 
 class TestAsyncExitStack(TestBaseExitStack, unittest.IsolatedAsyncioTestCase):
+    # Nuitka: Compiled async exit stacks have different traceback frames.
+    notest_exit_exception_traceback = TestBaseExitStack.test_exit_exception_traceback
+    test_exit_exception_traceback = None
+
     class SyncAsyncExitStack(AsyncExitStack):
         @staticmethod
         def run_coroutine(coro):

@@ -76,7 +76,8 @@ class TestGetStackTrace(unittest.TestCase):
 
     @unittest.skipIf(sys.platform != "darwin" and sys.platform != "linux", "Test only runs on Linux and MacOS")
     @unittest.skipIf(sys.platform == "linux" and not PROCESS_VM_READV_SUPPORTED, "Test only runs on Linux with process_vm_readv support")
-    def test_self_trace(self):
+    # Nuitka: CPython external stack inspection cannot inspect compiled frames.
+    def notest_self_trace(self):
         stack_trace = get_stack_trace(os.getpid())
         self.assertEqual(stack_trace[0], "test_self_trace")
 

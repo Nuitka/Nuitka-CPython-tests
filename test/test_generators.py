@@ -67,7 +67,8 @@ class FinalizationTest(unittest.TestCase):
         del frame
         support.gc_collect()
 
-    def test_refcycle(self):
+    # Nuitka: Optimized generator locals have different reference counts.
+    def notest_refcycle(self):
         # A generator caught in a refcycle gets finalized anyway.
         old_garbage = gc.garbage[:]
         finalized = False
@@ -210,20 +211,23 @@ class GeneratorTest(unittest.TestCase):
         finally:
             gc.set_threshold(*thresholds)
 
-    def test_ag_frame_f_back(self):
+    # Nuitka: Compiled async generators do not expose frames before execution.
+    def notest_ag_frame_f_back(self):
         async def f():
             yield
         ag = f()
         self.assertIsNone(ag.ag_frame.f_back)
 
-    def test_cr_frame_f_back(self):
+    # Nuitka: Compiled coroutines do not expose frames before execution.
+    def notest_cr_frame_f_back(self):
         async def f():
             pass
         cr = f()
         self.assertIsNone(cr.cr_frame.f_back)
         cr.close()  # Suppress RuntimeWarning.
 
-    def test_gi_frame_f_back(self):
+    # Nuitka: Compiled generators do not expose frames before execution.
+    def notest_gi_frame_f_back(self):
         def f():
             yield
         gi = f()
@@ -400,7 +404,8 @@ class ExceptionTest(unittest.TestCase):
         with self.assertRaises(StopIteration):
             gen.throw(E)
 
-    def test_gen_3_arg_deprecation_warning(self):
+    # Nuitka: Compiled generators do not emit CPython throw() deprecation warnings.
+    def notest_gen_3_arg_deprecation_warning(self):
         def g():
             yield 42
 
@@ -698,7 +703,8 @@ class GeneratorStackTraceTest(unittest.TestCase):
 
         self.check_yield_from_example(call_send)
 
-    def test_throw_with_yield_from(self):
+    # Nuitka: Compiled yield-from chains have different frame stacks.
+    def notest_throw_with_yield_from(self):
         def call_throw(gen):
             gen.throw(RuntimeError)
 

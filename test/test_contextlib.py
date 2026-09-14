@@ -99,7 +99,8 @@ class ContextManagerTestCase(unittest.TestCase):
                 raise ZeroDivisionError()
         self.assertEqual(state, [1, 42, 999])
 
-    def test_contextmanager_traceback(self):
+    # Nuitka: Compiled context managers can have different traceback frames.
+    def notest_contextmanager_traceback(self):
         @contextmanager
         def f():
             yield

@@ -784,7 +784,8 @@ def _test_gen():
 
 class TestOneTrickPonyABCs(ABCTestCase):
 
-    def test_Awaitable(self):
+    # Nuitka: Compiled iterable coroutines use wrappers with an __await__ method.
+    def notest_Awaitable(self):
         def gen():
             yield
 
@@ -836,7 +837,8 @@ class TestOneTrickPonyABCs(ABCTestCase):
         CoroLike = None
         support.gc_collect() # Kill CoroLike to clean-up ABCMeta cache
 
-    def test_Coroutine(self):
+    # Nuitka: Compiled iterable coroutines use wrappers with an __await__ method.
+    def notest_Coroutine(self):
         def gen():
             yield
 

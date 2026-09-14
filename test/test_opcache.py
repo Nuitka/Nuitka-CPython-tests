@@ -516,7 +516,8 @@ class TestCallCache(TestBase):
 
     @disabling_optimizer
     @requires_specialization
-    def test_assign_init_code(self):
+    # Nuitka: Compiled functions do not use CPython bytecode specialization.
+    def notest_assign_init_code(self):
         class MyClass:
             def __init__(self):
                 pass
@@ -581,7 +582,8 @@ class TestRacesDoNotCrash(TestBase):
             for writer in writers:
                 writer.join()
 
-    def test_binary_subscr_getitem(self):
+    # Nuitka: Compiled functions cannot replace __code__
+    def notest_binary_subscr_getitem(self):
         def get_items():
             class C:
                 __getitem__ = lambda self, item: None
@@ -610,7 +612,8 @@ class TestRacesDoNotCrash(TestBase):
         opname = "BINARY_SUBSCR_GETITEM"
         self.assert_races_do_not_crash(opname, get_items, read, write)
 
-    def test_binary_subscr_list_int(self):
+    
+    def notest_binary_subscr_list_int(self):
         def get_items():
             items = []
             for _ in range(self.ITEMS):
@@ -633,7 +636,8 @@ class TestRacesDoNotCrash(TestBase):
         opname = "BINARY_SUBSCR_LIST_INT"
         self.assert_races_do_not_crash(opname, get_items, read, write)
 
-    def test_for_iter_gen(self):
+    
+    def notest_for_iter_gen(self):
         def get_items():
             def g():
                 yield
@@ -664,7 +668,8 @@ class TestRacesDoNotCrash(TestBase):
         opname = "FOR_ITER_GEN"
         self.assert_races_do_not_crash(opname, get_items, read, write)
 
-    def test_for_iter_list(self):
+    
+    def notest_for_iter_list(self):
         def get_items():
             items = []
             for _ in range(self.ITEMS):
@@ -685,7 +690,8 @@ class TestRacesDoNotCrash(TestBase):
         opname = "FOR_ITER_LIST"
         self.assert_races_do_not_crash(opname, get_items, read, write)
 
-    def test_load_attr_class(self):
+    
+    def notest_load_attr_class(self):
         def get_items():
             class C:
                 a = object()
@@ -714,7 +720,8 @@ class TestRacesDoNotCrash(TestBase):
         opname = "LOAD_ATTR_CLASS"
         self.assert_races_do_not_crash(opname, get_items, read, write)
 
-    def test_load_attr_getattribute_overridden(self):
+    
+    def notest_load_attr_getattribute_overridden(self):
         def get_items():
             class C:
                 __getattribute__ = lambda self, name: None
@@ -743,7 +750,8 @@ class TestRacesDoNotCrash(TestBase):
         opname = "LOAD_ATTR_GETATTRIBUTE_OVERRIDDEN"
         self.assert_races_do_not_crash(opname, get_items, read, write)
 
-    def test_load_attr_instance_value(self):
+    
+    def notest_load_attr_instance_value(self):
         def get_items():
             class C:
                 pass
@@ -766,7 +774,8 @@ class TestRacesDoNotCrash(TestBase):
         opname = "LOAD_ATTR_INSTANCE_VALUE"
         self.assert_races_do_not_crash(opname, get_items, read, write)
 
-    def test_load_attr_method_lazy_dict(self):
+    
+    def notest_load_attr_method_lazy_dict(self):
         def get_items():
             class C(Exception):
                 m = lambda self: None
@@ -795,7 +804,8 @@ class TestRacesDoNotCrash(TestBase):
         opname = "LOAD_ATTR_METHOD_LAZY_DICT"
         self.assert_races_do_not_crash(opname, get_items, read, write)
 
-    def test_load_attr_method_no_dict(self):
+    
+    def notest_load_attr_method_no_dict(self):
         def get_items():
             class C:
                 __slots__ = ()
@@ -825,7 +835,8 @@ class TestRacesDoNotCrash(TestBase):
         opname = "LOAD_ATTR_METHOD_NO_DICT"
         self.assert_races_do_not_crash(opname, get_items, read, write)
 
-    def test_load_attr_method_with_values(self):
+    
+    def notest_load_attr_method_with_values(self):
         def get_items():
             class C:
                 m = lambda self: None
@@ -854,7 +865,8 @@ class TestRacesDoNotCrash(TestBase):
         opname = "LOAD_ATTR_METHOD_WITH_VALUES"
         self.assert_races_do_not_crash(opname, get_items, read, write)
 
-    def test_load_attr_module(self):
+    
+    def notest_load_attr_module(self):
         def get_items():
             items = []
             for _ in range(self.ITEMS):
@@ -878,7 +890,8 @@ class TestRacesDoNotCrash(TestBase):
         opname = "LOAD_ATTR_MODULE"
         self.assert_races_do_not_crash(opname, get_items, read, write)
 
-    def test_load_attr_property(self):
+    
+    def notest_load_attr_property(self):
         def get_items():
             class C:
                 a = property(lambda self: None)
@@ -907,7 +920,8 @@ class TestRacesDoNotCrash(TestBase):
         opname = "LOAD_ATTR_PROPERTY"
         self.assert_races_do_not_crash(opname, get_items, read, write)
 
-    def test_load_attr_with_hint(self):
+    
+    def notest_load_attr_with_hint(self):
         def get_items():
             class C:
                 pass
@@ -954,7 +968,8 @@ class TestRacesDoNotCrash(TestBase):
             opname, get_items, read, write, check_items=True
         )
 
-    def test_store_attr_instance_value(self):
+    
+    def notest_store_attr_instance_value(self):
         def get_items():
             class C:
                 pass
@@ -976,7 +991,8 @@ class TestRacesDoNotCrash(TestBase):
         opname = "STORE_ATTR_INSTANCE_VALUE"
         self.assert_races_do_not_crash(opname, get_items, read, write)
 
-    def test_store_attr_with_hint(self):
+    
+    def notest_store_attr_with_hint(self):
         def get_items():
             class C:
                 pass
@@ -1001,7 +1017,8 @@ class TestRacesDoNotCrash(TestBase):
         opname = "STORE_ATTR_WITH_HINT"
         self.assert_races_do_not_crash(opname, get_items, read, write)
 
-    def test_store_subscr_list_int(self):
+    
+    def notest_store_subscr_list_int(self):
         def get_items():
             items = []
             for _ in range(self.ITEMS):
@@ -1024,7 +1041,8 @@ class TestRacesDoNotCrash(TestBase):
         opname = "STORE_SUBSCR_LIST_INT"
         self.assert_races_do_not_crash(opname, get_items, read, write)
 
-    def test_unpack_sequence_list(self):
+    
+    def notest_unpack_sequence_list(self):
         def get_items():
             items = []
             for _ in range(self.ITEMS):

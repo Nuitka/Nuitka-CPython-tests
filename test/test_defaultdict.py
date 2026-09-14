@@ -125,7 +125,8 @@ class TestDefaultDict(unittest.TestCase):
         else:
             self.fail("expected KeyError")
 
-    def test_recursive_repr(self):
+    # Nuitka: Compiled bound methods have a different repr().
+    def notest_recursive_repr(self):
         # Issue2045: stack overflow when default_factory is a bound method
         class sub(defaultdict):
             def __init__(self):
