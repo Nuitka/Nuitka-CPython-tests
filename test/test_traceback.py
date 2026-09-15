@@ -2409,7 +2409,8 @@ class MiscTracebackCases(unittest.TestCase):
 
         # Initial assertion: there's one local in the inner frame.
         inner_frame = tb.tb_next.tb_next.tb_next.tb_frame
-        self.assertEqual(len(inner_frame.f_locals), 1)
+        # Nuitka: We don't make frame locals accessible like this.
+        # self.assertEqual(len(inner_frame.f_locals), 1)
 
         # Clear traceback frames
         traceback.clear_frames(tb)
