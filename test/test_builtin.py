@@ -1529,7 +1529,10 @@ class BuiltinTest(unittest.TestCase):
             sys.stdout = savestdout
             fp.close()
 
-    @unittest.skipIf(sys.version_info < (3, 13), "Causes segfault on CPython < 3.13")
+    @unittest.skipIf(
+        sys.version_info < (3, 13, 3),
+        "Causes segfault on CPython < 3.13.3 (gh-130163)",
+    )
     def test_input_gh130163(self):
         class X(io.StringIO):
             def __getattribute__(self, name):
