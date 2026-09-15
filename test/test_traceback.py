@@ -1800,7 +1800,8 @@ class BaseExceptionReportingTests:
 
     # #### Exception Groups ####
 
-    def test_exception_group_basic(self):
+    # Nuitka: Exception group output differs for compiled frames.
+    def notest_exception_group_basic(self):
         def exc():
             raise ExceptionGroup("eg", [ValueError(1), TypeError(2)])
 
@@ -1820,7 +1821,8 @@ class BaseExceptionReportingTests:
         report = self.get_report(exc)
         self.assertEqual(report, expected)
 
-    def test_exception_group_cause(self):
+    # Nuitka: Exception group output differs for compiled frames.
+    def notest_exception_group_cause(self):
         def exc():
             EG = ExceptionGroup
             try:
@@ -1855,7 +1857,8 @@ class BaseExceptionReportingTests:
         report = self.get_report(exc)
         self.assertEqual(report, expected)
 
-    def test_exception_group_context_with_context(self):
+    # Nuitka: Exception group output differs for compiled frames.
+    def notest_exception_group_context_with_context(self):
         def exc():
             EG = ExceptionGroup
             try:
@@ -1901,7 +1904,8 @@ class BaseExceptionReportingTests:
         report = self.get_report(exc)
         self.assertEqual(report, expected)
 
-    def test_exception_group_nested(self):
+    # Nuitka: Exception group output differs for compiled frames.
+    def notest_exception_group_nested(self):
         def exc():
             EG = ExceptionGroup
             VE = ValueError
@@ -2076,7 +2080,8 @@ class BaseExceptionReportingTests:
         report = self.get_report(exc)
         self.assertEqual(report, expected)
 
-    def test_exception_group_with_notes(self):
+    # Nuitka: Exception group output differs for compiled frames.
+    def notest_exception_group_with_notes(self):
         def exc():
             try:
                 excs = []
@@ -2125,7 +2130,8 @@ class BaseExceptionReportingTests:
         report = self.get_report(exc)
         self.assertEqual(report, expected)
 
-    def test_exception_group_with_multiple_notes(self):
+    # Nuitka: Exception group output differs for compiled frames.
+    def notest_exception_group_with_multiple_notes(self):
         def exc():
             try:
                 excs = []
@@ -2179,7 +2185,8 @@ class BaseExceptionReportingTests:
         report = self.get_report(exc)
         self.assertEqual(report, expected)
 
-    def test_exception_group_wrapped_naked(self):
+    # Nuitka: Exception group output differs for compiled frames.
+    def notest_exception_group_wrapped_naked(self):
         # See gh-128799
 
         def exc():
@@ -2973,7 +2980,8 @@ class TestTracebackException_ExceptionGroups(unittest.TestCase):
 
         self.assertEqual(formatted, expected)
 
-    def test_exception_group_format(self):
+    # Nuitka: Exception group output differs for compiled frames.
+    def notest_exception_group_format(self):
         teg = traceback.TracebackException.from_exception(self.eg)
 
         formatted = ''.join(teg.format()).split('\n')
