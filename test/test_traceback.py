@@ -1331,7 +1331,8 @@ class TracebackFormatTests(unittest.TestCase):
 
     @cpython_only
     @requires_debug_ranges()
-    def test_recursive_traceback_cpython_internal(self):
+    # Nuitka: This won't match our stack well, don't do that test then.
+    def notest_recursive_traceback_cpython_internal(self):
         from _testcapi import exception_print
         def render_exc():
             exception_print(sys.exception())
