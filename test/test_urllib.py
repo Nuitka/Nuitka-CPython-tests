@@ -723,6 +723,12 @@ class urlretrieve_FileTests(unittest.TestCase):
             filePath.encode("utf-8")
         except UnicodeEncodeError:
             raise unittest.SkipTest("filePath is not encodable to utf8")
+        # On Python 3.14, 'pathname2url' adds the scheme itself, and prefixing
+        # an additional one creates an URL that is interpreted as a UNC path,
+        # making the tests fail with random temporary file names in the
+        # exception messages.
+        if sys.version_info >= (3, 14):
+            return urllib.request.pathname2url(filePath, add_scheme=True)
         return "file://%s" % urllib.request.pathname2url(filePath)
 
     def createNewTempFile(self, data=b""):
