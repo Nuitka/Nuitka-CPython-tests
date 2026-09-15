@@ -2211,7 +2211,9 @@ class BaseExceptionReportingTests:
         report = self.get_report(exc)
         self.assertEqual(report, expected)
 
-    def test_KeyboardInterrupt_at_first_line_of_frame(self):
+    # Nuitka: TracebackType() doesn't work because we provide a compiled
+    # traceback instead of a "normal" traceback.
+    def notest_KeyboardInterrupt_at_first_line_of_frame(self):
         # see GH-93249
         def f():
             return sys._getframe()
