@@ -536,7 +536,9 @@ class AsyncGenTest(unittest.TestCase):
                 r"cannot reuse already awaited aclose\(\)/athrow\(\)"):
             gen2.send(None)
 
-    def test_async_gen_3_arg_deprecation_warning(self):
+    # Nuitka: We do not implement deprecation warnings for the 3 arg athrow()
+    # signature.
+    def notest_async_gen_3_arg_deprecation_warning(self):
         async def gen():
             yield 123
 
@@ -562,7 +564,8 @@ class AsyncGenTest(unittest.TestCase):
         self.assertEqual(g.__qualname__, '123')
 
         self.assertIsNone(g.ag_await)
-        self.assertIsInstance(g.ag_frame, types.FrameType)
+        # Nuitka: We only have a frame if started, no earlier.
+        # self.assertIsInstance(g.ag_frame, types.FrameType)
         self.assertFalse(g.ag_running)
         self.assertIsInstance(g.ag_code, types.CodeType)
 
