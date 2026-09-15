@@ -1733,7 +1733,10 @@ class SizeofTest(unittest.TestCase):
         check(S(), set(), '3P')
         class FS(frozenset):
             __slots__ = 'a', 'b', 'c'
-        check(FS(), frozenset(), '3P')
+        # Nuitka: Our frozenset() constant is shared and not GC tracked, while
+        # CPython makes a new and tracked object for it, so the size check
+        # depending on tracking does not fit.
+        # check(FS(), frozenset(), '3P')
         from collections import OrderedDict
         class OD(OrderedDict):
             __slots__ = 'a', 'b', 'c'
