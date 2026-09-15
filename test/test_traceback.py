@@ -3650,6 +3650,7 @@ class SuggestionFormattingTestBase:
 
 
 
+@unittest.skip("Nuitka: Name error suggestions are not implemented.")
 class PurePythonSuggestionFormattingTests(
     PurePythonExceptionFormattingMixin,
     SuggestionFormattingTestBase,
@@ -3661,6 +3662,7 @@ class PurePythonSuggestionFormattingTests(
     """
 
 
+@unittest.skip("Nuitka: Name error suggestions are not implemented.")
 @cpython_only
 class CPythonSuggestionFormattingTests(
     CAPIExceptionFormattingMixin,
