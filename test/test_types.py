@@ -2269,7 +2269,9 @@ class SubinterpreterTests(unittest.TestCase):
 
     @cpython_only
     @no_rerun('channels (and queues) might have a refleak; see gh-122199')
-    def test_static_types_inherited_slots(self):
+    # Nuitka: We patch type comparison, which makes a subinterpreter create
+    # its own slot wrappers for "type", differing from the main interpreter.
+    def notest_static_types_inherited_slots(self):
         rch, sch = interpreters.create_channel()
 
         slots = []
