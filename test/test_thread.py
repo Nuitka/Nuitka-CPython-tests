@@ -19,7 +19,9 @@ _print_mutex = thread.allocate_lock()
 
 def verbose_print(arg):
     """Helper function for printing out debugging output."""
-    if support.verbose:
+    # Nuitka: Verbosity makes the output non-deterministic, which doesn't work
+    # with our output comparison.
+    if support.verbose and False:
         with _print_mutex:
             print(arg)
 
