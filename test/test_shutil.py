@@ -2770,6 +2770,8 @@ class TestMove(BaseTest, unittest.TestCase):
         finally:
             os_helper.rmtree(TESTFN)
 
+    # Nuitka: This fails on both CPython and Nuitka, but the error message
+    # contains a non-deterministic tempfile path, breaking output comparison.
     @os_helper.skip_unless_symlink
     @mock_rename
     def test_move_file_symlink(self):
