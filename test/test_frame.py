@@ -1,3 +1,5 @@
+# nuitka-project: --experimental=force-locals-frame-proxy
+
 import re
 import sys
 import types

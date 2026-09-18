@@ -1,3 +1,5 @@
+# nuitka-project: --experimental=force-locals-frame-proxy
+
 # Copyright 2007 Google, Inc. All Rights Reserved.
 # Licensed to PSF under a Contributor Agreement.
 
