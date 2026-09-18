@@ -1,3 +1,5 @@
+# nuitka-project: --experimental=force-locals-frame-proxy
+
 """Test cases for traceback module"""
 
 from collections import namedtuple
