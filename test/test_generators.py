@@ -1,3 +1,5 @@
+# nuitka-project: --experimental=force-locals-frame-proxy
+
 import copy
 import gc
 import pickle
