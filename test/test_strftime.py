@@ -9,6 +9,10 @@ from test import support
 import time
 import unittest
 
+# Nuitka: The verbose output is non-deterministic, which breaks our output
+# comparison.
+def print(*args, **kwargs):
+    pass
 
 # helper functions
 def fixasctime(s):
