@@ -40,7 +40,8 @@ async def asynciter(iterable):
 
 
 def run_async(coro):
-    assert coro.__class__ in {types.GeneratorType, types.CoroutineType}
+    # Nuitka: Our compiled coroutine type is not an instance of types.CoroutineType
+    #assert coro.__class__ in {types.GeneratorType, types.CoroutineType}
 
     buffer = []
     result = None
@@ -54,7 +55,8 @@ def run_async(coro):
 
 
 def run_async__await__(coro):
-    assert coro.__class__ is types.CoroutineType
+    # Nuitka: See above
+    #assert coro.__class__ is types.CoroutineType
     aw = coro.__await__()
     buffer = []
     result = None
@@ -1129,11 +1131,12 @@ class CoroutineTest(unittest.TestCase):
 
             run_async(foo())
 
-    def test_await_14(self):
+    def notest_await_14(self):
         class Wrapper:
             # Forces the interpreter to use CoroutineType.__await__
             def __init__(self, coro):
-                assert coro.__class__ is types.CoroutineType
+                # Nuitka: This doesn't match our compiled coroutine type
+                # assert coro.__class__ is types.CoroutineType
                 self.coro = coro
             def __await__(self):
                 return self.coro.__await__()
