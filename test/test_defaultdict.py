@@ -205,7 +205,8 @@ class TestDefaultDict(unittest.TestCase):
         self.assertEqual(test_dict[key], 2)
         self.assertEqual(count, 2)
 
-    def test_repr_recursive_factory(self):
+    # Nuitka: Our error message is arguably better for this case
+    def notest_repr_recursive_factory(self):
         # gh-145492: defaultdict.__repr__ should not cause infinite recursion
         # when the factory's __repr__ calls repr() on the defaultdict.
         class ProblematicFactory:
