@@ -1849,6 +1849,14 @@ class TestPatma(unittest.TestCase):
         self.assertEqual(whereis(Point(1, 0)), 0)
         self.assertIs(whereis(Point(0, 0)), None)
 
+    def test_patma_179(self):
+        def whereis(point):
+            match point:
+                case Point(1, y=var):
+                    return var
+        self.assertEqual(whereis(Point(1, 0)), 0)
+        self.assertIs(whereis(Point(0, 0)), None)
+
     def test_patma_180(self):
         def whereis(point):
             match point:
@@ -2119,6 +2127,19 @@ class TestPatma(unittest.TestCase):
 
 
 
+    def test_patma_201(self):
+        class Class:
+            __match_args__ = ("a", "b")
+        c = Class()
+        c.a = 0
+        c.b = 1
+        match c:
+            case Class(x, b=y):
+                z = 0
+        self.assertIs(x, c.a)
+        self.assertIs(y, c.b)
+        self.assertEqual(z, 0)
+
     def test_patma_202(self):
         class Parent:
             __match_args__ = "a", "b"
@@ -2134,6 +2155,21 @@ class TestPatma(unittest.TestCase):
         self.assertIs(y, c.b)
         self.assertEqual(z, 0)
 
+
+    def test_patma_203(self):
+        class Parent:
+            __match_args__ = ("a", "b")
+        class Child(Parent):
+            __match_args__ = "c", "d"
+        c = Child()
+        c.a = 0
+        c.b = 1
+        match c:
+            case Parent(x, b=y):
+                z = 0
+        self.assertIs(x, c.a)
+        self.assertIs(y, c.b)
+        self.assertEqual(z, 0)
 
     def test_patma_204(self):
         def f(w):
@@ -2240,6 +2276,15 @@ class TestPatma(unittest.TestCase):
         self.assertIs(f(({"x": "x", "y": "y"})), None)
 
 
+    def test_patma_212(self):
+        def f(w):
+            match w:
+                case Point(int(xx), y="hello"):
+                    out = locals()
+                    del out["w"]
+                    return out
+        self.assertEqual(f(Point(42, "hello")), {"xx": 42})
+
     def test_patma_213(self):
         def f(w):
             match w:
@@ -2293,6 +2338,13 @@ class TestPatma(unittest.TestCase):
                 case {"k": a, "l": b}:
                     return locals()
         self.assertEqual(set(f()), {"a", "b"})
+
+    def test_patma_220(self):
+        def f():
+            match Point(..., ...):
+                case Point(x, y=y):
+                    return locals()
+        self.assertEqual(set(f()), {"x", "y"})
 
     def test_patma_221(self):
         def f():
@@ -2928,6 +2980,20 @@ class TestTypeErrors(unittest.TestCase):
         self.assertIs(z, None)
 
 
+    def test_got_multiple_subpatterns_for_attribute_1(self):
+        class Class:
+            __match_args__ = ("a",)
+            a = None
+        x = Class()
+        w = y = z = None
+        with self.assertRaises(TypeError):
+            match x:
+                case Class(y, a=z):
+                    w = 0
+        self.assertIs(w, None)
+        self.assertIs(y, None)
+        self.assertIs(z, None)
+
     def test_match_args_elements_must_be_strings(self):
         class Class:
             __match_args__ = (None,)
@@ -2982,9 +3048,7 @@ class TestTypeErrors(unittest.TestCase):
 
 class TestValueErrors(unittest.TestCase):
 
-    # Nuitka: We don't do that check and just give a result, not currently foreseen to
-    # be implemented.
-    def notest_mapping_pattern_checks_duplicate_key_1(self):
+    def test_mapping_pattern_checks_duplicate_key_1(self):
         class Keys:
             KEY = "a"
         x = {"a": 0, "b": 1}
@@ -3019,7 +3083,9 @@ class TestTracing(unittest.TestCase):
             sys.settrace(old_trace)
         return actual_linenos
 
-    def test_default_wildcard(self):
+    # Nuitka: Compiled frames do not emit "f_trace" line events, so line
+    # numbers cannot be traced.
+    def notest_default_wildcard(self):
         def f(command):                                         # 0
             match command.split():                              # 1
                 case ["go", direction] if direction in "nesw":  # 2
@@ -3029,12 +3095,13 @@ class TestTracing(unittest.TestCase):
                 case _:                                         # 6
                     return "default"                            # 7
 
-        # Nuitka: Cannot trace line numbers
-        (self._trace(f, "go n"), [1, 2, 3])
-        (self._trace(f, "go x"), [1, 2, 4, 5])
-        (self._trace(f, "spam"), [1, 2, 4, 6, 7])
+        self.assertListEqual(self._trace(f, "go n"), [1, 2, 3])
+        self.assertListEqual(self._trace(f, "go x"), [1, 2, 4, 5])
+        self.assertListEqual(self._trace(f, "spam"), [1, 2, 4, 6, 7])
 
-    def test_default_capture(self):
+    # Nuitka: Compiled frames do not emit "f_trace" line events, so line
+    # numbers cannot be traced.
+    def notest_default_capture(self):
         def f(command):                                         # 0
             match command.split():                              # 1
                 case ["go", direction] if direction in "nesw":  # 2
@@ -3044,13 +3111,13 @@ class TestTracing(unittest.TestCase):
                 case x:                                         # 6
                     return x                                    # 7
 
-        # Nuitka: Cannot trace line numbers
-        (self._trace(f, "go n"), [1, 2, 3])
-        (self._trace(f, "go x"), [1, 2, 4, 5])
-        (self._trace(f, "spam"), [1, 2, 4, 6, 7])
+        self.assertListEqual(self._trace(f, "go n"), [1, 2, 3])
+        self.assertListEqual(self._trace(f, "go x"), [1, 2, 4, 5])
+        self.assertListEqual(self._trace(f, "spam"), [1, 2, 4, 6, 7])
 
-
-    def test_no_default(self):
+    # Nuitka: Compiled frames do not emit "f_trace" line events, so line
+    # numbers cannot be traced.
+    def notest_no_default(self):
         def f(command):                                         # 0
             match command.split():                              # 1
                 case ["go", direction] if direction in "nesw":  # 2
@@ -3058,32 +3125,33 @@ class TestTracing(unittest.TestCase):
                 case ["go", _]:                                 # 4
                     return "no go"                              # 5
 
-        # Nuitka: Cannot trace line numbers
-        (self._trace(f, "go n"), [1, 2, 3])
-        (self._trace(f, "go x"), [1, 2, 4, 5])
-        (self._trace(f, "spam"), [1, 2, 4])
+        self.assertListEqual(self._trace(f, "go n"), [1, 2, 3])
+        self.assertListEqual(self._trace(f, "go x"), [1, 2, 4, 5])
+        self.assertListEqual(self._trace(f, "spam"), [1, 2, 4])
 
-    def test_only_default_wildcard(self):
+    # Nuitka: Compiled frames do not emit "f_trace" line events, so line
+    # numbers cannot be traced.
+    def notest_only_default_wildcard(self):
         def f(command):               # 0
             match command.split():    # 1
                 case _:               # 2
                     return "default"  # 3
 
-        # Nuitka: Cannot trace line numbers
-        (self._trace(f, "go n"), [1, 2, 3])
-        (self._trace(f, "go x"), [1, 2, 3])
-        (self._trace(f, "spam"), [1, 2, 3])
+        self.assertListEqual(self._trace(f, "go n"), [1, 2, 3])
+        self.assertListEqual(self._trace(f, "go x"), [1, 2, 3])
+        self.assertListEqual(self._trace(f, "spam"), [1, 2, 3])
 
-    def test_only_default_capture(self):
+    # Nuitka: Compiled frames do not emit "f_trace" line events, so line
+    # numbers cannot be traced.
+    def notest_only_default_capture(self):
         def f(command):             # 0
             match command.split():  # 1
                 case x:             # 2
                     return x        # 3
 
-        # Nuitka: Cannot trace line numbers
-        (self._trace(f, "go n"), [1, 2, 3])
-        (self._trace(f, "go x"), [1, 2, 3])
-        (self._trace(f, "spam"), [1, 2, 3])
+        self.assertListEqual(self._trace(f, "go n"), [1, 2, 3])
+        self.assertListEqual(self._trace(f, "go x"), [1, 2, 3])
+        self.assertListEqual(self._trace(f, "spam"), [1, 2, 3])
 
 
 if __name__ == "__main__":
