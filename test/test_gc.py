@@ -1393,7 +1393,8 @@ class GCTogglingTests(unittest.TestCase):
             # empty __dict__.
             self.assertEqual(x, None)
 
-    def test_indirect_calls_with_gc_disabled(self):
+    # Nuitka: Compiled allocations do not follow CPython garbage collection timing.
+    def notest_indirect_calls_with_gc_disabled(self):
         junk = []
         i = 0
         detector = GC_Detector()
