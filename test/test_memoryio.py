@@ -737,7 +737,9 @@ class CBytesIOTest(PyBytesIOTest):
         check = self.check_sizeof
         self.assertEqual(object.__sizeof__(io.BytesIO()), basesize)
         check(io.BytesIO(), basesize )
-        check(io.BytesIO(b'a' * 1000), basesize + sys.getsizeof(b'a' * 1000))
+        # Nuitka: We constant fold this, and then the bytes value is shared
+        # and not included in the size, so this check fails.
+        # check(io.BytesIO(b'a' * 1000), basesize + sys.getsizeof(b'a' * 1000))
 
     # Various tests of copy-on-write behaviour for BytesIO.
 
@@ -746,7 +748,12 @@ class CBytesIOTest(PyBytesIOTest):
         imm = b' ' * 1024
         old_rc = sys.getrefcount(imm)
         memio = self.ioclass(imm)
-        self.assertEqual(sys.getrefcount(imm), old_rc + 1)
+        new_rc = sys.getrefcount(imm)
+        # Nuitka: Compiled constants are immortal with 3.12+, and then the
+        # reference count does not change, which this test is about.
+        if old_rc == new_rc:
+            return
+        self.assertEqual(new_rc, old_rc + 1)
         mutation(memio)
         self.assertEqual(sys.getrefcount(imm), old_rc)
 
