@@ -3091,7 +3091,9 @@ class TestTracing(unittest.TestCase):
             sys.settrace(old_trace)
         return actual_linenos
 
-    def test_default_wildcard(self):
+    # Nuitka: Compiled frames do not emit "f_trace" line events, so line
+    # numbers cannot be traced.
+    def notest_default_wildcard(self):
         def f(command):                                         # 0
             match command.split():                              # 1
                 case ["go", direction] if direction in "nesw":  # 2
@@ -3105,7 +3107,9 @@ class TestTracing(unittest.TestCase):
         self.assertListEqual(self._trace(f, "go x"), [1, 2, 4, 5])
         self.assertListEqual(self._trace(f, "spam"), [1, 2, 4, 6, 7])
 
-    def test_default_capture(self):
+    # Nuitka: Compiled frames do not emit "f_trace" line events, so line
+    # numbers cannot be traced.
+    def notest_default_capture(self):
         def f(command):                                         # 0
             match command.split():                              # 1
                 case ["go", direction] if direction in "nesw":  # 2
@@ -3119,7 +3123,9 @@ class TestTracing(unittest.TestCase):
         self.assertListEqual(self._trace(f, "go x"), [1, 2, 4, 5])
         self.assertListEqual(self._trace(f, "spam"), [1, 2, 4, 6, 7])
 
-    def test_no_default(self):
+    # Nuitka: Compiled frames do not emit "f_trace" line events, so line
+    # numbers cannot be traced.
+    def notest_no_default(self):
         def f(command):                                         # 0
             match command.split():                              # 1
                 case ["go", direction] if direction in "nesw":  # 2
@@ -3131,7 +3137,9 @@ class TestTracing(unittest.TestCase):
         self.assertListEqual(self._trace(f, "go x"), [1, 2, 4, 5])
         self.assertListEqual(self._trace(f, "spam"), [1, 2, 4])
 
-    def test_only_default_wildcard(self):
+    # Nuitka: Compiled frames do not emit "f_trace" line events, so line
+    # numbers cannot be traced.
+    def notest_only_default_wildcard(self):
         def f(command):               # 0
             match command.split():    # 1
                 case _:               # 2
@@ -3141,7 +3149,9 @@ class TestTracing(unittest.TestCase):
         self.assertListEqual(self._trace(f, "go x"), [1, 2, 3])
         self.assertListEqual(self._trace(f, "spam"), [1, 2, 3])
 
-    def test_only_default_capture(self):
+    # Nuitka: Compiled frames do not emit "f_trace" line events, so line
+    # numbers cannot be traced.
+    def notest_only_default_capture(self):
         def f(command):             # 0
             match command.split():  # 1
                 case x:             # 2
@@ -3174,6 +3184,11 @@ class TestTracing(unittest.TestCase):
 
 
 if __name__ == "__main__":
+    unittest.main(verbosity=2)
+    # Nuitka: Lets just run the test cases only.
+
+if False:
+
     """
     # From inside environment using this Python, with pyperf installed:
     sudo $(which pyperf) system tune && \
