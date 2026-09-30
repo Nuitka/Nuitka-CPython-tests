@@ -9,6 +9,10 @@ import tempfile
 import errno
 from test import support
 
+# Nuitka: Seed random generator
+import random
+random.seed(27)
+
 TESTFN = support.TESTFN
 TESTDIRN = os.path.basename(tempfile.mkdtemp(dir='.'))
 
