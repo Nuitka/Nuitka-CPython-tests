@@ -18,6 +18,11 @@ import importlib
 import UserDict
 import re
 import time
+
+# Nuitka: Seed random generator
+import random
+random.seed(27)
+
 try:
     import thread
 except ImportError:
