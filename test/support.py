@@ -24,6 +24,10 @@ import sysconfig
 import fnmatch
 import logging.handlers
 
+# Nuitka: Seed random generator
+import random
+random.seed(27)
+
 try:
     import _thread, threading
 except ImportError:
