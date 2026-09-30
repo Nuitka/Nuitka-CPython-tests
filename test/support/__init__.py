@@ -18,6 +18,10 @@ import warnings
 from .testresult import get_test_runner
 
 
+# Nuitka: Seed random generator
+import random
+random.seed(27)
+
 try:
     from _testcapi import unicode_legacy_string
 except ImportError:
