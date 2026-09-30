@@ -28,6 +28,10 @@ import warnings
 
 from .testresult import get_test_runner
 
+# Nuitka: Seed random generator
+import random
+random.seed(27)
+
 __all__ = [
     # globals
     "PIPE_MAX_SIZE", "verbose", "max_memuse", "use_resources", "failfast",
