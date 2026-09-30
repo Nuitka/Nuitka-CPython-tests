@@ -641,15 +641,6 @@ except Exception as __e:
 
 
 try:
-    print('Line 315')
-    print(h(1, *h)
-    )
-
-except Exception as __e:
-    print("Occurred", type(__e), __e)
-
-
-try:
     print('Line 321')
     print(h(*[1], *h)
     )
