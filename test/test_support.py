@@ -13,6 +13,10 @@ import warnings
 import unittest
 import re
 
+# Nuitka: Seed random generator
+import random
+random.seed(27)
+
 __all__ = ["Error", "TestFailed", "TestSkipped", "ResourceDenied", "import_module",
            "verbose", "use_resources", "max_memuse", "record_original_stdout",
            "get_original_stdout", "unload", "unlink", "rmtree", "forget",
