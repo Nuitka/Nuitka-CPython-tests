@@ -142,14 +142,9 @@ def checkPath(dirname, filename):
         # Outputs dict versions which are different.
         if filename == "test_dict_version.py":
             extra_flags.append("ignore_stderr")
-    elif python_version >= (3, 12):
+    elif python_version >= (3, 13):
         if filename in (
             "test_configparser.py",
-        ):
-            reportSkip("Not useful with newer Python", dirname, filename)
-            return
-    elif python_version >= (3, 12):
-        if filename in (
             "test_ast.py",
             "test_code.py",
             "test_descrtut.py",
@@ -160,6 +155,7 @@ def checkPath(dirname, filename):
             "test_tempfile.py",
             "test_threading.py",
             "test_traceback.py",
+            "test_sys.py",
         ):
             reportSkip("Not useful with newer Python", dirname, filename)
             return
