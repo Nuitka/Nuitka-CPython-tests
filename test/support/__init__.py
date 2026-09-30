@@ -30,6 +30,10 @@ import unittest
 import urllib.error
 import warnings
 
+# Nuitka: Seed random generator
+import random
+random.seed(27)
+
 try:
     import _thread, threading
 except ImportError:
