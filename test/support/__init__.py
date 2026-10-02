@@ -535,7 +535,8 @@ has_fork_support = hasattr(os, "fork") and not is_emscripten and not is_wasi
 def requires_fork():
     return unittest.skipUnless(has_fork_support, "requires working os.fork()")
 
-has_subprocess_support = not is_emscripten and not is_wasi
+# Nuitka: Do not fork Python processes, no point.
+has_subprocess_support = False
 
 def requires_subprocess():
     """Used for subprocess, os.spawn calls, fd inheritance"""
