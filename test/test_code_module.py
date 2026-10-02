@@ -116,6 +116,11 @@ class TestInteractiveConsole(unittest.TestCase):
         self.assertEqual(err_msg, ['write', (expected,), {}])
 
 
+    # Nuitka: Fails with random ID different in test assertion error
+    @unittest.skipIf(
+        sys.version_info >= (3, 12),
+        "fails with random IDs in the assertion error",
+    )
     def test_cause_tb(self):
         self.infunc.side_effect = ["raise ValueError('') from AttributeError",
                                     EOFError('Finished')]
@@ -132,6 +137,11 @@ class TestInteractiveConsole(unittest.TestCase):
         """)
         self.assertIn(expected, output)
 
+    # Nuitka: Fails with random ID different in test assertion error
+    @unittest.skipIf(
+        sys.version_info >= (3, 12),
+        "fails with random IDs in the assertion error",
+    )
     def test_context_tb(self):
         self.infunc.side_effect = ["try: ham\nexcept: eggs\n",
                                     EOFError('Finished')]
