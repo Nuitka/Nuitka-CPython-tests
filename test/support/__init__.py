@@ -631,17 +631,8 @@ has_fork_support = hasattr(os, "fork") and not (
 def requires_fork():
     return unittest.skipUnless(has_fork_support, "requires working os.fork()")
 
-has_subprocess_support = not (
-    # WASM and Apple mobile platforms do not support subprocesses.
-    is_emscripten
-    or is_wasi
-    or is_apple_mobile
-
-    # Although Android supports subproceses, they're almost never useful in
-    # practice (see PEP 738). And most of the tests that use them are calling
-    # sys.executable, which won't work when Python is embedded in an Android app.
-    or is_android
-)
+# Nuitka: Do not fork Python processes, no point.
+has_subprocess_support = False
 
 def requires_subprocess():
     """Used for subprocess, os.spawn calls, fd inheritance"""
