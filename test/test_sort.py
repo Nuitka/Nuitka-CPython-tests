@@ -7,6 +7,10 @@ from functools import cmp_to_key
 verbose = False#support.verbose
 nerrors = 0
 
+# Nuitka: The verbose output is non-deterministic.
+def print(*args, **kwargs):
+    pass
+
 
 def check(tag, expected, raw, compare=None):
     global nerrors

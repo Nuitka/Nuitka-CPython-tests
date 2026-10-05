@@ -325,7 +325,8 @@ class OperatorTestCase:
         self.assertRaises(TypeError, operator.xor, None, None)
         self.assertEqual(operator.xor(0xb, 0xc), 0x7)
 
-    def test_is(self):
+    # Nuitka: Constant folding can share the identity of equal immutable strings.
+    def notest_is(self):
         operator = self.module
         a = b = 'xyzpdq'
         c = a[:3] + b[3:]
@@ -335,7 +336,8 @@ class OperatorTestCase:
         # so this case fails.
         #self.assertFalse(operator.is_(a,c))
 
-    def test_is_not(self):
+    # Nuitka: Constant folding can share the identity of equal immutable strings.
+    def notest_is_not(self):
         operator = self.module
         a = b = 'xyzpdq'
         c = a[:3] + b[3:]

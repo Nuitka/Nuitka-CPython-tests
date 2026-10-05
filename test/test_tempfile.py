@@ -1620,7 +1620,8 @@ class TestTemporaryDirectory(BaseTestCase):
                 self.assertNotIn("Exception ", err)
                 self.assertIn("ResourceWarning: Implicitly cleaning up", err)
 
-    def test_del_on_shutdown_ignore_errors(self):
+    # Nuitka: Fails on CPython 3.15 too, with a varying file count.
+    def notest_del_on_shutdown_ignore_errors(self):
         """Test ignoring errors works when a tempdir is gc'ed on shutdown."""
         with tempfile.TemporaryDirectory() as working_dir:
             code = """if True:

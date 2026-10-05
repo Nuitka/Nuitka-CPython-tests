@@ -174,7 +174,8 @@ class FrameAttrsTest(unittest.TestCase):
                 tb = tb.tb_next
         return frames
 
-    def test_locals(self):
+    # Nuitka: Fails on CPython 3.13+ too, and unused local variables are optimized away.
+    def notest_locals(self):
         f, outer, inner = self.make_frames()
         outer_locals = outer.f_locals
         self.assertIsInstance(outer_locals.pop('inner'), types.FunctionType)
@@ -211,7 +212,8 @@ class ReprTest(unittest.TestCase):
     Tests for repr(frame).
     """
 
-    def test_repr(self):
+    # Nuitka: Compiled frame repr() has different line positions.
+    def notest_repr(self):
         def outer():
             x = 5
             y = 6

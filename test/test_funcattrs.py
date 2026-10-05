@@ -106,7 +106,8 @@ class FunctionPropertiesTest(FuncAttrsTest):
         self.assertIs(ns['func3'].__globals__['__builtins__'], safe_builtins)
         self.assertNotIn('__builtins__', ns['func4'].__globals__)
 
-    def test___closure__(self):
+    # Nuitka: Compiled closures use a different cell type.
+    def notest___closure__(self):
         a = 12
         def f(): print(a)
         c = f.__closure__

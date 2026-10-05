@@ -754,7 +754,8 @@ class CBytesIOTest(PyBytesIOTest):
     check_sizeof = support.check_sizeof
 
     @support.cpython_only
-    def test_sizeof(self):
+    # Nuitka: Constant folding makes the bytes value a shared constant, changing the measured size.
+    def notest_sizeof(self):
         basesize = support.calcobjsize('P2n2Pn')
         check = self.check_sizeof
         self.assertEqual(object.__sizeof__(io.BytesIO()), basesize)
@@ -781,14 +782,16 @@ class CBytesIOTest(PyBytesIOTest):
         self.assertEqual(sys.getrefcount(imm), old_rc)
 
     @support.cpython_only
-    def test_cow_truncate(self):
+    # Nuitka: Constant folding makes the bytes value an immortal constant with a fixed reference count.
+    def notest_cow_truncate(self):
         # Ensure truncate causes a copy.
         def mutation(memio):
             memio.truncate(1)
         self._test_cow_mutation(mutation)
 
     @support.cpython_only
-    def test_cow_write(self):
+    # Nuitka: Constant folding makes the bytes value an immortal constant with a fixed reference count.
+    def notest_cow_write(self):
         # Ensure write that would not cause a resize still results in a copy.
         def mutation(memio):
             memio.seek(0)
@@ -796,7 +799,8 @@ class CBytesIOTest(PyBytesIOTest):
         self._test_cow_mutation(mutation)
 
     @support.cpython_only
-    def test_cow_setstate(self):
+    # Nuitka: Constant folding makes the bytes value an immortal constant with a fixed reference count.
+    def notest_cow_setstate(self):
         # __setstate__ should cause buffer to be released.
         memio = self.ioclass(b'foooooo')
         state = memio.__getstate__()

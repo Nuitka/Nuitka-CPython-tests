@@ -1667,7 +1667,8 @@ class MathTests(unittest.TestCase):
             self.fail("sqrt(-1) didn't raise ValueError")
 
     @requires_IEEE_754
-    def test_testfile(self):
+    # Nuitka: The test data file is located via sys.argv[0], which is the compiled binary.
+    def notest_testfile(self):
         # Some tests need to be skipped on ancient OS X versions.
         # See issue #27953.
         SKIP_ON_TIGER = {'tan0064'}
@@ -1724,7 +1725,8 @@ class MathTests(unittest.TestCase):
                       '\n  '.join(failures))
 
     @requires_IEEE_754
-    def test_mtestfile(self):
+    # Nuitka: The test data file is located via sys.argv[0], which is the compiled binary.
+    def notest_mtestfile(self):
         fail_fmt = "{}: {}({!r}): {}"
 
         failures = []

@@ -1238,7 +1238,8 @@ class GCCallbackTests(unittest.TestCase):
 
     @unittest.skipIf(BUILD_WITH_NDEBUG,
                      'built with -NDEBUG')
-    def test_refcount_errors(self):
+    # Nuitka: Fails on CPython 3.12+ too, with non-deterministic addresses in the message.
+    def notest_refcount_errors(self):
         self.preclean()
         # Verify the "handling" of objects with broken refcounts
 

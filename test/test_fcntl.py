@@ -41,7 +41,9 @@ def get_lockdata():
     else:
         lockdata = struct.pack('hh'+start_len+'hh', fcntl.F_WRLCK, 0, 0, 0, 0, 0)
     if lockdata:
-        if verbose:
+        # Nuitka: Our multiprocessing children re-run the main module under
+        # another name, which would repeat this output.
+        if verbose and __name__ == "__main__":
             print('struct.pack: ', repr(lockdata))
     return lockdata
 

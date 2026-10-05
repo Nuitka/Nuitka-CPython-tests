@@ -306,7 +306,8 @@ class SysModuleTest(unittest.TestCase):
             sys.setrecursionlimit(oldlimit)
 
     @test.support.cpython_only
-    def test_setrecursionlimit_recursion_depth(self):
+    # Nuitka: Compiled function calls do not count for the recursion depth of the interpreter.
+    def notest_setrecursionlimit_recursion_depth(self):
         # Issue #25274: Setting a low recursion limit must be blocked if the
         # current recursion depth is already higher than limit.
 
@@ -470,7 +471,8 @@ class SysModuleTest(unittest.TestCase):
 
     @threading_helper.reap_threads
     @threading_helper.requires_working_threading()
-    def test_current_exceptions(self):
+    # Nuitka: Fails on CPython 3.12+ and then hangs forever in its helper thread.
+    def notest_current_exceptions(self):
         import threading
         import traceback
 
