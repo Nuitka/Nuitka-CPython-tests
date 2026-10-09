@@ -1045,7 +1045,8 @@ class RunFuncTests(TestBase):
         super().setUp()
         self.id = _interpreters.create()
 
-    def test_success(self):
+    # Nuitka: Compiled functions cannot be executed as bytecode in subinterpreters.
+    def notest_success(self):
         r, w = os.pipe()
         def script():
             global w
@@ -1061,7 +1062,8 @@ class RunFuncTests(TestBase):
 
         self.assertEqual(out, 'it worked!')
 
-    def test_in_thread(self):
+    # Nuitka: Compiled functions cannot be executed as bytecode in subinterpreters.
+    def notest_in_thread(self):
         r, w = os.pipe()
         def script():
             global w
@@ -1081,7 +1083,8 @@ class RunFuncTests(TestBase):
 
         self.assertEqual(out, 'it worked!')
 
-    def test_code_object(self):
+    # Nuitka: Compiled functions cannot be executed as bytecode in subinterpreters.
+    def notest_code_object(self):
         r, w = os.pipe()
 
         def script():
@@ -1099,7 +1102,8 @@ class RunFuncTests(TestBase):
 
         self.assertEqual(out, 'it worked!')
 
-    def test_closure(self):
+    # Nuitka: Compiled functions cannot be executed as bytecode in subinterpreters.
+    def notest_closure(self):
         spam = True
         def script():
             assert spam
@@ -1108,14 +1112,16 @@ class RunFuncTests(TestBase):
             _interpreters.run_func(self.id, script)
 
     # XXX This hasn't been fixed yet.
+    # Nuitka: Compiled functions cannot be executed as bytecode in subinterpreters.
     @unittest.expectedFailure
-    def test_return_value(self):
+    def notest_return_value(self):
         def script():
             return 'spam'
         with self.assertRaises(ValueError):
             _interpreters.run_func(self.id, script)
 
-    def test_args(self):
+    # Nuitka: Compiled functions cannot be executed as bytecode in subinterpreters.
+    def notest_args(self):
         with self.subTest('args'):
             def script(a, b=0):
                 assert a == b
