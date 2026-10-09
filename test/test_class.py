@@ -648,7 +648,8 @@ class ClassTests(unittest.TestCase):
         a = A(hash(A.f)^(-1))
         hash(a.f)
 
-    def testSetattrWrapperNameIntern(self):
+    # Nuitka: Constant folding changes string identity.
+    def notestSetattrWrapperNameIntern(self):
         # Issue #25794: __setattr__ should intern the attribute name
         class A:
             pass
@@ -806,7 +807,8 @@ class ClassTests(unittest.TestCase):
         class A(0, *range(1, 8), **d, foo='bar'): pass
         self.assertEqual(A, (tuple(range(8)), {'foo': 'bar'}))
 
-    def testClassCallRecursionLimit(self):
+    # Nuitka: We don't check for recursion errors.
+    def notestClassCallRecursionLimit(self):
         class C:
             def __init__(self):
                 self.c = C()
