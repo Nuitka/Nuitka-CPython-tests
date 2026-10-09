@@ -1742,7 +1742,8 @@ class ClassPropertiesAndMethods(unittest.TestCase, ExtraAssertions):
         self.assertEqual(a, a1)
         self.assertEqual(d, d1)
 
-    def test_classic(self):
+    # Nuitka: Compiled methods have a different repr() from CPython methods.
+    def notest_classic(self):
         # Testing classic classes...
         class C:
             def foo(*a): return a
@@ -2020,7 +2021,8 @@ class ClassPropertiesAndMethods(unittest.TestCase, ExtraAssertions):
         for _ in range(30):
             self.assertEqual(number_attrs(Numbers()), list(range(280)))
 
-    def test_methods(self):
+    # Nuitka: Compiled methods have a different repr() from CPython methods.
+    def notest_methods(self):
         # Testing methods...
         class C(object):
             def __init__(self, x):
@@ -4966,7 +4968,8 @@ class ClassPropertiesAndMethods(unittest.TestCase, ExtraAssertions):
         self.assertIn("__dict__", Base.__dict__)
         self.assertNotIn("__dict__", Sub.__dict__)
 
-    def test_bound_method_repr(self):
+    # Nuitka: Compiled methods have a different repr() from CPython methods.
+    def notest_bound_method_repr(self):
         class Foo:
             def method(self):
                 pass

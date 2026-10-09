@@ -1979,9 +1979,10 @@ class TestLRU:
         self.assertEqual(str(Signature.from_callable(lru.cache_info)), '()')
         self.assertEqual(str(Signature.from_callable(lru.cache_clear)), '()')
 
+    # Nuitka: Compiled calls do not use CPython's C stack recursion accounting.
     @support.skip_on_s390x
     @unittest.skipIf(support.is_wasi, "WASI has limited C stack")
-    def test_lru_recursion(self):
+    def notest_lru_recursion(self):
 
         @self.module.lru_cache
         def fib(n):
