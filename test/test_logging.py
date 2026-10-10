@@ -7163,7 +7163,8 @@ for when, exp in (('S', 1),
 
 @unittest.skipUnless(win32evtlog, 'win32evtlog/win32evtlogutil/pywintypes required for this test.')
 class NTEventLogHandlerTest(BaseTest):
-    def test_basic(self):
+    # Nuitka: Disabled test that depends on global Windows event log state.
+    def notest_basic(self):
         logtype = 'Application'
         elh = win32evtlog.OpenEventLog(None, logtype)
         num_recs = win32evtlog.GetNumberOfEventLogRecords(elh)
