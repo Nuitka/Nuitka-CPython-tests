@@ -2413,7 +2413,9 @@ class AbstractPickleTests:
         # Issue #3514: crash when there is an infinite loop in __getattr__
         x = BadGetattr()
         for proto in range(2):
-            with support.infinite_recursion():
+            # Nuitka: 3.14 makes this deep recursion fatal with a C stack
+            # overflow, reduced from 20000 like in newer CPython.
+            with support.infinite_recursion(25):
                 self.assertRaises(RuntimeError, self.dumps, x, proto)
         for proto in range(2, pickle.HIGHEST_PROTOCOL + 1):
             s = self.dumps(x, proto)
