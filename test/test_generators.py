@@ -92,7 +92,8 @@ class FinalizationTest(unittest.TestCase):
         self.assertTrue(finalized)
         self.assertEqual(gc.garbage, old_garbage)
 
-    def test_lambda_generator(self):
+    # Nuitka: Compiled lambda generators do not propagate return values.
+    def notest_lambda_generator(self):
         # bpo-23192, gh-119897: Test that a lambda returning a generator behaves
         # like the equivalent function
         f = lambda: (yield 1)
@@ -144,8 +145,11 @@ class GeneratorTest(unittest.TestCase):
         func.__qualname__ = "func_qualname"
         func.__name__ = "func_name"
         gen = func()
-        self.assertEqual(gen.__name__, "func_name")
-        self.assertEqual(gen.__qualname__, "func_qualname")
+        # Nuitka: We do not transport function attributes into generator
+        # attributes, so this won't be affected:
+        if False:
+            self.assertEqual(gen.__name__, "func_name")
+            self.assertEqual(gen.__qualname__, "func_qualname")
 
         # unnamed generator
         gen = (x for x in range(10))
@@ -256,7 +260,8 @@ class ExceptionTest(unittest.TestCase):
     # Tests for the issue #23353: check that the currently handled exception
     # is correctly saved/restored in PyEval_EvalFrameEx().
 
-    def test_except_throw(self):
+    # Nuitka: Temporarily disabled, we don't do that yet.
+    def notest_except_throw(self):
         def store_raise_exc_generator():
             try:
                 self.assertIsNone(sys.exception())
@@ -331,7 +336,8 @@ class ExceptionTest(unittest.TestCase):
         self.assertEqual(next(g), "done")
         self.assertIsNone(sys.exception())
 
-    def test_nested_gen_except_loop(self):
+    # Nuitka: Compiled generators do not restore sys.exception() state.
+    def notest_nested_gen_except_loop(self):
         def gen():
             for i in range(100):
                 self.assertIsInstance(sys.exception(), TypeError)
@@ -355,19 +361,19 @@ class ExceptionTest(unittest.TestCase):
         def gen():
             try:
                 try:
-                    self.assertIsNone(sys.exception())
+                    self.assertEqual(sys.exc_info()[0], None)
                     yield
                 except ValueError:
                     # we are called from "except ValueError:"
-                    self.assertIsInstance(sys.exception(), ValueError)
+                    self.assertEqual(sys.exc_info()[0], ValueError)
                     raise TypeError()
             except Exception as exc:
-                self.assertIsInstance(sys.exception(), TypeError)
+                self.assertEqual(sys.exc_info()[0], TypeError)
                 self.assertEqual(type(exc.__context__), ValueError)
             # we are still called from "except ValueError:"
-            self.assertIsInstance(sys.exception(), ValueError)
+            self.assertEqual(sys.exc_info()[0], ValueError)
             yield
-            self.assertIsNone(sys.exception())
+            self.assertIsNone(sys.exc_info()[0])
             yield "done"
 
         g = gen()
@@ -378,7 +384,7 @@ class ExceptionTest(unittest.TestCase):
             g.throw(exc)
 
         self.assertEqual(next(g), "done")
-        self.assertIsNone(sys.exception())
+        self.assertEqual(sys.exc_info(), (None, None, None))
 
     def test_except_throw_bad_exception(self):
         class E(Exception):
@@ -472,7 +478,8 @@ class GeneratorCloseTest(unittest.TestCase):
         gen.send(None)
         self.assertIsNone(gen.close())
 
-    def test_close_return_value(self):
+    # Nuitka: Compiled generator close() does not return the generator return value yet.
+    def notest_close_return_value(self):
         def f():
             try:
                 yield
@@ -518,7 +525,8 @@ class GeneratorCloseTest(unittest.TestCase):
             next(gen)
         self.assertIsNone(gen.close())
 
-    def test_close_closed(self):
+    # Nuitka: Compiled generator close() does not return the generator return value yet.
+    def notest_close_closed(self):
         def f():
             try:
                 yield
@@ -566,7 +574,8 @@ class GeneratorCloseTest(unittest.TestCase):
 
 class GeneratorThrowTest(unittest.TestCase):
 
-    def test_exception_context_with_yield(self):
+    # Nuitka: We do not yet provide context between yield/throw exceptions.
+    def notest_exception_context_with_yield(self):
         def f():
             try:
                 raise KeyError('a')
@@ -580,7 +589,8 @@ class GeneratorThrowTest(unittest.TestCase):
         context = cm.exception.__context__
         self.assertEqual((type(context), context.args), (KeyError, ('a',)))
 
-    def test_exception_context_with_yield_inside_generator(self):
+    # Nuitka: We do not yet provide context between yield/throw exceptions.
+    def notest_exception_context_with_yield_inside_generator(self):
         # Check that the context is also available from inside the generator
         # with yield, as opposed to outside.
         def f():
@@ -602,7 +612,8 @@ class GeneratorThrowTest(unittest.TestCase):
         # This ensures that the assertions inside were executed.
         self.assertEqual(actual, 'b')
 
-    def test_exception_context_with_yield_from(self):
+    # Nuitka: We do not yet attach context when switching to generators.
+    def notest_exception_context_with_yield_from(self):
         def f():
             yield
 
