@@ -4,7 +4,7 @@ Tests for the threading module.
 
 import test.support
 from test.support import threading_helper, requires_subprocess, requires_gil_enabled
-from test.support import verbose, cpython_only, os_helper
+from test.support import cpython_only, os_helper
 from test.support.import_helper import import_module
 from test.support.script_helper import assert_python_ok, assert_python_failure
 from test.support import force_not_colorized
@@ -26,6 +26,11 @@ import warnings
 from unittest import mock
 from test import lock_tests
 from test import support
+
+# Nuitka: The comparison harness does not use regrtest, which normally sets
+# test.support.verbose to 0, and the concurrent thread output interleaves
+# differently.
+verbose = 0
 
 try:
     from test.support import interpreters
