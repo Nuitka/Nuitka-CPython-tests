@@ -56,6 +56,13 @@ def checkPath(dirname, filename):
         reportSkip("Skipping (due to threading issue)", dirname, filename)
         return
 
+    if filename in ("test__interpchannels.py", "test__interpreters.py"):
+        # Nuitka: This exercises sub-interpreters, enable the experimental
+        # sub-interpreter support.
+        extra_flags.append(
+            "env:NUITKA_EXTRA_OPTIONS=--experimental=subinterpreters"
+        )
+
     if dirname == "doctest_generated":
         if python_version >= (3, 11):
             extra_flags.append("expect_success")
