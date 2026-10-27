@@ -1569,7 +1569,8 @@ class SizeofTest(unittest.TestCase):
         # dictionary-itemview
         check({}.items(), size('P'))
         # dictionary iterator
-        check(iter({}), size('P2nPn'))
+        # Nuitka: We lower iterator to tuple iteration, therefore size difference
+        # check(iter({}), size('P2nPn'))
         # dictionary-keyiterator
         check(iter({}.keys()), size('P2nPn'))
         # dictionary-valueiterator
@@ -1605,10 +1606,12 @@ class SizeofTest(unittest.TestCase):
         def func():
             return sys._getframe()
         x = func()
-        check(x, size('3Pi2c2P7P2ic??2P'))
+        # Nuitka: Compiled frames are different size.
+        # check(x, size('3Pi2c2P7P2ic??2P'))
         # function
         def func(): pass
-        check(func, size('15Pi'))
+        # Nuitka: Compiled functions are different size.
+        # check(func, size('15Pi'))
         class c():
             @staticmethod
             def foo():
@@ -1622,7 +1625,8 @@ class SizeofTest(unittest.TestCase):
             check(bar, size('PP'))
         # generator
         def get_gen(): yield 1
-        check(get_gen(), size('PP4P4c7P2ic??2P'))
+        # Nuitka: Compiled generator objects are different size.
+        # check(get_gen(), size('PP4P4c7P2ic??2P'))
         # iterator
         check(iter('abc'), size('lP'))
         # callable-iterator
@@ -1630,9 +1634,10 @@ class SizeofTest(unittest.TestCase):
         check(re.finditer('',''), size('2P'))
         # list
         check(list([]), vsize('Pn'))
-        check(list([1]), vsize('Pn') + 2*self.P)
+        # Nuitka: Our list capacity for copies is more exact than CPython's.
+        # check(list([1]), vsize('Pn') + 2*self.P)
         check(list([1, 2]), vsize('Pn') + 2*self.P)
-        check(list([1, 2, 3]), vsize('Pn') + 4*self.P)
+        # check(list([1, 2, 3]), vsize('Pn') + 4*self.P)
         # sortwrapper (list)
         # XXX
         # cmpwrapper (list)
@@ -1698,7 +1703,8 @@ class SizeofTest(unittest.TestCase):
                 check(set(sample), s + newsize*calcsize('nP'))
                 check(frozenset(sample), s + newsize*calcsize('nP'))
         # setiterator
-        check(iter(set()), size('P3n'))
+        # Nuitka: We lower iterator to tuple iteration, therefore size difference
+        # check(iter(set()), size('P3n'))
         # slice
         check(slice(0), size('3P'))
         # super
@@ -1800,7 +1806,10 @@ class SizeofTest(unittest.TestCase):
         check(S(), set(), '3P')
         class FS(frozenset):
             __slots__ = 'a', 'b', 'c'
-        check(FS(), frozenset(), '3P')
+        # Nuitka: Our frozenset() constant is shared and not GC tracked, while
+        # CPython makes a new and tracked object for it, so the size check
+        # depending on tracking does not fit.
+        # check(FS(), frozenset(), '3P')
         from collections import OrderedDict
         class OD(OrderedDict):
             __slots__ = 'a', 'b', 'c'
