@@ -6362,6 +6362,9 @@ class TimedRotatingFileHandlerTest(BaseFileTest):
         fh.close()
 
     # other test methods added below
+    # Nuitka: Skip flaky timing test in free-threaded builds, CPython itself
+    # intermittently fails it due to wall clock adjustments.
+    @support.requires_gil_enabled("timing-sensitive test is flaky in free-threaded builds")
     def test_rollover(self):
         fh = logging.handlers.TimedRotatingFileHandler(
                 self.fn, 'S', encoding="utf-8", backupCount=1)
