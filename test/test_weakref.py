@@ -19,6 +19,12 @@ from test.support import import_helper
 from test.support import threading_helper
 from test.support import is_wasi, Py_DEBUG
 
+# Nuitka: CPython 3.13 free-threaded intermittently exceeds the default
+# recursion limit in weakref callbacks during GC in threaded weak dict copy
+# tests.
+if support.Py_GIL_DISABLED:
+    sys.setrecursionlimit(max(sys.getrecursionlimit(), 10000))
+
 # Used in ReferencesTestCase.test_ref_created_during_del() .
 ref_from_del = None
 
