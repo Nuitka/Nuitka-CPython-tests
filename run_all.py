@@ -143,6 +143,9 @@ def checkPath(dirname, filename):
             "test_configparser.py",
             "test_ast.py",
             "test_code.py",
+            # CPython 3.14 changed thread context inheritance, the 3.13 test
+            # hangs in ThreadingTest.test_threading.
+            "test_decimal.py",
             "test_descrtut.py",
             "test_gc.py",
             "test_netrc.py",
