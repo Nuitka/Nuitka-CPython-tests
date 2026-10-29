@@ -24,6 +24,9 @@ except ImportError:
 @unittest.skipUnless(_testcapi is not None and
                      hasattr(_testcapi, "raise_SIGINT_then_send_None"),
                      "needs _testcapi.raise_SIGINT_then_send_None")
+# Nuitka: Pending SIGINT is not handled when entering a compiled generator
+# on Python 3.14+, so the exception escapes the test instead.
+@unittest.skipIf(sys.version_info >= (3, 14), "Nuitka: SIGINT handling on generator entry")
 class SignalAndYieldFromTest(unittest.TestCase):
 
     def generator1(self):
