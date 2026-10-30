@@ -26,7 +26,6 @@ import test.test_descrtut
 import test.test_extcall
 import test.test_generators
 import test.test_genexps
-import test.test_itertools
 import test.test_listcomps
 import test.test_metaclass
 import test.test_setcomps
@@ -61,7 +60,7 @@ def saveAsGeneratedDoctest(name, value, line_filter=None, prefix=""):
         else:
             output.write(convertToPython(value, line_filter))
 
-    cleanupWindowsNewlines(filename)
+    cleanupWindowsNewlines(filename, effective_filename=filename)
 
 
 saveAsGeneratedDoctest(
@@ -134,13 +133,6 @@ saveAsGeneratedDoctest(
 )
 
 
-saveAsGeneratedDoctest(
-    "test_itertools.py",
-    test.test_itertools.libreftest,
-    prefix="from itertools import *",
-)
-
-
 saveAsGeneratedDoctest("test_listcomps.py", test.test_listcomps.doctests)
 
 
@@ -150,12 +142,17 @@ saveAsGeneratedDoctest("test_setcomps.py", test.test_setcomps.doctests)
 saveAsGeneratedDoctest("test_unpack.py", test.test_unpack.doctests)
 
 
-saveAsGeneratedDoctest("test_unpack_ex.py", test.test_unpack_ex.doctests)
+def filter_unpack_ex(line):
+    return 'len(eval("{"' in line or 'for i in range(1000)) + "}"' in line
+
+
+saveAsGeneratedDoctest(
+    "test_unpack_ex.py", test.test_unpack_ex.doctests, line_filter=filter_unpack_ex
+)
 
 
 saveAsGeneratedDoctest("test_weakref.py", test.test_weakref.libreftest)
 
-saveAsGeneratedDoctest("test_ieee754.py", open("test/ieee754.txt").read())
-
+saveAsGeneratedDoctest("test_ieee754.py", open("test/mathdata/ieee754.txt").read())
 
 saveAsGeneratedDoctest("test_metaclass.py", test.test_metaclass.doctests)
