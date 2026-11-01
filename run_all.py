@@ -181,6 +181,12 @@ def checkPath(dirname, filename):
             reportSkip("Hangs with newer Python.", dirname, filename)
             return
 
+        if filename == "test_threading.py":
+            reportSkip(
+                "Flaky barrier timeout tests under newer Python.", dirname, filename
+            )
+            return
+
     compareWithCPython(
         dirname=dirname,
         filename=filename,
