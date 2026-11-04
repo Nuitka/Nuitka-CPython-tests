@@ -326,8 +326,11 @@ class SysModuleTest(unittest.TestCase):
         finally:
             sys.setrecursionlimit(old_limit)
 
+    # Nuitka: Compiled frames are counted by the frame walking fallback of
+    # test.support.get_recursion_depth but do not consume the CPython recursion
+    # budget, so the limit is set too high when _testinternalcapi is missing.
     @test.support.cpython_only
-    def test_setrecursionlimit_to_depth(self):
+    def notest_setrecursionlimit_to_depth(self):
         # Issue #25274: Setting a low recursion limit must be blocked if the
         # current recursion depth is already higher than limit.
 
