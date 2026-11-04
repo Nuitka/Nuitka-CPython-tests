@@ -148,6 +148,7 @@ def checkPath(dirname, filename):
             "test_decimal.py",
             "test_descrtut.py",
             "test_gc.py",
+            "test_logging.py",
             "test_netrc.py",
             "test_ntpath.py",
             "test_reprlib.py",
