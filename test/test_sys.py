@@ -1295,26 +1295,32 @@ class UnraisableHookTest(unittest.TestCase):
                 err_writeunraisable(ValueError(42), obj)
             lines = stderr.getvalue().splitlines()
             self.assertEqual(lines[0], f'Exception ignored in: {obj!r}')
-            self.assertEqual(lines[1], 'Traceback (most recent call last):')
+            # Nuitka: we don't have the traceback of write_unraisable_exc, it
+            # creates one from the current frame, which is a compiled frame
+            # that CPython refuses for tracebacks, and that is not good anyway.
+            # self.assertEqual(lines[1], 'Traceback (most recent call last):')
             self.assertEqual(lines[-1], 'ValueError: 42')
 
             with support.captured_stderr() as stderr:
                 err_writeunraisable(ValueError(42), None)
             lines = stderr.getvalue().splitlines()
-            self.assertEqual(lines[0], 'Traceback (most recent call last):')
+            # Nuitka: See above.
+            # self.assertEqual(lines[0], 'Traceback (most recent call last):')
             self.assertEqual(lines[-1], 'ValueError: 42')
 
             with support.captured_stderr() as stderr:
                 err_formatunraisable(ValueError(42), 'Error in %R', obj)
             lines = stderr.getvalue().splitlines()
             self.assertEqual(lines[0], f'Error in {obj!r}:')
-            self.assertEqual(lines[1], 'Traceback (most recent call last):')
+            # Nuitka: See above.
+            # self.assertEqual(lines[1], 'Traceback (most recent call last):')
             self.assertEqual(lines[-1], 'ValueError: 42')
 
             with support.captured_stderr() as stderr:
                 err_formatunraisable(ValueError(42), None)
             lines = stderr.getvalue().splitlines()
-            self.assertEqual(lines[0], 'Traceback (most recent call last):')
+            # Nuitka: See above.
+            # self.assertEqual(lines[0], 'Traceback (most recent call last):')
             self.assertEqual(lines[-1], 'ValueError: 42')
 
     def test_original_unraisablehook_err(self):
