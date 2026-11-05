@@ -2365,9 +2365,11 @@ class SubinterpreterTests(unittest.TestCase):
             raise unittest.SkipTest('subinterpreters required')
         import test.support.interpreters.channels
 
+    # Nuitka: Patches PyType_Type.tp_richcompare, so subinterpreters create
+    # different inherited slot wrappers for 'type' than the main interpreter.
     @cpython_only
     @no_rerun('channels (and queues) might have a refleak; see gh-122199')
-    def test_static_types_inherited_slots(self):
+    def notest_static_types_inherited_slots(self):
         rch, sch = interpreters.channels.create()
 
         slots = []
