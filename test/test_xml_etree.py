@@ -654,11 +654,19 @@ class ElementTreeTest(unittest.TestCase):
                 next(it)
             self.assertEqual(str(cm.exception),
                     'junk after document element: line 1, column 12')
+            # Nuitka: Since Python 3.15, unclosed iterparse iterators emit a
+            # ResourceWarning on deallocation (gh-140601).
+            if sys.version_info >= (3, 15):
+                it.close()
             del cm, it
 
         # Not exhausting the iterator still closes the resource (bpo-43292)
         with warnings_helper.check_no_resource_warning(self):
             it = iterparse(SIMPLE_XMLFILE)
+            # Nuitka: Since Python 3.15, unclosed iterparse iterators emit a
+            # ResourceWarning on deallocation (gh-140601).
+            if sys.version_info >= (3, 15):
+                it.close()
             del it
 
         with warnings_helper.check_no_resource_warning(self):
@@ -670,6 +678,10 @@ class ElementTreeTest(unittest.TestCase):
             it = iterparse(SIMPLE_XMLFILE)
             action, elem = next(it)
             self.assertEqual((action, elem.tag), ('end', 'element'))
+            # Nuitka: Since Python 3.15, unclosed iterparse iterators emit a
+            # ResourceWarning on deallocation (gh-140601).
+            if sys.version_info >= (3, 15):
+                it.close()
             del it, elem
 
         with warnings_helper.check_no_resource_warning(self):
