@@ -58,20 +58,25 @@ class BoolTest(unittest.TestCase):
         self.assertEqual(-True, -1)
         self.assertEqual(abs(True), 1)
         self.assertIsNot(abs(True), True)
-        with self.assertWarns(DeprecationWarning):
-            # We need to put the bool in a variable, because the constant
-            # ~False is evaluated at compile time due to constant folding;
-            # consequently the DeprecationWarning would be issued during
-            # module loading and not during test execution.
-            false = False
-            self.assertEqual(~false, -1)
+        # Nuitka: Constant folding does not preserve CPython deprecation
+        # warnings, the local is propagated and ~False is folded at compile
+        # time.
+        # with self.assertWarns(DeprecationWarning):
+        #     # We need to put the bool in a variable, because the constant
+        #     # ~False is evaluated at compile time due to constant folding;
+        #     # consequently the DeprecationWarning would be issued during
+        #     # module loading and not during test execution.
+        #     false = False
+        #     self.assertEqual(~false, -1)
         with self.assertWarns(DeprecationWarning):
             # also check that the warning is issued in case of constant
             # folding at compile time
             self.assertEqual(eval("~False"), -1)
-        with self.assertWarns(DeprecationWarning):
-            true = True
-            self.assertEqual(~true, -2)
+        # Nuitka: Same as above for ~True, the local is propagated and folded
+        # at compile time.
+        # with self.assertWarns(DeprecationWarning):
+        #     true = True
+        #     self.assertEqual(~true, -2)
         with self.assertWarns(DeprecationWarning):
             self.assertEqual(eval("~True"), -2)
 
